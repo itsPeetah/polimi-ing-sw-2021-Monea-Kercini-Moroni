@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-14T11:47:35.883Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="FKCP35QgeTUHN4E49hu3" version="14.4.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-14T11:52:35.461Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15" etag="5xnzmuxRhYYxZWkRvaLy" version="14.4.8" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1095" dy="1961" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -215,7 +215,7 @@
           <mxGeometry y="88" width="190" height="102" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-66" value="PlayerBoard" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="360" y="400" width="190" height="248" as="geometry" />
+          <mxGeometry x="350" y="400" width="190" height="248" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-67" value="- faithPoints : Integer&#xa;- reportsAttended : Boolean[3]&#xa;- warehouse : Warehouse&#xa;- strongbox : Resources&#xa;- cardSlots : CardSlot[3]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="uYRsxHbJOtVeSRFPr-tT-66">
           <mxGeometry y="26" width="190" height="84" as="geometry" />
@@ -227,7 +227,7 @@
           <mxGeometry y="118" width="190" height="130" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-71" value="Warehouse" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="564" y="400" width="190" height="110" as="geometry" />
+          <mxGeometry x="550" y="400" width="190" height="110" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-72" value="- content : Resources [3]&#xa;- leaderExtra : Resources[2]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="uYRsxHbJOtVeSRFPr-tT-71">
           <mxGeometry y="26" width="190" height="34" as="geometry" />
@@ -239,7 +239,7 @@
           <mxGeometry y="68" width="190" height="42" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-75" value="CardSlot" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="564" y="520" width="190" height="150" as="geometry" />
+          <mxGeometry x="550" y="520" width="190" height="150" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-76" value="- cards : DevCard[3]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="uYRsxHbJOtVeSRFPr-tT-75">
           <mxGeometry y="26" width="190" height="34" as="geometry" />
@@ -251,7 +251,7 @@
           <mxGeometry y="68" width="190" height="82" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-79" value="GameState" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="360" y="120" width="190" height="190" as="geometry" />
+          <mxGeometry x="350" y="200" width="190" height="190" as="geometry" />
         </mxCell>
         <mxCell id="uYRsxHbJOtVeSRFPr-tT-80" value="- playerBoards : PlayerBoard[]&#xa;- currentTurn : Integer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="uYRsxHbJOtVeSRFPr-tT-79">
           <mxGeometry y="26" width="190" height="74" as="geometry" />
