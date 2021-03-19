@@ -6,4 +6,9 @@ public class HelloWorldTest {
     public void testHelloWorldString() {
         Assert.assertEquals(new HelloWorld().helloWorldString(), "Hello world");
     }
+
+    @Test
+    public void testHelloWorldString2() {
+        Assert.assertNotEquals(new HelloWorld().helloWorldString(), "#GioLibero");
+    }
 }
