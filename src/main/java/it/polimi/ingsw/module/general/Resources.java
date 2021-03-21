@@ -19,6 +19,7 @@ public class Resources {
     }
 
     public Boolean isGreaterThan(Resources other) {
+        int additional_amounts = 0;
         for(ResourceType resource: other.amounts.keySet()) {
             if(getAmountOf(resource) < other.getAmountOf(resource)) return false;
         }
@@ -51,5 +52,4 @@ public class Resources {
             remove(resource, other.getAmountOf(resource));
         }
     }
-
 }
