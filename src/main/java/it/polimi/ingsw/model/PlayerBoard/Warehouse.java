@@ -81,4 +81,5 @@ public class Warehouse{
         this.leaderExtraAvailable = new Resources();
         this.leaderExtraUsed = new Resources();
     }
+
 }
