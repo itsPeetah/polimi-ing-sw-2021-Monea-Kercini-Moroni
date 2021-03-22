@@ -75,4 +75,10 @@ public class Warehouse{
     public void expandWithLeader(LeadCard leader){
         leaderExtraAvailable.add(leader.getExtraWarehouseSpace());
     }
+
+    public Warehouse() {
+        this.content = new Resources[3];
+        this.leaderExtraAvailable = new Resources();
+        this.leaderExtraUsed = new Resources();
+    }
 }
