@@ -26,8 +26,8 @@ public class Resources {
         return true;
     }
 
-    public HashMap getAmounts() {
-        return new HashMap(amounts);
+    public Integer getTotalAmount() {
+        return amounts.size();
     }
 
     public void add(ResourceType resourceType, Integer amount) {
