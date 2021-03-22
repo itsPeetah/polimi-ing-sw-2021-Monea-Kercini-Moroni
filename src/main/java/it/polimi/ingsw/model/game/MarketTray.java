@@ -27,6 +27,38 @@ public class MarketTray {
         // Add available
     }
 
+    public Resources pickRow(int index){
+        // Create result and add resources from the selected row
+        Resources result = new Resources();
+        for(int i = 0; i < columns; i++){
+            result.add(available[index][i].getValue());
+        }
+        // Update the market tray
+        slideRow(index);
+        // Return the obtained resources
+        return result;
+    }
+
+    public Resources pickColumn(int index){
+        // Create result and add resources from the selected column
+        Resources result = new Resources();
+        for(int i = 0; i < rows; i++){
+            result.add(available[i][index].getValue());
+        }
+        // Update the market tray
+        slideColumn(index);
+
+        return result;
+    }
+
+    private void slideRow(int index){
+
+    }
+
+    private void slideColumn(int index){
+
+    }
+
 
 }
 

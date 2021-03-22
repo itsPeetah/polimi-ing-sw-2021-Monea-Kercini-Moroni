@@ -1,4 +1,4 @@
-package it.polimi.ingsw.module.general;
+package it.polimi.ingsw.model.general;
 
 import java.util.HashMap;
 

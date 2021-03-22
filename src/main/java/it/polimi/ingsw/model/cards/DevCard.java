@@ -1,6 +1,6 @@
-package it.polimi.ingsw.module.cards;
+package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.module.general.*;
+import it.polimi.ingsw.model.general.*;
 
 public class DevCard extends Card {
     Integer level;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.module.general;
+package it.polimi.ingsw.model.general;
 
 public class Production {
     private Resources input, output;
