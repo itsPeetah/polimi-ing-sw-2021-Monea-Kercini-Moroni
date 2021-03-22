@@ -7,9 +7,5 @@ public class Game {
 
     private MarketTray tray;
 
-    public Game(){
-
-
-    }
 
 }
