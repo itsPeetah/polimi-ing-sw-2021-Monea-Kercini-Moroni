@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.PlayerBoard;
 public class PlayerBoard {
 
     private int faithPoints;
-    private boolean reportsAttended[];
+    private boolean[] reportsAttended;
     private Warehouse warehouse;
     private Strongbox strongbox;
     private ProductionPowers productionPowers;

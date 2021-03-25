@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ProductionPowers {
     private Production basicProduction;
-    private DevCard cardPile[][];  //The first symbolizes the pile and each can have 3 cards maximum
+    private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
 
 
     //It must search all three card piles and return the card on top of each
@@ -25,6 +25,7 @@ public class ProductionPowers {
                 AvailableProductions.add(cardPile[i][0].getProduction());
             }
         }
+
 
         AvailableProductions.add(basicProduction);
 
