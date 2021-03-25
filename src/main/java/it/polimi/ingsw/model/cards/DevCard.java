@@ -28,6 +28,10 @@ public class DevCard extends Card {
         return cost;
     }
 
+    public Production getProduction() {
+        return production;
+    }
+
     @Override
     public Boolean affordable(Resources playerResources) {
         return playerResources.isGreaterThan(cost);
