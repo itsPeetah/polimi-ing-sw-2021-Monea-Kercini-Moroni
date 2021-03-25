@@ -31,4 +31,8 @@ public class PlayerBoard {
         this.strongbox = new Strongbox();
         this.productionPowers = new ProductionPowers(3);
     }
+
+    public int getBoardVictoryPoints(){
+        return ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
+    }
 }
