@@ -43,4 +43,16 @@ public class ProductionPowers {
         this.basicProduction = new Production(); //QUA DA AGGIORNARE !!!
         this.cardPile = new DevCard[piles][3];
     }
+
+    public int getOwnedCardsVictoryPoints(){
+        int vp = 0;
+        for (int i = 0; i < cardPile.length; i++){
+            for (int j = 0; j < cardPile[i].length; j++){
+                if (cardPile[i][j] != null){
+                    vp += cardPile[i][j].getVictoryPoints();
+                }
+            }
+        }
+        return vp;
+    }
 }
