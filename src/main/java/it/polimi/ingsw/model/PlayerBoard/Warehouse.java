@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.cards.LeadCard;
 
 public class Warehouse{
-    private Resources content[]; // 3 risorse (1 singola top, 2 uguali, 3 uguali bottom) floor 2/1/0
+    private Resources[] content; // 3 risorse (1 singola top, 2 uguali, 3 uguali bottom) floor 2/1/0
 
     private Resources leaderExtraAvailable; //2+2 extra (2 uguali per ogni leader) uso floor 3
     private Resources leaderExtraUsed;
@@ -80,6 +80,10 @@ public class Warehouse{
         this.content = new Resources[3];
         this.leaderExtraAvailable = new Resources();
         this.leaderExtraUsed = new Resources();
+    }
+
+    public int getResourceAmountWarehouse(){
+        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
     }
 
 }

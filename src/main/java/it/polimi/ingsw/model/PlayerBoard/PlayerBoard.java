@@ -24,11 +24,11 @@ public class PlayerBoard {
         reportsAttended[index] = true;
     }
 
-    public PlayerBoard() {
+    public PlayerBoard(int reportsAttended) { //for our game rules parameter must be 3
         this.faithPoints = 0;
-        this.reportsAttended = new boolean[3];
+        this.reportsAttended = new boolean[reportsAttended];
         this.warehouse = new Warehouse();
         this.strongbox = new Strongbox();
-        this.productionPowers = new ProductionPowers();
+        this.productionPowers = new ProductionPowers(3);
     }
 }

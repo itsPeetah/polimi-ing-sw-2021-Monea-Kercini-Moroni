@@ -15,8 +15,9 @@ public class ProductionPowers {
 
         ArrayList<Production> AvailableProductions = new ArrayList<Production>();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cardPile.length; i++) {
             //If the card exists I add the production of the top card
+            //Here might need to revise if we want to add cards of higher level
             if (cardPile[i][2] != null){
                 AvailableProductions.add(cardPile[i][2].getProduction());
             }else if (cardPile[i][1] != null){
@@ -25,7 +26,6 @@ public class ProductionPowers {
                 AvailableProductions.add(cardPile[i][0].getProduction());
             }
         }
-
 
         AvailableProductions.add(basicProduction);
 
@@ -39,8 +39,8 @@ public class ProductionPowers {
         cardPile[position][devCard.getLevel()-1] = devCard; //adds devcard sul selected pile at the correct position
     }
 
-    public ProductionPowers() {
+    public ProductionPowers(int piles) { //default = 3
         this.basicProduction = new Production(); //QUA DA AGGIORNARE !!!
-        this.cardPile = new DevCard[3][3];
+        this.cardPile = new DevCard[piles][3];
     }
 }
