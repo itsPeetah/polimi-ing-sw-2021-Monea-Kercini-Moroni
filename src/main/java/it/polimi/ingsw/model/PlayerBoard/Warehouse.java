@@ -86,4 +86,6 @@ public class Warehouse{
         return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
     }
 
+
+
 }

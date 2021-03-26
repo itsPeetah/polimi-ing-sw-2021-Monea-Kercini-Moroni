@@ -25,4 +25,8 @@ public class Strongbox {
     public int getResourceAmountStrongbox(){
         return content.getTotalAmount();
     }
+
+    public Resources getResourcesAvailable(){
+        return content;
+    }
 }
