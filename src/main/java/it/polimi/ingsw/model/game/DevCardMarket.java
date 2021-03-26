@@ -21,7 +21,7 @@ public class DevCardMarket {
     }
 
     /**
-     * Return the available DevCards.
+     * Returns the available DevCards.
      * @return Array of currently available cards.
      */
     public DevCard[] getAvailableCards(){
@@ -30,12 +30,14 @@ public class DevCardMarket {
     }
 
     /**
-     * Remove a card from the market.
+     * Removes a card from the market.
      * @param index Card to be removed.
+     * @return Whether the operation was successful.
      */
-    public void buyCard(int index, Resources playerResources) throws DevCardMarketException{
-        if(!availableCards.get(index).affordable(playerResources)) throw new DevCardMarketException("Player can't afford that card.");
+    public boolean buyCard(int index, Resources playerResources){
+        if(!availableCards.get(index).affordable(playerResources)) return false;
         DevCard dc = availableCards.remove(index);
+        return true;
     }
 }
 
