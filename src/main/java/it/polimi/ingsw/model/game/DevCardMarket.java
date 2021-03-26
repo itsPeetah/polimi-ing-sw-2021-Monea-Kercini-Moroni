@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
 
@@ -32,8 +33,22 @@ public class DevCardMarket {
      * Remove a card from the market.
      * @param index Card to be removed.
      */
-    public void buyCard(int index){
+    public void buyCard(int index, Resources playerResources) throws DevCardMarketException{
+        if(!availableCards.get(index).affordable(playerResources)) throw new DevCardMarketException("Player can't afford that card.");
         DevCard dc = availableCards.remove(index);
     }
-
 }
+
+/**
+ * DevCardMarket specific exceptions
+ */
+class DevCardMarketException extends Exception{
+    /**
+     * @param errorMessage Error message for the exception.
+     */
+    public DevCardMarketException(String errorMessage) {
+        super(errorMessage);
+    }
+}
+
+
