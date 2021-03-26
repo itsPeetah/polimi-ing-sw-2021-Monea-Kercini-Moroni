@@ -34,9 +34,14 @@ public class Resources {
     public Boolean isGreaterThan(Resources other) {
         int additional_amounts = 0;
         for(ResourceType resource: other.amounts.keySet()) {
-            if(getAmountOf(resource) < other.getAmountOf(resource)) return false;
+            if(resource != ResourceType.CHOICE) { // checking that ONLY normal resources are in a greater amount
+                if (getAmountOf(resource) < other.getAmountOf(resource)) return false;
+                additional_amounts += getAmountOf(resource) - other.getAmountOf(resource);
+            }
+            else additional_amounts -= getAmountOf(resource) - other.getAmountOf(resource); // removing CHOICE amount
         }
-        return true;
+        // if we are here normal resources are good, but we still need to check if we had enough additional resources for CHOICE
+        return additional_amounts >= 0;
     }
 
     /**
@@ -44,7 +49,7 @@ public class Resources {
      * @return total number of elements contained in this
      */
     public Integer getTotalAmount() {
-        return amounts.size();
+        return amounts.values().parallelStream().reduce(0, Integer::sum);
     }
 
     /**
