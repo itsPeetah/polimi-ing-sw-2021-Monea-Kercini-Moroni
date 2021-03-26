@@ -22,10 +22,8 @@ public class PlayerLeaders {
                 playableCards.add(cards[i]);
             }
         }
-
         return playableCards;
     }
-
 
 
     public void playCard(int index){
