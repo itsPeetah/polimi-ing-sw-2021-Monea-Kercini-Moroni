@@ -86,6 +86,15 @@ public class Warehouse{
         return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
     }
 
+    public Resources getResourcesAvailable(){
+        Resources available = new Resources();
+        available.add(content[0]);
+        available.add(content[1]);
+        available.add(content[2]);
+        available.add(leaderExtraAvailable);
+        return available;
+    }
+
 
 
 }
