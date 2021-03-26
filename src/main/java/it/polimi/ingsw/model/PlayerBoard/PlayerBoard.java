@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.PlayerBoard;
 
+import it.polimi.ingsw.model.general.Resources;
+
 public class PlayerBoard {
 
     private int faithPoints;
@@ -34,5 +36,12 @@ public class PlayerBoard {
 
     public int getBoardVictoryPoints(){
         return ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
+    }
+
+    public Resources getResourcesAvailable(){
+        Resources available = new Resources();
+        available.add(warehouse.getResourcesAvailable());
+        available.add(strongbox.getResourcesAvailable());
+        return available;
     }
 }
