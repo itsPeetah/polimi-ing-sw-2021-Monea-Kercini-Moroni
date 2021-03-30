@@ -11,7 +11,10 @@ public class PlayerLeaders {
     private LeadCard[] cards;
     private CardState[] cardStates;
 
-
+    /**
+     *
+     * @return All the cards the player has in hand.
+     */
 
     public ArrayList<LeadCard> getPlayableCards(){
 
@@ -25,6 +28,10 @@ public class PlayerLeaders {
         return playableCards;
     }
 
+    /**
+     * Sets the state of the card at index position as PLAYED
+     * @param index is the position of the card that the player plays
+     */
 
     public void playCard(int index){
         cardStates[index] = CardState.PLAYED;
@@ -32,8 +39,8 @@ public class PlayerLeaders {
 
 
     /**
-     * Gives the player the leaders he has in his hand and sets the cardstates INHAND
-     * @param cards the leaders
+     * Gives the player the leader cards he has in his hand and sets the cardstates INHAND
+     * @param cards the leader cards
      */
 
     public void setCards(LeadCard[] cards) {
@@ -41,16 +48,21 @@ public class PlayerLeaders {
         Arrays.fill(this.cardStates, CardState.INHAND);
     }
 
+    /**
+     *
+     * @return the total victory points from all played leaders
+     */
+
     public int getPlayedCardVictoryPoints(){
 
         int vp = 0;
 
         for(int i = 0; i < cards.length; i++){
             if (cardStates[i] == CardState.PLAYED){
-                vp += cards[i].getVictoryPoints;
+                vp += cards[i].getVictoryPoints();
             }
         }
-
         return vp;
     }
+
 }

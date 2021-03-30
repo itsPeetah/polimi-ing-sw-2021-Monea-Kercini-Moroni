@@ -5,11 +5,17 @@ import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.cards.LeadCard;
 
 public class Warehouse{
-    private Resources[] content; // 3 risorse (1 singola top, 2 uguali, 3 uguali bottom) floor 2/1/0
 
-    private Resources leaderExtraAvailable; //2+2 extra (2 uguali per ogni leader) uso floor 3
+    private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
+
+    private Resources leaderExtraAvailable; // 2+2 extra (2 same type for each leader card bonus that might have been played) with floor reference 3
     private Resources leaderExtraUsed;
 
+    /**
+     * Deposit the resources at the floor gotten as integer input
+     * @param resources
+     * @param floor
+     */
 
     public void deposit(Resources resources, int floor){
         if (floor<3){
@@ -18,38 +24,45 @@ public class Warehouse{
             leaderExtraUsed.add(resources);
     }
 
+    /**
+     * Tries to remove all resources taken as input from the warehouse, searching floor by floor
+     * If it cannot remove all, it returns the resources effectively removed
+     * @param res
+     * @return Resources removed from warehouse
+     */
+
     public Resources withdraw(Resources res) {
 
         Resources withdrawed = new Resources();
 
         for (ResourceType tipo : ResourceType.values()) {
-        //cambio alla prossima risorsa da cercare
+        //Switch to the next resource type to search for
 
-            int curr_res = res.getAmountOf(tipo); // la quantita di risorsa che serve
+            int curr_res = res.getAmountOf(tipo); // The quantity of the resource type to search for
 
-            for (int i = 0; i < 3; i++) { //controlla tutte e tre floor
+            for (int i = 0; i < 3; i++) { //Search all three main floors
 
-                if (content[i].getAmountOf(tipo) >= curr_res) { //se c'e di quella risorsa piu che serve
+                if (content[i].getAmountOf(tipo) >= curr_res) { //If the resource is available more than needed
 
-                    try { content[i].remove(tipo, curr_res); //togli le risorse dal warehouse
+                    try { content[i].remove(tipo, curr_res); //remove the resources from warehouse
                     } catch (Exception e) {
                         e.printStackTrace(); }
 
-                    withdrawed.add(tipo, curr_res); // aggiungi su withdrawed
-                    curr_res = 0; // non serve piu prendere la risorsa
+                    withdrawed.add(tipo, curr_res); // add to withdrawed
+                    curr_res = 0; // No need to take anymore of that type of resource
 
 
-                } else { //non abbiamo abbastanza risorse per pagare tutto il withdraw, andremo a cercare nel altro floor e dopo nei leader
+                } else { //We don't have enough resources to get all we're looking for, we will search in the next floor (and finally at the leader extra)
                     curr_res -= content[i].getAmountOf(tipo);
                     withdrawed.add(tipo, content[i].getAmountOf(tipo));
 
-                    try { content[i].remove(tipo, content[i].getAmountOf(tipo)); //azzera il warehouse floor di quella risorsa, perche abbiamo usato tutte disponibili
+                    try { content[i].remove(tipo, content[i].getAmountOf(tipo)); //Nullify that resource from the warehouse as we have used all of it available
                     } catch (Exception e) {
                         e.printStackTrace(); }
                 }
             }
 
-            //stesso procedimemto per le risorse extra dei leader
+            //Same procedure for the extra resources from leader
             if (leaderExtraUsed.getAmountOf(tipo) >= curr_res) {
 
                 try { leaderExtraUsed.remove(tipo, curr_res);
@@ -62,29 +75,38 @@ public class Warehouse{
                     curr_res -= leaderExtraUsed.getAmountOf(tipo);
                     withdrawed.add(tipo, leaderExtraUsed.getAmountOf(tipo));
 
-                    try {  leaderExtraUsed.remove(tipo, leaderExtraUsed.getAmountOf(tipo)); //azzera il warehouse floor di quella risorsa
+                    try {  leaderExtraUsed.remove(tipo, leaderExtraUsed.getAmountOf(tipo));
                     } catch (Exception e) {
                         e.printStackTrace(); }
             }
 
 
         }
-        return withdrawed; // ritorna le risorse prese che teoricamente devono essere uguale a quelle richieste
+        return withdrawed;
     }
+
+    /**
+     * Add the leader bonus as extra warehouse space
+     * @param leader the leader card who gives us the bonus
+     */
 
     public void expandWithLeader(LeadCard leader){
         leaderExtraAvailable.add(leader.getExtraWarehouseSpace());
     }
 
-    public Warehouse() {
-        this.content = new Resources[3];
-        this.leaderExtraAvailable = new Resources();
-        this.leaderExtraUsed = new Resources();
-    }
+    /**
+     *
+     * @return the total number of resources we have
+     */
 
     public int getResourceAmountWarehouse(){
         return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
     }
+
+    /**
+     *
+     * @return all the resources you can find in the warehouse & leader bonuses
+     */
 
     public Resources getResourcesAvailable(){
         Resources available = new Resources();
@@ -93,6 +115,12 @@ public class Warehouse{
         available.add(content[2]);
         available.add(leaderExtraAvailable);
         return available;
+    }
+
+    public Warehouse() {
+        this.content = new Resources[3];
+        this.leaderExtraAvailable = new Resources();
+        this.leaderExtraUsed = new Resources();
     }
 
 

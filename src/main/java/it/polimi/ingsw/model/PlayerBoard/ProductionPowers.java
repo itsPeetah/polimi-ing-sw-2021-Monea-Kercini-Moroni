@@ -6,11 +6,14 @@ import it.polimi.ingsw.model.general.Production;
 import java.util.ArrayList;
 
 public class ProductionPowers {
+
     private Production basicProduction;
     private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
 
-
-    //It must search all three card piles and return the card on top of each
+    /**
+     * Searches all card piles and returns the card on top of each
+     * @return array of production of all the top development cards on all piles
+     */
     public ArrayList<Production> getAvailableProductions(){
 
         ArrayList<Production> AvailableProductions = new ArrayList<Production>();
@@ -29,20 +32,34 @@ public class ProductionPowers {
 
         AvailableProductions.add(basicProduction);
 
-        //Maybe add LeaderProduction?
-
         return AvailableProductions;
     }
 
+    /**
+     * adds development card on top of the selected pile
+     * @param devCard to add
+     * @param position of the pile
+     */
+
     public void addDevCard(DevCard devCard, int position){
 
-        cardPile[position][devCard.getLevel()-1] = devCard; //adds devcard sul selected pile at the correct position
+        cardPile[position][devCard.getLevel()-1] = devCard;
     }
 
-    public ProductionPowers(int piles) { //default = 3
+    /**
+     *
+     * @param piles in the default rules should be 3
+     */
+
+    public ProductionPowers(int piles) {
         this.basicProduction = new Production(); //QUA DA AGGIORNARE !!!
         this.cardPile = new DevCard[piles][3];
     }
+
+    /**
+     *
+     * @return sum of victory points all development cards you have give you
+     */
 
     public int getOwnedCardsVictoryPoints(){
         int vp = 0;

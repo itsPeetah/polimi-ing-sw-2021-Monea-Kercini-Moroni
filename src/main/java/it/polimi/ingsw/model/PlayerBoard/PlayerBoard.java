@@ -18,21 +18,41 @@ public class PlayerBoard {
         return strongbox;
     }
 
+    /**
+     *
+     * @param amount to add to faith points (moves of faith marker)
+     */
+
     public void incrementFaithPoints(int amount){
         faithPoints += amount;
     }
 
-    public void attendReport(int index){ //0, 1, 2
+    /**
+     * Set report at index as attended
+     * @param index should be 0,1,2 depending on the report the player attended
+     */
+
+    public void attendReport(int index){
         reportsAttended[index] = true;
     }
 
-    public PlayerBoard(int reportsAttended) { //for our game rules parameter must be 3
+    /**
+     *
+     * @param reportsAttended default should be 3
+     */
+
+    public PlayerBoard(int reportsAttended) {
         this.faithPoints = 0;
         this.reportsAttended = new boolean[reportsAttended];
         this.warehouse = new Warehouse();
         this.strongbox = new Strongbox();
         this.productionPowers = new ProductionPowers(3);
     }
+
+    /**
+     * Calculates victory points from faith track, reports attended, resources and development cards owned.
+     * @return sum of victory points the board has
+     */
 
     public int getBoardVictoryPoints(){
 
@@ -78,6 +98,11 @@ public class PlayerBoard {
 
         return faithVictoryPoints + ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
     }
+
+    /**
+     *
+     * @return all resources available from the board (warehouse + strongbox)
+     */
 
     public Resources getResourcesAvailable(){
         Resources available = new Resources();
