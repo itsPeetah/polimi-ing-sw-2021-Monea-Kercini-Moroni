@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.PlayerBoard;
+package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.general.Resources;
 

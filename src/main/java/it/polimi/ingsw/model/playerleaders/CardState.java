@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.PlayerLeaders;
+package it.polimi.ingsw.model.playerleaders;
 
 /**
  * The three states of the leader cards a player has

@@ -1,7 +1,6 @@
-package it.polimi.ingsw.model.PlayerLeaders;
+package it.polimi.ingsw.model.playerleaders;
 
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.general.Production;
 
 import java.util.Arrays;
 import java.util.ArrayList;
