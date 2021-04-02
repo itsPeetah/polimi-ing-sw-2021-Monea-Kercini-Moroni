@@ -36,6 +36,25 @@ public class ProductionPowers {
     }
 
     /**
+     *
+     * @return all the Development Cards The player has purchased
+     */
+
+    public ArrayList<DevCard> getOwnedDevCards() {
+
+        ArrayList<DevCard> AvailableCards = new ArrayList<DevCard>();
+
+        for (int i = 0; i < cardPile.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (cardPile[i][j] != null) {
+                    AvailableCards.add(cardPile[i][j]);
+                }
+            }
+        }
+        return AvailableCards;
+    }
+
+    /**
      * adds development card on top of the selected pile
      * @param devCard to add
      * @param position of the pile
