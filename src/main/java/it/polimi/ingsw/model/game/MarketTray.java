@@ -24,7 +24,7 @@ public class MarketTray {
      * @param rows Matrix rows.
      * @param columns Matrix columns.
      * @param resourceMarbles Resources to be distributed in the tray.
-     * @throws MarketTrayException Exception thrown if not enough marbles are provided to initialize the full tray.
+     * @throws MarketTrayException if not enough marbles are provided to initialize the full tray.
      */
     public MarketTray(int rows, int columns, ArrayList<ResourceMarble> resourceMarbles) throws MarketTrayException {
 
@@ -58,7 +58,7 @@ public class MarketTray {
      * Pick resources from a row in the market and let it slide.
      * @param index What row to pick resources from.
      * @return The total resources obtained from the market row.
-     * @exception MarketTrayException thrown if the index is out of bounds.
+     * @exception MarketTrayException if the index is out of bounds.
      */
     public Resources pickRow(int index) throws MarketTrayException {
         if(index >= rows) throw new MarketTrayException("The index was out of bounds.");
@@ -78,7 +78,7 @@ public class MarketTray {
      * Pick resources from a column in the market and let it slide.
      * @param index What column to pick resources from.
      * @return The total resources obtained from the market column.
-     * @exception MarketTrayException thrown if the index is out of bounds.
+     * @exception MarketTrayException if the index is out of bounds.
      */
     public Resources pickColumn(int index) throws MarketTrayException {
         if(index >= columns) throw new MarketTrayException("The index was out of bounds.");
@@ -133,49 +133,4 @@ public class MarketTray {
     }
 
 
-}
-
-/**
- * MarketTray specific exception.
- */
-class MarketTrayException extends Exception{
-    /**
-     * @param errorMessage Error message for the exception.
-     */
-    public MarketTrayException(String errorMessage) {
-        super(errorMessage);
-    }
-}
-
-/**
- * Class representing the game's market's resource marbles.
- */
-class ResourceMarble{
-
-    private Resources value;
-
-    /**
-     * Initialize the Marble with a single resource type.
-     * @param type Resource type.
-     * @param amount Resource amount.
-     */
-    public ResourceMarble(ResourceType type, Integer amount){
-        this.value = new Resources();
-        this.value.add(type, amount);
-    }
-
-    /**
-     * Initialize a "complex" marble by passing the resources.
-     * @param resources Resources associated with the marble.
-     */
-    public ResourceMarble(Resources resources){
-        this.value = resources;
-    }
-
-    /**
-     * @return the resources associated with this marble.
-     */
-    public Resources getValue() {
-        return value;
-    }
 }

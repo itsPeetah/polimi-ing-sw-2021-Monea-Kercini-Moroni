@@ -10,6 +10,10 @@ public class PlayerBoard {
     private Strongbox strongbox;
     private ProductionPowers productionPowers;
 
+    public PlayerBoard() {
+
+    }
+
     public Warehouse getWarehouse() {
         return warehouse;
     }
