@@ -37,6 +37,16 @@ public class Player {
         return board;
     }
 
+    /**
+     * Leaders getter.
+     */
+    public PlayerLeaders getLeaders(){
+        return leaders;
+    }
+
+    /**
+     * Get the player's victory points.
+     */
     public int getVictoryPoints(){
         int vp = 0;
         vp += board.getBoardVictoryPoints();
