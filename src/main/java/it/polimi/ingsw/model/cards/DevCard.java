@@ -1,14 +1,15 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.*;
 
 public class DevCard extends Card {
-    Integer level;
-    Integer color;
-    Resources cost;
-    Production production;
+    private Level level;
+    private Color color;
+    private Resources cost;
+    private Production production;
 
-    public DevCard(Integer victoryPoints, String cardId, Integer level, Integer color, Resources cost, Production production) {
+    public DevCard(Integer victoryPoints, String cardId, Level level, Color color, Resources cost, Production production) {
         super(victoryPoints, cardId);
         this.level = level;
         this.color = color;
@@ -16,11 +17,11 @@ public class DevCard extends Card {
         this.production = production;
     }
 
-    public Integer getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public Integer getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -33,12 +34,13 @@ public class DevCard extends Card {
     }
 
     @Override
-    public Boolean affordable(Resources playerResources) {
-        return playerResources.isGreaterThan(cost);
+    public Boolean affordable(Player player) {
+        return player.getBoard().getResourcesAvailable().isGreaterThan(cost);
     }
 
+    // TODO missing method
     @Override
-    public void play() {
+    public void play(Player player) {
 
     }
 }

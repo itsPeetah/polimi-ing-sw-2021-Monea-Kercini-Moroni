@@ -34,8 +34,8 @@ public class DevCardMarket {
      * @param index Card to be removed.
      * @return Whether the operation was successful.
      */
-    public boolean buyCard(int index, Resources playerResources){
-        if(!availableCards.get(index).affordable(playerResources)) return false;
+    public boolean buyCard(int index, Player player){
+        if(!availableCards.get(index).affordable(player)) return false;
         DevCard dc = availableCards.remove(index);
         return true;
     }

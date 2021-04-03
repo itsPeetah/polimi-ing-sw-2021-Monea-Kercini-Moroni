@@ -1,30 +1,40 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.Resources;
 
-public class LeadCard {
+public class LeadCard extends Card {
 
-    //fake method !!!!!!!!!!
+    private LeadCardRequirements requirements;
+    private LeadCardAbility ability;
+
+    public LeadCard(Integer victoryPoints, String cardId, LeadCardRequirements requirements, LeadCardAbility ability) {
+        super(victoryPoints, cardId);
+        this.requirements = requirements;
+        this.ability = ability;
+    }
+
+    // TODO fake method !!!!!!!!!!
     public Resources getExtraWarehouseSpace(){
         Resources r = new Resources();
         return r;
     }
 
-}
+    public LeadCardRequirements getRequirements() {
+        return requirements;
+    }
 
-class LeadCardRequirements {
-    Integer[] devCardColors;
-    Integer[] devCardLevels;
-    Resources resourceAmounts;
+    public LeadCardAbility getAbility() {
+        return ability;
+    }
 
-    public LeadCardRequirements(Integer[] devCardColors, Integer[] devCardLevels, Resources resourceAmounts) {
-        this.devCardColors = devCardColors;
-        this.devCardLevels = devCardLevels;
-        this.resourceAmounts = resourceAmounts;
+    @Override
+    public Boolean affordable(Player player) {
+        return requirements.check(player);
+    }
+
+    @Override
+    public void play(Player player) {
+
     }
 }
-
-class LeadCardAbility {
-
-}
-

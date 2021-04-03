@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.Resources;
 
 public abstract class Card {
@@ -19,7 +20,7 @@ public abstract class Card {
         return cardId;
     }
 
-    public abstract Boolean affordable(Resources playerResources);
+    public abstract Boolean affordable(Player player);
 
-    public abstract void play();
+    public abstract void play(Player player);
 }
