@@ -9,6 +9,7 @@ public class LeadCard {
         Resources r = new Resources();
         return r;
     }
+
 }
 
 class LeadCardRequirements {
