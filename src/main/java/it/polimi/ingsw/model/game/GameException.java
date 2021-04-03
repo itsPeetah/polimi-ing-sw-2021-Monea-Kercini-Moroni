@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.game;
 /**
  * Game class specific exceptions.
  */
-class GameException extends Exception {
+public class GameException extends Exception {
     /**
      * @param errorMessage Error message for the exception.
      */

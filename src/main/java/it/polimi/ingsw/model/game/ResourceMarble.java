@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.general.Resources;
 /**
  * Class representing the game's market's resource marbles.
  */
-class ResourceMarble{
+public class ResourceMarble{
 
     private Resources value;
 

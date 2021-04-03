@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.game;
 /**
  * DevCardMarket specific exceptions
  */
-class DevCardMarketException extends Exception{
+public class DevCardMarketException extends Exception{
     /**
      * @param errorMessage Error message for the exception.
      */
