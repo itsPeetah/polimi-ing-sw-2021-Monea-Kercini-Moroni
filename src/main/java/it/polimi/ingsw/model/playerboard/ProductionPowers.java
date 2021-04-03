@@ -62,7 +62,7 @@ public class ProductionPowers {
 
     public void addDevCard(DevCard devCard, int position){
 
-        cardPile[position][devCard.getLevel()-1] = devCard;
+        cardPile[position][devCard.getLevel().getPrevious().toInteger()] = devCard;
     }
 
     /**

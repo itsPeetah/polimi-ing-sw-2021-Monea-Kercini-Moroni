@@ -14,27 +14,30 @@ public class LeadCard extends Card {
         this.ability = ability;
     }
 
-    // TODO fake method !!!!!!!!!!
-    public Resources getExtraWarehouseSpace(){
-        Resources r = new Resources();
-        return r;
-    }
-
-    public LeadCardRequirements getRequirements() {
-        return requirements;
-    }
-
+    /**
+     * @return ability of the leader
+     */
     public LeadCardAbility getAbility() {
         return ability;
     }
 
+    /**
+     * Check if a user can afford the leader card.
+     * @param player
+     * @return
+     */
     @Override
     public Boolean affordable(Player player) {
         return requirements.check(player);
     }
 
+    /**
+     * Perform the action of playing the card and apply its ability
+     * @param player
+     */
     @Override
     public void play(Player player) {
-
+        player.getBoard().getWarehouse().expandWithLeader(this);
+        /* TODO mancano gli effetti delle altre abilità nelle altre classi */
     }
 }

@@ -17,28 +17,48 @@ public class DevCard extends Card {
         this.production = production;
     }
 
+    /**
+     * @return level of the Dev Card
+     */
     public Level getLevel() {
         return level;
     }
 
+    /**
+     * @return color of the Dev Card
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * @return cost of the Dev Card
+     */
     public Resources getCost() {
         return cost;
     }
 
+    /**
+     * @return production of the Dev Card
+     */
     public Production getProduction() {
         return production;
     }
 
+    /**
+     * Check if a player can afford the Dev Card
+     * @param player
+     * @return
+     */
     @Override
     public Boolean affordable(Player player) {
         return player.getBoard().getResourcesAvailable().isGreaterThan(cost);
     }
 
-    // TODO missing method
+    /**
+     * Perform the action of playing the card (if affordable) pay its cost
+     * @param player
+     */
     @Override
     public void play(Player player) {
 
