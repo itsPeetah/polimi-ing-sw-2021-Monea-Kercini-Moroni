@@ -3,12 +3,14 @@ package it.polimi.ingsw.model.playerboard;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Production;
+import it.polimi.ingsw.model.general.ResourceType;
+import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
 
 public class ProductionPowers {
 
-    private Production basicProduction;
+    private static Production basicProduction;
     private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
     private Production[] LeadProduction;
 
@@ -89,7 +91,12 @@ public class ProductionPowers {
      */
 
     public ProductionPowers(int piles) {
-        this.basicProduction = new Production(); //QUA DA AGGIORNARE !!!
+        Resources in = new Resources();
+        Resources out = new Resources();
+        in.add(ResourceType.CHOICE, 2);
+        out.add(ResourceType.CHOICE, 1);
+
+        this.basicProduction = new Production(in, out);
         this.cardPile = new DevCard[piles][3];
         this.LeadProduction = new Production[2];
     }

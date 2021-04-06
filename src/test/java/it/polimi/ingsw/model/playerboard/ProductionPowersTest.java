@@ -23,9 +23,10 @@ class ProductionPowersTest {
     void addDevCard() {
         Resources cost = new Resources();
         Resources in = new Resources();
+        Resources out = new Resources();
         in.add(ResourceType.STONES, 3);
         out.add(ResourceType.SERVANTS, 2);
-        DevCard dc = new DevCard(3, 1, Level.LOW, cost,  );
+        //DevCard dc = new DevCard(3, 1, Level.LOW, cost,  );
     }
 
     @Test
