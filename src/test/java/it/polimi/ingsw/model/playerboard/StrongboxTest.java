@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +36,16 @@ public class StrongboxTest {
 
     }
 
-    //@Test
+    @Test
+    public void getResAmount(){
+        Strongbox sb = new Strongbox();
+        Resources res = new Resources();
+        res.add(ResourceType.STONES, 3);
+        res.add(ResourceType.SHIELDS, 8);
+        sb.deposit(res);
+
+        assertEquals(sb.getResourceAmountStrongbox(), 11);
+
+    }
 
 }
