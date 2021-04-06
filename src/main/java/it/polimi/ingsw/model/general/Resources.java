@@ -2,24 +2,27 @@ package it.polimi.ingsw.model.general;
 
 import java.util.HashMap;
 
-class NotEnoughResourcesException extends Exception {
-
-}
-
 public class Resources {
     private HashMap<ResourceType, Integer> amounts;
+    public static final String NOT_ENOUGH_RESOURCES = "Not enough resources";
 
     /**
-     * Initialize an empty Resources
+     * Initialize an empty Resources.
      */
     public Resources() {
         amounts = new HashMap<>();
     }
 
     /**
-     *
+     * Initialize a non-empty Resources from an existing HashMap.
+     */
+    public Resources(HashMap<ResourceType, Integer> source) {
+        amounts = source;
+    }
+
+    /**
      * @param resourceType
-     * @return number of resources of the specified type
+     * @return number of resources of the specified type.
      */
     public Integer getAmountOf(ResourceType resourceType) {
         Integer temp = amounts.get(resourceType);
@@ -27,12 +30,12 @@ public class Resources {
     }
 
     /**
-     *
      * @param other
-     * @return true if this contains more elements for each type contained in other
+     * @return true if this contains more elements for each type contained in other.
      */
     public Boolean isGreaterThan(Resources other) {
         int additional_amounts = 0;
+        if(other.amounts.isEmpty()) return true;
         for(ResourceType resource: other.amounts.keySet()) {
             if(resource != ResourceType.CHOICE) { // checking that ONLY normal resources are in a greater amount
                 if (getAmountOf(resource) < other.getAmountOf(resource)) return false;
@@ -45,37 +48,36 @@ public class Resources {
     }
 
     /**
-     *
-     * @return total number of elements contained in this
+     * @return total number of elements contained in this.
      */
     public Integer getTotalAmount() {
         return amounts.values().parallelStream().reduce(0, Integer::sum);
     }
 
     /**
-     * Add a certain amount of resources of a specified type
-     * @param resourceType
-     * @param amount
+     * Add a certain amount of resources of a specified type.
+     * @param resourceType type of the added resource.
+     * @param amount type of the added resource.
      */
     public void add(ResourceType resourceType, Integer amount) {
         amounts.put(resourceType, amount + getAmountOf(resourceType));
     }
 
     /**
-     * Remove a certain amount of resources of a specified type
-     * @param resourceType
-     * @param amount
-     * @throws NotEnoughResourcesException if the current resources are not enough
+     * Remove a certain amount of resources of a specified type.
+     * @param resourceType type of the removed resource.
+     * @param amount amount of the removed resource.
+     * @throws ResourcesException if the current resources are not enough.
      */
-    public void remove(ResourceType resourceType, Integer amount) throws NotEnoughResourcesException {
+    public void remove(ResourceType resourceType, Integer amount) throws ResourcesException {
         Integer temp = getAmountOf(resourceType);
-        if(temp < amount) throw new NotEnoughResourcesException();
+        if(temp < amount) throw new ResourcesException(NOT_ENOUGH_RESOURCES);
         amounts.put(resourceType, temp - amount);
     }
 
     /**
-     * Add all the elements of other to this
-     * @param other
+     * Add all the elements of other to this.
+     * @param other resources to be added to this.
      */
     public void add(Resources other) {
         for(ResourceType resource: other.amounts.keySet()) {
@@ -84,12 +86,12 @@ public class Resources {
     }
 
     /**
-     * Remove all the elements of other from this
-     * @param other
-     * @throws NotEnoughResourcesException if the current resources are not enough
+     * Remove all the elements of other from this.
+     * @param other resources to be removed from this.
+     * @throws ResourcesException if the current resources are not enough.
      */
-    public void remove(Resources other) throws NotEnoughResourcesException {
-        if(!isGreaterThan(other)) throw new NotEnoughResourcesException();
+    public void remove(Resources other) throws ResourcesException {
+        if(!isGreaterThan(other)) throw new ResourcesException(NOT_ENOUGH_RESOURCES);
         for(ResourceType resource: other.amounts.keySet()) {
             remove(resource, other.getAmountOf(resource));
         }

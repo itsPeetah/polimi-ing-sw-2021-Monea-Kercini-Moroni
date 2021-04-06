@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.playerboard;
 
+import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.general.Resources;
+
+import java.util.ArrayList;
 
 public class PlayerBoard {
 
@@ -124,5 +127,14 @@ public class PlayerBoard {
         available.add(warehouse.getResourcesAvailable());
         available.add(strongbox.getResourcesAvailable());
         return available;
+    }
+
+    /**
+     *
+     * @return all the Development Cards The player has purchased
+     */
+
+    public ArrayList<DevCard> getOwnedDevCards() {
+        return productionPowers.getOwnedDevCards();
     }
 }
