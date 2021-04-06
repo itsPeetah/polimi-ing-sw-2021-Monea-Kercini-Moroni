@@ -91,7 +91,7 @@ public class Warehouse{
      */
 
     public void expandWithLeader(LeadCard leader){
-        leaderExtraAvailable.add(leader.getExtraWarehouseSpace());
+        leaderExtraAvailable.add(leader.getAbility().getExtraWarehouseSpace());
     }
 
     /**
