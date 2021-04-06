@@ -34,9 +34,9 @@ public class ProductionPowers {
             }
         }
 
-        AvailableProductions.add(basicProduction);
+        AvailableProductions.add(this.basicProduction);
 
-        for (int i = 0; i < LeadProduction.length; i++) {
+        for (int i = 0; i < LeadProduction.length && LeadProduction[i] != null; i++) {
             AvailableProductions.add(LeadProduction[i]);
         }
 
@@ -91,12 +91,14 @@ public class ProductionPowers {
      */
 
     public ProductionPowers(int piles) {
-        Resources in = new Resources();
-        Resources out = new Resources();
-        in.add(ResourceType.CHOICE, 2);
-        out.add(ResourceType.CHOICE, 1);
 
-        this.basicProduction = new Production(in, out);
+        Resources inb = new Resources();
+        Resources outb = new Resources();
+        inb.add(ResourceType.CHOICE, 2);
+        outb.add(ResourceType.CHOICE, 1);
+
+        this.basicProduction = new Production(inb, outb);
+
         this.cardPile = new DevCard[piles][3];
         this.LeadProduction = new Production[2];
     }
