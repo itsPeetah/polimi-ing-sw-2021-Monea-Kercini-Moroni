@@ -97,6 +97,12 @@ public class Resources {
         }
     }
 
+    /**
+     * Checks if two resources are equal
+     * @param r the other resource which you are comparing to the current
+     * @return true if so
+     */
+
 
     public boolean equals(Resources r){
         if(this.isGreaterThan(r) && r.isGreaterThan(this)){

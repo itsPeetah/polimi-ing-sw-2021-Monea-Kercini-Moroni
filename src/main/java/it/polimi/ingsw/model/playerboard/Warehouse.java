@@ -115,7 +115,7 @@ public class Warehouse{
                 available.add(content[i]);
             }
         }
-        available.add(leaderExtraAvailable);
+        available.add(leaderExtraUsed);
         return available;
     }
 
