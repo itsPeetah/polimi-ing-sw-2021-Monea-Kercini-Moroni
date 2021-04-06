@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.model.general.ResourcesException;
 
 public class Strongbox {
 
@@ -22,10 +23,12 @@ public class Strongbox {
      */
 
     public Resources withdraw(Resources resources){
-        try { content.remove(resources);
-        } catch (Exception e) {
-            e.printStackTrace(); }
-
+        try {
+            content.remove(resources);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return resources;
     }
 
