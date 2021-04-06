@@ -84,5 +84,6 @@ class WarehouseTest {
 
     @Test
     void getResourcesAvailable() {
+        //This test is already included in the deposit and withdraw tests
     }
 }
