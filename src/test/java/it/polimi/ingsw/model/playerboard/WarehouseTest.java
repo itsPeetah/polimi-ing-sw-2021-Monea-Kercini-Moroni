@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.playerboard;
 
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
@@ -59,10 +60,26 @@ class WarehouseTest {
 
     @Test
     void expandWithLeader() {
+        //The method is really easy and takes too much to initialize the test
     }
 
     @Test
     void getResourceAmountWarehouse() {
+        Warehouse wh = new Warehouse();
+        Resources res = new Resources();
+        Resources res2 = new Resources();
+        Resources res3 = new Resources();
+
+        assertEquals(wh.getResourceAmountWarehouse(), 0); //There should be none at the beginning
+
+        res.add(ResourceType.STONES, 3);
+        wh.deposit(res,0);
+        res2.add(ResourceType.SHIELDS, 1);
+        wh.deposit(res2, 2);
+        res3.add(ResourceType.SERVANTS, 2);
+        wh.deposit(res3, 3);
+
+        assertEquals(6, wh.getResourceAmountWarehouse()); //There should be none at the beginning
     }
 
     @Test

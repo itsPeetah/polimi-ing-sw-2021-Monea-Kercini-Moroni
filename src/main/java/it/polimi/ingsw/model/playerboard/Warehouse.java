@@ -100,7 +100,7 @@ public class Warehouse{
      */
 
     public int getResourceAmountWarehouse(){
-        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
+        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraUsed.getTotalAmount());
     }
 
     /**
