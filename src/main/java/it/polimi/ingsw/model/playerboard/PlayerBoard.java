@@ -54,12 +54,12 @@ public class PlayerBoard {
     }
 
     /**
-     * Calculates victory points from faith track, reports attended, resources and development cards owned.
-     * @return sum of victory points the board has
+     * Calculates victory points from faith track and reports attended.
+     * @return total number of VP from faith
      */
 
-    public int getBoardVictoryPoints(){
 
+    public int getFaithVP(){
         int faithVictoryPoints = 0;
 
         //victory points from faith track
@@ -100,7 +100,18 @@ public class PlayerBoard {
 
         //total victory points from the board
 
-        return faithVictoryPoints + ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
+        return faithVictoryPoints;
+
+    }
+
+    /**
+     * Calculates victory points from faith track, reports attended, resources and development cards owned.
+     * @return sum of victory points the board has
+     */
+
+    public int getBoardVictoryPoints(){
+
+        return getFaithVP() + ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
     }
 
     /**
