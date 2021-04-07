@@ -40,6 +40,10 @@ public class ProductionPowers {
             AvailableProductions.add(LeadProduction[i]);
         }
 
+        for (int i = 0; i < LeadProduction.length; i++) {
+            AvailableProductions.add(LeadProduction[i]);
+        }
+
         return AvailableProductions;
     }
 
@@ -80,7 +84,9 @@ public class ProductionPowers {
 
     public void addLeadCardProduction(LeadCard leadCard){
 
+        Player_board_first_implementation
         LeadProduction[LeadProduction.length] = leadCard.getAbility().getProduction();
+
 
     }
 
