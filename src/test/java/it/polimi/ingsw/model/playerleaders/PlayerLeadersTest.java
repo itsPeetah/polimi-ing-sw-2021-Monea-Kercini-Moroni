@@ -34,10 +34,30 @@ class PlayerLeadersTest {
 
     @Test
     void getPlayableCards() {
+        //This method is automatically tested below
     }
 
     @Test
     void playCard() {
+        LeadCard[] Hand = new LeadCard[3];
+        Hand[0] = basicLC(1);
+        Hand[1] = basicLC(2);
+        Hand[2] = basicLC(5);
+        //Created an Array of LeadCards
+        PlayerLeaders pl = new PlayerLeaders(3);
+
+        pl.setCards(Hand);
+
+        pl.playCard(0);
+        pl.playCard(2);
+
+        LeadCard[] Hand2 = new LeadCard[1];
+        Hand2[0] = Hand[1];
+
+        //Check if the new hand corresponds
+
+        assertArrayEquals(Hand2, pl.getPlayableCards().toArray(new LeadCard[0]));
+
     }
 
     @Test
@@ -47,7 +67,6 @@ class PlayerLeadersTest {
         Hand[1] = basicLC(2);
         Hand[2] = basicLC(5);
         //Created an Array of LeadCards
-
         PlayerLeaders pl = new PlayerLeaders(3);
 
         pl.setCards(Hand);
@@ -59,5 +78,23 @@ class PlayerLeadersTest {
 
     @Test
     void getPlayedCardVictoryPoints() {
+        LeadCard[] Hand = new LeadCard[3];
+        Hand[0] = basicLC(1);
+        Hand[1] = basicLC(2);
+        Hand[2] = basicLC(5);
+        //Created an Array of LeadCards
+        PlayerLeaders pl = new PlayerLeaders(3);
+
+        assertEquals(0, pl.getPlayedCardVictoryPoints());
+
+        pl.setCards(Hand);
+
+        assertEquals(0, pl.getPlayedCardVictoryPoints());
+
+        pl.playCard(0);
+        pl.playCard(2);
+
+        assertEquals(6, pl.getPlayedCardVictoryPoints());
+
     }
 }
