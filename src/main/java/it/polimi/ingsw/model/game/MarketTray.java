@@ -42,7 +42,7 @@ public class MarketTray {
 
         // Assign market tray elements by picking from the shuffled available marbles
         for(int i = 0; i < rows; i++) {
-            for (int j = 0; j < rows; j++) {
+            for (int j = 0; j < columns; j++) {
                 available[i][j] = resourceMarbles.remove(0);
             }
         }
