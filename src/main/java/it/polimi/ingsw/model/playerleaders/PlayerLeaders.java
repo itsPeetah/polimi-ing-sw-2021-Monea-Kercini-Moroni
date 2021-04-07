@@ -64,4 +64,9 @@ public class PlayerLeaders {
         return vp;
     }
 
+    public PlayerLeaders(int PlayerLeaderMax) {
+        this.cards = new LeadCard[PlayerLeaderMax];
+        this.cardStates = new CardState[PlayerLeaderMax];
+
+    }
 }
