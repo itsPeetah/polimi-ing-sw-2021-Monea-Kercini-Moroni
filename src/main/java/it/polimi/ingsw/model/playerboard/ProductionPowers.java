@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Production;
 
 import java.util.ArrayList;
@@ -9,9 +10,10 @@ public class ProductionPowers {
 
     private Production basicProduction;
     private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
+    private Production[] LeadProduction;
 
     /**
-     * Searches all card piles and returns the card on top of each
+     * Searches all card piles and returns the card on top of each + Production from LeadCards
      * @return array of production of all the top development cards on all piles
      */
     public ArrayList<Production> getAvailableProductions(){
@@ -31,6 +33,10 @@ public class ProductionPowers {
         }
 
         AvailableProductions.add(basicProduction);
+
+        for (int i = 0; i < LeadProduction.length; i++) {
+            AvailableProductions.add(LeadProduction[i]);
+        }
 
         return AvailableProductions;
     }
@@ -62,8 +68,20 @@ public class ProductionPowers {
 
     public void addDevCard(DevCard devCard, int position){
 
-        cardPile[position][devCard.getLevel()-1] = devCard;
+        cardPile[position][devCard.getLevel().getPrevious().toInteger()] = devCard;
     }
+
+    /**
+     * Adds the extra production from LeadCard
+     * @param leadCard the LeaderCard that gives the extra production power
+     */
+
+    public void addLeadCardProduction(LeadCard leadCard){
+
+        LeadProduction[LeadProduction.length] = leadCard.getProduction();
+
+    }
+
 
     /**
      *
@@ -73,6 +91,7 @@ public class ProductionPowers {
     public ProductionPowers(int piles) {
         this.basicProduction = new Production(); //QUA DA AGGIORNARE !!!
         this.cardPile = new DevCard[piles][3];
+        this.LeadProduction = new Production[2];
     }
 
     /**
