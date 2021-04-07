@@ -84,7 +84,7 @@ public class ProductionPowers {
 
     public void addLeadCardProduction(LeadCard leadCard){
 
-        Player_board_first_implementation
+        //Player_board_first_implementation
         LeadProduction[LeadProduction.length] = leadCard.getAbility().getProduction();
 
 
