@@ -15,7 +15,7 @@ public class ResourceMarble{
      * @param type Resource type.
      * @param amount Resource amount.
      */
-    public ResourceMarble(ResourceType type, Integer amount){
+    public ResourceMarble(ResourceType type, int amount){
         this.value = new Resources();
         this.value.add(type, amount);
     }
