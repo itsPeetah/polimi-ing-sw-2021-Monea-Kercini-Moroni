@@ -57,6 +57,15 @@ public class PlayerBoard {
     }
 
     /**
+     *
+     * @return current faith points player has (where the faith marker is)
+     */
+
+    public int getFaithPoints(){
+        return this.faithPoints;
+    }
+
+    /**
      * Calculates victory points from faith track and reports attended.
      * @return total number of VP from faith
      */
