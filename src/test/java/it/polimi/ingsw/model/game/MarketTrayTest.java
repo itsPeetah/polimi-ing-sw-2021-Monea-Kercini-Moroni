@@ -30,19 +30,43 @@ public class MarketTrayTest {
         Resources r1, r2, r3;
         try {
             r1 = mt.pickColumn(0);
-            assert(r1.getAmountOf(ResourceType.COINS) == 1);
+            assertTrue(r1.getAmountOf(ResourceType.COINS) == 1);
         } catch (MarketTrayException e){
             fail();
         }
         try {
             r2 = mt.pickColumn(0);
-            assert(r2.getAmountOf(ResourceType.SHIELDS) == 1);
+            assertTrue(r2.getAmountOf(ResourceType.SERVANTS) == 1);
         } catch (MarketTrayException e){
             fail();
         }
         try {
             r3 = mt.pickColumn(0);
-            assert(r3.getAmountOf(ResourceType.FAITH) == 1);
+            assertTrue(r3.getAmountOf(ResourceType.FAITH) == 1);
+        } catch (MarketTrayException e){
+            fail();
+        }
+    }
+
+    @Test
+    public void testPickRow0(){
+        MarketTray mt = create2x2Tray();
+        Resources r1, r2, r3;
+        try {
+            r1 = mt.pickRow(0);
+            assertTrue(r1.getAmountOf(ResourceType.COINS) == 1);
+        } catch (MarketTrayException e){
+            fail();
+        }
+        try {
+            r2 = mt.pickRow(0);
+            assertTrue(r2.getAmountOf(ResourceType.SHIELDS) == 1);
+        } catch (MarketTrayException e){
+            fail();
+        }
+        try {
+            r3 = mt.pickRow(0);
+            assertTrue(r3.getAmountOf(ResourceType.FAITH) == 1);
         } catch (MarketTrayException e){
             fail();
         }
