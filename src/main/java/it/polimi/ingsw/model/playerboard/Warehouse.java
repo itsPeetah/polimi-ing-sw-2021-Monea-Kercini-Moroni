@@ -21,7 +21,7 @@ public class Warehouse{
         if (floor<3){
             content[floor].add(resources);
         }else
-            leaderExtraUsed.add(resources);
+            leaderExtraUsed.add(resources); //this is else in case we change our mind to make leader resources in 2 floors in GUI
     }
 
     /**
@@ -100,7 +100,7 @@ public class Warehouse{
      */
 
     public int getResourceAmountWarehouse(){
-        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraAvailable.getTotalAmount());
+        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraUsed.getTotalAmount());
     }
 
     /**
@@ -110,15 +110,20 @@ public class Warehouse{
 
     public Resources getResourcesAvailable(){
         Resources available = new Resources();
-        available.add(content[0]);
-        available.add(content[1]);
-        available.add(content[2]);
-        available.add(leaderExtraAvailable);
+        for (int i = 0; i< content.length; i++){
+            if (content[i] != null){
+                available.add(content[i]);
+            }
+        }
+        available.add(leaderExtraUsed);
         return available;
     }
 
     public Warehouse() {
         this.content = new Resources[3];
+        content[0] = new Resources();
+        content[1] = new Resources();
+        content[2] = new Resources();
         this.leaderExtraAvailable = new Resources();
         this.leaderExtraUsed = new Resources();
     }

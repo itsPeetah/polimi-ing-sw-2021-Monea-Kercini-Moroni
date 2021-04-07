@@ -10,4 +10,9 @@ public class Production {
     public Resources getOutput() {
         return output;
     }
+
+    public Production(Resources input, Resources output) {
+        this.input = input;
+        this.output = output;
+    }
 }
