@@ -48,12 +48,12 @@ public class PlayerBoard {
      * @param reportsAttended default should be 3
      */
 
-    public PlayerBoard(int reportsAttended) {
+    public PlayerBoard(int reportsAttended, Warehouse wh, Strongbox sb, ProductionPowers pp) {
         this.faithPoints = 0;
         this.reportsAttended = new boolean[reportsAttended];
-        this.warehouse = new Warehouse();
-        this.strongbox = new Strongbox();
-        this.productionPowers = new ProductionPowers(3);
+        this.warehouse = wh;
+        this.strongbox = sb;
+        this.productionPowers = pp;
     }
 
     /**
@@ -123,7 +123,7 @@ public class PlayerBoard {
 
     public int getBoardVictoryPoints(){
 
-        return getFaithVP() + ((warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints());
+        return getFaithVP() + (warehouse.getResourceAmountWarehouse()+ strongbox.getResourceAmountStrongbox())/5 + productionPowers.getOwnedCardsVictoryPoints();
     }
 
     /**

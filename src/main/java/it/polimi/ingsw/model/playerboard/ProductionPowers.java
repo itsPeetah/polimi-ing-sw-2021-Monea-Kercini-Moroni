@@ -40,10 +40,6 @@ public class ProductionPowers {
             AvailableProductions.add(LeadProduction[i]);
         }
 
-        for (int i = 0; i < LeadProduction.length; i++) {
-            AvailableProductions.add(LeadProduction[i]);
-        }
-
         return AvailableProductions;
     }
 
