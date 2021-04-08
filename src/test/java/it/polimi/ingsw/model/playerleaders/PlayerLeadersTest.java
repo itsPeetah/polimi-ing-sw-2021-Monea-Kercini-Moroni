@@ -5,12 +5,15 @@ import it.polimi.ingsw.model.cards.LeadCardAbility;
 import it.polimi.ingsw.model.cards.LeadCardRequirements;
 import it.polimi.ingsw.model.game.MarketTray;
 import it.polimi.ingsw.model.general.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerLeadersTest {
+
+    //Method for creating a basic LC fro testing, taking only it's victory points as input
 
     private LeadCard basicLC(int vp){
 
@@ -48,8 +51,20 @@ class PlayerLeadersTest {
 
         pl.setCards(Hand);
 
-        pl.playCard(0);
-        pl.playCard(2);
+        try{pl.playCard(0);
+        } catch (Exception e){
+            fail();
+        }
+
+        try{pl.playCard(2);
+        } catch (Exception e){
+            fail();
+        }
+
+
+        //Card has already been played
+
+        assertThrows(PlayerLeadersException.class, ()-> pl.playCard(0));
 
         LeadCard[] Hand2 = new LeadCard[1];
         Hand2[0] = Hand[1];
@@ -91,8 +106,15 @@ class PlayerLeadersTest {
 
         assertEquals(0, pl.getPlayedCardVictoryPoints());
 
-        pl.playCard(0);
-        pl.playCard(2);
+        try{pl.playCard(0);
+        } catch (Exception e){
+            fail();
+        }
+
+        try{pl.playCard(2);
+        } catch (Exception e){
+            fail();
+        }
 
         assertEquals(6, pl.getPlayedCardVictoryPoints());
 

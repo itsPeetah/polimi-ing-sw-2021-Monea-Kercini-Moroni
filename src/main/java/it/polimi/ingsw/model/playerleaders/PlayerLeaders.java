@@ -30,10 +30,15 @@ public class PlayerLeaders {
     /**
      * Sets the state of the card at index position as PLAYED
      * @param index is the position of the card that the player plays
+     * @throws Exception if the choosen card is already played or discarded
      */
 
-    public void playCard(int index){
-        cardStates[index] = CardState.PLAYED;
+    public void playCard(int index) throws PlayerLeadersException{
+        if(cardStates[index] == CardState.INHAND) {
+            cardStates[index] = CardState.PLAYED;
+        }else{
+            throw new PlayerLeadersException("Leader Card is already played or discarded.");
+        }
     }
 
 
