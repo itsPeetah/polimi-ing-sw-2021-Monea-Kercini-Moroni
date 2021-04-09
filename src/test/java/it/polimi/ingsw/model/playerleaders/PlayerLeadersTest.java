@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.game.MarketTray;
 import it.polimi.ingsw.model.general.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
+
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,6 +43,11 @@ class PlayerLeadersTest {
     }
 
     @Test
+    void getPlayedCards() {
+        //This method is automatically tested below
+    }
+
+    @Test
     void playCard() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = basicLC(1);
@@ -51,6 +58,8 @@ class PlayerLeadersTest {
 
         pl.setCards(Hand);
 
+        assertTrue(pl.getPlayedCards().size() == 0); //Check that we have no cards played.
+
         try{pl.playCard(0);
         } catch (Exception e){
             fail();
@@ -60,6 +69,15 @@ class PlayerLeadersTest {
         } catch (Exception e){
             fail();
         }
+
+        LeadCard[] PlayedHand = new LeadCard[2];
+        PlayedHand[0] = Hand[0];
+        PlayedHand[1] = Hand[2];
+
+        //Check if played cards correspond
+
+        assertArrayEquals(PlayedHand, pl.getPlayedCards().toArray(new LeadCard[0]));
+
 
 
         //Card has already been played
