@@ -13,11 +13,9 @@ public class DevCardMarket {
      * Constructor.
      * @param cards Cards to be made available at start.
      */
-    public DevCardMarket(DevCard[] cards){
+    public DevCardMarket(ArrayList<DevCard> cards){
         // Add cards to the available
-        availableCards = new ArrayList<DevCard>();
-        for(DevCard dc : cards)
-            availableCards.add(dc);
+        availableCards = cards;
     }
 
     /**
@@ -34,8 +32,12 @@ public class DevCardMarket {
      * @param index Card to be removed.
      * @return Whether the operation was successful.
      */
-    public boolean buyCard(int index, Player player) throws DevCardMarketException {
-        if(index >= availableCards.size()) throw new DevCardMarketException("Trying to buy a card that does not exist.");
+    public boolean buyCard(int index, Player player) throws DevCardMarketException, ArrayIndexOutOfBoundsException {
+        if(index >= availableCards.size()) throw new ArrayIndexOutOfBoundsException("Trying to buy a card that does not exist.");
+
+
+
+
         if(!availableCards.get(index).affordable(player)) return false;
         DevCard dc = availableCards.remove(index);
         return true;
