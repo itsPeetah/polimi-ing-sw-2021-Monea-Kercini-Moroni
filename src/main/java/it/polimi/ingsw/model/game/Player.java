@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
+import it.polimi.ingsw.model.playerboard.ProductionPowers;
+import it.polimi.ingsw.model.playerboard.Strongbox;
+import it.polimi.ingsw.model.playerboard.Warehouse;
 import it.polimi.ingsw.model.playerleaders.PlayerLeaders;
 
 /**
@@ -19,7 +22,12 @@ public class Player {
      */
     public Player(String nickname) {
         this.nickname = nickname;
-        this.board = new PlayerBoard();
+
+        Warehouse wh = new Warehouse();
+        ProductionPowers pp = new ProductionPowers(3);
+        Strongbox sb = new Strongbox();
+        this.board = new PlayerBoard(3, wh, sb, pp);
+
         this.leaders = new PlayerLeaders(2); //For the moment we leave leader max at 2, as per default in game
     }
 
