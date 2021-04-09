@@ -28,6 +28,23 @@ public class PlayerLeaders {
     }
 
     /**
+     *
+     * @return All the LeadCards that have been played.
+     */
+
+    public ArrayList<LeadCard> getPlayedCards(){
+
+        ArrayList<LeadCard> playedCards = new ArrayList<LeadCard>();
+
+        for(int i = 0; i < cards.length; i++){
+            if (cardStates[i] == CardState.PLAYED){
+                playedCards.add(cards[i]);
+            }
+        }
+        return playedCards;
+    }
+
+    /**
      * Sets the state of the card at index position as PLAYED
      * @param index is the position of the card that the player plays
      * @throws Exception if the choosen card is already played or discarded
