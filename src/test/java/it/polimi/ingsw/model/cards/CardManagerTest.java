@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardManagerTest {
 
+    // TODO remove comments and test more after all cards are present
+
     @Test
     public void loadDevCardsFromJsonTest() {
         /*
@@ -35,7 +37,7 @@ public class CardManagerTest {
         ArrayList<DevCard> cards = CardManager.loadDevCardsFromJson();
         assertFalse(cards.isEmpty());
         Gson gson = new Gson();
-        System.out.println(gson.toJson(cards.get(13)));
+        //System.out.println(gson.toJson(cards.get(13)));
     }
 
     @Test
@@ -49,38 +51,34 @@ public class CardManagerTest {
         Resources nonEmptyRes = new Resources();
         nonEmptyRes.add(ResourceType.SHIELDS, 1);
         HashMap<Color, Integer> colorsReq = new HashMap<>();
-        colorsReq.put(Color.RED, 2);
-        HashMap<Level, Integer> levelsReq = new HashMap<>();
-        levelsReq.put(Level.LOW, 2);
+        colorsReq.put(Color.PURPLE, 2);
+        HashMap<Color, Level> levelsReq = new HashMap<>();
+        levelsReq.put(Color.PURPLE, Level.LOW);
 
-        LeadCardAbility ability = new LeadCardAbility(nonEmptyRes, nonEmptyRes, nonEmptyRes, new Production(nonEmptyRes, nonEmptyRes));
-        LeadCardRequirements req = new LeadCardRequirements(colorsReq, levelsReq, nonEmptyRes);
+        LeadCardAbility ability1 = new LeadCardAbility(nonEmptyRes, nonEmptyRes, ResourceType.STONES, new Production(nonEmptyRes, nonEmptyRes));
+        LeadCardAbility ability2 = new LeadCardAbility(nonEmptyRes, nonEmptyRes, ResourceType.STONES, new Production(emptyRes, emptyRes));
+        LeadCardRequirements req1 = new LeadCardRequirements(colorsReq, new HashMap<Color, Level>(), nonEmptyRes);
+        LeadCardRequirements req2 = new LeadCardRequirements(new HashMap<Color, Integer>(), levelsReq, nonEmptyRes);
 
-        LeadCard lc = new LeadCard(0, "testLead", req, ability);
+
+        LeadCard lc1 = new LeadCard(0, "testLead", req1, ability1);
+        LeadCard lc2 = new LeadCard(0, "testLead", req2, ability2);
 
         FileWriter file = new FileWriter(CardManager.LEAD_CARDS_PATH);
         ArrayList<LeadCard> list = new ArrayList<>();
-        list.add(lc);
+        list.add(lc1);
+        list.add(lc2);
         gson.toJson(list , file);
         file.flush();
         file.close();*/
 
         ArrayList<LeadCard> cards = CardManager.loadLeadCardsFromJson();
         assertFalse(cards.isEmpty());
-        // Create lead card
-        Resources nonEmptyRes = new Resources();
-        nonEmptyRes.add(ResourceType.SHIELDS, 1);
-        HashMap<Color, Integer> colorsReq = new HashMap<>();
-        colorsReq.put(Color.PURPLE, 2);
-        HashMap<Level, Integer> levelsReq = new HashMap<>();
-        levelsReq.put(Level.LOW, 2);
+        for(LeadCard card: cards) {
+            assertTrue(card.getAbility()!=null && card.getAbility().getProduction()!=null && card.getAbility().getGreyMarbleReplacement()!=null && card.getAbility().getExtraWarehouseSpace()!=null && card.getAbility().getResourceDiscount()!=null);
 
-        LeadCardAbility ability = new LeadCardAbility(nonEmptyRes, nonEmptyRes, nonEmptyRes, new Production(nonEmptyRes, nonEmptyRes));
-        LeadCardRequirements req = new LeadCardRequirements(colorsReq, levelsReq, nonEmptyRes);
-
-        LeadCard lc = new LeadCard(0, "testLead", req, ability);
-        assertEquals(lc.getAbility().getProduction().getOutput().getAmountOf(ResourceType.SHIELDS), cards.get(0).getAbility().getProduction().getOutput().getAmountOf(ResourceType.SHIELDS));
-        System.out.println(cards.get(0));
-
+        }
+        Gson gson = new Gson();
+        //System.out.println(gson.toJson(cards.get(0)));
     }
 }

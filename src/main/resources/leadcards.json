@@ -2,33 +2,115 @@
    {
       "requirements":{
          "devCardColors":{
-            "RED":2
+            "BLUE":2,
+            "YELLOW":1
          },
          "devCardLevels":{
-            "LOW":2
+
          },
          "resourceAmounts":{
             "amounts":{
-               "SHIELDS":1
+
             }
          }
       },
       "ability":{
          "resourceDiscount":{
             "amounts":{
-               "SHIELDS":1
+
             }
          },
          "extraWarehouseSpace":{
             "amounts":{
-               "SHIELDS":1
+
             }
          },
-         "greyMarbleReplacement":{
+         "greyMarbleReplacement":"STONES",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":5,
+      "cardId":"lead_11"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+            "PURPLE":2,
+            "GREEN":1
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
             "amounts":{
-               "SHIELDS":1
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
             }
          },
+         "extraWarehouseSpace":{
+            "amounts":{
+
+            }
+         },
+         "greyMarbleReplacement":"COINS",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":5,
+      "cardId":"lead_12"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+
+         },
+         "devCardLevels":{
+            "YELLOW":"MEDIUM"
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -37,12 +119,142 @@
             },
             "output":{
                "amounts":{
-                  "SHIELDS":1
+                  "CHOICE":1,
+                  "FAITH":1
                }
             }
          }
       },
-      "victoryPoints":0,
-      "cardId":"testLead"
+      "victoryPoints":4,
+      "cardId":"lead_13"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+
+         },
+         "devCardLevels":{
+            "BLUE":"MEDIUM"
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+                  "SERVANTS":1
+               }
+            },
+            "output":{
+               "amounts":{
+                  "CHOICE":1,
+                  "FAITH":1
+               }
+            }
+         }
+      },
+      "victoryPoints":4,
+      "cardId":"lead_14"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+
+         },
+         "devCardLevels":{
+            "PURPLE":"MEDIUM"
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+                  "STONES":1
+               }
+            },
+            "output":{
+               "amounts":{
+                  "CHOICE":1,
+                  "FAITH":1
+               }
+            }
+         }
+      },
+      "victoryPoints":4,
+      "cardId":"lead_15"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+
+         },
+         "devCardLevels":{
+            "GREEN":"MEDIUM"
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+                  "COINS":1
+               }
+            },
+            "output":{
+               "amounts":{
+                  "CHOICE":1,
+                  "FAITH":1
+               }
+            }
+         }
+      },
+      "victoryPoints":4,
+      "cardId":"lead_16"
    }
 ]

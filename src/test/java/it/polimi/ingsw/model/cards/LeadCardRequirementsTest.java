@@ -17,7 +17,7 @@ public class LeadCardRequirementsTest {
         Resources cost = new Resources();
         cost.add(ResourceType.SHIELDS, 1);
 
-        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Level, Integer>(), cost);
+        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost);
 
         // Create player
         Player player = new Player("name");
@@ -31,7 +31,7 @@ public class LeadCardRequirementsTest {
         // Create new requirements
         Resources cost2 = new Resources();
         cost2.add(ResourceType.STONES, 1);
-        LeadCardRequirements req2 = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Level, Integer>(), cost2);
+        LeadCardRequirements req2 = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost2);
 
         // Test affordable == false
         assertFalse(req2.check(player));
