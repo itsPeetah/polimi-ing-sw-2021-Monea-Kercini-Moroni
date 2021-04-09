@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
 
 import java.util.ArrayList;
@@ -19,13 +20,12 @@ public class Game {
     /**
      * Constructor for the class.
      */
-    public Game() {
+    public Game(MarketTray resourceMarket, DevCardMarket devCardMarket) {
         turnCounter = 0;
         lastVaticanReport = 0;
 
-        // TODO: Implement game settings
-        // resourceMarket = new MarketTray(rows, cols, marbles);
-        // devCardMarket = new DevCardMarket(cards);
+        this.resourceMarket = resourceMarket;
+        this.devCardMarket = devCardMarket;
 
         players = new ArrayList<Player>();
     }
