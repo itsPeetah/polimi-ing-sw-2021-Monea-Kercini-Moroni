@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.playerboard.PlayerBoard;
 import java.util.ArrayList;
 
 public class Game {
-    private static final int MAX_PLAYERS = 4;
-    private static final int MAX_VATICAN_REPORTS = 3;
+    public static final int MAX_PLAYERS = 4;
+    public static final int MAX_VATICAN_REPORTS = 3;
 
     private Integer turnCounter;
     private Integer lastVaticanReport;
@@ -20,14 +20,15 @@ public class Game {
     /**
      * Constructor for the class.
      */
-    public Game(MarketTray resourceMarket, DevCardMarket devCardMarket) {
-        turnCounter = 0;
-        lastVaticanReport = 0;
+    public Game(MarketTray resourceMarket, DevCardMarket devCardMarket)
+    {
+        this.turnCounter = 0;
+        this.lastVaticanReport = 0;
 
         this.resourceMarket = resourceMarket;
         this.devCardMarket = devCardMarket;
 
-        players = new ArrayList<Player>();
+        this.players = new ArrayList<Player>();
     }
 
     // Player handling ------------------------------------------------------------------
@@ -78,7 +79,7 @@ public class Game {
         return devCardMarket;
     }
 
-    // Data getters ------------------------------------------------------------------
+    // Turn handling ------------------------------------------------------------------
 
     /**
      * Turn counter getter.
@@ -86,6 +87,11 @@ public class Game {
     public Integer getTurnCounter() {
         return turnCounter;
     }
+
+    /**
+     * Advance the turn counter by 1.
+     */
+    public void increaseTurnCounter() {turnCounter++;}
 
     /**
      * Vatican report getter.
