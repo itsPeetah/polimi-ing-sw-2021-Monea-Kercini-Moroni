@@ -7,7 +7,7 @@ public class DevCardMarketFactory {
 
     public static DevCardMarket BuildDevCardMarket(GameSettingsLevel cardAmount){
 
-        DevCard[] cards = null;
+        DevCard[] cards = new DevCard[0];
         DevCardMarket dcm = new DevCardMarket(cards);
         return dcm;
     }
