@@ -8,6 +8,9 @@ public class LeadCard extends Card {
     private LeadCardRequirements requirements;
     private LeadCardAbility ability;
 
+    public LeadCard() {
+    }
+
     public LeadCard(Integer victoryPoints, String cardId, LeadCardRequirements requirements, LeadCardAbility ability) {
         super(victoryPoints, cardId);
         this.requirements = requirements;

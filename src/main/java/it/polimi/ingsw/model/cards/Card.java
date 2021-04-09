@@ -7,6 +7,9 @@ public abstract class Card {
     private Integer victoryPoints;
     private String cardId;
 
+    public Card() {
+    }
+
     public Card(Integer victoryPoints, String cardId) {
         this.victoryPoints = victoryPoints;
         this.cardId = cardId;
