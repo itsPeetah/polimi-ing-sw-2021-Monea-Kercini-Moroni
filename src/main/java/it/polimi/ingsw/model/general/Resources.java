@@ -36,14 +36,12 @@ public class Resources {
     public Boolean isGreaterThan(Resources other) {
         int additional_amounts = 0;
         if(other.amounts.isEmpty()) return true;
-        for(ResourceType resource: other.amounts.keySet()) {
-            if(resource != ResourceType.CHOICE) { // checking that ONLY normal resources are in a greater amount
-                if (getAmountOf(resource) < other.getAmountOf(resource)) return false;
-                additional_amounts += getAmountOf(resource) - other.getAmountOf(resource);
-            }
-            else additional_amounts -= getAmountOf(resource) - other.getAmountOf(resource); // removing CHOICE amount
+        for(ResourceType resource: ResourceType.values()) {
+            if(resource != ResourceType.CHOICE && getAmountOf(resource) < other.getAmountOf(resource)) // checking that ONLY normal resources are in a greater amount
+                return false;
+            additional_amounts += getAmountOf(resource) - other.getAmountOf(resource); // removing CHOICE amount
         }
-        // if we are here normal resources are good, but we still need to check if we had enough additional resources for CHOICE
+        // if we are here normal resources are good, but we still need to check if we have enough additional resources for CHOICE
         return additional_amounts >= 0;
     }
 
@@ -105,10 +103,6 @@ public class Resources {
 
 
     public boolean equals(Resources r){
-        if(this.isGreaterThan(r) && r.isGreaterThan(this)){
-            return true;
-        }else{
-            return false;
-        }
+        return this.isGreaterThan(r) && r.isGreaterThan(this);
     }
 }

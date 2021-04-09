@@ -12,7 +12,7 @@ public abstract class Card {
         this.cardId = cardId;
     }
 
-    public Integer getVictoryPoints() {
+    public int getVictoryPoints() {
         return victoryPoints;
     }
 
