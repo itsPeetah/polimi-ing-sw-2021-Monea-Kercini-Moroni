@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.general.Resources;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// TODO add leader choice logic
+
 /**
  * Class representing the game's market tray.
  */

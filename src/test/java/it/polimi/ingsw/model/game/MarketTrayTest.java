@@ -16,6 +16,7 @@ public class MarketTrayTest {
         marbles.add(new ResourceMarble(ResourceType.SERVANTS, 1));
         marbles.add(new ResourceMarble(ResourceType.SHIELDS, 1));
         marbles.add(new ResourceMarble(ResourceType.BLANK, 1));
+        marbles.add(new ResourceMarble(ResourceType.BLANK, 1));
         marbles.add(new ResourceMarble(ResourceType.FAITH, 1));
         try {
             return new MarketTray(2, 2, marbles);
@@ -71,7 +72,5 @@ public class MarketTrayTest {
             fail();
         }
     }
-
-
 
 }
