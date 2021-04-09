@@ -105,7 +105,7 @@ public class Game {
      *
      * @throws GameException if the report can't be attended
      */
-    public void DoVaticanReport() throws GameException {
+    public void doVaticanReport() throws GameException {
         if (lastVaticanReport >= MAX_VATICAN_REPORTS) throw new GameException("Max vatican records already performed.");
 
         int currentReport = lastVaticanReport + 1;
