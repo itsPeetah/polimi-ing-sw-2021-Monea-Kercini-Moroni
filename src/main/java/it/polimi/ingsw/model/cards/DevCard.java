@@ -61,6 +61,8 @@ public class DevCard extends Card {
      */
     @Override
     public void play(Player player) {
-
+        if(!affordable(player)) return;
+        // Compute the discount
+        
     }
 }

@@ -94,7 +94,7 @@ public class ResourcesTest {
         res.add(resType, n);
         assertEquals(n, res.getAmountOf(resType));
 
-        // Test add with hash map
+        // Test add with other res
         HashMap<ResourceType, Integer>  resHashMap = new HashMap<>();
         resHashMap.put(resType, n);
         resHashMap.put(resType2, n2);
@@ -103,5 +103,65 @@ public class ResourcesTest {
         res2.add(addedRes);
         assertEquals(n, res2.getAmountOf(resType));
         assertEquals(n2, res2.getAmountOf(resType2));
+    }
+
+    @Test
+    public void removeTest() {
+        ResourceType resType = ResourceType.STONES;
+        ResourceType resType2 = ResourceType.SHIELDS;
+        int n = 3;
+        int n2 = 4;
+
+        // Test remove with single type
+        Resources res = new Resources();
+        res.add(resType, n2);
+        try {
+            res.remove(resType, n);
+            assertEquals(n2 - n, res.getAmountOf(resType));
+        } catch (ResourcesException e) {
+            fail();
+        }
+
+        // Test remove with other res
+        HashMap<ResourceType, Integer>  resHashMap = new HashMap<>();
+        resHashMap.put(resType, n);
+        resHashMap.put(resType2, n2);
+        Resources addedRes = new Resources(resHashMap);
+        Resources res2 = new Resources();
+        res2.add(addedRes);
+        try {
+            res2.remove(addedRes);
+            assertEquals(0, res2.getTotalAmount());
+        } catch (ResourcesException e) {
+            fail();
+        }
+    }
+
+    @Test(expected = ResourcesException.class)
+    public void removeWithExceptionTest() throws ResourcesException {
+        Resources res = new Resources();
+        res.remove(ResourceType.STONES, 1);
+    }
+
+    @Test
+    public void equalsTest() {
+        int smallNum = 3;
+        int bigNum = 5;
+
+        // Create the first Resources
+        HashMap<ResourceType, Integer>  resHashMap1 = new HashMap<>();
+        resHashMap1.put(ResourceType.STONES, bigNum);
+        resHashMap1.put(ResourceType.SHIELDS, smallNum);
+        Resources firstRes = new Resources(resHashMap1);
+
+        // Test on equal
+        Resources equalRes = new Resources(resHashMap1);
+        assertTrue(firstRes.equals(equalRes));
+
+        // Test false is returned
+        HashMap<ResourceType, Integer>  resHashMap2 = new HashMap<>();
+        resHashMap2.put(ResourceType.STONES, smallNum);
+        Resources secondRes = new Resources(resHashMap2);
+        assertFalse(firstRes.equals(secondRes));
     }
 }

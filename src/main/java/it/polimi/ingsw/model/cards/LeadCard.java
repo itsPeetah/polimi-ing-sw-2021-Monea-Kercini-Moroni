@@ -32,7 +32,7 @@ public class LeadCard extends Card {
     }
 
     /**
-     * Perform the action of playing the card and apply its ability
+     * Perform the action of playing the card and apply its static abilities
      * @param player
      */
     @Override
