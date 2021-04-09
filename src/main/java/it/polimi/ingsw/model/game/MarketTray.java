@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.general.Resources;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// TODO add leader choice logic
+
 /**
  * Class representing the game's market tray.
  */
@@ -51,6 +53,26 @@ public class MarketTray {
             waiting[i] = resourceMarbles.remove(0);
         }
     }
+
+    // Getters ---------------------------------------------------
+
+    /**
+     * Market tray rows getter.
+     */
+    public int getRows() {return rows;}
+    /**
+     * Market tray columns getter.
+     */
+    public int getColumns() {return columns;}
+
+    /**
+     * Available resources getter.
+     */
+    public ResourceMarble[][] getAvailable() {return available;}
+    /**
+     * Waiting resources getter.
+     */
+    public ResourceMarble[] getWaiting() {return waiting;}
 
     // Interaction ---------------------------------------------------
 

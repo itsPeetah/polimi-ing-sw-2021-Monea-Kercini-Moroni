@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
 
 import java.util.ArrayList;
 
 public class Game {
-    private static final int MAX_PLAYERS = 4;
-    private static final int MAX_VATICAN_REPORTS = 3;
+    public static final int MAX_PLAYERS = 4;
+    public static final int MAX_VATICAN_REPORTS = 3;
 
     private Integer turnCounter;
     private Integer lastVaticanReport;
@@ -19,15 +20,15 @@ public class Game {
     /**
      * Constructor for the class.
      */
-    public Game() {
-        turnCounter = 0;
-        lastVaticanReport = 0;
+    public Game(MarketTray resourceMarket, DevCardMarket devCardMarket)
+    {
+        this.turnCounter = 0;
+        this.lastVaticanReport = 0;
 
-        // TODO: Implement game settings
-        // resourceMarket = new MarketTray(rows, cols, marbles);
-        // devCardMarket = new DevCardMarket(cards);
+        this.resourceMarket = resourceMarket;
+        this.devCardMarket = devCardMarket;
 
-        players = new ArrayList<Player>();
+        this.players = new ArrayList<Player>();
     }
 
     // Player handling ------------------------------------------------------------------
@@ -78,7 +79,7 @@ public class Game {
         return devCardMarket;
     }
 
-    // Data getters ------------------------------------------------------------------
+    // Turn handling ------------------------------------------------------------------
 
     /**
      * Turn counter getter.
@@ -86,6 +87,11 @@ public class Game {
     public Integer getTurnCounter() {
         return turnCounter;
     }
+
+    /**
+     * Advance the turn counter by 1.
+     */
+    public void increaseTurnCounter() {turnCounter++;}
 
     /**
      * Vatican report getter.
@@ -99,7 +105,7 @@ public class Game {
      *
      * @throws GameException if the report can't be attended
      */
-    public void DoVaticanReport() throws GameException {
+    public void doVaticanReport() throws GameException {
         if (lastVaticanReport >= MAX_VATICAN_REPORTS) throw new GameException("Max vatican records already performed.");
 
         int currentReport = lastVaticanReport + 1;
