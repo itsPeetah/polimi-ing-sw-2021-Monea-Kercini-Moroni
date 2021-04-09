@@ -58,7 +58,7 @@ class ProductionPowersTest {
         //assertEquals(AvailableProd, pp.getAvailableProductions()); This would not work as the references for the basic productions are different
 
         //check one by one if the productions are equal
-        //System.out.println(pp.getAvailableProductions().get(3));
+
         for (int i = 0; i < pp.getAvailableProductions().size(); i++) {
 
             assertTrue(AvailableProd.get(i).getInput().equals(pp.getAvailableProductions().get(i).getInput()));
