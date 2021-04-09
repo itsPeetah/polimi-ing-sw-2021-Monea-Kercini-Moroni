@@ -34,14 +34,8 @@ public class CardManagerTest {
 
         ArrayList<DevCard> cards = CardManager.loadDevCardsFromJson();
         assertFalse(cards.isEmpty());
-        Resources expRes = new Resources();
-        expRes.add(ResourceType.SHIELDS, 3);
-        Level expLev = Level.values()[0];
-        Color expCol = Color.values()[0];
-
-        DevCard devCard = new DevCard(0, "0", expLev, expCol, expRes, new Production(expRes, expRes));
-        assertEquals(devCard.getVictoryPoints(), cards.get(0).getVictoryPoints());
-        System.out.println(cards.get(0));
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(cards.get(13)));
     }
 
     @Test
@@ -77,7 +71,7 @@ public class CardManagerTest {
         Resources nonEmptyRes = new Resources();
         nonEmptyRes.add(ResourceType.SHIELDS, 1);
         HashMap<Color, Integer> colorsReq = new HashMap<>();
-        colorsReq.put(Color.RED, 2);
+        colorsReq.put(Color.PURPLE, 2);
         HashMap<Level, Integer> levelsReq = new HashMap<>();
         levelsReq.put(Level.LOW, 2);
 
