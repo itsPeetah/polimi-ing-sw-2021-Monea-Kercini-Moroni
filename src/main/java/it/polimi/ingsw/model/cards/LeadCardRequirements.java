@@ -14,6 +14,9 @@ public class LeadCardRequirements {
     private HashMap<Level, Integer> devCardLevels;
     private Resources resourceAmounts;
 
+    public LeadCardRequirements() {
+    }
+
     public LeadCardRequirements(HashMap<Color, Integer> devCardColors, HashMap<Level, Integer> devCardLevels, Resources resourceAmounts) {
         this.devCardColors = devCardColors;
         this.devCardLevels = devCardLevels;

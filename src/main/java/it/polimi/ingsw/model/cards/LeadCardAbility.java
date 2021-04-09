@@ -9,6 +9,9 @@ public class LeadCardAbility {
     private Resources greyMarbleReplacement;
     private Production production;
 
+    public LeadCardAbility() {
+    }
+
     public LeadCardAbility(Resources resourceDiscount, Resources extraWarehouseSpace, Resources greyMarbleReplacement, Production production) {
         this.resourceDiscount = resourceDiscount;
         this.extraWarehouseSpace = extraWarehouseSpace;

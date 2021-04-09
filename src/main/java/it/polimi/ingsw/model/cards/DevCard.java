@@ -9,6 +9,9 @@ public class DevCard extends Card {
     private Resources cost;
     private Production production;
 
+    public DevCard() {
+    }
+
     public DevCard(Integer victoryPoints, String cardId, Level level, Color color, Resources cost, Production production) {
         super(victoryPoints, cardId);
         this.level = level;
@@ -63,6 +66,6 @@ public class DevCard extends Card {
     public void play(Player player) {
         if(!affordable(player)) return;
         // Compute the discount
-        
+
     }
 }
