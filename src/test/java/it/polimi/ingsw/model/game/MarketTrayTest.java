@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.game.util.GameSettingsLevel;
+import it.polimi.ingsw.model.game.util.MarketTrayFactory;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
@@ -10,66 +12,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MarketTrayTest {
 
-    private static MarketTray create2x2Tray(){
-        ArrayList<ResourceMarble> marbles = new ArrayList<ResourceMarble>();
-        marbles.add(new ResourceMarble(ResourceType.COINS, 1));
-        marbles.add(new ResourceMarble(ResourceType.SERVANTS, 1));
-        marbles.add(new ResourceMarble(ResourceType.SHIELDS, 1));
-        marbles.add(new ResourceMarble(ResourceType.BLANK, 1));
-        marbles.add(new ResourceMarble(ResourceType.BLANK, 1));
-        marbles.add(new ResourceMarble(ResourceType.FAITH, 1));
-        try {
-            return new MarketTray(2, 2, marbles);
-        } catch (MarketTrayException e){
-            return null;
-        }
-    }
-
     @Test
     public void testPickColumn0(){
-        MarketTray mt = create2x2Tray();
-        Resources r1, r2, r3;
-        try {
-            r1 = mt.pickColumn(0);
-            assertTrue(r1.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
-        }
-        try {
-            r2 = mt.pickColumn(0);
-            assertTrue(r2.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
-        }
-        try {
-            r3 = mt.pickColumn(0);
-            assertTrue(r3.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
+        MarketTray mt = MarketTrayFactory.BuildMarketTray(GameSettingsLevel.LOW);
+        Resources r;
+        for(int i = 0; i <= mt.getRows(); i++) {
+            try {
+                r = mt.pickColumn(0);
+                assertTrue(r.getTotalAmount() == mt.getRows());
+            } catch (MarketTrayException e){
+                fail();
+            }
         }
     }
 
     @Test
     public void testPickRow0(){
-        MarketTray mt = create2x2Tray();
-        Resources r1, r2, r3;
-        try {
-            r1 = mt.pickRow(0);
-            assertTrue(r1.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
-        }
-        try {
-            r2 = mt.pickRow(0);
-            assertTrue(r2.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
-        }
-        try {
-            r3 = mt.pickRow(0);
-            assertTrue(r3.getTotalAmount() == 2);
-        } catch (MarketTrayException e){
-            fail();
+        MarketTray mt = MarketTrayFactory.BuildMarketTray(GameSettingsLevel.LOW);
+        Resources r;
+        for(int i = 0; i <= mt.getColumns(); i++) {
+            try {
+                r = mt.pickRow(0);
+                assertTrue(r.getTotalAmount() == mt.getColumns());
+            } catch (MarketTrayException e){
+                fail();
+            }
         }
     }
 
