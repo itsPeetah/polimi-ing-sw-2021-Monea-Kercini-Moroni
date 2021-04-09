@@ -13,7 +13,7 @@ public class LeadCardRequirementsTest {
 
     @Test
     public void checkTest() {
-        // Create devCard
+        // Create req
         Resources cost = new Resources();
         cost.add(ResourceType.SHIELDS, 1);
 

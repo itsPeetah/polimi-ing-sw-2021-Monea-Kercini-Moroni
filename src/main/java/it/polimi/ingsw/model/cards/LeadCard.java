@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.game.Player;
-import it.polimi.ingsw.model.general.Resources;
 
 public class LeadCard extends Card {
 
