@@ -1,18 +1,19 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.general.Production;
+import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 
 public class LeadCardAbility {
     private Resources resourceDiscount;
     private Resources extraWarehouseSpace;
-    private Resources greyMarbleReplacement;
+    private ResourceType greyMarbleReplacement; // IMPORTANT: if BLANK, it means the ability has no replacements for the grey marble
     private Production production;
 
     public LeadCardAbility() {
     }
 
-    public LeadCardAbility(Resources resourceDiscount, Resources extraWarehouseSpace, Resources greyMarbleReplacement, Production production) {
+    public LeadCardAbility(Resources resourceDiscount, Resources extraWarehouseSpace, ResourceType greyMarbleReplacement, Production production) {
         this.resourceDiscount = resourceDiscount;
         this.extraWarehouseSpace = extraWarehouseSpace;
         this.greyMarbleReplacement = greyMarbleReplacement;
@@ -36,7 +37,7 @@ public class LeadCardAbility {
     /**
      * @return replacement for the grey marble
      */
-    public Resources getGreyMarbleReplacement() {
+    public ResourceType getGreyMarbleReplacement() {
         return greyMarbleReplacement;
     }
 

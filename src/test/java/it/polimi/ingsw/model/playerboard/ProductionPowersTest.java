@@ -26,7 +26,7 @@ class ProductionPowersTest {
         Production prod = new Production(in, out);
         Production prod2 = new Production(out, in);
         DevCard dc = new DevCard(3, "a", Level.LOW, Color.BLUE, cost, prod);
-        DevCard dc2 = new DevCard(2, "b", Level.LOW, Color.RED, cost, prod2);
+        DevCard dc2 = new DevCard(2, "b", Level.LOW, Color.PURPLE, cost, prod2);
         //Initialized a fake DevCard
 
         ProductionPowers pp = new ProductionPowers(3);
@@ -82,7 +82,7 @@ class ProductionPowersTest {
         Production prod = new Production(in, out);
         Production prod2 = new Production(out, in);
         DevCard dc = new DevCard(3, "a", Level.LOW, Color.BLUE, cost, prod);
-        DevCard dc2 = new DevCard(2, "b", Level.LOW, Color.RED, cost, prod2);
+        DevCard dc2 = new DevCard(2, "b", Level.LOW, Color.PURPLE, cost, prod2);
 
         //Initialized a fake DevCard
 

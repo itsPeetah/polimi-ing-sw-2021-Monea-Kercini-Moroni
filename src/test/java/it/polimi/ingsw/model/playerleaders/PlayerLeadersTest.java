@@ -22,14 +22,14 @@ class PlayerLeadersTest {
         //First initialize the LeadCardReq
         Resources res = new Resources();
         //res.add(ResourceType.STONES, 3);
-        HashMap<Color, Integer> colorReq = new HashMap<Color, Integer>();
-        HashMap<Level, Integer> levelReq = new HashMap<Level, Integer>();
+        HashMap<Color, Integer> colorReq = new HashMap<>();
+        HashMap<Color, Level> levelReq = new HashMap<>();
         LeadCardRequirements LCC = new LeadCardRequirements(colorReq, levelReq, res);
 
         //Then the LeadCardAbility
         //Resources res2 = new Resources();
         Production prod = new Production(res, res);
-        LeadCardAbility LCA = new LeadCardAbility(res, res, res, prod);
+        LeadCardAbility LCA = new LeadCardAbility(res, res, ResourceType.STONES, prod);
 
         //And lastly the LeadCard
         LeadCard LC = new LeadCard(vp, "a", LCC, LCA);

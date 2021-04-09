@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 public class LeadCardRequirements {
     private HashMap<Color, Integer> devCardColors;
-    private HashMap<Level, Integer> devCardLevels;
+    private HashMap<Color, Level> devCardLevels;
     private Resources resourceAmounts;
 
     public LeadCardRequirements() {
     }
 
-    public LeadCardRequirements(HashMap<Color, Integer> devCardColors, HashMap<Level, Integer> devCardLevels, Resources resourceAmounts) {
+    public LeadCardRequirements(HashMap<Color, Integer> devCardColors, HashMap<Color, Level> devCardLevels, Resources resourceAmounts) {
         this.devCardColors = devCardColors;
         this.devCardLevels = devCardLevels;
         this.resourceAmounts = resourceAmounts;
@@ -35,8 +35,8 @@ public class LeadCardRequirements {
         }
 
         /* Check dev card levels requirements */
-        for(Level levReq: devCardLevels.keySet()) {
-            if(devCardColors.get(levReq) > playerCards.parallelStream().filter(dc -> dc.getLevel() == levReq).count()) return false;
+        for(Color colReq: devCardLevels.keySet()) {
+            if(playerCards.parallelStream().noneMatch(lc -> lc.getColor().equals(colReq) && lc.getLevel().equals(devCardLevels.get(colReq)))) return false;
         }
 
         /* All checks have been passed */

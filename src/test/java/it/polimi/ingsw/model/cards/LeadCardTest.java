@@ -14,8 +14,9 @@ public class LeadCardTest {
     public void LeadCardTest() {
         Resources emptyRes = new Resources();
 
-        LeadCardAbility ability = new LeadCardAbility(emptyRes, emptyRes, emptyRes, new Production(emptyRes, emptyRes));
-        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Level, Integer>(), emptyRes);
+
+        LeadCardAbility ability = new LeadCardAbility(emptyRes, emptyRes, ResourceType.STONES, new Production(emptyRes, emptyRes));
+        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), emptyRes);
 
         LeadCard lc = new LeadCard(0, "0", req, ability);
 
@@ -29,8 +30,8 @@ public class LeadCardTest {
         Resources cost = new Resources();
         cost.add(ResourceType.SHIELDS, 1);
 
-        LeadCardAbility ability = new LeadCardAbility(emptyRes, emptyRes, emptyRes, new Production(emptyRes, emptyRes));
-        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Level, Integer>(), cost);
+        LeadCardAbility ability = new LeadCardAbility(emptyRes, emptyRes, ResourceType.STONES, new Production(emptyRes, emptyRes));
+        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost);
 
         LeadCard lc = new LeadCard(0, "0", req, ability);
 
@@ -46,7 +47,7 @@ public class LeadCardTest {
         // Create new lead card
         Resources cost2 = new Resources();
         cost2.add(ResourceType.STONES, 1);
-        LeadCardRequirements req2 = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Level, Integer>(), cost2);
+        LeadCardRequirements req2 = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost2);
         LeadCard lc2 = new LeadCard(0, "0", req2, ability);
 
         // Test affordable == false
