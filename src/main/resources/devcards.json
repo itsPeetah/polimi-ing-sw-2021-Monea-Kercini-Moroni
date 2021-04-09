@@ -1,1 +1,25 @@
-[{"level":"LOW","color":"BLUE","cost":{"amounts":{}},"production":{"input":{"amounts":{}},"output":{"amounts":{}}},"victoryPoints":0,"cardId":"0"}]
+[
+   {
+      "level":"LOW",
+      "color":"BLUE",
+      "cost":{
+         "amounts":{
+            "SHIELDS":3
+         }
+      },
+      "production":{
+         "input":{
+            "amounts":{
+               "SHIELDS":3
+            }
+         },
+         "output":{
+            "amounts":{
+               "SHIELDS":3
+            }
+         }
+      },
+      "victoryPoints":0,
+      "cardId":"testcard"
+   }
+]

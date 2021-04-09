@@ -10,23 +10,47 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class CardManager {
-    public static final String devCardsPath = "src/main/resources/devcards.json";
+    /* PATH CONSTANTS */
+    public static final String DEV_CARDS_PATH = "src/main/resources/devcards.json";
+    public static final String LEAD_CARDS_PATH = "src/main/resources/leadcards.json";
 
-    public static ArrayList<DevCard> loadDevCardFromJson() {
+    /**
+     * @return List containing all the dev cards in the JSON file.
+     */
+    public static ArrayList<DevCard> loadDevCardsFromJson() {
         // Initialize GSON
         Gson gson = new Gson();
 
         // Initialize reader
         JsonReader jsonFile;
         try {
-            jsonFile = new JsonReader(new FileReader(devCardsPath));
+            jsonFile = new JsonReader(new FileReader(DEV_CARDS_PATH));
         } catch(FileNotFoundException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
 
         // Read and return the cards
-        Type collectionDevCard = new TypeToken<ArrayList<DevCard>>(){}.getType();
-        return gson.fromJson(jsonFile, collectionDevCard);
+        return gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
+    }
+
+    /**
+     * @return List containing all the lead cards in the JSON file.
+     */
+    public static ArrayList<LeadCard> loadLeadCardsFromJson() {
+        // Initialize GSON
+        Gson gson = new Gson();
+
+        // Initialize reader
+        JsonReader jsonFile;
+        try {
+            jsonFile = new JsonReader(new FileReader(LEAD_CARDS_PATH));
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        // Read and return the cards
+        return gson.fromJson(jsonFile, new TypeToken<ArrayList<LeadCard>>(){}.getType());
     }
 }
