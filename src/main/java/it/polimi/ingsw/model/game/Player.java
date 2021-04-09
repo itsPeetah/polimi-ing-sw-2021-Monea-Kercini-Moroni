@@ -20,7 +20,7 @@ public class Player {
     public Player(String nickname) {
         this.nickname = nickname;
         this.board = new PlayerBoard();
-        this.leaders = new PlayerLeaders();
+        this.leaders = new PlayerLeaders(2); //For the moment we leave leader max at 2, as per default in game
     }
 
     /**
