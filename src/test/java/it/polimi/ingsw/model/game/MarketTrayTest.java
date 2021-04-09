@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
