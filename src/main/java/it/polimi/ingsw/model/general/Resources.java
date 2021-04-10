@@ -96,6 +96,21 @@ public class Resources {
     }
 
     /**
+     * Remove all the elements of other from this. If other has more elements, the amount is fixed at zero.
+     * @param other resources to be removed from this.
+     */
+    public void removeWithoutException(Resources other) {
+        for(ResourceType resource: other.amounts.keySet()) {
+            try {
+                remove(resource, Math.min(getAmountOf(resource), other.getAmountOf(resource)));
+            } catch (ResourcesException e) {
+                // The exception will never be thrown
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Checks if two resources are equal
      * @param r the other resource which you are comparing to the current
      * @return true if so
