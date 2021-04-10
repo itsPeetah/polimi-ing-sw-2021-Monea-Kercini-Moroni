@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.general.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;

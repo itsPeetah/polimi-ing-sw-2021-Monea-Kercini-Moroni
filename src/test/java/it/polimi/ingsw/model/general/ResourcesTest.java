@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.general;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
@@ -137,10 +137,30 @@ public class ResourcesTest {
         }
     }
 
-    @Test(expected = ResourcesException.class)
-    public void removeWithExceptionTest() throws ResourcesException {
+    @Test
+    public void removeWithExceptionTest() {
         Resources res = new Resources();
-        res.remove(ResourceType.STONES, 1);
+        assertThrows(ResourcesException.class, () -> res.remove(ResourceType.STONES, 1));
+    }
+
+    @Test
+    public void removeWithoutExceptionTest() {
+        Resources res = new Resources();
+        res.add(ResourceType.STONES, 1);
+
+        Resources resToRemove1 = new Resources();
+        resToRemove1.add(ResourceType.COINS, 1);
+        Resources resToRemove2 = new Resources();
+        resToRemove2.add(ResourceType.STONES, 2);
+
+        // Remove COINS and test that no exception is thrown and Resources has not changed
+        res.removeWithoutException(resToRemove1);
+        assertEquals(1, res.getAmountOf(ResourceType.STONES));
+
+        // Remove more STONES than their actual amount in res
+        res.removeWithoutException(resToRemove2);
+        assertEquals(0, res.getAmountOf(ResourceType.STONES));
+
     }
 
     @Test
