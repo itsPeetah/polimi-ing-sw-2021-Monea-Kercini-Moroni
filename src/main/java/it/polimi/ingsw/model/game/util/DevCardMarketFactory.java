@@ -8,16 +8,18 @@ import it.polimi.ingsw.model.game.DevCardMarket;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * DevCardMarket factory wrapper class.
+ */
 public class DevCardMarketFactory {
+
+    private static final int CARDS_PER_TIER = 4;
 
     /**
      * Build a Dev Card Market instance based on the desired settings
      * @param cardAmount amount level of cards to be included in the the DCM.
      */
     public static DevCardMarket BuildDevCardMarket(GameSettingsLevel cardAmount){
-
-        final int CARDS_PER_TIER = 4;
-
         // Get all cards
         ArrayList<DevCard> allCards = CardManager.loadDevCardsFromJson();
         // Sort them based on their id
