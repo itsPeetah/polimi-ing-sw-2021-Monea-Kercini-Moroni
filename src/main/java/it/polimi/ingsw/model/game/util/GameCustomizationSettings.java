@@ -32,6 +32,23 @@ public class GameCustomizationSettings {
         this.vaticanReportRangeLevel = vaticanReportRangeLevel;
     }
 
+    // Static factories
+    public static GameCustomizationSettings getDefaultSettings() {
+        return new GameCustomizationSettings(GameSettingsLevel.MEDIUM, GameSettingsLevel.HIGH, GameSettingsLevel.HIGH);
+    }
+
+    public static  GameCustomizationSettings getMaxSettings(){
+        return new GameCustomizationSettings(GameSettingsLevel.HIGH, GameSettingsLevel.HIGH, GameSettingsLevel.HIGH);
+    }
+
+    public static  GameCustomizationSettings getMediumSettings() {
+        return new GameCustomizationSettings(GameSettingsLevel.MEDIUM, GameSettingsLevel.MEDIUM, GameSettingsLevel.MEDIUM);
+    }
+
+    public static GameCustomizationSettings getMinSettings() {
+        return new GameCustomizationSettings(GameSettingsLevel.LOW, GameSettingsLevel.LOW, GameSettingsLevel.LOW);
+    }
+
     // Getters
     public GameSettingsLevel getMarketTrayLevel() {
         return marketTrayLevel;
