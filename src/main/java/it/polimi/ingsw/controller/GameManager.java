@@ -14,10 +14,8 @@ import it.polimi.ingsw.model.playerboard.Strongbox;
 import it.polimi.ingsw.model.playerboard.Warehouse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import java.lang.reflect.Type;
 
 
 import java.util.ArrayList;
@@ -71,6 +69,8 @@ public class GameManager {
 
 
     public void setupGame(){
+
+        gamePhase = GamePhase.START;
 
         // Setting up market tray
 
