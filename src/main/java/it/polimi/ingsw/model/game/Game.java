@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
     public static final int MAX_PLAYERS = 4;
@@ -61,6 +62,14 @@ public class Game {
     public Player getCurrentPlayer() {
         int currentPlayer = turnCounter % players.size();
         return players.get(currentPlayer);
+    }
+
+    /**
+     * Shuffles the player order
+     */
+
+    public void shufflePlayers(){
+        Collections.shuffle(players);
     }
 
     // Component getters ------------------------------------------------------------------
