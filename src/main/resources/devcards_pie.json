@@ -1,0 +1,397 @@
+[
+  {
+    "level":"LOW",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "FAITH":1
+        }
+      }
+    },
+    "victoryPoints":1,
+    "cardId":"g_1"
+  },
+  {
+    "level":"LOW",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":1,
+        "SERVANTS": 1,
+        "STONES": 1
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "STONES":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "SERVANTS":1
+        }
+      }
+    },
+    "victoryPoints":2,
+    "cardId":"g_2"
+  },
+  {
+    "level":"LOW",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":3
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "SERVANTS": 1
+        }
+      },
+      "output":{
+        "amounts":{
+          "COINS": 1,
+          "SHIELDS": 1,
+          "STONES": 1
+        }
+      }
+    },
+    "victoryPoints":3,
+    "cardId":"g_3"
+  },
+  {
+    "level":"LOW",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":2,
+        "COINS": 2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "STONES":1,
+          "SERVANTS": 1
+        }
+      },
+      "output":{
+        "amounts":{
+          "COINS":2,
+          "FAITH": 1
+        }
+      }
+    },
+    "victoryPoints":4,
+    "cardId":"g_4"
+  },
+  {
+    "level":"MEDIUM",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":4
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "STONES":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "FAITH": 2
+        }
+      }
+    },
+    "victoryPoints":5,
+    "cardId":"g_5"
+  },
+  {
+    "level":"MEDIUM",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":3,
+        "SERVANTS:": 2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "SHIELDS": 1,
+          "SERVANTS": 1
+        }
+      },
+      "output":{
+        "amounts":{
+          "STONES": 3
+        }
+      }
+    },
+    "victoryPoints":6,
+    "cardId":"g_6"
+  },
+  {
+    "level":"MEDIUM",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":5
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":2
+        }
+      },
+      "output":{
+        "amounts":{
+          "STONES": 2,
+          "FAITH": 2
+        }
+      }
+    },
+    "victoryPoints":7,
+    "cardId":"g_7"
+  },
+  {
+    "level":"MEDIUM",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":3,
+        "COINS": 3
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "SHIELDS": 2,
+          "FAITH": 1
+        }
+      }
+    },
+    "victoryPoints":8,
+    "cardId":"g_8"
+  },
+  {
+    "level":"HIGH",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":6
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":2
+        }
+      },
+      "output":{
+        "amounts":{
+          "STONES": 3,
+          "FAITH": 2
+        }
+      }
+    },
+    "victoryPoints":9,
+    "cardId":"g_9"
+  },
+  {
+    "level":"HIGH",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":5,
+        "SERVANTS": 2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":1,
+          "SERVANTS": 1
+        }
+      },
+      "output":{
+        "amounts":{
+          "SHIELDS": 2,
+          "STONES": 2,
+          "FAITH": 1
+        }
+      }
+    },
+    "victoryPoints":10,
+    "cardId":"g_10"
+  },
+  {
+    "level":"HIGH",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":7
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "SERVANTS":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "COINS": 1,
+          "FAITH": 3
+        }
+      }
+    },
+    "victoryPoints":1,
+    "cardId":"g_11"
+  },
+  {
+    "level":"HIGH",
+    "color":"GREEN",
+    "cost":{
+      "amounts":{
+        "SHIELDS":4,
+        "COINS": 4
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "STONES":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "COINS": 3,
+          "SHIELDS": 1
+        }
+      }
+    },
+    "victoryPoints":12,
+    "cardId":"g_12"
+  },
+  {
+    "level":"LOW",
+    "color":"PURPLE",
+    "cost":{
+      "amounts":{
+        "SERVANTS":2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "STONES":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "FAITH": 1
+        }
+      }
+    },
+    "victoryPoints":1,
+    "cardId":"p_1"
+  },
+  {
+    "level":"LOW",
+    "color":"PURPLE",
+    "cost":{
+      "amounts":{
+        "SHIELDS": 1,
+        "SERVANTS":1,
+        "COINS": 1
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "SHIELDS": 1
+        }
+      }
+    },
+    "victoryPoints":2,
+    "cardId":"p_2"
+  },
+  {
+    "level":"LOW",
+    "color":"PURPLE",
+    "cost":{
+      "amounts":{
+        "SERVANTS":3
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS":2
+        }
+      },
+      "output":{
+        "amounts":{
+          "SERVANTS": 1,
+          "SHIELDS": 1,
+          "STONES": 1
+        }
+      }
+    },
+    "victoryPoints":3,
+    "cardId":"p_3"
+  },
+  {
+    "level":"LOW",
+    "color":"PURPLE",
+    "cost":{
+      "amounts":{
+        "SERVANTS":2,
+        "STONES": 2
+      }
+    },
+    "production":{
+      "input":{
+        "amounts":{
+          "COINS": 1,
+          "SHIELDS":1
+        }
+      },
+      "output":{
+        "amounts":{
+          "STONES": 2,
+          "FAITH": 1
+        }
+      }
+    },
+    "victoryPoints":4,
+    "cardId":"p_4"
+  }
+]

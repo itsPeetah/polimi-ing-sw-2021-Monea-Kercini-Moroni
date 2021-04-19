@@ -1,17 +1,21 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.Resources;
 
 public abstract class Card {
     private Integer victoryPoints;
     private String cardId;
 
+    public Card() {
+    }
+
     public Card(Integer victoryPoints, String cardId) {
         this.victoryPoints = victoryPoints;
         this.cardId = cardId;
     }
 
-    public Integer getVictoryPoints() {
+    public int getVictoryPoints() {
         return victoryPoints;
     }
 
@@ -19,7 +23,7 @@ public abstract class Card {
         return cardId;
     }
 
-    public abstract Boolean affordable(Resources playerResources);
+    public abstract Boolean affordable(Player player);
 
-    public abstract void play();
+    public abstract void play(Player player);
 }
