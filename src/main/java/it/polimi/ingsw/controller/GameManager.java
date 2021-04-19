@@ -1,10 +1,28 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.model.*;
 
+import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.game.DevCardMarket;
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.MarketTray;
+import it.polimi.ingsw.model.game.ResourceMarble;
+import it.polimi.ingsw.model.general.ResourceType;
+import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.model.playerboard.PlayerBoard;
+import it.polimi.ingsw.model.playerboard.ProductionPowers;
+import it.polimi.ingsw.model.playerboard.Strongbox;
+import it.polimi.ingsw.model.playerboard.Warehouse;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.*;
+import java.lang.reflect.Type;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 
 public class GameManager {
 
@@ -85,8 +103,9 @@ public class GameManager {
         marbles.add(marble12);
         marbles.add(marble13);
 
+        MarketTray MT = null;
         try {
-            MarketTray MT = new MarketTray(3, 4, marbles);
+            MT = new MarketTray(3, 4, marbles);
         }catch (Exception e){
             System.out.println("Market Tray was initialized wrong!");
         }
@@ -94,10 +113,39 @@ public class GameManager {
 
         //setting up dev card market
 
-        // TODO DevCardMarket DCM = new DevCardMarket(devcards.json)
+        Gson gson = new Gson();
+
+        ArrayList<DevCard> devCards = null;
+        try (Reader reader = new FileReader("src/main/resources/devcards.json")) {
+
+            // Convert JSON File to Java Object
+            devCards = gson.fromJson(reader, ArrayList.class);
+            // print staff object
+            //System.out.println(devCards);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DevCardMarket DMC = new DevCardMarket(devCards);
+
+        // initialize game
+        game = new Game(MT, DMC);
+
 
         //TODO set up lead cards
         //shuffle lead cards
+        ArrayList<LeadCard> leadCards = null;
+        try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
+
+            // Convert JSON File to Java Object
+            leadCards = gson.fromJson(reader, ArrayList.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Collections.shuffle(leadCards);
 
         //shuffle player order
         game.shufflePlayers();
@@ -141,9 +189,6 @@ public class GameManager {
             }
 
         }
-
-
-
 
 
 
