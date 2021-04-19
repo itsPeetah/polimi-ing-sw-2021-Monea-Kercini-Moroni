@@ -1,6 +1,11 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.general.ResourceType;
+import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.model.playerboard.PlayerBoard;
+import it.polimi.ingsw.model.playerboard.ProductionPowers;
+import it.polimi.ingsw.model.playerboard.Strongbox;
+import it.polimi.ingsw.model.playerboard.Warehouse;
 
 
 import java.util.ArrayList;
@@ -8,7 +13,7 @@ import java.util.Collections;
 
 public class GameManager {
 
-    private GamePhase gamePhase;
+    private GamePhase gamePhase = GamePhase.PREGAME;
     private TurnChoice turnChoice;
     private Game game;
 
@@ -24,6 +29,16 @@ public class GameManager {
             System.out.println("Player limit reached!");
         }
     }
+
+    private Resources askPlayerToChooseResources(int quantity){
+        //TODO CLI method that returns player choice
+        return new Resources();
+    }
+
+    private void askPlayerToPutResources(Resources res, Warehouse wh){
+        //TODO CLI method that returns the updated warehouse
+    }
+
 
     public void setupGame(){
 
@@ -75,9 +90,41 @@ public class GameManager {
         //shuffle player order
         game.shufflePlayers();
 
-
+        ArrayList<Warehouse> wh = new ArrayList<Warehouse>();
+        ArrayList<Strongbox> sb = new ArrayList<Strongbox>();
+        ArrayList<ProductionPowers> pp = new ArrayList<ProductionPowers>();
+        ArrayList<PlayerBoard> pb = new ArrayList<PlayerBoard>();
 
         for (int i = 0; i< game.getPlayers().length; i++){
+
+            //Set up player board
+            wh.add(new Warehouse());
+            sb.add(new Strongbox());
+            pp.add(new ProductionPowers(3));
+            pb.add(new PlayerBoard(3, wh.get(i), sb.get(i), pp.get(i)));
+
+            game.getPlayers()[i].setBoard(pb.get(i)); //Set Board to Player
+
+
+            //TODO Give 4 cards to player, he keeps 2 of his choice
+
+            if (i>=1){ //second player gets an extra resource
+
+                Resources extra = new Resources();
+                extra = askPlayerToChooseResources(1);
+                askPlayerToPutResources(extra, game.getPlayers()[i].getBoard().getWarehouse());
+
+            }
+            if (i>=2){ //third player gets an extra faith in addition to the resource
+                game.getPlayers()[i].getBoard().incrementFaithPoints(1);
+            }
+            if (i>=3){//fourth player gets all of the above and again an extra resource
+
+                Resources extra2 = new Resources();
+                extra2 = askPlayerToChooseResources(1);
+                askPlayerToPutResources(extra2, game.getPlayers()[i].getBoard().getWarehouse());
+
+            }
 
         }
 

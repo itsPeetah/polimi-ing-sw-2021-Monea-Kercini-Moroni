@@ -43,6 +43,7 @@ public class PlayerBoard {
     /**
      *
      * @param reportsAttended default should be 3
+     * @param pp the devcard board
      */
 
     public PlayerBoard(int reportsAttended, Warehouse wh, Strongbox sb, ProductionPowers pp) {
