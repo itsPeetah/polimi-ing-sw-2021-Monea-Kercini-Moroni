@@ -1,11 +1,6 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.model.game.*;
-import it.polimi.ingsw.model.general.ResourceType;
-import it.polimi.ingsw.model.general.Resources;
-import it.polimi.ingsw.model.playerboard.PlayerBoard;
-import it.polimi.ingsw.model.playerboard.ProductionPowers;
-import it.polimi.ingsw.model.playerboard.Strongbox;
-import it.polimi.ingsw.model.playerboard.Warehouse;
+import it.polimi.ingsw.model.*;
+
 
 
 import java.util.ArrayList;
