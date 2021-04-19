@@ -115,7 +115,7 @@ public class Game {
         // for now hardcoded
         for (Player p : players) {
             boolean eligible;
-            int playersFaithPoints = 0; // TODO Add logic to get player's FPs
+            int playersFaithPoints = p.getBoard().getFaithPoints();
             // Check eligibility
             if (currentReport == 1 && playersFaithPoints >= 5 && playersFaithPoints <= 8)
                 eligible = true;
