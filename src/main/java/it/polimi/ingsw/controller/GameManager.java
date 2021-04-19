@@ -21,6 +21,7 @@ public class GameManager {
         return game;
     }
 
+
     //RECHECK IF METHOD WILL BE USED LIKE THIS
     public void addPlayer(String nickname){
         try {
@@ -30,14 +31,30 @@ public class GameManager {
         }
     }
 
+    /**
+     * Method for letting player choose a resource
+     * @param quantity number of resources player has to choose
+     * @return the resources
+     */
+
     private Resources askPlayerToChooseResources(int quantity){
         //TODO CLI method that returns player choice
         return new Resources();
     }
 
+    /**
+     * Player has to put the resources in the correct Warehouse place
+     * @param res player has to put
+     * @param wh warehouse that will be updated
+     */
+
     private void askPlayerToPutResources(Resources res, Warehouse wh){
         //TODO CLI method that returns the updated warehouse
     }
+
+    /**
+     * Setting up new game after all the players have joined
+     */
 
 
     public void setupGame(){
@@ -90,6 +107,8 @@ public class GameManager {
         //shuffle player order
         game.shufflePlayers();
 
+
+        //Preparing stuff for playerboards
         ArrayList<Warehouse> wh = new ArrayList<Warehouse>();
         ArrayList<Strongbox> sb = new ArrayList<Strongbox>();
         ArrayList<ProductionPowers> pp = new ArrayList<ProductionPowers>();
