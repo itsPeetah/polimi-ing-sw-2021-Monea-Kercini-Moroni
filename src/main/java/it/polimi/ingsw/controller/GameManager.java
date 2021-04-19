@@ -151,10 +151,10 @@ public class GameManager {
 
 
         //Preparing stuff for playerboards
-        ArrayList<Warehouse> wh = new ArrayList<Warehouse>();
-        ArrayList<Strongbox> sb = new ArrayList<Strongbox>();
-        ArrayList<ProductionPowers> pp = new ArrayList<ProductionPowers>();
-        ArrayList<PlayerBoard> pb = new ArrayList<PlayerBoard>();
+        ArrayList<Warehouse> wh = new ArrayList<>();
+        ArrayList<Strongbox> sb = new ArrayList<>();
+        ArrayList<ProductionPowers> pp = new ArrayList<>();
+        ArrayList<PlayerBoard> pb = new ArrayList<>();
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
@@ -171,7 +171,7 @@ public class GameManager {
 
             if (i>=1){ //second player gets an extra resource
 
-                Resources extra = new Resources();
+                Resources extra;
                 extra = askPlayerToChooseResources(1);
                 askPlayerToPutResources(extra, game.getPlayers()[i].getBoard().getWarehouse());
 
@@ -181,7 +181,7 @@ public class GameManager {
             }
             if (i>=3){//fourth player gets all of the above and again an extra resource
 
-                Resources extra2 = new Resources();
+                Resources extra2;
                 extra2 = askPlayerToChooseResources(1);
                 askPlayerToPutResources(extra2, game.getPlayers()[i].getBoard().getWarehouse());
 
