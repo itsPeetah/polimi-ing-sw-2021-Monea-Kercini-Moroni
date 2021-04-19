@@ -133,8 +133,6 @@ public class GameManager {
         game = new Game(MT, DMC);
 
 
-        //TODO set up lead cards
-        //shuffle lead cards
         ArrayList<LeadCard> leadCards = null;
         try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
 
@@ -145,6 +143,7 @@ public class GameManager {
             e.printStackTrace();
         }
 
+        //shuffle leadCards
         Collections.shuffle(leadCards);
 
         //shuffle player order
