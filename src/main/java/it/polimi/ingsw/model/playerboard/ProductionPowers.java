@@ -12,7 +12,8 @@ public class ProductionPowers {
 
     private static Production basicProduction;
     private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
-    private Production[] LeadProduction;
+    private ArrayList<Production> leadProduction;
+    private final static int MAX_LEADER_PRODUCTIONS = 2;
 
     /**
      * Searches all card piles and returns the card on top of each + Production from LeadCards
@@ -36,9 +37,7 @@ public class ProductionPowers {
 
         AvailableProductions.add(this.basicProduction);
 
-        for (int i = 0; i < LeadProduction.length && LeadProduction[i] != null; i++) {
-            AvailableProductions.add(LeadProduction[i]);
-        }
+        AvailableProductions.addAll(leadProduction);
 
         return AvailableProductions;
     }
@@ -77,13 +76,9 @@ public class ProductionPowers {
      * Adds the extra production from LeadCard
      * @param leadCard the LeaderCard that gives the extra production power
      */
-
     public void addLeadCardProduction(LeadCard leadCard){
-
-        //Player_board_first_implementation
-        LeadProduction[LeadProduction.length] = leadCard.getAbility().getProduction();
-
-
+        if(leadProduction.size() <= MAX_LEADER_PRODUCTIONS) leadProduction.add(leadCard.getAbility().getProduction());
+        else throw new IndexOutOfBoundsException("Maximum productions: " + MAX_LEADER_PRODUCTIONS);
     }
 
 
@@ -102,7 +97,7 @@ public class ProductionPowers {
         this.basicProduction = new Production(inb, outb);
 
         this.cardPile = new DevCard[piles][3];
-        this.LeadProduction = new Production[2];
+        this.leadProduction = new ArrayList<>();
     }
 
     /**

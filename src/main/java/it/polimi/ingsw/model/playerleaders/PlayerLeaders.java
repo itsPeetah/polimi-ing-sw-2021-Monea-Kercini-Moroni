@@ -49,13 +49,23 @@ public class PlayerLeaders {
      * @param index is the position of the card that the player plays
      * @throws Exception if the choosen card is already played or discarded
      */
-
     public void playCard(int index) throws PlayerLeadersException{
         if(cardStates[index] == CardState.INHAND) {
             cardStates[index] = CardState.PLAYED;
         }else{
             throw new PlayerLeadersException("Leader Card is already played or discarded.");
         }
+    }
+
+    /**
+     * Sets the state of the card in input as PLAYED
+     * @param leadCard must be a card of the player
+     * @throws PlayerLeadersException
+     */
+    public void playCard(LeadCard leadCard) throws PlayerLeadersException {
+        int leadIndex = Arrays.asList(cards).indexOf(leadCard);
+        if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
+        else playCard(leadIndex);
     }
 
 
