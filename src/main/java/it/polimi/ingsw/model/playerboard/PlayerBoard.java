@@ -39,6 +39,11 @@ public class PlayerBoard {
 
     public void incrementFaithPoints(int amount){
         faithPoints += amount;
+
+        //Faith points cannot be be more than 20
+        if(faithPoints>20){
+            faithPoints = 20;
+        }
     }
 
     /**
