@@ -50,22 +50,22 @@ public class DevCard extends Card {
 
     /**
      * Check if a player can afford the Dev Card
-     * @param player
-     * @return
      */
     @Override
     public Boolean affordable(Player player) {
-        return player.getBoard().getResourcesAvailable().isGreaterThan(cost);
+        // Set the cost after the possible discount
+        Resources costAfterDiscount = new Resources();
+        costAfterDiscount.add(cost);
+        cost.removeWithoutException(player.getBoard().getDiscount());
+
+        // Check if the player can afford the card
+        return player.getBoard().getResourcesAvailable().isGreaterThan(costAfterDiscount);
     }
 
     /**
-     * Perform the action of playing the card (if affordable) pay its cost
-     * @param player
+     * TODO remove the method or update it with the play logic
      */
     @Override
     public void play(Player player) {
-        if(!affordable(player)) return;
-        // Compute the discount
-
     }
 }

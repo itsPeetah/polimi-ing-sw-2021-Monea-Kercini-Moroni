@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlayerBoard {
 
@@ -13,6 +16,9 @@ public class PlayerBoard {
     private Strongbox strongbox;
     private ProductionPowers productionPowers;
 
+    // Leader's effects:
+    private Resources leadDiscount;
+    private List<ResourceType> leadMarbles;
 
     public Warehouse getWarehouse() {
         return warehouse;
@@ -20,6 +26,10 @@ public class PlayerBoard {
 
     public Strongbox getStrongbox() {
         return strongbox;
+    }
+
+    public ProductionPowers getProductionPowers() {
+        return productionPowers;
     }
 
     /**
@@ -52,6 +62,8 @@ public class PlayerBoard {
         this.warehouse = wh;
         this.strongbox = sb;
         this.productionPowers = pp;
+        this.leadDiscount = new Resources();
+        this.leadMarbles = new ArrayList<>();
     }
 
     /**
@@ -143,5 +155,39 @@ public class PlayerBoard {
 
     public ArrayList<DevCard> getOwnedDevCards() {
         return productionPowers.getOwnedDevCards();
+    }
+
+    /**
+     * @return a deep copy of the current discount
+     */
+    public Resources getDiscount() {
+        // Create a new Resources object identical to the one of this
+        Resources temp = new Resources();
+        temp.add(leadDiscount);
+
+        return temp;
+    }
+
+    /**
+     * Increase the discount by the Resources in the parameter
+     * @param additionalDiscount to be added to the user discount
+     */
+    public void addDiscount(Resources additionalDiscount) {
+        leadDiscount.add(additionalDiscount);
+    }
+
+    /**
+     * @return a deep copy of the current player's marble replacements
+     */
+    public List<ResourceType> getLeadMarbles() {
+        return new ArrayList<>(leadMarbles);
+    }
+
+    /**
+     * Add one more replacement for the grey marble
+     * @param additionalMarble
+     */
+    public void addMarble(ResourceType additionalMarble) {
+        leadMarbles.add(additionalMarble);
     }
 }
