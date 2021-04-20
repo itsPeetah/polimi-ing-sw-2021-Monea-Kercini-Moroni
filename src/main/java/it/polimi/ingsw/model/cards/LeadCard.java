@@ -53,4 +53,22 @@ public class LeadCard extends Card {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Discards the leader and gains an extra faith point
+     * @param player
+     */
+
+    public void discard(Player player) {
+
+        // Get the extra faith point.
+        player.getBoard().incrementFaithPoints(1);
+
+        // Discard the leader
+        try {
+            player.getLeaders().discardCard(this);
+        } catch (PlayerLeadersException e) {
+            e.printStackTrace();
+        }
+    }
 }
