@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.game.*;
+import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
@@ -242,6 +243,32 @@ public class GameManager {
 
             switch (choice) {
 
+                case PRODUCE:
+                    Production chosenProduction = null;
+                    Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
+                    //TODO player chooses production
+
+                    //check if affordable
+                    if(chosenProduction.getInput().isGreaterThan( player.getBoard().getResourcesAvailable() )){
+                        //TODO Tell player he doesn't have enough resources
+                    }else{
+
+                        fromStrongbox.add(chosenProduction.getInput());
+
+                        try {
+                            //Withdraw as many resources as you need from warehouse
+                            fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenProduction.getInput()));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        //Withdraw the rest from strongbox
+                        player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+                        //Add the output of production to the strongbox
+                        player.getBoard().getStrongbox().deposit(chosenProduction.getOutput());
+                    }
+
+
                 case PLAYLEADER:
 
                     LeadCard chosenLeader = null;
@@ -253,8 +280,13 @@ public class GameManager {
                     }else{
                         //TODO remind player that he doesn't meet the requirements to play this card
                     }
+
                 case DISCARDLEADER:
 
+                    chosenLeader = null;
+                    //TODO ask player which leader he intends to discard depending on his hand
+
+                    chosenLeader.discard(player);
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
