@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardManagerTest {
 
-    // TODO remove comments and test more after all cards are present
-
     @Test
     public void loadDevCardsFromJsonTest() {
         // Load the DevCards
