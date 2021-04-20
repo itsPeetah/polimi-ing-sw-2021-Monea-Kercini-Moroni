@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.game.DevCardMarket;
-import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.game.MarketTray;
-import it.polimi.ingsw.model.game.ResourceMarble;
+import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
@@ -67,7 +64,6 @@ public class GameManager {
      * Setting up new game after all the players have joined
      */
 
-
     public void setupGame(){
 
         gamePhase = GamePhase.START;
@@ -107,7 +103,7 @@ public class GameManager {
         try {
             MT = new MarketTray(3, 4, marbles);
         }catch (Exception e){
-            System.out.println("Market Tray was initialized wrong!");
+            e.printStackTrace();
         }
 
 
@@ -190,6 +186,41 @@ public class GameManager {
         }
 
 
+
+    }
+
+    /**
+     * The game starts
+     */
+
+    public void startGame(){
+
+        gamePhase = GamePhase.TURN;
+
+        boolean lastRound = false;
+
+        //Turns will keep being played until it's the last round and it's the last players turn
+        while (!lastRound && !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
+
+            playTurn(game.getCurrentPlayer());
+
+            //if player has 7 devCards
+            if(game.getCurrentPlayer().getBoard().getOwnedDevCards().size() == 7){
+                lastRound = true;
+            }
+
+            //if player has reached the end of the faith track
+            if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
+                lastRound = true;
+            }
+
+            game.increaseTurnCounter();
+        }
+
+
+    }
+
+    public void playTurn(Player player){
 
     }
 
