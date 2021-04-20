@@ -253,6 +253,8 @@ public class GameManager {
                     }else{
                         //TODO remind player that he doesn't meet the requirements to play this card
                     }
+                case DISCARDLEADER:
+
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
