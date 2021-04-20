@@ -2,6 +2,223 @@
    {
       "requirements":{
          "devCardColors":{
+            "GREEN":1,
+            "YELLOW":1
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+               "SERVANTS": 1
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":2,
+      "cardId":"lead_1"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+            "BLUE":1,
+            "PURPLE":1
+
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+               "SHIELDS": 1
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":2,
+      "cardId":"lead_2"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+            "BLUE":1,
+            "GREEN":1
+
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+               "STONES": 1
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":2,
+      "cardId":"lead_3"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+            "YELLOW":1,
+            "PURPLE":1
+
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
+            "amounts":{
+
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+               "COINS": 1
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":2,
+      "cardId":"lead_4"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
+
+         },
+         "devCardLevels":{
+
+         },
+         "resourceAmounts":{
+            "amounts":{
+               "COINS": 5
+            }
+         }
+      },
+      "ability":{
+         "resourceDiscount":{
+            "amounts":{
+
+            }
+         },
+         "extraWarehouseSpace":{
+            "amounts":{
+               "STONES": 2
+            }
+         },
+         "greyMarbleReplacement":"BLANK",
+         "production":{
+            "input":{
+               "amounts":{
+
+               }
+            },
+            "output":{
+               "amounts":{
+
+               }
+            }
+         }
+      },
+      "victoryPoints":3,
+      "cardId":"lead_5"
+   },
+   {
+      "requirements":{
+         "devCardColors":{
 
          },
          "devCardLevels":{
