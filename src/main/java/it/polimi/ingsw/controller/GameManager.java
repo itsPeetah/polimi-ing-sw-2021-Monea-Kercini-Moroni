@@ -204,6 +204,8 @@ public class GameManager {
 
             playTurn(game.getCurrentPlayer());
 
+            //These are the only two ways the game ends for now
+
             //if player has 7 devCards
             if(game.getCurrentPlayer().getBoard().getOwnedDevCards().size() == 7){
                 lastRound = true;
@@ -220,7 +222,45 @@ public class GameManager {
 
     }
 
+    /**
+     * This method represents a players turn
+     * @param player
+     */
+
     public void playTurn(Player player){
+
+        boolean primaryActionUsed = false;
+
+        //TODO notify player it's his turn
+
+        TurnChoice choice = null;
+
+        //Player may keep doing as many actions as he wants as long as he doesn't end his turn
+        do {
+
+            //TODO get players choice on what he wants to do - he must be offered only secondary actions if he has already used his primary one
+
+            switch (choice) {
+
+                case PLAYLEADER:
+
+                    LeadCard chosenLeader = null;
+
+                    //TODO ask player which leader he intends to play depending on his hand
+
+                    if(chosenLeader.affordable(player)){
+                        chosenLeader.play(player);
+                    }else{
+                        //TODO remind player that he doesn't meet the requirements to play this card
+                    }
+
+                case REARRANGEWAREHOUSE:
+                    //Basically we ask the player to put all resources that he has in warehouse in his warehouse
+                    askPlayerToPutResources(game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
+
+            }
+
+        }while(choice != TurnChoice.ENDTURN);
 
     }
 
