@@ -61,11 +61,4 @@ public class DevCard extends Card {
         // Check if the player can afford the card
         return player.getBoard().getResourcesAvailable().isGreaterThan(costAfterDiscount);
     }
-
-    /**
-     * TODO remove the method or update it with the play logic
-     */
-    @Override
-    public void play(Player player) {
-    }
 }
