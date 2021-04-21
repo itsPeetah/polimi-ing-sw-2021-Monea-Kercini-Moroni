@@ -243,8 +243,6 @@ public class GameManager {
 
             switch (choice) {
 
-
-
                 case RESOURCEMARKET:
                     //TODO Receive player choice of column or row and index
 
@@ -266,6 +264,22 @@ public class GameManager {
                         }
                     }
                     askPlayerToPutResources(res, player.getBoard().getWarehouse());
+                    primaryActionUsed = true;
+
+                case DEVCARDMARKET:
+
+                    //TODO player chooses devCard and position
+                    DevCard chosenCard = new DevCard();
+                    int position = 0;
+
+                    //check if affordable
+                    if(!chosenCard.affordable(player)){
+
+                        //TODO Tell player he doesn't have enough resources
+
+                    //}else if (){
+                        //TODO Tell player he doesn't have enough resources
+                    }
 
 
                 case PRODUCE:
