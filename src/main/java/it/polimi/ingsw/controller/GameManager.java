@@ -282,13 +282,13 @@ public class GameManager {
 
                     }else{
                         player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+                        primaryActionUsed = true;
                     }
 
                 case PRODUCE:
                     Production chosenProduction = null;
                     Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
                     //TODO player chooses production
-
 
                     //check if affordable
                     if( player.getBoard().getResourcesAvailable().isGreaterThan( chosenProduction.getInput() )){
@@ -337,6 +337,8 @@ public class GameManager {
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
 
+                case ENDTURN:
+                    //Nothing player just ends his turn
             }
 
         }while(choice != TurnChoice.ENDTURN);
