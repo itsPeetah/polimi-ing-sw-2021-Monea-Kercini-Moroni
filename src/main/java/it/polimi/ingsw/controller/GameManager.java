@@ -7,10 +7,8 @@ import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
-import it.polimi.ingsw.model.playerboard.PlayerBoard;
-import it.polimi.ingsw.model.playerboard.ProductionPowers;
-import it.polimi.ingsw.model.playerboard.Strongbox;
-import it.polimi.ingsw.model.playerboard.Warehouse;
+import it.polimi.ingsw.model.playerboard.*;
+
 
 import com.google.gson.Gson;
 
@@ -24,7 +22,6 @@ import java.util.Collections;
 public class GameManager {
 
     private GamePhase gamePhase = GamePhase.PREGAME;
-    private TurnChoice turnChoice;
     private Game game;
 
     public Game getGame() {
@@ -32,7 +29,7 @@ public class GameManager {
     }
 
 
-    //RECHECK IF METHOD WILL BE USED LIKE THIS
+    //TODO RECHECK IF METHOD WILL BE USED LIKE THIS
     public void addPlayer(String nickname){
         try {
             game.addPlayer(nickname);
@@ -72,7 +69,7 @@ public class GameManager {
 
         // Setting up market tray
 
-        ArrayList<ResourceMarble> marbles = new ArrayList<ResourceMarble>();
+        ArrayList<ResourceMarble> marbles = new ArrayList<>();
 
         ResourceMarble marble1 = new ResourceMarble(ResourceType.FAITH, 1);
         ResourceMarble marble2 = new ResourceMarble(ResourceType.STONES, 1);
@@ -227,7 +224,7 @@ public class GameManager {
 
     /**
      * This method represents a players turn
-     * @param player
+     * @param player the player
      */
 
     public void playTurn(Player player){
@@ -393,6 +390,8 @@ public class GameManager {
 
     public void endGame(){
 
+        gamePhase = GamePhase.END;
+
         //Calculate VP for each player
         int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more accessible
 
@@ -406,8 +405,10 @@ public class GameManager {
         int Winner = getWinner(VP);
 
         //TODO notify player #Winner that he is the winner
+        //Maybe add post-game functionality
 
     }
+
 
     /**
      * get the position of the winning player (the one with the highest number of points)
