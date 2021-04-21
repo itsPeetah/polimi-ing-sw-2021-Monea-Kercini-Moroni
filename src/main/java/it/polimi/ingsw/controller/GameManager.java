@@ -272,15 +272,17 @@ public class GameManager {
                     DevCard chosenCard = new DevCard();
                     int position = 0;
 
-                    //check if affordable
+                        //check if affordable
                     if(!chosenCard.affordable(player)){
-
                         //TODO Tell player he doesn't have enough resources
 
-                    //}else if (){
-                        //TODO Tell player he doesn't have enough resources
+                        //check if it's possible to place that card there
+                    }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
+                        //TODO Tell player he can't put that card there
+
+                    }else{
+                        player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
                     }
-
 
                 case PRODUCE:
                     Production chosenProduction = null;
