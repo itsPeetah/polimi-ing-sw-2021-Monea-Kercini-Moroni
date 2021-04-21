@@ -243,6 +243,31 @@ public class GameManager {
 
             switch (choice) {
 
+
+
+                case RESOURCEMARKET:
+                    //TODO Receive player choice of column or row and index
+
+                    boolean row = false; //false for column, true for row
+                    int index = 0;
+                    Resources res = new Resources();
+
+                    if(row){
+                        try {
+                            res.add(game.getResourceMarket().pickRow(index));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }else{
+                        try {
+                            res.add(game.getResourceMarket().pickColumn(index));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    askPlayerToPutResources(res, player.getBoard().getWarehouse());
+
+
                 case PRODUCE:
                     Production chosenProduction = null;
                     Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
