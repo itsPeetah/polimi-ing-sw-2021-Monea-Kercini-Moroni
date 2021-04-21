@@ -263,6 +263,22 @@ public class GameManager {
                             e.printStackTrace();
                         }
                     }
+
+                    //Check if there is a red marble (gives faith)
+                    if(res.getAmountOf(ResourceType.FAITH)>0){
+                        //increase the faithpoints
+                        player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+                        //remove the faith from resources
+                        try {
+                            res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //Check if the player has any Lead Ability that transforms his white marbles
+
+
                     askPlayerToPutResources(res, player.getBoard().getWarehouse());
                     primaryActionUsed = true;
 

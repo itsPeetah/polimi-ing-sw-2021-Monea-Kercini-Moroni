@@ -75,7 +75,7 @@ public class CardManagerTest {
         ArrayList<LeadCard> cards = CardManager.loadLeadCardsFromJson();
         assertFalse(cards.isEmpty());
         for(LeadCard card: cards) {
-            assertTrue(card.getAbility()!=null && card.getAbility().getProduction()!=null && card.getAbility().getGreyMarbleReplacement()!=null && card.getAbility().getExtraWarehouseSpace()!=null && card.getAbility().getResourceDiscount()!=null);
+            assertTrue(card.getAbility()!=null && card.getAbility().getProduction()!=null && card.getAbility().getWhiteMarbleReplacement()!=null && card.getAbility().getExtraWarehouseSpace()!=null && card.getAbility().getResourceDiscount()!=null);
 
         }
         Gson gson = new Gson();
