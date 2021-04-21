@@ -127,17 +127,16 @@ public class Resources {
 
     /**
      * Method that replaces white
-     * @param r the resource which will have it's white replaced
      * @param type the resource type you want the white to be replaced with
      */
 
-    public void replaceWhite(Resources r, ResourceType type){
-        int white = r.getAmountOf(ResourceType.BLANK);
+    public void replaceWhite(ResourceType type){
+        int white = this.getAmountOf(ResourceType.BLANK);
         try {
-            r.remove(ResourceType.BLANK, white);
+            this.remove(ResourceType.BLANK, white);
         } catch (Exception e){
             e.printStackTrace();
         }
-        r.add(type, white);
+        this.add(type, white);
     }
 }

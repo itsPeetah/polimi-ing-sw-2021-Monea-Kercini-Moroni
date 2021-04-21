@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.model.general.ResourcesException;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.model.playerboard.Strongbox;
@@ -280,16 +281,30 @@ public class GameManager {
 
                     //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2
                     int whiteReplacements = 0;
+                    ArrayList<ResourceType>  replaceTypes = new ArrayList<>();
+
                     for(int i =0; i< player.getLeaders().getPlayedCards().size(); i++){
                         //if player has a leader with the white marble replacement not blank
-                        if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement()!=ResourceType.BLANK){
+                        if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK){
                             whiteReplacements++;
+                            replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());
                         }
                     }
 
                     switch (whiteReplacements){
                         case 1:
-
+                            //automatically replace the white marble with the one granted from the leader ability
+                            res.replaceWhite(replaceTypes.get(0));
+                        case 2:
+                            //TODO Ask player which type of resource he wants the white changed to using the type ArrayList
+                            //Than just replace white with the player choice
+                        default:
+                            //replace nothing, but do remove the white
+                            try {
+                                res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
+                            } catch (ResourcesException e) {
+                                e.printStackTrace();
+                            }
                     }
 
 
