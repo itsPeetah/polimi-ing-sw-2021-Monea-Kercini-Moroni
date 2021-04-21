@@ -124,4 +124,20 @@ public class Resources {
     public boolean equals(Resources r){
         return this.isGreaterThan(r) && r.isGreaterThan(this);
     }
+
+    /**
+     * Method that replaces white
+     * @param r the resource which will have it's white replaced
+     * @param type the resource type you want the white to be replaced with
+     */
+
+    public void replaceWhite(Resources r, ResourceType type){
+        int white = r.getAmountOf(ResourceType.BLANK);
+        try {
+            r.remove(ResourceType.BLANK, white);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        r.add(type, white);
+    }
 }

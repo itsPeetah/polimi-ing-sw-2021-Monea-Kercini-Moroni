@@ -44,7 +44,7 @@ public class LeadCard extends Card {
         player.getBoard().getWarehouse().expandWithLeader(this);
         player.getBoard().getProductionPowers().addLeadCardProduction(this);
         player.getBoard().addDiscount(ability.getResourceDiscount());
-        player.getBoard().addMarble(ability.getGreyMarbleReplacement());
+        player.getBoard().addMarble(ability.getWhiteMarbleReplacement());
 
         // Put the leader in the player board
         try {

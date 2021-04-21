@@ -266,7 +266,7 @@ public class GameManager {
 
                     //Check if there is a red marble (gives faith)
                     if(res.getAmountOf(ResourceType.FAITH)>0){
-                        //increase the faithpoints
+                        //increase the faith points
                         player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
                         //remove the faith from resources
                         try {
@@ -277,6 +277,20 @@ public class GameManager {
                     }
 
                     //Check if the player has any Lead Ability that transforms his white marbles
+
+                    //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2
+                    int whiteReplacements = 0;
+                    for(int i =0; i< player.getLeaders().getPlayedCards().size(); i++){
+                        //if player has a leader with the white marble replacement not blank
+                        if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement()!=ResourceType.BLANK){
+                            whiteReplacements++;
+                        }
+                    }
+
+                    switch (whiteReplacements){
+                        case 1:
+
+                    }
 
 
                     askPlayerToPutResources(res, player.getBoard().getWarehouse());
