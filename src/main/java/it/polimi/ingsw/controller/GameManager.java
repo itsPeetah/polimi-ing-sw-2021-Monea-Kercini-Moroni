@@ -186,8 +186,7 @@ public class GameManager {
             }
 
         }
-
-
+        startGame();
 
     }
 
@@ -220,6 +219,8 @@ public class GameManager {
 
             game.increaseTurnCounter();
         }
+
+        endGame();
 
 
     }
@@ -388,6 +389,46 @@ public class GameManager {
 
         }while(choice != TurnChoice.ENDTURN);
 
+    }
+
+    public void endGame(){
+
+        //Calculate VP for each player
+        int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more accessible
+
+        for (int i = 0; i< game.getPlayers().length; i++) {
+
+            VP[i] = game.getPlayers()[i].getVictoryPoints();
+            //TODO show player his victory points
+
+        }
+
+        int Winner = getWinner(VP);
+
+        //TODO notify player #Winner that he is the winner
+
+    }
+
+    /**
+     * get the position of the winning player (the one with the highest number of points)
+     * in case two players have the same number of points, the one with more resources win,
+     * if these are also equal the game rules give no indication in who the winner is
+     * @param array of victory points
+     * @return position of the winning player
+     */
+    public int getWinner( int[] array )
+    {
+        int winner = 0;
+        for ( int i = 1; i < array.length; i++ )
+        {
+            if ( array[i] > array[winner] ) winner = i;
+
+            //check if players have equal VP and and one has more resources
+            if (array[i] == array[winner] && ( game.getPlayers()[i].getBoard().getResourcesAvailable().getTotalAmount() > game.getPlayers()[winner].getBoard().getResourcesAvailable().getTotalAmount()) ){
+
+            }
+        }
+        return winner; // position of the first largest found
     }
 
 
