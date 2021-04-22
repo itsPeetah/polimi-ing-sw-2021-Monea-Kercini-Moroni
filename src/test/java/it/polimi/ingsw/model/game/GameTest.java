@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ class GameTest {
 
     @Test
     public void testAddPlayer() {
-        Game g = GameFactory.CreateGame(GameSettingsLevel.LOW, GameSettingsLevel.LOW);
+        Game g = GameFactory.CreateGame(GameCustomizationSettings.getMinSettings());
         String playerNickname = "Player 1";
         // Try adding a single player
         try {
@@ -37,7 +38,7 @@ class GameTest {
     @Test
     public void testGetCurrentPlayer() {
         // Init game
-        Game g = GameFactory.CreateGame(GameSettingsLevel.LOW, GameSettingsLevel.LOW);
+        Game g = GameFactory.CreateGame(GameCustomizationSettings.getMinSettings());
         String[] pNames = new String[]{"P1", "P2", "P3"};
         int pCount = 3;
         // add players
@@ -56,7 +57,7 @@ class GameTest {
     @Test
     public void testVaticanReports() {
         // init game
-        Game g = GameFactory.CreateGame(GameSettingsLevel.LOW, GameSettingsLevel.LOW);
+        Game g = GameFactory.CreateGame(GameCustomizationSettings.getMinSettings());
         try {
             g.addPlayer("P1");
             g.addPlayer("P2");

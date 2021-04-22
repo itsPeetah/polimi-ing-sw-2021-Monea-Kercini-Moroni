@@ -35,7 +35,6 @@ public class LeadCard extends Card {
     /**
      * Perform the action of playing the card and apply its abilities
      */
-    @Override
     public void play(Player player) {
         // Make sure the card is actually affordable
         assert affordable(player);

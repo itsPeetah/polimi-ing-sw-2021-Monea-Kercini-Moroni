@@ -6,10 +6,15 @@ import it.polimi.ingsw.model.playerboard.PlayerBoard;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Game rep class.
+ */
 public class Game {
+    // Static values
     public static final int MAX_PLAYERS = 4;
     public static final int MAX_VATICAN_REPORTS = 3;
 
+    // Members
     private Integer turnCounter;
     private Integer lastVaticanReport;
 

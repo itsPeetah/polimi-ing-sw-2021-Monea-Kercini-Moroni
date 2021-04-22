@@ -5,8 +5,12 @@ import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
 
+/**
+ * Development card market rep class.
+ */
 public class DevCardMarket {
 
+    // members todo perhaps differentiate tiers/colors
     private ArrayList<DevCard> availableCards;
 
     /**
@@ -34,10 +38,6 @@ public class DevCardMarket {
      */
     public boolean buyCard(int index, Player player) throws DevCardMarketException, ArrayIndexOutOfBoundsException {
         if(index >= availableCards.size()) throw new ArrayIndexOutOfBoundsException("Trying to buy a card that does not exist.");
-
-
-
-
         if(!availableCards.get(index).affordable(player)) return false;
         DevCard dc = availableCards.remove(index);
         return true;
