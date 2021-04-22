@@ -6,18 +6,25 @@ import it.polimi.ingsw.model.general.ResourceType;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Game factory wrapper class.
+ */
 public class GameFactory {
 
     /**
-     * Custom game factory method.
-     * @param resources Amount of resources in the market tray and market tray size.
-     * @param devCards Amount of dev cards on the board.
-     * @return The game instance
+     * Create a game with the default settings.
      */
-    public static Game CreateGame(GameSettingsLevel resources, GameSettingsLevel devCards){
-        MarketTray mt = MarketTrayFactory.BuildMarketTray(resources);
-        DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(devCards);
-        return new Game(mt,dcm);
+    public static Game CreateGame(){
+        return GameFactory.CreateGame(GameCustomizationSettings.getDefaultSettings());
+    }
+
+    /**
+     * Create a game using custom settings.
+     */
+    public static Game CreateGame(GameCustomizationSettings settings){
+        MarketTray mt = MarketTrayFactory.BuildMarketTray(settings.getMarketTrayLevel());
+        DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(settings.getDevCardMarketLevel());
+        return new Game(mt, dcm);
     }
 
 
