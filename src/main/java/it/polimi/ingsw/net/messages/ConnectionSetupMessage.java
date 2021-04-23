@@ -7,7 +7,7 @@ public enum ConnectionSetupMessage {
     ROOM_CREATE("R-CREATE"),
     ROOM_JOIN("R-JOIN"),
     ROOM_ERR("R-ERROR"),
-    PROVIDE_NICK("NICK"),
+    NICK_PROMPT("NICK"),
     ERR("ERR"),
     OK("OK")
     ;
