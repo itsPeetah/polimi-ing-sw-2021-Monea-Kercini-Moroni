@@ -11,12 +11,14 @@ public class ServerSideClient {
     private Scanner in;
     private PrintWriter out;
     private String id;
+    private GameRoom room;
 
-    public ServerSideClient(String id, Socket socket, Scanner in, PrintWriter out) {
+    public ServerSideClient(String id, Socket socket, Scanner in, PrintWriter out, GameRoom room) {
         this.id = id;
         this.socket = socket;
         this.in = in;
         this.out = out;
+        this.room = room;
     }
 
     public String getId() {
