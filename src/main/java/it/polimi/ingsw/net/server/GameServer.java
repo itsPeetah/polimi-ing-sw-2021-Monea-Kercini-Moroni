@@ -16,9 +16,6 @@ public class GameServer {
     private final int portNumber;   // Server port-number
     private ServerSocket serverSocket;  // Server socket
 
-    private Object clientMapLock;   // Lock for threads to access the activeClients map
-    private HashMap<String, ServerSideClient> activeClients;    // map with the active clients
-
     /**
      * Class constructor.
      * @param hostName Server address.
@@ -84,34 +81,5 @@ public class GameServer {
         connectionHandlers.shutdown();
     }
 
-    /**
-     * Check whether a client with such id already exists.
-     */
-    public boolean idTaken(String id){
-        synchronized (clientMapLock){
-            return activeClients.containsKey(id);
-        }
-    }
-
-    /**
-     * Register a client using its id.
-     */
-    public void registerClient(ServerSideClient client){
-        synchronized (clientMapLock){
-            activeClients.put(client.getId(), client);
-        }
-    }
-
-    /**
-     * Retrieve a client using its id.
-     */
-    public ServerSideClient getClientById(String id) {
-
-        if(!activeClients.containsKey(id)) return null;
-
-        synchronized (clientMapLock) {
-            return activeClients.get(id);
-        }
-    }
 
 }
