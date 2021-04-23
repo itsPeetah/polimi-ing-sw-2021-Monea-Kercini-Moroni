@@ -55,7 +55,7 @@ public class NewConnectionHandler implements Runnable {
             return;
         }
 
-        String clientId = String.format("%s_%s", roomJoined, userNickname)
+        String clientId = String.format("%s_%s", roomJoined, userNickname);
 
         // TODO add ssclient to room
 
