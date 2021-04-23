@@ -20,7 +20,7 @@ public class NewConnectionHandler implements Runnable {
     @Override
     public void run() {
 
-
+        // Try to open the socket.
         try {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
@@ -29,18 +29,24 @@ public class NewConnectionHandler implements Runnable {
             return;
         }
 
+        String roomJoined = null;
+        String userNickname = null;
+
+        // Try to setup the connection
         try {
 
             // connection setup
             welcomeClient();
 
-            String roomJoined = null;
+            // joining room
             while(roomJoined == null){
                 roomJoined = joinClientToRoom();
             }
 
-
-
+            // get nickname
+            while(userNickname == null){
+                userNickname = getUserNickname();
+            }
 
         } catch (ConnectionSetupException ex){
             String errorMessage = String.format("Something went wrong while connecting (%s).", ex.getMessage());
@@ -49,12 +55,11 @@ public class NewConnectionHandler implements Runnable {
             return;
         }
 
-        out.println("OK");
+        String clientId = String.format("%s_%s", roomJoined, userNickname)
 
-        // Register client
+        // TODO add ssclient to room
 
-        // Start listener
-
+        sendMessage(ConnectionSetupMessage.OK.composeMessage(clientId));
     }
 
     /**
@@ -72,6 +77,11 @@ public class NewConnectionHandler implements Runnable {
         // TODO add timeout?
     }
 
+    /**
+     * Attempt joining or creating a new room.
+     * @return Joined (or created) room name.
+     * @throws ConnectionSetupException If the client replies unexpectedly.
+     */
     private String joinClientToRoom() throws ConnectionSetupException{
         // Ask to join or create a room
         sendMessage(ConnectionSetupMessage.ROOM_PROMPT.getMessageCode());
@@ -85,7 +95,7 @@ public class NewConnectionHandler implements Runnable {
 
        if(fields[0].equals(ConnectionSetupMessage.ROOM_CREATE.getMessageCode())){
             // TODO Check if room exists
-            // TODO if not create room
+            // TODO if not create room + send ok
             // TODO if so send room error
        } else if (fields[0].equals(ConnectionSetupMessage.ROOM_JOIN.getMessageCode())){
             // TODO Check if room exists
@@ -95,6 +105,22 @@ public class NewConnectionHandler implements Runnable {
            throw new ConnectionSetupException("Unexpected message from client.");
        }
         return roomJoined;
+    }
+
+    private String getUserNickname() throws ConnectionSetupException {
+        sendMessage(ConnectionSetupMessage.NICK_PROMPT.getMessageCode());
+
+        String clientMessage = in.nextLine();
+        String clientNickName = null;
+        String[] fields = clientMessage.split("\\s+");
+
+        if(fields.length < 2) throw new ConnectionSetupException("Client did not provide a nickname.");
+
+        // TODO Check if nickname is already in room
+        // TODO if so send err
+        // TODO if not return name + send ok
+
+        return clientNickName;
     }
 
     /**
