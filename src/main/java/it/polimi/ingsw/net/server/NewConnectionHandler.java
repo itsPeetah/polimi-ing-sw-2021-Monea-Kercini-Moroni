@@ -29,5 +29,9 @@ public class NewConnectionHandler implements Runnable {
 
         out.println("OK");
 
+        // Register client
+
+        // Start listener
+
     }
 }
