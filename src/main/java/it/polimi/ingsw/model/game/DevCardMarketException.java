@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.game;
 
 /**
- * DevCardMarket specific exceptions
+ * DevCardMarket specific exceptions.
  */
 public class DevCardMarketException extends Exception{
     /**
