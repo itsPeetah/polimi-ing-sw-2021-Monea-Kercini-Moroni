@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.game.*;
+import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
@@ -43,7 +44,6 @@ public class GameManager {
      * @param quantity number of resources player has to choose
      * @return the resources
      */
-
     private Resources askPlayerToChooseResources(int quantity){
         //TODO CLI method that returns player choice
         return new Resources();
@@ -54,7 +54,6 @@ public class GameManager {
      * @param res player has to put
      * @param wh warehouse that will be updated
      */
-
     private void askPlayerToPutResources(Resources res, Warehouse wh){
         //TODO CLI method that returns the updated warehouse
     }
@@ -66,6 +65,8 @@ public class GameManager {
     public void setupGame(){
 
         gamePhase = GamePhase.START;
+
+        /*
 
         // Setting up market tray
 
@@ -108,7 +109,7 @@ public class GameManager {
 
         //setting up dev card market
 
-        Gson gson = new Gson();
+
 
         ArrayList<DevCard> devCards = null;
         try (Reader reader = new FileReader("src/main/resources/devcards.json")) {
@@ -124,10 +125,12 @@ public class GameManager {
 
         DevCardMarket DMC = new DevCardMarket(devCards);
 
-        // initialize game
-        game = new Game(MT, DMC);
+        */
 
+        // initialize game (with default settings)
+        game = GameFactory.CreateGame();
 
+        Gson gson = new Gson();
         ArrayList<LeadCard> leadCards = null;
         try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
 
@@ -145,7 +148,7 @@ public class GameManager {
         game.shufflePlayers();
 
 
-        //Preparing stuff for playerboards
+        //Preparing stuff for playerboard
         ArrayList<Warehouse> wh = new ArrayList<>();
         ArrayList<Strongbox> sb = new ArrayList<>();
         ArrayList<ProductionPowers> pp = new ArrayList<>();

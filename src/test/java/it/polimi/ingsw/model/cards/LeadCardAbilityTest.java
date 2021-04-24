@@ -17,7 +17,7 @@ public class LeadCardAbilityTest {
         LeadCardAbility ability = new LeadCardAbility(expRes, expRes, expType, new Production(expRes, expRes));
 
         assertEquals(expRes, ability.getExtraWarehouseSpace());
-        assertEquals(expType, ability.getGreyMarbleReplacement());
+        assertEquals(expType, ability.getWhiteMarbleReplacement());
         assertEquals(expRes, ability.getResourceDiscount());
         assertEquals(expRes, ability.getProduction().getInput());
         assertEquals(expRes, ability.getProduction().getOutput());
