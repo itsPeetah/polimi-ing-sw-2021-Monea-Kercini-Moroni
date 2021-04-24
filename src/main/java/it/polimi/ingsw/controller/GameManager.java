@@ -2,6 +2,10 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.events.Action;
+import it.polimi.ingsw.model.events.EventHandler;
+import it.polimi.ingsw.model.events.*;
+import it.polimi.ingsw.model.events.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.Production;
@@ -41,12 +45,15 @@ public class GameManager {
 
     /**
      * Method for letting player choose a resource
-     * @param quantity number of resources player has to choose
      * @return the resources
      */
-    private Resources askPlayerToChooseResources(int quantity){
-        //TODO CLI method that returns player choice
-        return new Resources();
+    private Resources askPlayerToChooseResource(Player p){
+
+        EventHandler.makeRequest(Action.CHOOSE_RESOURCE, p.getNickname());
+        ChooseResourceEventData data = EventHandler.getResponse();
+        Resources res = data.getResources();
+
+        return res;
     }
 
     /**
@@ -54,8 +61,30 @@ public class GameManager {
      * @param res player has to put
      * @param wh warehouse that will be updated
      */
-    private void askPlayerToPutResources(Resources res, Warehouse wh){
-        //TODO CLI method that returns the updated warehouse
+    private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
+        EventHandler.makeRequest(Action.PUT_RESOURCES, p.getNickname());
+        PutResourcesEventData data = EventHandler.getResponse();
+        Warehouse updatedWarehouse = data.getWarehouse();
+
+        //If player has less resources than he should have give other players extra faith point
+        if((wh.getResourceAmountWarehouse()+ res.getTotalAmount()) >= updatedWarehouse.getResourceAmountWarehouse()){
+
+            int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
+
+            for (int i = 0; i< game.getPlayers().length; i++){
+                //add to all players except the one who is playing
+                if(game.getPlayers()[i] != p){
+                    game.getPlayers()[i].getBoard().incrementFaithPoints(extraFP);
+                }
+            }
+
+            wh = updatedWarehouse;
+
+        }else{
+            //Player has hacked game !!!!!!!!!!!!!!!!!
+            //TODO punish player for trying to cheat
+        }
+
     }
 
     /**
@@ -148,7 +177,7 @@ public class GameManager {
         game.shufflePlayers();
 
 
-        //Preparing stuff for playerboard
+        //Preparing stuff for player board
         ArrayList<Warehouse> wh = new ArrayList<>();
         ArrayList<Strongbox> sb = new ArrayList<>();
         ArrayList<ProductionPowers> pp = new ArrayList<>();
@@ -162,7 +191,7 @@ public class GameManager {
             pp.add(new ProductionPowers(3));
             pb.add(new PlayerBoard(3, wh.get(i), sb.get(i), pp.get(i)));
 
-            game.getPlayers()[i].setBoard(pb.get(i)); //Set Board to Player
+            game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
 
             //TODO Give 4 cards to player, he keeps 2 of his choice
@@ -170,8 +199,8 @@ public class GameManager {
             if (i>=1){ //second player gets an extra resource
 
                 Resources extra;
-                extra = askPlayerToChooseResources(1);
-                askPlayerToPutResources(extra, game.getPlayers()[i].getBoard().getWarehouse());
+                extra = askPlayerToChooseResource(game.getPlayers()[i]);
+                askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
 
             }
             if (i>=2){ //third player gets an extra faith in addition to the resource
@@ -180,8 +209,8 @@ public class GameManager {
             if (i>=3){//fourth player gets all of the above and again an extra resource
 
                 Resources extra2;
-                extra2 = askPlayerToChooseResources(1);
-                askPlayerToPutResources(extra2, game.getPlayers()[i].getBoard().getWarehouse());
+                extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
+                askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse());
 
             }
 
@@ -194,7 +223,7 @@ public class GameManager {
      * The game starts
      */
 
-    public void startGame(){
+    private void startGame(){
 
         gamePhase = GamePhase.TURN;
 
@@ -230,7 +259,7 @@ public class GameManager {
      * @param player the player
      */
 
-    public void playTurn(Player player){
+    private void playTurn(Player player){
 
         boolean primaryActionUsed = false;
 
@@ -245,143 +274,10 @@ public class GameManager {
 
             switch (choice) {
 
-                case RESOURCEMARKET:
-                    //TODO Receive player choice of column or row and index
-
-                    boolean row = false; //false for column, true for row
-                    int index = 0;
-                    Resources res = new Resources();
-
-                    if(row){
-                        try {
-                            res.add(game.getResourceMarket().pickRow(index));
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }else{
-                        try {
-                            res.add(game.getResourceMarket().pickColumn(index));
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-
-                    //Check if there is a red marble (gives faith)
-                    if(res.getAmountOf(ResourceType.FAITH)>0){
-                        //increase the faith points
-                        player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
-                        //remove the faith from resources
-                        try {
-                            res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-
-                    //Check if the player has any Lead Ability that transforms his white marbles
-
-                    //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2
-                    int whiteReplacements = 0;
-                    ArrayList<ResourceType>  replaceTypes = new ArrayList<>();
-
-                    for(int i =0; i< player.getLeaders().getPlayedCards().size(); i++){
-                        //if player has a leader with the white marble replacement not blank
-                        if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK){
-                            whiteReplacements++;
-                            replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());
-                        }
-                    }
-
-                    switch (whiteReplacements){
-                        case 1:
-                            //automatically replace the white marble with the one granted from the leader ability
-                            res.replaceWhite(replaceTypes.get(0));
-                        case 2:
-                            //TODO Ask player which type of resource he wants the white changed to using the type ArrayList
-                            //Than just replace white with the player choice
-                        default:
-                            //replace nothing, but do remove the white
-                            try {
-                                res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
-                            } catch (ResourcesException e) {
-                                e.printStackTrace();
-                            }
-                    }
-
-
-                    askPlayerToPutResources(res, player.getBoard().getWarehouse());
-                    primaryActionUsed = true;
-
-                case DEVCARDMARKET:
-
-                    //TODO player chooses devCard and position
-                    DevCard chosenCard = new DevCard();
-                    int position = 0;
-
-                        //check if affordable
-                    if(!chosenCard.affordable(player)){
-                        //TODO Tell player he doesn't have enough resources
-
-                        //check if it's possible to place that card there
-                    }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
-                        //TODO Tell player he can't put that card there
-
-                    }else{
-                        player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
-                        primaryActionUsed = true;
-                    }
-
-                case PRODUCE:
-                    Production chosenProduction = null;
-                    Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
-                    //TODO player chooses production
-
-                    //check if affordable
-                    if( player.getBoard().getResourcesAvailable().isGreaterThan( chosenProduction.getInput() )){
-
-                        fromStrongbox.add(chosenProduction.getInput());
-
-                        try {
-                            //Withdraw as many resources as you need from warehouse
-                            fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenProduction.getInput()));
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        //Withdraw the rest from strongbox
-                        player.getBoard().getStrongbox().withdraw(fromStrongbox);
-
-                        //Add the output of production to the strongbox
-                        player.getBoard().getStrongbox().deposit(chosenProduction.getOutput());
-
-                        primaryActionUsed = true;
-
-                    }else{
-                        //TODO Tell player he doesn't have enough resources
-                    }
-
-
-                case PLAYLEADER:
-
-                    LeadCard chosenLeader = null;
-
-                    //TODO ask player which leader he intends to play depending on his hand
-
-                    if(chosenLeader.affordable(player)){
-                        chosenLeader.play(player);
-                    }else{
-                        //TODO remind player that he doesn't meet the requirements to play this card
-                    }
-
-                case DISCARDLEADER:
-
-                    chosenLeader = null;
-                    //TODO ask player which leader he intends to discard depending on his hand
-
-                    chosenLeader.discard(player);
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
-                    askPlayerToPutResources(game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
+                    askPlayerToPutResources(player, game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
 
                 case ENDTURN:
                     //Nothing player just ends his turn
@@ -420,8 +316,7 @@ public class GameManager {
      * @param array of victory points
      * @return position of the winning player
      */
-    public int getWinner( int[] array )
-    {
+    private int getWinner( int[] array ) {
         int winner = 0;
         for ( int i = 1; i < array.length; i++ )
         {
@@ -435,5 +330,127 @@ public class GameManager {
         return winner; // position of the first largest found
     }
 
+
+    private void resourceMarketUpdate(Player player, boolean row, int index) {
+
+        //boolean row = false; //false for column, true for row
+        Resources res = new Resources();
+
+        if (row) {
+            try {
+                res.add(game.getResourceMarket().pickRow(index));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                res.add(game.getResourceMarket().pickColumn(index));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Check if there is a red marble (gives faith)
+        if (res.getAmountOf(ResourceType.FAITH) > 0) {
+            //increase the faith points
+            player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+            //remove the faith from resources
+            try {
+                res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Check if the player has any Lead Ability that transforms his white marbles
+
+        //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2
+        int whiteReplacements = 0;
+        ArrayList<ResourceType> replaceTypes = new ArrayList<>();
+
+        for (int i = 0; i < player.getLeaders().getPlayedCards().size(); i++) {
+            //if player has a leader with the white marble replacement not blank
+            if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK) {
+                whiteReplacements++;
+                replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());
+            }
+        }
+
+        switch (whiteReplacements) {
+            case 1:
+                //automatically replace the white marble with the one granted from the leader ability
+                res.replaceWhite(replaceTypes.get(0));
+            case 2:
+                //TODO Ask player which type of resource he wants the white changed to using the type ArrayList
+                //Than just replace white with the player choice
+            default:
+                //replace nothing, but do remove the white
+                try {
+                    res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
+                } catch (ResourcesException e) {
+                    e.printStackTrace();
+                }
+        }
+
+
+        askPlayerToPutResources(player, res, player.getBoard().getWarehouse());
+    }
+
+    private void devCardMarketUpdate(Player player, DevCard chosenCard){
+        //TODO player chooses devCard and position
+        int position = 0;
+
+        //check if affordable
+        if(!chosenCard.affordable(player)){
+            //TODO Tell player he doesn't have enough resources
+
+            //check if it's possible to place that card there
+        }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
+            //TODO Tell player he can't put that card there
+
+        }else{
+            player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+        }
+    }
+
+    private void produceUpdate(Player player, Production chosenProduction){
+        Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
+        //TODO player chooses production
+
+        //check if affordable
+        if( player.getBoard().getResourcesAvailable().isGreaterThan( chosenProduction.getInput() )){
+
+            fromStrongbox.add(chosenProduction.getInput());
+
+            try {
+                //Withdraw as many resources as you need from warehouse
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenProduction.getInput()));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            //Withdraw the rest from strongbox
+            player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+            //Add the output of production to the strongbox
+            player.getBoard().getStrongbox().deposit(chosenProduction.getOutput());
+
+        }else{
+            //TODO Tell player he doesn't have enough resources
+        }
+    }
+
+    private void playLeaderUpdate(Player player, LeadCard chosenLeader){
+
+        if(chosenLeader.affordable(player)){
+            chosenLeader.play(player);
+        }else{
+            //TODO remind player that he doesn't meet the requirements to play this card
+        }
+    }
+
+    private void discardLeaderUpdate(Player player, LeadCard chosenLeader){
+
+        chosenLeader.discard(player);
+    }
 
 }
