@@ -7,18 +7,20 @@ import java.util.Scanner;
 
 public class ServerSideClient {
 
-    private Socket socket;
-    private Scanner in;
-    private PrintWriter out;
-    private String id;
-    private GameRoom room;
+    private final String id;
 
-    public ServerSideClient(String id, Socket socket, Scanner in, PrintWriter out, GameRoom room) {
+    private final Socket socket;
+    private final Scanner in;
+    private final PrintWriter out;
+
+    private boolean inGame;
+    private GameRoom currentRoom;
+
+    public ServerSideClient(String id, Socket socket, Scanner in, PrintWriter out) {
         this.id = id;
         this.socket = socket;
         this.in = in;
         this.out = out;
-        this.room = room;
     }
 
     public String getId() {

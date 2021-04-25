@@ -3,13 +3,13 @@ package it.polimi.ingsw.net.messages;
 public enum ConnectionSetupMessage {
     WELCOME("WELCOME"),
     HELLO("HELLO"),
-    ROOM_PROMPT("ROOM"),
-    ROOM_CREATE("R-CREATE"),
-    ROOM_JOIN("R-JOIN"),
-    ROOM_ERR("R-ERROR"),
-    NICK_PROMPT("NICK"),
+    ID("ID"),
     ERR("ERR"),
-    OK("OK")
+    OK("OK"),
+    READY("READY"),
+    STOP("STOP"),
+    ROOM_CREATE("R_CREATE"),
+    ROOM_JOIN("R_JOIN")
     ;
 
     private final String messageCode;

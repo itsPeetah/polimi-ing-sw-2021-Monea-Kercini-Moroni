@@ -1,9 +1,14 @@
 package it.polimi.ingsw.net.server;
 
+import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
+import it.polimi.ingsw.net.server.threads.NewConnectionHandler;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,6 +21,12 @@ public class GameServer {
     private final int portNumber;   // Server port-number
     private ServerSocket serverSocket;  // Server socket
 
+    private Object clientDataLock;
+    private HashMap<String, ServerSideClient> connectedClients;
+
+    private Object gameRoomsLock;
+    private HashMap<String, GameRoom> gameRooms;
+
     /**
      * Class constructor.
      * @param hostName Server address.
@@ -24,6 +35,9 @@ public class GameServer {
     public GameServer(String hostName, int portNumber){
         this.hostName = hostName;
         this.portNumber = portNumber;
+
+        this.connectedClients = new HashMap<String, ServerSideClient>();
+        this.clientDataLock = new Object();
     }
 
     /**
@@ -81,5 +95,36 @@ public class GameServer {
         connectionHandlers.shutdown();
     }
 
+    public String getNewClientId(){
+        String newId;
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        synchronized (clientDataLock) {
+            do {
+                newId = random.ints(leftLimit, rightLimit + 1)
+                        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                        .limit(targetStringLength)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+            } while (connectedClients.containsKey(newId));
+        }
+        return newId;
+    }
+
+    public void registerClient(String id, ServerSideClient client){
+        synchronized (clientDataLock){
+            connectedClients.put(id, client);
+        }
+    }
+
+    public GameRoom createRoom(String id, GameCustomizationSettings gcs){
+        GameRoom room = new GameRoom(gcs);
+        synchronized (gameRoomsLock){
+            gameRooms.put(id, room);
+        }
+        return room;
+    }
 
 }
