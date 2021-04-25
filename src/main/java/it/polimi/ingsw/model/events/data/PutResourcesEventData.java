@@ -1,9 +1,10 @@
-package it.polimi.ingsw.model.events;
+package it.polimi.ingsw.model.events.data;
 
+import it.polimi.ingsw.model.events.EventData;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
 
-public class PutResourcesEventData extends EventData{
+public class PutResourcesEventData extends EventData {
 
     private Resources res;
     private Warehouse wh;

@@ -94,7 +94,7 @@ public class PlayerLeaders {
 
 
     /**
-     * Gives the player the leader cards he has in his hand and sets the cardstates INHAND
+     * Gives the player the leader cards he has in his hand and sets the card states INHAND
      * @param cards the leader cards
      */
 

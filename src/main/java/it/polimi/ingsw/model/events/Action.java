@@ -6,6 +6,7 @@ package it.polimi.ingsw.model.events;
 public enum Action {
     NONE,
     CHOOSE_RESOURCE,
-    PUT_RESOURCES
+    PUT_RESOURCES,
+    CHOOSE_2_LEADERS,
 
 }

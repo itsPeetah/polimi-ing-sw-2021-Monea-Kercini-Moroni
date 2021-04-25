@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.events.Action;
 import it.polimi.ingsw.model.events.EventHandler;
-import it.polimi.ingsw.model.events.*;
 import it.polimi.ingsw.model.events.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
@@ -159,6 +158,8 @@ public class GameManager {
         // initialize game (with default settings)
         game = GameFactory.CreateGame();
 
+
+        //Initialize leader cards
         Gson gson = new Gson();
         ArrayList<LeadCard> leadCards = null;
         try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
@@ -176,13 +177,14 @@ public class GameManager {
         //shuffle player order
         game.shufflePlayers();
 
-
         //Preparing stuff for player board
         ArrayList<Warehouse> wh = new ArrayList<>();
         ArrayList<Strongbox> sb = new ArrayList<>();
         ArrayList<ProductionPowers> pp = new ArrayList<>();
         ArrayList<PlayerBoard> pb = new ArrayList<>();
 
+
+        //Getting player Leader choices and Extra resources
         for (int i = 0; i< game.getPlayers().length; i++){
 
             //Set up player board
@@ -194,14 +196,17 @@ public class GameManager {
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
 
-            //TODO Give 4 cards to player, he keeps 2 of his choice
+            //The player has been offered 4 leader cards on the model side and is choosing 2
+            EventHandler.makeRequest(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+            Choose2LeadersEventData data = EventHandler.getResponse();
+            game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+
 
             if (i>=1){ //second player gets an extra resource
 
                 Resources extra;
                 extra = askPlayerToChooseResource(game.getPlayers()[i]);
                 askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
-
             }
             if (i>=2){ //third player gets an extra faith in addition to the resource
                 game.getPlayers()[i].getBoard().incrementFaithPoints(1);
@@ -211,7 +216,6 @@ public class GameManager {
                 Resources extra2;
                 extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
                 askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse());
-
             }
 
         }
