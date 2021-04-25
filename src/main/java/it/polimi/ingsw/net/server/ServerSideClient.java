@@ -21,6 +21,9 @@ public class ServerSideClient {
         this.socket = socket;
         this.in = in;
         this.out = out;
+
+        this.inGame = false;
+        this.currentRoom = null;
     }
 
     public String getId() {
