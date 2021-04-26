@@ -300,6 +300,17 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+                case PRODUCE:
+
+                    EventHandler.makeRequest(Action.PRODUCE, player.getNickname());
+                    ProduceEventData produceChoice = EventHandler.getResponse();
+
+                    //Do this action only if the player has not used his primary action
+                    if(!primaryActionUsed){
+                        primaryActionUsed = produceUpdate(player, produceChoice.getChosenProd());
+                    }else{
+                        //TODO notify player he has already used his primary action
+                    }
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
@@ -459,9 +470,9 @@ public class GameManager {
         }
     }
 
-    private void produceUpdate(Player player, Production chosenProduction){
+    private boolean produceUpdate(Player player, Production chosenProduction){
+
         Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
-        //TODO player chooses production
 
         //check if affordable
         if( player.getBoard().getResourcesAvailable().isGreaterThan( chosenProduction.getInput() )){
@@ -480,8 +491,10 @@ public class GameManager {
             //Add the output of production to the strongbox
             player.getBoard().getStrongbox().deposit(chosenProduction.getOutput());
 
+            return true;
         }else{
             //TODO Tell player he doesn't have enough resources
+            return false;
         }
     }
 
