@@ -486,22 +486,27 @@ public class GameManager {
 
         Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
-        //check if affordable
-        if( player.getBoard().getResourcesAvailable().isGreaterThan( chosenProduction.getInput() )){
+        Resources input = makePlayerChoose(player, chosenProduction.getInput()); //If player has choice in input he has to choose here
 
-            fromStrongbox.add(chosenProduction.getInput());
+        //check if affordable
+        if( player.getBoard().getResourcesAvailable().isGreaterThan( input )){
+
+            fromStrongbox.add(input);
 
             try {
                 //Withdraw as many resources as you need from warehouse
-                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenProduction.getInput()));
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(input));
             }catch (Exception e){
                 e.printStackTrace();
             }
+
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
 
+            Resources output = makePlayerChoose(player, chosenProduction.getOutput()); //If player has choice in input he has to choose here
+
             //Add the output of production to the strongbox
-            player.getBoard().getStrongbox().deposit(chosenProduction.getOutput());
+            player.getBoard().getStrongbox().deposit(output);
 
             return true;
         }else{
