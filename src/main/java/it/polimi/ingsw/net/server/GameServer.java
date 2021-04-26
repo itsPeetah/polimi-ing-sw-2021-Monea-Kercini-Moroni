@@ -27,6 +27,8 @@ public class GameServer {
     private Object gameRoomsLock;
     private HashMap<String, GameRoom> gameRooms;
 
+    private boolean running;
+
     /**
      * Class constructor.
      * @param hostName Server address.
@@ -38,6 +40,7 @@ public class GameServer {
 
         this.connectedClients = new HashMap<String, ServerSideClient>();
         this.clientDataLock = new Object();
+
     }
 
     /**
@@ -57,6 +60,11 @@ public class GameServer {
     }
 
     /**
+     * running flag getter
+     */
+    public boolean isRunning() {return running;}
+
+    /**
      * Start the server.
      */
     public void startServer(){
@@ -68,6 +76,8 @@ public class GameServer {
             ex.printStackTrace();
             return;
         }
+
+        System.out.println("--- Server ready ---");
 
         // Move accepting connections to a different thread.
         new Thread(() -> acceptIncomingConnections()).start();
@@ -83,16 +93,25 @@ public class GameServer {
 
         while(true){
             try {
+                System.out.println("--- Server is now accepting connections ---");
                 // Accept new connection and handle it
                 Socket socket = serverSocket.accept();
                 connectionHandlers.submit(new NewConnectionHandler(socket));
             } catch (IOException ex){
-                ex.printStackTrace();
+                System.out.println("Server socket was closed, stopped accepting new connections.");
                 break;
             }
         }
         // No need to keep this open anymore.
         connectionHandlers.shutdown();
+    }
+
+    public void stopServer(){
+        try{
+            serverSocket.close();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     public String getNewClientId(){
