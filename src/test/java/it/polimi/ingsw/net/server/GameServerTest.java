@@ -19,4 +19,14 @@ class GameServerTest {
         System.out.println("Starting server.");
         gameServer.startServer();
     }
+
+    @Test
+    public void testIdGeneration(){
+
+        gameServer = new GameServer("localHost", 36676);
+        System.out.println(gameServer.getNewClientId());
+        System.out.println(gameServer.getNewClientId());
+        System.out.println(gameServer.getNewClientId());
+        System.out.println(gameServer.getNewClientId());
+    }
 }

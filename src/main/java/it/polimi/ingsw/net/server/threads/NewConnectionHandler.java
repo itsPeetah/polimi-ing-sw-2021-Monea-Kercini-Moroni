@@ -1,15 +1,16 @@
 package it.polimi.ingsw.net.server.threads;
 
 import it.polimi.ingsw.net.messages.ConnectionSetupMessage;
-import it.polimi.ingsw.net.server.GameServer;
-import it.polimi.ingsw.net.server.ServerSideClient;
+import it.polimi.ingsw.net.server.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
+/**
+ * Runnable class to manage the setup of a new connection.
+ */
 public class NewConnectionHandler implements Runnable {
 
     private Socket socket;
@@ -61,11 +62,17 @@ public class NewConnectionHandler implements Runnable {
         new Thread(new LobbyConnectionHandler(ssc)).start();
     }
 
+    /**
+     * Send a message to the client via its output stream.
+     */
     private void sendMessage(String message, PrintWriter out){
         out.println(message);
         out.flush();
     }
 
+    /**
+     * Receive a message from the client's input stream and compare it with the expected one.
+     */
     private boolean expectClientMessage(String message, Scanner in){
         String clientResponse = in.nextLine();
         return clientResponse.equals(message);

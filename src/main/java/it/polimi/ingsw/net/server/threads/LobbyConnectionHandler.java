@@ -3,6 +3,9 @@ package it.polimi.ingsw.net.server.threads;
 import it.polimi.ingsw.net.messages.ConnectionSetupMessage;
 import it.polimi.ingsw.net.server.ServerSideClient;
 
+/**
+ * Thread handling game lobby messages to join or create a room and choose a nickname.
+ */
 public class LobbyConnectionHandler implements Runnable {
 
     ServerSideClient ssc;
