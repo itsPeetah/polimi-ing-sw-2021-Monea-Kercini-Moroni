@@ -266,9 +266,9 @@ public class GameManager {
 
         boolean primaryActionUsed = false;
 
-        //TODO notify player it's his turn
+        boolean turnFinished = false;
 
-        TurnChoice choice = null;
+        //TODO notify player it's his turn
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
@@ -288,6 +288,7 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+                    break;
 
                 case DEVCARDMARKET:
 
@@ -300,6 +301,7 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+                    break;
 
                 case PRODUCE:
 
@@ -312,6 +314,7 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+                    break;
 
                 case PLAYLEADER:
 
@@ -319,6 +322,7 @@ public class GameManager {
                     ChooseLeaderEventData playLeaderEventData = EventHandler.getResponse();
 
                     playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
+                    break;
 
                 case DISCARDLEADER:
 
@@ -326,16 +330,20 @@ public class GameManager {
                     ChooseLeaderEventData discardLeaderEventData = EventHandler.getResponse();
 
                     discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+                    break;
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
-                    askPlayerToPutResources(player, game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
+                    askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse());
+                    break;
 
                 case ENDTURN:
-                    //Nothing player just ends his turn
+                    //Nothing - player just ends his turn
+                    turnFinished = true;
+                    break;
             }
 
-        }while(choice != TurnChoice.ENDTURN);
+        }while(!turnFinished);
 
     }
 
