@@ -183,7 +183,6 @@ public class GameManager {
         ArrayList<ProductionPowers> pp = new ArrayList<>();
         ArrayList<PlayerBoard> pb = new ArrayList<>();
 
-
         //Getting player Leader choices and Extra resources
         for (int i = 0; i< game.getPlayers().length; i++){
 
@@ -195,12 +194,10 @@ public class GameManager {
 
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
-
             //The player has been offered 4 leader cards on the model side and is choosing 2
             EventHandler.makeRequest(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
             Choose2LeadersEventData data = EventHandler.getResponse();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
-
 
             if (i>=1){ //second player gets an extra resource
 
@@ -217,10 +214,8 @@ public class GameManager {
                 extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
                 askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse());
             }
-
         }
         startGame();
-
     }
 
     /**
@@ -249,12 +244,9 @@ public class GameManager {
             if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
                 lastRound = true;
             }
-
             game.increaseTurnCounter();
         }
-
         endGame();
-
     }
 
     /**
@@ -265,14 +257,12 @@ public class GameManager {
     private void playTurn(Player player){
 
         boolean primaryActionUsed = false;
-
         boolean turnFinished = false;
 
         //TODO notify player it's his turn
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-
             EventHandler.makeRequest(Action.CHOOSE_ACTION, player.getNickname());
             ChooseActionEventData data = EventHandler.getResponse();
 
@@ -357,17 +347,15 @@ public class GameManager {
         for (int i = 0; i< game.getPlayers().length; i++) {
 
             VP[i] = game.getPlayers()[i].getVictoryPoints();
-            //TODO show player his victory points
 
+            //TODO show player his victory points
         }
 
         int Winner = getWinner(VP);
 
         //TODO notify player #Winner that he is the winner
         //Maybe add post-game functionality
-
     }
-
 
     /**
      * get the position of the winning player (the one with the highest number of points)
@@ -376,20 +364,21 @@ public class GameManager {
      * @param array of victory points
      * @return position of the winning player
      */
+
     private int getWinner( int[] array ) {
         int winner = 0;
         for ( int i = 1; i < array.length; i++ )
         {
-            if ( array[i] > array[winner] ) winner = i;
-
+            if ( array[i] > array[winner] ){
+                winner = i;
+            }
             //check if players have equal VP and and one has more resources
             if (array[i] == array[winner] && ( game.getPlayers()[i].getBoard().getResourcesAvailable().getTotalAmount() > game.getPlayers()[winner].getBoard().getResourcesAvailable().getTotalAmount()) ){
-
+                winner = i;
             }
         }
-        return winner; // position of the first largest found
+        return winner; // position of the one wih most VP found
     }
-
 
     /**
      *
