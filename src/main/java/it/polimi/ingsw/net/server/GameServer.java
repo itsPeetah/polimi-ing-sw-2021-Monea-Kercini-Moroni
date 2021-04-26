@@ -4,13 +4,9 @@ import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
 import it.polimi.ingsw.net.server.threads.NewConnectionHandler;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class GameServer {
 
