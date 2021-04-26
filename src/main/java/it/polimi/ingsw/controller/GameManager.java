@@ -300,6 +300,7 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+
                 case PRODUCE:
 
                     EventHandler.makeRequest(Action.PRODUCE, player.getNickname());
@@ -311,6 +312,20 @@ public class GameManager {
                     }else{
                         //TODO notify player he has already used his primary action
                     }
+
+                case PLAYLEADER:
+
+                    EventHandler.makeRequest(Action.CHOOSE_LEADER, player.getNickname());
+                    ChooseLeaderEventData playLeaderEventData = EventHandler.getResponse();
+
+                    playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
+
+                case DISCARDLEADER:
+
+                    EventHandler.makeRequest(Action.CHOOSE_LEADER, player.getNickname());
+                    ChooseLeaderEventData discardLeaderEventData = EventHandler.getResponse();
+
+                    discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
 
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
