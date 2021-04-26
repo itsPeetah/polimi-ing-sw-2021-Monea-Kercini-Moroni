@@ -289,7 +289,6 @@ public class GameManager {
                         //TODO notify player he has already used his primary action
                     }
 
-
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(player, game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
@@ -403,7 +402,20 @@ public class GameManager {
                 //automatically replace the white marble with the one granted from the leader ability
                 res.replaceWhite(replaceTypes.get(0));
             case 2:
-                //TODO Ask player which type of resource he wants the white changed to using the type ArrayList
+                //asking the player to choose one of the two resources he can to substitute white
+                //TODO recheck how will the player be only offered the two resources he has the card
+
+                Resources choice = askPlayerToChooseResource(player);
+
+                //Converting the choice from resources in resource type and adding it
+                for (ResourceType type : ResourceType.values()) {
+                    if(choice.getAmountOf(type) > 0){
+                        res.replaceWhite(type);
+                        break;
+                    }
+                }
+
+
                 //Than just replace white with the player choice
             default:
                 //replace nothing, but do remove the white
