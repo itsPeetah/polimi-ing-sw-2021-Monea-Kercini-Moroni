@@ -2,22 +2,16 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.events.Action;
-import it.polimi.ingsw.model.events.EventHandler;
+import it.polimi.ingsw.model.events.*;
 import it.polimi.ingsw.model.events.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
-import it.polimi.ingsw.model.general.Production;
-import it.polimi.ingsw.model.general.ResourceType;
-import it.polimi.ingsw.model.general.Resources;
-import it.polimi.ingsw.model.general.ResourcesException;
+import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
-
 
 import com.google.gson.Gson;
 
 import java.io.*;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +38,7 @@ public class GameManager {
 
     /**
      * Method for letting player choose a resource
-     * @return the resources
+     * @return the resource
      */
     private Resources askPlayerToChooseResource(Player p){
 
@@ -57,7 +51,7 @@ public class GameManager {
 
     /**
      * Player has to put the resources in the correct Warehouse place
-     * @param res player has to put
+     * @param res resources player has to put
      * @param wh warehouse that will be updated
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
@@ -183,7 +177,7 @@ public class GameManager {
         ArrayList<ProductionPowers> pp = new ArrayList<>();
         ArrayList<PlayerBoard> pb = new ArrayList<>();
 
-        //Getting player Leader choices and Extra resources
+        //Getting player Leader choices and Extra resources depending on player order
         for (int i = 0; i< game.getPlayers().length; i++){
 
             //Set up player board
@@ -220,6 +214,9 @@ public class GameManager {
 
     /**
      * The game starts
+     * The game will now stay on turn phase until last round it's triggered
+     * Then the players left will play their last turn (until it's the last players turn)
+     * This is where the it will be kept track of the turn and will be triggered the end game
      */
 
     private void startGame(){
@@ -244,6 +241,7 @@ public class GameManager {
             if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
                 lastRound = true;
             }
+
             game.increaseTurnCounter();
         }
         endGame();
@@ -267,6 +265,8 @@ public class GameManager {
             ChooseActionEventData data = EventHandler.getResponse();
 
             switch (data.getChoice()) {
+
+                //Player has chosen to acquire resources from the Market tray
                 case RESOURCEMARKET:
 
                     EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
@@ -280,6 +280,7 @@ public class GameManager {
                     }
                     break;
 
+                //Player has chosen to buy a development card
                 case DEVCARDMARKET:
 
                     EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
@@ -293,6 +294,7 @@ public class GameManager {
                     }
                     break;
 
+                //Player has chosen to produce
                 case PRODUCE:
 
                     EventHandler.makeRequest(Action.PRODUCE, player.getNickname());
@@ -306,6 +308,8 @@ public class GameManager {
                     }
                     break;
 
+                //Player has chosen to play/discard leader
+                //these are not primary actions and can be used more than once during his turn, whenever player wants
                 case PLAYLEADER:
 
                     EventHandler.makeRequest(Action.CHOOSE_LEADER, player.getNickname());
@@ -322,6 +326,8 @@ public class GameManager {
                     discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
                     break;
 
+                //Player has chosen rearrange the resources he has in his warehouse
+                //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse());
@@ -337,12 +343,16 @@ public class GameManager {
 
     }
 
+    /**
+     * Calculate victory points for each player and show victory screens
+     */
+
     public void endGame(){
 
         gamePhase = GamePhase.END;
 
         //Calculate VP for each player
-        int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more accessible
+        int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more easily accessed
 
         for (int i = 0; i< game.getPlayers().length; i++) {
 
@@ -381,10 +391,10 @@ public class GameManager {
     }
 
     /**
-     *
+     * Updates Market after players choice as well as his Warehouse
      * @param player
-     * @param row
-     * @param index
+     * @param row -true if player has chosen to acquire from row -false if he acquires a column
+     * @param index the row/column he has chosen
      * @return true if it executed the action with no problems
      */
     private boolean resourceMarketUpdate(Player player, boolean row, int index) {
@@ -464,6 +474,13 @@ public class GameManager {
         return true;
     }
 
+    /**
+     * Updates The development card market and player board
+     * @param player
+     * @param chosenCard The dev card the player has chosen
+     * @param position The position (pile) the player wants to put the card he bought
+     * @return true if it executed the action with no problems
+     */
     private boolean devCardMarketUpdate(Player player, DevCard chosenCard, int position){
 
         //check if affordable
@@ -482,6 +499,12 @@ public class GameManager {
         }
     }
 
+    /**
+     * Updates the warehouse and strongbox with players choice
+     * @param player
+     * @param chosenProduction by the player
+     * @return true if it executed the action with no problems
+     */
     private boolean produceUpdate(Player player, Production chosenProduction){
 
         Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
@@ -515,6 +538,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Plays the Leader Card the player has chosen
+     * @param player
+     * @param chosenLeader
+     */
     private void playLeaderUpdate(Player player, LeadCard chosenLeader){
 
         if(chosenLeader.affordable(player)){
@@ -524,11 +552,22 @@ public class GameManager {
         }
     }
 
+    /**
+     * Discard the Leader Card the player has chosen
+     * @param player
+     * @param chosenLeader
+     */
     private void discardLeaderUpdate(Player player, LeadCard chosenLeader){
 
         chosenLeader.discard(player);
     }
 
+    /**
+     * Makes the player choose all the resources he wants from the input resources, if it has any choices
+     * @param p player
+     * @param r resource to check
+     * @return The resource, but instead of choice it has been updated with the player choices
+     */
     private Resources makePlayerChoose(Player p, Resources r){
 
         //ask player to choose resource until he has finished all choices
