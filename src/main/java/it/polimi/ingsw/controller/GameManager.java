@@ -524,4 +524,20 @@ public class GameManager {
         chosenLeader.discard(player);
     }
 
+    private Resources makePlayerChoose(Player p, Resources r){
+
+        //ask player to choose resource until he has finished all choices
+        while (r.getAmountOf(ResourceType.CHOICE)>0) {
+
+            r.add(askPlayerToChooseResource(p));
+
+            try {
+                r.remove(ResourceType.CHOICE, 1);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return r;
+    }
+
 }
