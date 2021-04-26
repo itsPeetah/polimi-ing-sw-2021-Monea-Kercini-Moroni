@@ -10,4 +10,7 @@ public enum Action {
     CHOOSE_2_LEADERS,
     CHOOSE_ACTION,
     RESOURCE_MARKET,
+    DEV_CARD,
+    PRODUCE,
+    CHOOSE_LEADER,
 }

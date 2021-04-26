@@ -289,6 +289,18 @@ public class GameManager {
                         //TODO notify player he has already used his primary action
                     }
 
+                case DEVCARDMARKET:
+
+                    EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
+                    DevCardEventData devCardChoice = EventHandler.getResponse();
+
+                    //Do this action only if the player has not used his primary action
+                    if(!primaryActionUsed){
+                        primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
+                    }else{
+                        //TODO notify player he has already used his primary action
+                    }
+
                 case REARRANGEWAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(player, game.getCurrentPlayer().getBoard().getWarehouse().getResourcesAvailable(), game.getCurrentPlayer().getBoard().getWarehouse());
@@ -415,7 +427,6 @@ public class GameManager {
                     }
                 }
 
-
                 //Than just replace white with the player choice
             default:
                 //replace nothing, but do remove the white
@@ -426,25 +437,25 @@ public class GameManager {
                 }
         }
 
-
         askPlayerToPutResources(player, res, player.getBoard().getWarehouse());
         return true;
     }
 
-    private void devCardMarketUpdate(Player player, DevCard chosenCard){
-        //TODO player chooses devCard and position
-        int position = 0;
+    private boolean devCardMarketUpdate(Player player, DevCard chosenCard, int position){
 
         //check if affordable
         if(!chosenCard.affordable(player)){
             //TODO Tell player he doesn't have enough resources
+            return false;
 
             //check if it's possible to place that card there
         }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
             //TODO Tell player he can't put that card there
+            return false;
 
         }else{
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+            return true;
         }
     }
 
