@@ -66,7 +66,7 @@ public class GameManager {
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
-        if((wh.getResourceAmountWarehouse()+ res.getTotalAmount()) >= updatedWarehouse.getResourceAmountWarehouse()){
+        if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
 
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
 
@@ -255,7 +255,6 @@ public class GameManager {
 
         endGame();
 
-
     }
 
     /**
@@ -274,9 +273,21 @@ public class GameManager {
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
 
-            //TODO get players choice on what he wants to do - he must be offered only secondary actions if he has already used his primary one
+            EventHandler.makeRequest(Action.CHOOSE_ACTION, player.getNickname());
+            ChooseActionEventData data = EventHandler.getResponse();
 
-            switch (choice) {
+            switch (data.getChoice()) {
+                case RESOURCEMARKET:
+
+                    EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
+                    ResourceMarketEventData playerChoice = EventHandler.getResponse();
+
+                    //Do this action only if the player has not used his primary action
+                    if(!primaryActionUsed){
+                        primaryActionUsed = resourceMarketUpdate(player, playerChoice.isRow(), playerChoice.getIndex());
+                    }else{
+                        //TODO notify player he has already used his primary action
+                    }
 
 
                 case REARRANGEWAREHOUSE:
@@ -335,7 +346,14 @@ public class GameManager {
     }
 
 
-    private void resourceMarketUpdate(Player player, boolean row, int index) {
+    /**
+     *
+     * @param player
+     * @param row
+     * @param index
+     * @return true if it executed the action with no problems
+     */
+    private boolean resourceMarketUpdate(Player player, boolean row, int index) {
 
         //boolean row = false; //false for column, true for row
         Resources res = new Resources();
@@ -398,6 +416,7 @@ public class GameManager {
 
 
         askPlayerToPutResources(player, res, player.getBoard().getWarehouse());
+        return true;
     }
 
     private void devCardMarketUpdate(Player player, DevCard chosenCard){

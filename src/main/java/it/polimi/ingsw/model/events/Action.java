@@ -8,5 +8,6 @@ public enum Action {
     CHOOSE_RESOURCE,
     PUT_RESOURCES,
     CHOOSE_2_LEADERS,
-
+    CHOOSE_ACTION,
+    RESOURCE_MARKET,
 }
