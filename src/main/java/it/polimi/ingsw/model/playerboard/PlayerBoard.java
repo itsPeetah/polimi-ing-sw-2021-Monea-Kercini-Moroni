@@ -39,6 +39,11 @@ public class PlayerBoard {
 
     public void incrementFaithPoints(int amount){
         faithPoints += amount;
+
+        //Faith points cannot be be more than 20
+        if(faithPoints>20){
+            faithPoints = 20;
+        }
     }
 
     /**
@@ -53,6 +58,7 @@ public class PlayerBoard {
     /**
      *
      * @param reportsAttended default should be 3
+     * @param pp the devcard board
      */
 
     public PlayerBoard(int reportsAttended, Warehouse wh, Strongbox sb, ProductionPowers pp) {

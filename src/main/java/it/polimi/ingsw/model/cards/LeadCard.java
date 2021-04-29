@@ -43,11 +43,29 @@ public class LeadCard extends Card {
         player.getBoard().getWarehouse().expandWithLeader(this);
         player.getBoard().getProductionPowers().addLeadCardProduction(this);
         player.getBoard().addDiscount(ability.getResourceDiscount());
-        player.getBoard().addMarble(ability.getGreyMarbleReplacement());
+        player.getBoard().addMarble(ability.getWhiteMarbleReplacement());
 
         // Put the leader in the player board
         try {
             player.getLeaders().playCard(this);
+        } catch (PlayerLeadersException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Discards the leader and gains an extra faith point
+     * @param player
+     */
+
+    public void discard(Player player) {
+
+        // Get the extra faith point.
+        player.getBoard().incrementFaithPoints(1);
+
+        // Discard the leader
+        try {
+            player.getLeaders().discardCard(this);
         } catch (PlayerLeadersException e) {
             e.printStackTrace();
         }

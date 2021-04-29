@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.general.Level;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
@@ -60,6 +61,42 @@ public class ProductionPowers {
         }
         return AvailableCards;
     }
+
+    /**
+     * Method that returns true if a dev card can be placed on top of the selected pile
+     * @param card the devCard you are trying to place
+     * @param pos the pile (position) where you are trying to place the devcard
+     * @return
+     */
+
+    public boolean canDevCardBePlaced(DevCard card, int pos){
+
+        //if card level is 1 then we need the pile to be clear
+        if(card.getLevel() == Level.LOW){
+            if(cardPile[pos][0] == null){
+                return true;
+            }else{
+                return false;
+            }
+
+        //if card level is 2 then we need the pile to have a level one card but the second one to be free
+        }else if (card.getLevel() == Level.MEDIUM){
+            if(cardPile[pos][0] != null && cardPile[pos][1] == null){
+                return true;
+            }else{
+                return false;
+            }
+
+        //if card level is 3 then we need the pile to have a level two card but the third one to be free
+        }else{
+            if(cardPile[pos][1] != null && cardPile[pos][2] == null){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    //*note - modifying this method could be possible to check if a dev card can be placed at all, alternatively the method can be called 3 times
 
     /**
      * adds development card on top of the selected pile

@@ -7,16 +7,16 @@ import it.polimi.ingsw.model.general.Resources;
 public class LeadCardAbility {
     private Resources resourceDiscount;
     private Resources extraWarehouseSpace;
-    private ResourceType greyMarbleReplacement; // IMPORTANT: if BLANK, it means the ability has no replacements for the grey marble
+    private ResourceType whiteMarbleReplacement; // IMPORTANT: if BLANK, it means the ability has no replacements for the white marble
     private Production production;
 
     public LeadCardAbility() {
     }
 
-    public LeadCardAbility(Resources resourceDiscount, Resources extraWarehouseSpace, ResourceType greyMarbleReplacement, Production production) {
+    public LeadCardAbility(Resources resourceDiscount, Resources extraWarehouseSpace, ResourceType whiteMarbleReplacement, Production production) {
         this.resourceDiscount = resourceDiscount;
         this.extraWarehouseSpace = extraWarehouseSpace;
-        this.greyMarbleReplacement = greyMarbleReplacement;
+        this.whiteMarbleReplacement = whiteMarbleReplacement;
         this.production = production;
     }
 
@@ -35,10 +35,10 @@ public class LeadCardAbility {
     }
 
     /**
-     * @return replacement for the grey marble
+     * @return replacement for the white marble
      */
-    public ResourceType getGreyMarbleReplacement() {
-        return greyMarbleReplacement;
+    public ResourceType getWhiteMarbleReplacement() {
+        return whiteMarbleReplacement;
     }
 
     /**

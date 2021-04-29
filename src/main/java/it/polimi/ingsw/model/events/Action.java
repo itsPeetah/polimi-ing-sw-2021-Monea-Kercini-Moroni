@@ -4,5 +4,13 @@ package it.polimi.ingsw.model.events;
  * Enum of actions to be requested to the player.
  */
 public enum Action {
-    NONE;
+    NONE,
+    CHOOSE_RESOURCE,
+    PUT_RESOURCES,
+    CHOOSE_2_LEADERS,
+    CHOOSE_ACTION,
+    RESOURCE_MARKET,
+    DEV_CARD,
+    PRODUCE,
+    CHOOSE_LEADER,
 }
