@@ -1,0 +1,25 @@
++----------+                +----------+
+|  Client  |                |  Server  |
++----------+                +----------+
+      |                           |
+      |                           |
+      |                   WELCOME | - The server welcomes the client
+      | <------------------------ |
+      |                           |
+      |                           |
+      | HELLO                     |
+      | ------------------------> | - The client responds
+      |                           |
+      |                           |
+      |                   ID <id> |
+      | <------------------------ | - The server assigns an id to the client
+      |                           |
+      |                           |
+      | OK <id>                   |
+      | ------------------------> | - The client confirms it received the id
+      |                           |
+      |                           |
+      |                     READY | - The server communicates to the client
+      | <------------------------ |   it's ready to accept messages
+      |                           |
+      |                           |
