@@ -26,7 +26,7 @@ class DevCardMarketTest {
         ArrayList<DevCard> cards = new ArrayList<DevCard>();
         cards.add(new DevCard(1, "card1", Level.LOW, Color.BLUE, cost, null));
         cards.add(new DevCard(1, "card2", Level.LOW, Color.BLUE, cost, null));
-        cards.add(new DevCard(1, "card3", Level.LOW, Color.BLUE, cost, null));
+        //cards.add(new DevCard(1, "card3", Level.LOW, Color.BLUE, cost, null));
 
         DevCardMarket dcm = new DevCardMarket(cards);
         Player p = new Player("Joe Chapter");
@@ -38,17 +38,15 @@ class DevCardMarketTest {
 
         p.getBoard().getStrongbox().deposit(r);
 
-        for (int i = 0; i < 4; i++) {
-            try {
-                boolean success = dcm.buyCard(0, p);
-
-                assertEquals(i < 2 ? true : false, success);
-
-            } catch (DevCardMarketException dcme) {
-                assertEquals(3, i);
-            }
+        boolean result = dcm.buyCard(1, p);
+        assert(result);
+        result = dcm.buyCard(0, p);
+        assert (result);
+        try{
+            result = dcm.buyCard(0,p);
+        } catch (ArrayIndexOutOfBoundsException ex){
+            System.out.println(ex.getMessage());
         }
-
 
     }
 }
