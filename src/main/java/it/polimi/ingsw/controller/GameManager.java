@@ -20,7 +20,9 @@ import java.util.Collections;
 public class GameManager {
 
     private GamePhase gamePhase = GamePhase.PREGAME;
-    private Game game;
+
+    // initialize game (with default settings)
+    private Game game = GameFactory.CreateGame();
 
     public Game getGame() {
         return game;
@@ -32,7 +34,7 @@ public class GameManager {
         try {
             game.addPlayer(nickname);
         }catch (Exception e){
-            System.out.println("Player limit reached!");
+            e.printStackTrace();
         }
     }
 
@@ -149,8 +151,7 @@ public class GameManager {
 
         */
 
-        // initialize game (with default settings)
-        game = GameFactory.CreateGame();
+
 
 
         //Initialize leader cards
@@ -268,31 +269,26 @@ public class GameManager {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCEMARKET:
-
                     primaryActionUsed = resourceMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to buy a development card
                 case DEVCARDMARKET:
-
                     primaryActionUsed = devCardMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to produce
                 case PRODUCE:
-
                     primaryActionUsed = produce(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to play/discard leader
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
                 case PLAYLEADER:
-
                     playLeader(player);
                     break;
 
                 case DISCARDLEADER:
-
                     discardLeader(player);
                     break;
 
@@ -418,7 +414,7 @@ public class GameManager {
                 res.replaceWhite(replaceTypes.get(0));
             case 2:
                 //asking the player to choose one of the two resources he can to substitute white
-                //TODO recheck how will the player be only offered the two resources he has the card
+                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
                 Resources choice = askPlayerToChooseResource(player);
 
@@ -555,8 +551,13 @@ public class GameManager {
     }
 
 
+    /**THESE ARE THE METHODS INSIDE PLAYTURN
+     *
+     * They call their respective Update methods
+     * The only difference is they take care of the I/O - getting the player choice
+     * and whether the primary action has been used
+     */
 
-    //THESE ARE THE METHODS INSIDE PLAYTURN
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
