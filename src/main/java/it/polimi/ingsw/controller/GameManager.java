@@ -57,6 +57,7 @@ public class GameManager {
      * @param wh warehouse that will be updated
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
+
         EventHandler.setExpected(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesEventData data = EventHandler.waitForExpectedData();
         Warehouse updatedWarehouse = data.getWarehouse();
@@ -79,13 +80,11 @@ public class GameManager {
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
         }
-
     }
 
     /**
      * Setting up new game after all the players have joined
      */
-
     public void setupGame(){
 
         gamePhase = GamePhase.START;
