@@ -7,6 +7,11 @@ public class DevCardEventData extends EventData {
     DevCard chosenCard;
     int position; //The position (pile) the player has chosen to put this dev card
 
+    /**
+     * Constructor for GSON
+     */
+    public DevCardEventData() {}
+
     public DevCardEventData(DevCard chosenCard) {
         this.chosenCard = chosenCard;
     }

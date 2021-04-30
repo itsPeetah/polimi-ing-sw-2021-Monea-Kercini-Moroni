@@ -6,6 +6,11 @@ public class ResourceMarketEventData extends EventData {
     private boolean row;
     private int index;
 
+    /**
+     * Constructor for GSON
+     */
+    public ResourceMarketEventData() {}
+
     public ResourceMarketEventData(boolean row, int index) {
         this.row = row;
         this.index = index;
