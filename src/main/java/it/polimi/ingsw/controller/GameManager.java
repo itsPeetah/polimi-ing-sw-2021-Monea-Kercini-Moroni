@@ -42,8 +42,8 @@ public class GameManager {
      */
     private Resources askPlayerToChooseResource(Player p){
 
-        EventHandler.makeRequest(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceEventData data = EventHandler.getResponse();
+        EventHandler.setExpected(Action.CHOOSE_RESOURCE, p.getNickname());
+        ChooseResourceEventData data = EventHandler.waitForExpected();
         Resources res = data.getResources();
 
         return res;
@@ -55,8 +55,8 @@ public class GameManager {
      * @param wh warehouse that will be updated
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
-        EventHandler.makeRequest(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesEventData data = EventHandler.getResponse();
+        EventHandler.setExpected(Action.PUT_RESOURCES, p.getNickname());
+        PutResourcesEventData data = EventHandler.waitForExpected();
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
@@ -189,8 +189,8 @@ public class GameManager {
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
-            EventHandler.makeRequest(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersEventData data = EventHandler.getResponse();
+            EventHandler.setExpected(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+            Choose2LeadersEventData data = EventHandler.waitForExpected();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
             if (i>=1){ //second player gets an extra resource
@@ -261,16 +261,16 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            EventHandler.makeRequest(Action.CHOOSE_ACTION, player.getNickname());
-            ChooseActionEventData data = EventHandler.getResponse();
+            EventHandler.setExpected(Action.CHOOSE_ACTION, player.getNickname());
+            ChooseActionEventData data = EventHandler.waitForExpected();
 
             switch (data.getChoice()) {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCEMARKET:
 
-                    EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
-                    ResourceMarketEventData playerChoice = EventHandler.getResponse();
+                    EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
+                    ResourceMarketEventData playerChoice = EventHandler.waitForExpected();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -283,8 +283,8 @@ public class GameManager {
                 //Player has chosen to buy a development card
                 case DEVCARDMARKET:
 
-                    EventHandler.makeRequest(Action.RESOURCE_MARKET, player.getNickname());
-                    DevCardEventData devCardChoice = EventHandler.getResponse();
+                    EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
+                    DevCardEventData devCardChoice = EventHandler.waitForExpected();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -297,8 +297,8 @@ public class GameManager {
                 //Player has chosen to produce
                 case PRODUCE:
 
-                    EventHandler.makeRequest(Action.PRODUCE, player.getNickname());
-                    ProduceEventData produceChoice = EventHandler.getResponse();
+                    EventHandler.setExpected(Action.PRODUCE, player.getNickname());
+                    ProduceEventData produceChoice = EventHandler.waitForExpected();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -312,16 +312,16 @@ public class GameManager {
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
                 case PLAYLEADER:
 
-                    EventHandler.makeRequest(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData playLeaderEventData = EventHandler.getResponse();
+                    EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
+                    ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpected();
 
                     playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
                     break;
 
                 case DISCARDLEADER:
 
-                    EventHandler.makeRequest(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData discardLeaderEventData = EventHandler.getResponse();
+                    EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
+                    ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpected();
 
                     discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
                     break;

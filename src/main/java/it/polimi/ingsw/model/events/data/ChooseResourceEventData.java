@@ -7,6 +7,11 @@ public class ChooseResourceEventData extends EventData {
 
     private Resources res;
 
+    /**
+     * Constructor for GSON
+     */
+    public ChooseResourceEventData() {}
+
     public ChooseResourceEventData(Resources res) {
         this.res = res;
     }

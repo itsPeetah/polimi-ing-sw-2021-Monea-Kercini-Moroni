@@ -13,6 +13,11 @@ public class PutResourcesEventData extends EventData {
      and then easily build a new warehouse. It should be paid attention to the extra space leadcards could provide
      */
 
+    /**
+     * Constructor for GSON
+     */
+    public PutResourcesEventData() {}
+
 
     public Warehouse getWarehouse(){
         return wh;
