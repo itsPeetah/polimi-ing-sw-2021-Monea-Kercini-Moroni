@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.server.components;
 
-import ingsw.pietro.test.network.common.RemoteUser;
-
 import java.util.Hashtable;
 import java.util.Random;
 

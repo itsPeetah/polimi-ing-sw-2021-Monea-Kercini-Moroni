@@ -1,4 +1,6 @@
-package it.polimi.ingsw.network.common;
+package it.polimi.ingsw.network.server.components;
+
+import it.polimi.ingsw.network.common.ExSocket;
 
 public class RemoteUser {
 

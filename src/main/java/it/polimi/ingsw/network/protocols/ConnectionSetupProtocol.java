@@ -1,9 +1,10 @@
 package it.polimi.ingsw.network.protocols;
 
-import ingsw.pietro.test.network.common.*;
-import ingsw.pietro.test.network.server.components.GameRoom;
-import ingsw.pietro.test.network.server.components.RoomTable;
-import ingsw.pietro.test.network.server.components.UserTable;
+import it.polimi.ingsw.network.common.ExSocket;
+import it.polimi.ingsw.network.server.components.RemoteUser;
+import it.polimi.ingsw.network.server.components.GameRoom;
+import it.polimi.ingsw.network.server.components.RoomTable;
+import it.polimi.ingsw.network.server.components.UserTable;
 
 import java.io.IOException;
 
