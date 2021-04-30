@@ -44,8 +44,8 @@ public class GameManager {
      */
     private Resources askPlayerToChooseResource(Player p){
 
-        EventHandler.setExpected(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceEventData data = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
+        ChooseResourceEventData data = EventHandler.getResponseData();
         Resources res = data.getResources();
 
         return res;
@@ -58,8 +58,8 @@ public class GameManager {
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
-        EventHandler.setExpected(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesEventData data = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+        PutResourcesEventData data = EventHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
@@ -189,8 +189,8 @@ public class GameManager {
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
-            EventHandler.setExpected(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersEventData data = EventHandler.waitForExpectedData();
+            EventHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+            Choose2LeadersEventData data = EventHandler.getResponseData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
             if (i>=1){ //second player gets an extra resource
@@ -261,8 +261,8 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            EventHandler.setExpected(Action.CHOOSE_ACTION, player.getNickname());
-            ChooseActionEventData data = EventHandler.waitForExpectedData();
+            EventHandler.setExpectedAction(Action.CHOOSE_ACTION, player.getNickname());
+            ChooseActionEventData data = EventHandler.getResponseData();
 
             switch (data.getChoice()) {
 
@@ -560,8 +560,8 @@ public class GameManager {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-        ResourceMarketEventData playerChoice = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        ResourceMarketEventData playerChoice = EventHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -575,8 +575,8 @@ public class GameManager {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-        DevCardEventData devCardChoice = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        DevCardEventData devCardChoice = EventHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -590,8 +590,8 @@ public class GameManager {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        EventHandler.setExpected(Action.PRODUCE, player.getNickname());
-        ProduceEventData produceChoice = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
+        ProduceEventData produceChoice = EventHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -605,16 +605,16 @@ public class GameManager {
 
     private void playLeader(Player player){
 
-        EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-        ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        ChooseLeaderEventData playLeaderEventData = EventHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
     }
 
     private void discardLeader(Player player){
 
-        EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-        ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpectedData();
+        EventHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        ChooseLeaderEventData discardLeaderEventData = EventHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }
