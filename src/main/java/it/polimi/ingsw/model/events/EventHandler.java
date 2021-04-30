@@ -10,10 +10,30 @@ import static it.polimi.ingsw.model.events.Action.*;
 /* CODE EXAMPLE FOR HANDLER USAGE:
 
         // Make a new request to the EventHandler for an action from a player
-        EventHandler.setExpected(requestAction, requestPlayer);
+        EventHandler.setExpectedAction(requestAction, requestPlayer);
 
         // Ask for the result. IMPORTANT: this method is a BLOCKING method, meaning that it will stop the thread of the controller
-        YourEventData data = EventHandler.waitForExpectedData();
+        YourEventData data = EventHandler.getResponseData();
+
+        // Now you can freely use the retrieved data (this is an example)
+        String stringRequested = data.useYourEventDataMethod();
+
+        NOTE: if you wanna wait for the first of MORE THAN ONE action, do something like this!
+
+        // Make a new request to the EventHandler for an action from a player.
+        // IMPORTANT: It's IMPORTANT that this method is called BEFORE you add other expected actions.
+        // Because this methods sets the expected player and removes the previous request.
+        EventHandler.setExpectedAction(requestAction1, requestPlayer);
+
+        // Add how many actions as you like
+        // IMPORTANT: It's important that this method is called AFTER you called setExpectedAction as said before.
+        EventHandler.addExpectedAction(requestAction2);
+        EventHandler.addExpectedAction(requestAction3);
+
+
+        // Ask for the result. IMPORTANT: both these methods are BLOCKING methods, meaning that they will stop the thread of the controller if a response has not arrived yet!
+        Action performedAction = EventHandler.getResponseAction();
+        YourEventData data = EventHandler.getResponseData();
 
         // Now you can freely use the retrieved data (this is an example)
         String stringRequested = data.useYourEventDataMethod();
