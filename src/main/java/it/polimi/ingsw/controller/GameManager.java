@@ -20,7 +20,9 @@ import java.util.Collections;
 public class GameManager {
 
     private GamePhase gamePhase = GamePhase.PREGAME;
-    private Game game;
+
+    // initialize game (with default settings)
+    private Game game = GameFactory.CreateGame();
 
     public Game getGame() {
         return game;
@@ -32,7 +34,7 @@ public class GameManager {
         try {
             game.addPlayer(nickname);
         }catch (Exception e){
-            System.out.println("Player limit reached!");
+            e.printStackTrace();
         }
     }
 
@@ -55,6 +57,7 @@ public class GameManager {
      * @param wh warehouse that will be updated
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
+
         EventHandler.setExpected(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesEventData data = EventHandler.waitForExpectedData();
         Warehouse updatedWarehouse = data.getWarehouse();
@@ -77,13 +80,11 @@ public class GameManager {
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
         }
-
     }
 
     /**
      * Setting up new game after all the players have joined
      */
-
     public void setupGame(){
 
         gamePhase = GamePhase.START;
@@ -149,8 +150,7 @@ public class GameManager {
 
         */
 
-        // initialize game (with default settings)
-        game = GameFactory.CreateGame();
+
 
 
         //Initialize leader cards
@@ -268,62 +268,27 @@ public class GameManager {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCEMARKET:
-
-                    EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-                    ResourceMarketEventData playerChoice = EventHandler.waitForExpectedData();
-
-                    //Do this action only if the player has not used his primary action
-                    if(!primaryActionUsed){
-                        primaryActionUsed = resourceMarketUpdate(player, playerChoice.isRow(), playerChoice.getIndex());
-                    }else{
-                        //TODO notify player he has already used his primary action
-                    }
+                    primaryActionUsed = resourceMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to buy a development card
                 case DEVCARDMARKET:
-
-                    EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-                    DevCardEventData devCardChoice = EventHandler.waitForExpectedData();
-
-                    //Do this action only if the player has not used his primary action
-                    if(!primaryActionUsed){
-                        primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
-                    }else{
-                        //TODO notify player he has already used his primary action
-                    }
+                    primaryActionUsed = devCardMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to produce
                 case PRODUCE:
-
-                    EventHandler.setExpected(Action.PRODUCE, player.getNickname());
-                    ProduceEventData produceChoice = EventHandler.waitForExpectedData();
-
-                    //Do this action only if the player has not used his primary action
-                    if(!primaryActionUsed){
-                        primaryActionUsed = produceUpdate(player, produceChoice.getChosenProd());
-                    }else{
-                        //TODO notify player he has already used his primary action
-                    }
+                    primaryActionUsed = produce(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to play/discard leader
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
                 case PLAYLEADER:
-
-                    EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpectedData();
-
-                    playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
+                    playLeader(player);
                     break;
 
                 case DISCARDLEADER:
-
-                    EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpectedData();
-
-                    discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+                    discardLeader(player);
                     break;
 
                 //Player has chosen rearrange the resources he has in his warehouse
@@ -448,7 +413,7 @@ public class GameManager {
                 res.replaceWhite(replaceTypes.get(0));
             case 2:
                 //asking the player to choose one of the two resources he can to substitute white
-                //TODO recheck how will the player be only offered the two resources he has the card
+                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
                 Resources choice = askPlayerToChooseResource(player);
 
@@ -582,6 +547,76 @@ public class GameManager {
             }
         }
         return r;
+    }
+
+
+    /**THESE ARE THE METHODS INSIDE PLAYTURN
+     *
+     * They call their respective Update methods
+     * The only difference is they take care of the I/O - getting the player choice
+     * and whether the primary action has been used
+     */
+
+
+    private boolean resourceMarket(Player player, boolean primaryActionUsed){
+
+        EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
+        ResourceMarketEventData playerChoice = EventHandler.waitForExpectedData();
+
+        //Do this action only if the player has not used his primary action
+        if(!primaryActionUsed){
+            primaryActionUsed = resourceMarketUpdate(player, playerChoice.isRow(), playerChoice.getIndex());
+        }else{
+            //TODO notify player he has already used his primary action
+        }
+
+        return primaryActionUsed;
+    }
+
+    private boolean devCardMarket(Player player, boolean primaryActionUsed){
+
+        EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
+        DevCardEventData devCardChoice = EventHandler.waitForExpectedData();
+
+        //Do this action only if the player has not used his primary action
+        if(!primaryActionUsed){
+            primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
+        }else{
+            //TODO notify player he has already used his primary action
+        }
+
+        return primaryActionUsed;
+    }
+
+    private boolean produce(Player player, boolean primaryActionUsed){
+
+        EventHandler.setExpected(Action.PRODUCE, player.getNickname());
+        ProduceEventData produceChoice = EventHandler.waitForExpectedData();
+
+        //Do this action only if the player has not used his primary action
+        if(!primaryActionUsed){
+            primaryActionUsed = produceUpdate(player, produceChoice.getChosenProd());
+        }else{
+            //TODO notify player he has already used his primary action
+        }
+
+        return primaryActionUsed;
+    }
+
+    private void playLeader(Player player){
+
+        EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
+        ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpectedData();
+
+        playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
+    }
+
+    private void discardLeader(Player player){
+
+        EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
+        ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpectedData();
+
+        discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }
 
 }
