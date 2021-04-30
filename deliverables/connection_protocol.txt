@@ -25,21 +25,21 @@
 Room creation:                    |
 +---------------------------------------+
 |     |                           |     |
-|     | CREATE <room> <nick>      |     |
-|     | ------------------------> |     |
-|     |                           |     |
-|     |            OK || KO <msg> |     |
-|     | <------------------------ |     |
+|     | CREATE <room> <nick>      |     | - The client tells the server it wants to
+|     | ------------------------> |     |   create a room, providing room name and
+|     |                           |     |   player nickname
+|     |            OK || KO <msg> |     | - Te server replies with a success or
+|     | <------------------------ |     |   failure notice
 |     |                           |     |
 +---------------------------------------+
 Room joining:                     |
 +---------------------------------------+
 |     |                           |     |
-|     | JOIN <room> <nick>        |     |
-|     | ------------------------> |     |
-|     |                           |     |
-|     |            OK || KO <msg> |     |
-|     | <------------------------ |     |
+|     | JOIN <room> <nick>        |     | - The client tells the server it wants to
+|     | ------------------------> |     |   join an existing room, providing room name
+|     |                           |     |   and player nickname
+|     |            OK || KO <msg> |     | - The server replies with a success or
+|     | <------------------------ |     |   failure notice
 |     |                           |     |
 +---------------------------------------+
       |                           |
