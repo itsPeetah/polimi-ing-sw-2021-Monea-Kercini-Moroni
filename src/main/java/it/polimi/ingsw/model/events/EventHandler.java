@@ -8,7 +8,7 @@ import static it.polimi.ingsw.model.events.Action.*;
         EventHandler.setExpected(requestAction, requestPlayer);
 
         // Ask for the result. IMPORTANT: this method is a BLOCKING method, meaning that it will stop the thread of the controller
-        YourEventData data = EventHandler.waitForExpected();
+        YourEventData data = EventHandler.waitForExpectedData();
 
         // Now you can freely use the retrieved data (this is an example)
         String stringRequested = data.useYourEventDataMethod();
@@ -55,7 +55,7 @@ public class EventHandler {
      * Get the response for the last requested action.
      * @param <T> type of the requested data.
      */
-    public static <T extends EventData> T waitForExpected() {
+    public static <T extends EventData> T waitForExpectedData() {
         synchronized(lock) {
             // Check if the player generated a response
             while (!ready) {

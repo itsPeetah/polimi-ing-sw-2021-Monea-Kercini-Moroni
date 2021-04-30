@@ -43,7 +43,7 @@ public class GameManager {
     private Resources askPlayerToChooseResource(Player p){
 
         EventHandler.setExpected(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceEventData data = EventHandler.waitForExpected();
+        ChooseResourceEventData data = EventHandler.waitForExpectedData();
         Resources res = data.getResources();
 
         return res;
@@ -56,7 +56,7 @@ public class GameManager {
      */
     private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
         EventHandler.setExpected(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesEventData data = EventHandler.waitForExpected();
+        PutResourcesEventData data = EventHandler.waitForExpectedData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
@@ -190,7 +190,7 @@ public class GameManager {
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
             EventHandler.setExpected(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersEventData data = EventHandler.waitForExpected();
+            Choose2LeadersEventData data = EventHandler.waitForExpectedData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
             if (i>=1){ //second player gets an extra resource
@@ -262,7 +262,7 @@ public class GameManager {
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
             EventHandler.setExpected(Action.CHOOSE_ACTION, player.getNickname());
-            ChooseActionEventData data = EventHandler.waitForExpected();
+            ChooseActionEventData data = EventHandler.waitForExpectedData();
 
             switch (data.getChoice()) {
 
@@ -270,7 +270,7 @@ public class GameManager {
                 case RESOURCEMARKET:
 
                     EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-                    ResourceMarketEventData playerChoice = EventHandler.waitForExpected();
+                    ResourceMarketEventData playerChoice = EventHandler.waitForExpectedData();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -284,7 +284,7 @@ public class GameManager {
                 case DEVCARDMARKET:
 
                     EventHandler.setExpected(Action.RESOURCE_MARKET, player.getNickname());
-                    DevCardEventData devCardChoice = EventHandler.waitForExpected();
+                    DevCardEventData devCardChoice = EventHandler.waitForExpectedData();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -298,7 +298,7 @@ public class GameManager {
                 case PRODUCE:
 
                     EventHandler.setExpected(Action.PRODUCE, player.getNickname());
-                    ProduceEventData produceChoice = EventHandler.waitForExpected();
+                    ProduceEventData produceChoice = EventHandler.waitForExpectedData();
 
                     //Do this action only if the player has not used his primary action
                     if(!primaryActionUsed){
@@ -313,7 +313,7 @@ public class GameManager {
                 case PLAYLEADER:
 
                     EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpected();
+                    ChooseLeaderEventData playLeaderEventData = EventHandler.waitForExpectedData();
 
                     playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
                     break;
@@ -321,7 +321,7 @@ public class GameManager {
                 case DISCARDLEADER:
 
                     EventHandler.setExpected(Action.CHOOSE_LEADER, player.getNickname());
-                    ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpected();
+                    ChooseLeaderEventData discardLeaderEventData = EventHandler.waitForExpectedData();
 
                     discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
                     break;
