@@ -7,15 +7,19 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class ChatClient {
+public class GameClient {
 
-    public static void main(String[] args) throws IOException{
+    private String hostName;
+    private int hostPortNumber;
 
-        String hostName = "localhost";
-        int portNumber = 42069;
+    public GameClient(String hostName, int hostPortNumber){
+        this.hostName = hostName;
+        this.hostPortNumber = hostPortNumber;
+    }
 
+    public void execute(){
         try {
-            ExSocket socket = new ExSocket(new Socket(hostName, portNumber));
+            ExSocket socket = new ExSocket(new Socket(hostName, hostPortNumber));
             new Thread(new ClientSideListener(socket)).start();
 
             Scanner stdin = new Scanner(System.in);
@@ -37,7 +41,7 @@ public class ChatClient {
         } catch (IOException ex){
             System.out.println(ex.getMessage());
         }
-
     }
+    
 
 }
