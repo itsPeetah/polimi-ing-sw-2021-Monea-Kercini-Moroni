@@ -12,6 +12,8 @@ public class GameClient {
     private String hostName;
     private int hostPortNumber;
 
+    private ExSocket socket;
+
     public GameClient(String hostName, int hostPortNumber){
         this.hostName = hostName;
         this.hostPortNumber = hostPortNumber;
@@ -19,10 +21,12 @@ public class GameClient {
 
     public void execute(){
         try {
-            ExSocket socket = new ExSocket(new Socket(hostName, hostPortNumber));
+            socket = new ExSocket(new Socket(hostName, hostPortNumber));
             new Thread(new ClientSideListener(socket)).start();
 
-            Scanner stdin = new Scanner(System.in);
+//            Scanner stdin = new Scanner(System.in);
+
+            // TODO fix here
 
             String clientMessage;
             while(true){
@@ -30,8 +34,8 @@ public class GameClient {
                 if (socket.getSocket().isClosed())
                     break;
 
-                clientMessage = stdin.nextLine();
-                socket.send(clientMessage);
+//                clientMessage = stdin.nextLine();
+//                socket.send(clientMessage);
 
             }
 
@@ -42,6 +46,6 @@ public class GameClient {
             System.out.println(ex.getMessage());
         }
     }
-    
+
 
 }
