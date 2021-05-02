@@ -1,22 +1,22 @@
-package it.polimi.ingsw.model.events.data;
+package it.polimi.ingsw.network.server.metapackets.events.data;
 
 import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.ActionData;
 
-public class DevCardEventData extends EventData {
+public class DevCardActionData extends ActionData {
     DevCard chosenCard;
     int position; //The position (pile) the player has chosen to put this dev card
 
     /**
      * Constructor for GSON
      */
-    public DevCardEventData() {}
+    public DevCardActionData() {}
 
-    public DevCardEventData(DevCard chosenCard) {
+    public DevCardActionData(DevCard chosenCard) {
         this.chosenCard = chosenCard;
     }
 
-    public DevCardEventData(int position) {
+    public DevCardActionData(int position) {
         this.position = position;
     }
 

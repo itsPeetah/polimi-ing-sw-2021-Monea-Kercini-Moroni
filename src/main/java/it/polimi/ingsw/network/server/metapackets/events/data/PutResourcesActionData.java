@@ -1,10 +1,10 @@
-package it.polimi.ingsw.model.events.data;
+package it.polimi.ingsw.network.server.metapackets.events.data;
 
-import it.polimi.ingsw.model.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.ActionData;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
 
-public class PutResourcesEventData extends EventData {
+public class PutResourcesActionData extends ActionData {
 
     private Resources res;
     private Warehouse wh;
@@ -16,7 +16,7 @@ public class PutResourcesEventData extends EventData {
     /**
      * Constructor for GSON
      */
-    public PutResourcesEventData() {}
+    public PutResourcesActionData() {}
 
 
     public Warehouse getWarehouse(){
