@@ -1,11 +1,9 @@
-package it.polimi.ingsw.model.events;
+package it.polimi.ingsw.network.server.metapackets.events;
 
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static it.polimi.ingsw.model.events.Action.*;
+import static it.polimi.ingsw.network.server.metapackets.events.Action.*;
 
 /* CODE EXAMPLE FOR HANDLER USAGE:
 
@@ -38,7 +36,7 @@ import static it.polimi.ingsw.model.events.Action.*;
         // Now you can freely use the retrieved data (this is an example)
         String stringRequested = data.useYourEventDataMethod();
 
-     */
+*/
 
 public class EventHandler {
     private static final Object lock = new Object();
@@ -85,11 +83,11 @@ public class EventHandler {
 
     /**
      * Set a response event from an incoming packet.
-     * @param eventMessage message from a player
+     * @param eventPacket message from a player
      */
-    public static void notify(EventMessage eventMessage) {
-        Action responseAction = eventMessage.getAction();
-        EventData responseData = responseAction.parseData(eventMessage.getData());
+    public static void notify(EventPacket eventPacket) {
+        Action responseAction = eventPacket.getAction();
+        EventData responseData = responseAction.parseData(eventPacket.getData());
         synchronized(lock) {
 
             // If the action is among the expected ones and the performing player is also the expected one, save the data and notify the controller.

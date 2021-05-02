@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.events.data;
+package it.polimi.ingsw.network.server.metapackets.events.data;
 
-import it.polimi.ingsw.model.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.EventData;
 
 public class ResourceMarketEventData extends EventData {
     private boolean row;

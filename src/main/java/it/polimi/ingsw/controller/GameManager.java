@@ -2,8 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.events.*;
-import it.polimi.ingsw.model.events.data.*;
+import it.polimi.ingsw.network.server.metapackets.events.*;
+import it.polimi.ingsw.network.server.metapackets.events.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;

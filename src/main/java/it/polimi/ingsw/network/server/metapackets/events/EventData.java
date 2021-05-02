@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.events;
+package it.polimi.ingsw.network.server.metapackets.events;
 
 /**
  * Abstract class defining a EventData object. For each possible Action, a new an extension of EventData must be defined.
