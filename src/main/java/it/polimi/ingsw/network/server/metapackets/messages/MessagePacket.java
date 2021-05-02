@@ -16,7 +16,6 @@ public class MessagePacket {
 
     /**
      * Get the player to whom the packet is addressed.
-     * @return
      */
     public String getPlayer() {
         return player;
@@ -24,7 +23,6 @@ public class MessagePacket {
 
     /**
      * Get the content of the message.
-     * @return
      */
     public String getMessage() {
         return message;

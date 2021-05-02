@@ -29,7 +29,6 @@ public class MessageHandler {
     /**
      * Take a message to be sent to a player.
      * WARNING: if no message is present, the caller will be blocked forever.
-     * @throws InterruptedException
      */
     public static MessagePacket takeMessage() throws InterruptedException {
         return queue.take();
@@ -39,7 +38,6 @@ public class MessageHandler {
      * Take a message to be sent to a player.
      * WARNING: if no message is present, the caller will be blocked until the specified timeout is over.
      * When the timeout expires, null is returned.
-     * @throws InterruptedException
      */
     public static MessagePacket pollMessage(long timeout, TimeUnit timeUnit) throws InterruptedException {
         return queue.poll(timeout, timeUnit);

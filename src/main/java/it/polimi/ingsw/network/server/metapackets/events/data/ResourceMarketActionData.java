@@ -1,17 +1,17 @@
 package it.polimi.ingsw.network.server.metapackets.events.data;
 
-import it.polimi.ingsw.network.server.metapackets.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.ActionData;
 
-public class ResourceMarketEventData extends EventData {
+public class ResourceMarketActionData extends ActionData {
     private boolean row;
     private int index;
 
     /**
      * Constructor for GSON
      */
-    public ResourceMarketEventData() {}
+    public ResourceMarketActionData() {}
 
-    public ResourceMarketEventData(boolean row, int index) {
+    public ResourceMarketActionData(boolean row, int index) {
         this.row = row;
         this.index = index;
     }

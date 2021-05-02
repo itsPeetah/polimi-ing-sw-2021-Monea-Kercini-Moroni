@@ -1,17 +1,17 @@
 package it.polimi.ingsw.network.server.metapackets.events.data;
 
 import it.polimi.ingsw.controller.TurnChoice;
-import it.polimi.ingsw.network.server.metapackets.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.ActionData;
 
-public class ChooseActionEventData extends EventData {
+public class ChooseActionActionData extends ActionData {
     private TurnChoice choice;
 
     /**
      * Constructor for GSON
      */
-    public ChooseActionEventData() {}
+    public ChooseActionActionData() {}
 
-    public ChooseActionEventData(TurnChoice choice) {
+    public ChooseActionActionData(TurnChoice choice) {
         this.choice = choice;
     }
 

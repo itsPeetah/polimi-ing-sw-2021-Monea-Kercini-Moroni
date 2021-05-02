@@ -1,17 +1,17 @@
 package it.polimi.ingsw.network.server.metapackets.events.data;
 
-import it.polimi.ingsw.network.server.metapackets.events.EventData;
+import it.polimi.ingsw.network.server.metapackets.events.ActionData;
 import it.polimi.ingsw.model.general.Production;
 
-public class ProduceEventData extends EventData {
+public class ProduceActionData extends ActionData {
     Production chosenProd;
 
     /**
      * Constructor for GSON
      */
-    public ProduceEventData() {}
+    public ProduceActionData() {}
 
-    public ProduceEventData(Production chosenProd) {
+    public ProduceActionData(Production chosenProd) {
         this.chosenProd = chosenProd;
     }
 

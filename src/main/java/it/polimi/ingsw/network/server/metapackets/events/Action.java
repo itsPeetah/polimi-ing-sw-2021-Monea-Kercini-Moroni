@@ -9,15 +9,15 @@ import java.lang.reflect.Type;
  * Enum of actions to be requested to the player.
  */
 public enum Action {
-    NONE(NoneEventData.class),
-    CHOOSE_RESOURCE(ChooseResourceEventData.class),
-    PUT_RESOURCES(PutResourcesEventData.class),
-    CHOOSE_2_LEADERS(Choose2LeadersEventData.class),
-    CHOOSE_ACTION(ChooseActionEventData.class),
-    RESOURCE_MARKET(ResourceMarketEventData.class),
-    DEV_CARD(DevCardEventData.class),
-    PRODUCE(ProduceEventData.class),
-    CHOOSE_LEADER(ChooseLeaderEventData.class);
+    NONE(NoneActionData.class),
+    CHOOSE_RESOURCE(ChooseResourceActionData.class),
+    PUT_RESOURCES(PutResourcesActionData.class),
+    CHOOSE_2_LEADERS(Choose2LeadersActionData.class),
+    CHOOSE_ACTION(ChooseActionActionData.class),
+    RESOURCE_MARKET(ResourceMarketActionData.class),
+    DEV_CARD(DevCardActionData.class),
+    PRODUCE(ProduceActionData.class),
+    CHOOSE_LEADER(ChooseLeaderActionData.class);
 
     private final Class<?> classOfData;
 
@@ -30,7 +30,7 @@ public enum Action {
      * @param jsonData json formatted string representing a DataEvent
      * @return EventData object representing the correct DataEvent extension object of a certain Action
      */
-    public EventData parseData(String jsonData) {
+    public ActionData parseData(String jsonData) {
         Gson gson = new Gson();
         return gson.fromJson(jsonData, (Type)classOfData);
     }

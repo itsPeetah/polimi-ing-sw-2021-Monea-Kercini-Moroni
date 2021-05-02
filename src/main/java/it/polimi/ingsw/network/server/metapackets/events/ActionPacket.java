@@ -1,15 +1,15 @@
 package it.polimi.ingsw.network.server.metapackets.events;
 
-public class EventPacket {
+public class ActionPacket {
     Action action;
     String data;
 
     /**
      * Constructor for GSON
      */
-    public EventPacket() {}
+    public ActionPacket() {}
 
-    public EventPacket(Action action, String data) {
+    public ActionPacket(Action action, String data) {
         this.action = action;
         this.data = data;
     }
