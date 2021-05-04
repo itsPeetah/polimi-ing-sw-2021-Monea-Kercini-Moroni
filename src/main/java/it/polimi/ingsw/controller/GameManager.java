@@ -10,10 +10,6 @@ import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
 
-import com.google.gson.Gson;
-
-import java.io.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
