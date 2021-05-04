@@ -60,7 +60,6 @@ public class GameManager {
         PutResourcesActionData data = ActionHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
-
         //If player has less resources than he should have give other players extra faith point
         if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
 
@@ -78,7 +77,7 @@ public class GameManager {
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
-            return updatedWarehouse;
+            return wh;
         }
     }
 
@@ -124,15 +123,10 @@ public class GameManager {
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
 
-
-
             if (i>=1){ //second player gets an extra resource
 
                 Resources extra;
                 extra = askPlayerToChooseResource(game.getPlayers()[i]);
-                //askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
-                //Warehouse ware = askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
-                //System.out.println(game.getPlayers()[i].getBoard().getWarehouse().getResourceAmountWarehouse());
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse()));
             }
             if (i>=2){ //third player gets an extra faith in addition to the resource

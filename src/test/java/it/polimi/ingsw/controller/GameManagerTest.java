@@ -12,7 +12,6 @@ import it.polimi.ingsw.network.server.metapackets.actions.data.ChooseResourceAct
 import it.polimi.ingsw.network.server.metapackets.actions.data.PutResourcesActionData;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -101,12 +100,13 @@ class GameManagerTest {
         //Testing if we added the correct card to player 2
         assertEquals(myLeaders2[1].getCardId(), gm.getGame().getPlayers()[1].getLeaders().getPlayableCards().get(1).getCardId() );
 
-        //testing if we can find the resource in the players 2 warehouse
-
+        //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-        //Here the game starts
+        //At this point the game starts
         assertEquals(GamePhase.TURN, gm.gamePhase);
+
+        System.out.println("YAY");
 
     }
 
