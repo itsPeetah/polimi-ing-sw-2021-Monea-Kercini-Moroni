@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.network.server.metapackets.actions.*;
@@ -89,81 +90,9 @@ public class GameManager {
 
         gamePhase = GamePhase.START;
 
-        /*
-
-        // Setting up market tray
-
-        ArrayList<ResourceMarble> marbles = new ArrayList<>();
-
-        ResourceMarble marble1 = new ResourceMarble(ResourceType.FAITH, 1);
-        ResourceMarble marble2 = new ResourceMarble(ResourceType.STONES, 1);
-        ResourceMarble marble3 = new ResourceMarble(ResourceType.STONES, 1);
-        ResourceMarble marble4 = new ResourceMarble(ResourceType.COINS, 1);
-        ResourceMarble marble5 = new ResourceMarble(ResourceType.COINS, 1);
-        ResourceMarble marble6 = new ResourceMarble(ResourceType.SHIELDS, 1);
-        ResourceMarble marble7 = new ResourceMarble(ResourceType.SHIELDS, 1);
-        ResourceMarble marble8 = new ResourceMarble(ResourceType.SERVANTS, 1);
-        ResourceMarble marble9 = new ResourceMarble(ResourceType.SERVANTS, 1);
-        ResourceMarble marble10 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble11 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble12 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble13 = new ResourceMarble(ResourceType.BLANK, 1);
-        marbles.add(marble1);
-        marbles.add(marble2);
-        marbles.add(marble3);
-        marbles.add(marble4);
-        marbles.add(marble5);
-        marbles.add(marble6);
-        marbles.add(marble7);
-        marbles.add(marble8);
-        marbles.add(marble9);
-        marbles.add(marble10);
-        marbles.add(marble11);
-        marbles.add(marble12);
-        marbles.add(marble13);
-
-        MarketTray MT = null;
-        try {
-            MT = new MarketTray(3, 4, marbles);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        //setting up dev card market
-
-
-
-        ArrayList<DevCard> devCards = null;
-        try (Reader reader = new FileReader("src/main/resources/devcards.json")) {
-
-            // Convert JSON File to Java Object
-            devCards = gson.fromJson(reader, ArrayList.class);
-            // print staff object
-            //System.out.println(devCards);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        DevCardMarket DMC = new DevCardMarket(devCards);
-
-        */
-
-
-
 
         //Initialize leader cards
-        Gson gson = new Gson();
-        ArrayList<LeadCard> leadCards = null;
-        try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
-
-            // Convert JSON File to Java Object
-            leadCards = gson.fromJson(reader, ArrayList.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
 
         //shuffle leadCards
         Collections.shuffle(leadCards);
