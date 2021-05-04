@@ -15,6 +15,10 @@ public class Choose2LeadersActionData extends ActionData {
         return leaders;
     }
 
+    public void setLeaders(LeadCard[] leaders) {
+        this.leaders = leaders;
+    }
+
     public Choose2LeadersActionData(LeadCard[] leaders) {
         this.leaders = leaders;
     }

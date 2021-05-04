@@ -13,11 +13,13 @@ public enum Action {
     CHOOSE_RESOURCE(ChooseResourceActionData.class),
     PUT_RESOURCES(PutResourcesActionData.class),
     CHOOSE_2_LEADERS(Choose2LeadersActionData.class),
-    CHOOSE_ACTION(ChooseActionActionData.class),
     RESOURCE_MARKET(ResourceMarketActionData.class),
     DEV_CARD(DevCardActionData.class),
     PRODUCE(ProduceActionData.class),
-    CHOOSE_LEADER(ChooseLeaderActionData.class);
+    PlAY_LEADER(ChooseLeaderActionData.class),
+    DISCARD_LEADER(ChooseLeaderActionData.class),
+    REARRANGE_WAREHOUSE(NoneActionData.class),
+    END_TURN(NoneActionData.class);
 
     private final Class<?> classOfData;
 

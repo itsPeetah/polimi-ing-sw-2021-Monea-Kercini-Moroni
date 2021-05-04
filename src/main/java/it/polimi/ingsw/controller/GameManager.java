@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.network.server.metapackets.actions.*;
@@ -89,81 +90,9 @@ public class GameManager {
 
         gamePhase = GamePhase.START;
 
-        /*
-
-        // Setting up market tray
-
-        ArrayList<ResourceMarble> marbles = new ArrayList<>();
-
-        ResourceMarble marble1 = new ResourceMarble(ResourceType.FAITH, 1);
-        ResourceMarble marble2 = new ResourceMarble(ResourceType.STONES, 1);
-        ResourceMarble marble3 = new ResourceMarble(ResourceType.STONES, 1);
-        ResourceMarble marble4 = new ResourceMarble(ResourceType.COINS, 1);
-        ResourceMarble marble5 = new ResourceMarble(ResourceType.COINS, 1);
-        ResourceMarble marble6 = new ResourceMarble(ResourceType.SHIELDS, 1);
-        ResourceMarble marble7 = new ResourceMarble(ResourceType.SHIELDS, 1);
-        ResourceMarble marble8 = new ResourceMarble(ResourceType.SERVANTS, 1);
-        ResourceMarble marble9 = new ResourceMarble(ResourceType.SERVANTS, 1);
-        ResourceMarble marble10 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble11 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble12 = new ResourceMarble(ResourceType.BLANK, 1);
-        ResourceMarble marble13 = new ResourceMarble(ResourceType.BLANK, 1);
-        marbles.add(marble1);
-        marbles.add(marble2);
-        marbles.add(marble3);
-        marbles.add(marble4);
-        marbles.add(marble5);
-        marbles.add(marble6);
-        marbles.add(marble7);
-        marbles.add(marble8);
-        marbles.add(marble9);
-        marbles.add(marble10);
-        marbles.add(marble11);
-        marbles.add(marble12);
-        marbles.add(marble13);
-
-        MarketTray MT = null;
-        try {
-            MT = new MarketTray(3, 4, marbles);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        //setting up dev card market
-
-
-
-        ArrayList<DevCard> devCards = null;
-        try (Reader reader = new FileReader("src/main/resources/devcards.json")) {
-
-            // Convert JSON File to Java Object
-            devCards = gson.fromJson(reader, ArrayList.class);
-            // print staff object
-            //System.out.println(devCards);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        DevCardMarket DMC = new DevCardMarket(devCards);
-
-        */
-
-
-
 
         //Initialize leader cards
-        Gson gson = new Gson();
-        ArrayList<LeadCard> leadCards = null;
-        try (Reader reader = new FileReader("src/main/resources/leadcards.json")) {
-
-            // Convert JSON File to Java Object
-            leadCards = gson.fromJson(reader, ArrayList.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
 
         //shuffle leadCards
         Collections.shuffle(leadCards);
@@ -261,18 +190,23 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            ActionHandler.setExpectedAction(Action.CHOOSE_ACTION, player.getNickname());
-            ChooseActionActionData data = ActionHandler.getResponseData();
+            ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+            ActionHandler.addExpectedAction(Action.DEV_CARD);
+            ActionHandler.addExpectedAction(Action.PRODUCE);
+            ActionHandler.addExpectedAction(Action.PlAY_LEADER);
+            ActionHandler.addExpectedAction(Action.DISCARD_LEADER);
+            ActionHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
+            ActionHandler.addExpectedAction(Action.END_TURN);
 
-            switch (data.getChoice()) {
+            switch (ActionHandler.getResponseAction()) {
 
                 //Player has chosen to acquire resources from the Market tray
-                case RESOURCEMARKET:
+                case RESOURCE_MARKET:
                     primaryActionUsed = resourceMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to buy a development card
-                case DEVCARDMARKET:
+                case DEV_CARD:
                     primaryActionUsed = devCardMarket(player, primaryActionUsed);
                     break;
 
@@ -283,22 +217,22 @@ public class GameManager {
 
                 //Player has chosen to play/discard leader
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
-                case PLAYLEADER:
+                case PlAY_LEADER:
                     playLeader(player);
                     break;
 
-                case DISCARDLEADER:
+                case DISCARD_LEADER:
                     discardLeader(player);
                     break;
 
                 //Player has chosen rearrange the resources he has in his warehouse
                 //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
-                case REARRANGEWAREHOUSE:
+                case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse());
                     break;
 
-                case ENDTURN:
+                case END_TURN:
                     //Nothing - player just ends his turn
                     turnFinished = true;
                     break;
@@ -560,7 +494,7 @@ public class GameManager {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
         ResourceMarketActionData playerChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -575,7 +509,7 @@ public class GameManager {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
         DevCardActionData devCardChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -590,7 +524,7 @@ public class GameManager {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
         ProduceActionData produceChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -605,7 +539,7 @@ public class GameManager {
 
     private void playLeader(Player player){
 
-        ActionHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
         ChooseLeaderActionData playLeaderEventData = ActionHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
@@ -613,7 +547,7 @@ public class GameManager {
 
     private void discardLeader(Player player){
 
-        ActionHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
         ChooseLeaderActionData discardLeaderEventData = ActionHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
