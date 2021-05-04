@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class GameManager {
 
-    private GamePhase gamePhase = GamePhase.PREGAME;
+    public GamePhase gamePhase = GamePhase.PREGAME;
 
     // initialize game (with default settings)
     private Game game = GameFactory.CreateGame();
@@ -41,6 +41,7 @@ public class GameManager {
      */
     private Resources askPlayerToChooseResource(Player p){
 
+        //System.out.println("Hojfodfjdla");
         ActionHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
         ChooseResourceActionData data = ActionHandler.getResponseData();
         Resources res = data.getResources();
@@ -59,6 +60,7 @@ public class GameManager {
         PutResourcesActionData data = ActionHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
+
         //If player has less resources than he should have give other players extra faith point
         if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
 
@@ -71,7 +73,7 @@ public class GameManager {
                 }
             }
 
-            wh = updatedWarehouse;
+            wh = data.getWarehouse();
 
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
@@ -94,7 +96,7 @@ public class GameManager {
         Collections.shuffle(leadCards);
 
         //shuffle player order
-        game.shufflePlayers();
+        //game.shufflePlayers();
 
         //Preparing stuff for player board
         ArrayList<Warehouse> wh = new ArrayList<>();
@@ -103,7 +105,9 @@ public class GameManager {
         ArrayList<PlayerBoard> pb = new ArrayList<>();
 
         //Getting player Leader choices and Extra resources depending on player order
+
         for (int i = 0; i< game.getPlayers().length; i++){
+
 
             //Set up player board
             wh.add(new Warehouse());
@@ -113,16 +117,21 @@ public class GameManager {
 
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
 
+
             //The player has been offered 4 leader cards on the model side and is choosing 2
             ActionHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
             Choose2LeadersActionData data = ActionHandler.getResponseData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+
+
+
 
             if (i>=1){ //second player gets an extra resource
 
                 Resources extra;
                 extra = askPlayerToChooseResource(game.getPlayers()[i]);
                 askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
+                //System.out.println(game.getPlayers()[i].getBoard().getWarehouse().getResourceAmountWarehouse());
             }
             if (i>=2){ //third player gets an extra faith in addition to the resource
                 game.getPlayers()[i].getBoard().incrementFaithPoints(1);
@@ -134,6 +143,7 @@ public class GameManager {
                 askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse());
             }
         }
+        //System.out.println("aijfoaocwd");
         startGame();
     }
 
@@ -146,7 +156,7 @@ public class GameManager {
 
     private void startGame(){
 
-        //System.out.println("Game has started!");
+        System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
 

@@ -19,4 +19,8 @@ public class ChooseResourceActionData extends ActionData {
     public Resources getResources(){
         return res;
     }
+
+    public void setRes(Resources res) {
+        this.res = res;
+    }
 }

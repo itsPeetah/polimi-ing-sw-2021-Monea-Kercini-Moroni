@@ -18,8 +18,11 @@ public class PutResourcesActionData extends ActionData {
      */
     public PutResourcesActionData() {}
 
-
     public Warehouse getWarehouse(){
         return wh;
+    }
+
+    public void setWh(Warehouse wh) {
+        this.wh = wh;
     }
 }
