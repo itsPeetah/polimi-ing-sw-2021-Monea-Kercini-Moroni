@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Class for manually sending actions to ActionHandler.
  */
 public class MockResponse {
-    public final static int WAIT_TIME = 10;
     Thread sendingThread;
     AtomicBoolean isInterrupted = new AtomicBoolean();
 
@@ -27,11 +26,6 @@ public class MockResponse {
         ActionPacket actionPacket = new ActionPacket(action, stringData);
         sendingThread = new Thread(() -> {
             while(!isInterrupted.get()){
-                try {
-                    Thread.sleep(WAIT_TIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 ActionHandler.notify(actionPacket);
             }
         });
