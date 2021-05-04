@@ -1,9 +1,9 @@
-package it.polimi.ingsw.network.server.metapackets.events;
+package it.polimi.ingsw.network.server.metapackets.actions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.server.metapackets.events.Action.*;
+import static it.polimi.ingsw.network.server.metapackets.actions.Action.*;
 
 /* CODE EXAMPLE FOR HANDLER USAGE:
 

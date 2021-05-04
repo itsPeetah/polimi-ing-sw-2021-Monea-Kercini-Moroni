@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.server.metapackets.events;
+package it.polimi.ingsw.network.server.metapackets.actions;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.server.metapackets.events.data.*;
+import it.polimi.ingsw.network.server.metapackets.actions.data.*;
 
 import java.lang.reflect.Type;
 
@@ -23,6 +23,10 @@ public enum Action {
 
     Action(Class<?> classOfData) {
         this.classOfData = classOfData;
+    }
+
+    public Class<?> getClassOfData() {
+        return classOfData;
     }
 
     /**

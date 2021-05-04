@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.server.metapackets.events.data;
+package it.polimi.ingsw.network.server.metapackets.actions.data;
 
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.network.server.metapackets.events.ActionData;
+import it.polimi.ingsw.network.server.metapackets.actions.ActionData;
 
 public class ChooseLeaderActionData extends ActionData {
     LeadCard chosenLeader;
