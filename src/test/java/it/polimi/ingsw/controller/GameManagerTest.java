@@ -102,9 +102,8 @@ class GameManagerTest {
         assertEquals(myLeaders2[1].getCardId(), gm.getGame().getPlayers()[1].getLeaders().getPlayableCards().get(1).getCardId() );
 
         //testing if we can find the resource in the players 2 warehouse
-        //System.out.println(res.getAmountOf(ResourceType.STONES));
-        //System.out.println(wh.getResourcesAvailable().getAmountOf(ResourceType.STONES));
-        //assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
+
+        assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
         //Here the game starts
         assertEquals(GamePhase.TURN, gm.gamePhase);

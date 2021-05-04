@@ -54,7 +54,7 @@ public class GameManager {
      * @param res resources player has to put
      * @param wh warehouse that will be updated
      */
-    private void askPlayerToPutResources(Player p, Resources res, Warehouse wh){
+    private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
         ActionHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = ActionHandler.getResponseData();
@@ -73,11 +73,12 @@ public class GameManager {
                 }
             }
 
-            wh = data.getWarehouse();
+            return updatedWarehouse;
 
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
+            return updatedWarehouse;
         }
     }
 
@@ -108,7 +109,6 @@ public class GameManager {
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
-
             //Set up player board
             wh.add(new Warehouse());
             sb.add(new Strongbox());
@@ -130,8 +130,10 @@ public class GameManager {
 
                 Resources extra;
                 extra = askPlayerToChooseResource(game.getPlayers()[i]);
-                askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
+                //askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
+                //Warehouse ware = askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse());
                 //System.out.println(game.getPlayers()[i].getBoard().getWarehouse().getResourceAmountWarehouse());
+                game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra, game.getPlayers()[i].getBoard().getWarehouse()));
             }
             if (i>=2){ //third player gets an extra faith in addition to the resource
                 game.getPlayers()[i].getBoard().incrementFaithPoints(1);
@@ -140,7 +142,8 @@ public class GameManager {
 
                 Resources extra2;
                 extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
-                askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse());
+                game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
+
             }
         }
         //System.out.println("aijfoaocwd");
@@ -239,7 +242,8 @@ public class GameManager {
                 //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
                 case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
-                    askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse());
+                    player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
+
                     break;
 
                 case END_TURN:
@@ -379,7 +383,8 @@ public class GameManager {
                 }
         }
 
-        askPlayerToPutResources(player, res, player.getBoard().getWarehouse());
+        player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
+
         return true;
     }
 

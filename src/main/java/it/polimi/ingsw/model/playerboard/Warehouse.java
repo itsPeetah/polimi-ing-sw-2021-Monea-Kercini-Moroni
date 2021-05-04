@@ -128,6 +128,11 @@ public class Warehouse{
         this.leaderExtraUsed = new Resources();
     }
 
+    public void copy(Warehouse w){
+        this.content = w.content;
+        this.leaderExtraAvailable = w.leaderExtraAvailable;
+        this.leaderExtraUsed = w.leaderExtraUsed;
+    }
 
 
 }
