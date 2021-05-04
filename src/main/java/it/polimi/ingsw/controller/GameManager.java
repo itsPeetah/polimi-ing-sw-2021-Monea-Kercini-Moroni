@@ -146,12 +146,16 @@ public class GameManager {
 
     private void startGame(){
 
+        //System.out.println("Game has started!");
+
         gamePhase = GamePhase.TURN;
 
         boolean lastRound = false;
 
         //Turns will keep being played until it's the last round and it's the last players turn
-        while (!lastRound && !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
+        while (!lastRound || !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
+
+            //System.out.println("Game has started!");
 
             playTurn(game.getCurrentPlayer());
 
