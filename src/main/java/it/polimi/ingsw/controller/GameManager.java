@@ -190,18 +190,23 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            ActionHandler.setExpectedAction(Action.CHOOSE_ACTION, player.getNickname());
-            ChooseActionActionData data = ActionHandler.getResponseData();
+            ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+            ActionHandler.addExpectedAction(Action.DEV_CARD);
+            ActionHandler.addExpectedAction(Action.PRODUCE);
+            ActionHandler.addExpectedAction(Action.PlAY_LEADER);
+            ActionHandler.addExpectedAction(Action.DISCARD_LEADER);
+            ActionHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
+            ActionHandler.addExpectedAction(Action.END_TURN);
 
-            switch (data.getChoice()) {
+            switch (ActionHandler.getResponseAction()) {
 
                 //Player has chosen to acquire resources from the Market tray
-                case RESOURCEMARKET:
+                case RESOURCE_MARKET:
                     primaryActionUsed = resourceMarket(player, primaryActionUsed);
                     break;
 
                 //Player has chosen to buy a development card
-                case DEVCARDMARKET:
+                case DEV_CARD:
                     primaryActionUsed = devCardMarket(player, primaryActionUsed);
                     break;
 
@@ -212,22 +217,22 @@ public class GameManager {
 
                 //Player has chosen to play/discard leader
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
-                case PLAYLEADER:
+                case PlAY_LEADER:
                     playLeader(player);
                     break;
 
-                case DISCARDLEADER:
+                case DISCARD_LEADER:
                     discardLeader(player);
                     break;
 
                 //Player has chosen rearrange the resources he has in his warehouse
                 //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
-                case REARRANGEWAREHOUSE:
+                case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse());
                     break;
 
-                case ENDTURN:
+                case END_TURN:
                     //Nothing - player just ends his turn
                     turnFinished = true;
                     break;
@@ -489,7 +494,7 @@ public class GameManager {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
         ResourceMarketActionData playerChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -504,7 +509,7 @@ public class GameManager {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
         DevCardActionData devCardChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -519,7 +524,7 @@ public class GameManager {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        ActionHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
         ProduceActionData produceChoice = ActionHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -534,7 +539,7 @@ public class GameManager {
 
     private void playLeader(Player player){
 
-        ActionHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
         ChooseLeaderActionData playLeaderEventData = ActionHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
@@ -542,7 +547,7 @@ public class GameManager {
 
     private void discardLeader(Player player){
 
-        ActionHandler.setExpectedAction(Action.CHOOSE_LEADER, player.getNickname());
+        //ActionHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
         ChooseLeaderActionData discardLeaderEventData = ActionHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
