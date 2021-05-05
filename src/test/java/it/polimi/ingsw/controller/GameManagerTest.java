@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
@@ -120,6 +121,31 @@ class GameManagerTest {
         //Adding one player to the game
         GameManager gm = new GameManager();
         gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+        //Testing by adding a resource with no particularities
+        Resources res = new Resources();
+        res.add(ResourceType.STONES, 2);
+        res.add(ResourceType.SHIELDS, 1);
+
+        Resources newRes = gm.checkWhite(p, res);
+
+        //Nothing should have changed
+        assertTrue(res.equals(newRes));
+
+        //Now let's try adding some white to our resource
+        res.add(ResourceType.BLANK, 2);
+
+        newRes = gm.checkWhite(p, res);
+        //The white should be removed
+
+        Resources res2 = new Resources();
+        res2.add(ResourceType.STONES, 2);
+        res2.add(ResourceType.SHIELDS, 1);
+
+        //Check if it is equal to res2, the one without the blank
+        assertTrue(res2.equals(newRes));
+
     }
 
 }

@@ -471,7 +471,8 @@ public class GameManager {
      * @param res resources to check for white
      * @return resources after the white have been removed/replaced
      */
-    private Resources checkWhite(Player player, Resources res){
+
+    public Resources checkWhite(Player player, Resources res){
         int whiteReplacements = 0;
         ArrayList<ResourceType> replaceTypes = new ArrayList<>();
 
