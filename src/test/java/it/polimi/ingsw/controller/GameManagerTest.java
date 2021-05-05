@@ -297,6 +297,11 @@ class GameManagerTest {
 
         gm.resourceMarketUpdate(p, true, 0);
 
+        try {
+            TimeUnit.MILLISECONDS.sleep(wait_time);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         MR1.stopSendingResponse();
 
         //Check that the faith points have been added correctly
