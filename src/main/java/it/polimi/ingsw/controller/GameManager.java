@@ -323,7 +323,7 @@ public class GameManager {
             }
         }
 
-        //Check if there is a red marble (gives faith)
+        //Check if there is a red marble (gives faith) and remove it
         if (res.getAmountOf(ResourceType.FAITH) > 0) {
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
@@ -339,7 +339,7 @@ public class GameManager {
         //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
         res = checkWhite(player, res);
 
-        player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
+        player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
         return true;
     }
