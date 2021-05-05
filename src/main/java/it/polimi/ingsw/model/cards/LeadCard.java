@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.model.playerleaders.PlayerLeadersException;
 
 public class LeadCard extends Card {
 
@@ -24,9 +25,7 @@ public class LeadCard extends Card {
     }
 
     /**
-     * Check if a user can afford the leader card.
-     * @param player
-     * @return
+     * Check if a player can afford the leader card.
      */
     @Override
     public Boolean affordable(Player player) {
@@ -34,12 +33,41 @@ public class LeadCard extends Card {
     }
 
     /**
-     * Perform the action of playing the card and apply its static abilities
+     * Perform the action of playing the card and apply its abilities
+     */
+    public void play(Player player) {
+        // Make sure the card is actually affordable
+        assert affordable(player);
+
+        // Apply the abilities
+        player.getBoard().getWarehouse().expandWithLeader(this);
+        player.getBoard().getProductionPowers().addLeadCardProduction(this);
+        player.getBoard().addDiscount(ability.getResourceDiscount());
+        player.getBoard().addMarble(ability.getWhiteMarbleReplacement());
+
+        // Put the leader in the player board
+        try {
+            player.getLeaders().playCard(this);
+        } catch (PlayerLeadersException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Discards the leader and gains an extra faith point
      * @param player
      */
-    @Override
-    public void play(Player player) {
-        player.getBoard().getWarehouse().expandWithLeader(this);
-        /* TODO mancano gli effetti delle altre abilità nelle altre classi */
+
+    public void discard(Player player) {
+
+        // Get the extra faith point.
+        player.getBoard().incrementFaithPoints(1);
+
+        // Discard the leader
+        try {
+            player.getLeaders().discardCard(this);
+        } catch (PlayerLeadersException e) {
+            e.printStackTrace();
+        }
     }
 }

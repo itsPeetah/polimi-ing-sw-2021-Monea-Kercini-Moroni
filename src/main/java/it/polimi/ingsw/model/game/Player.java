@@ -45,6 +45,10 @@ public class Player {
         return board;
     }
 
+    public void setBoard(PlayerBoard board) {
+        this.board = board;
+    }
+
     /**
      * Leaders getter.
      */
@@ -58,7 +62,7 @@ public class Player {
     public int getVictoryPoints(){
         int vp = 0;
         vp += board.getBoardVictoryPoints();
-        // vp += leaders.getPlayedCardVictoryPoints(); // TODO fix vp getter for lead cards
+        vp += leaders.getPlayedCardVictoryPoints();
         return  vp;
     }
 

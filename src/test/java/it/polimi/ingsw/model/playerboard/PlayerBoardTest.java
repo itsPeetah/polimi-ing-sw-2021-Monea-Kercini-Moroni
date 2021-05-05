@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.playerboard;
 
+import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
@@ -104,6 +105,43 @@ class PlayerBoardTest {
         assertTrue(res.equals(pb.getResourcesAvailable()));
 
 
+    }
+
+    @Test
+    void leadMarblesTest() {
+        // Prepare the playerboard and the marble
+        PlayerBoard pb = (new Player("test")).getBoard();
+        ResourceType replacement = ResourceType.SERVANTS;
+
+        // No marbles initially
+        assertTrue(pb.getLeadMarbles().isEmpty());
+
+        // Add the replacement
+        pb.addMarble(replacement);
+
+        // Check the replacement
+        assertSame(replacement, pb.getLeadMarbles().get(0));
+    }
+
+    @Test
+    void leadDiscountTest() {
+        // Prepare the playerboard and a discount
+        ResourceType testType = ResourceType.STONES;
+        Integer testAmount = 5;
+
+        PlayerBoard pb = (new Player("test")).getBoard();
+        Resources newDiscount = new Resources();
+        newDiscount.add(testType, testAmount);
+
+        // No discount initially
+        assertEquals(0, pb.getDiscount().getTotalAmount());
+
+        // Add the discount
+        pb.addDiscount(newDiscount);
+
+        // Check the discount
+        assertEquals(testAmount, pb.getDiscount().getAmountOf(testType));
+        assertEquals(testAmount, pb.getDiscount().getTotalAmount());
     }
 
     @Test

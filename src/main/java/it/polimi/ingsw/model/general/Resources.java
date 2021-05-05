@@ -57,8 +57,10 @@ public class Resources {
      * @param resourceType type of the added resource.
      * @param amount type of the added resource.
      */
-    public void add(ResourceType resourceType, Integer amount) {
+    public Resources add(ResourceType resourceType, Integer amount) {
         amounts.put(resourceType, amount + getAmountOf(resourceType));
+        return this;
+
     }
 
     /**
@@ -67,20 +69,22 @@ public class Resources {
      * @param amount amount of the removed resource.
      * @throws ResourcesException if the current resources are not enough.
      */
-    public void remove(ResourceType resourceType, Integer amount) throws ResourcesException {
+    public Resources remove(ResourceType resourceType, Integer amount) throws ResourcesException {
         Integer temp = getAmountOf(resourceType);
         if(temp < amount) throw new ResourcesException(NOT_ENOUGH_RESOURCES);
         amounts.put(resourceType, temp - amount);
+        return this;
     }
 
     /**
      * Add all the elements of other to this.
      * @param other resources to be added to this.
      */
-    public void add(Resources other) {
+    public Resources add(Resources other) {
         for(ResourceType resource: other.amounts.keySet()) {
             add(resource, other.getAmountOf(resource));
         }
+        return this;
     }
 
     /**
@@ -88,18 +92,19 @@ public class Resources {
      * @param other resources to be removed from this.
      * @throws ResourcesException if the current resources are not enough.
      */
-    public void remove(Resources other) throws ResourcesException {
+    public Resources remove(Resources other) throws ResourcesException {
         if(!isGreaterThan(other)) throw new ResourcesException(NOT_ENOUGH_RESOURCES);
         for(ResourceType resource: other.amounts.keySet()) {
             remove(resource, other.getAmountOf(resource));
         }
+        return this;
     }
 
     /**
      * Remove all the elements of other from this. If other has more elements, the amount is fixed at zero.
      * @param other resources to be removed from this.
      */
-    public void removeWithoutException(Resources other) {
+    public Resources removeWithoutException(Resources other) {
         for(ResourceType resource: other.amounts.keySet()) {
             try {
                 remove(resource, Math.min(getAmountOf(resource), other.getAmountOf(resource)));
@@ -108,6 +113,7 @@ public class Resources {
                 e.printStackTrace();
             }
         }
+        return this;
     }
 
     /**
@@ -115,9 +121,22 @@ public class Resources {
      * @param r the other resource which you are comparing to the current
      * @return true if so
      */
-
-
     public boolean equals(Resources r){
         return this.isGreaterThan(r) && r.isGreaterThan(this);
+    }
+
+    /**
+     * Method that replaces white
+     * @param type the resource type you want the white to be replaced with
+     */
+
+    public void replaceWhite(ResourceType type){
+        int white = this.getAmountOf(ResourceType.BLANK);
+        try {
+            this.remove(ResourceType.BLANK, white);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.add(type, white);
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.general.Level;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
@@ -12,7 +13,8 @@ public class ProductionPowers {
 
     private static Production basicProduction;
     private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
-    private Production[] LeadProduction;
+    private ArrayList<Production> leadProduction;
+    private final static int MAX_LEADER_PRODUCTIONS = 2;
 
     /**
      * Searches all card piles and returns the card on top of each + Production from LeadCards
@@ -36,9 +38,7 @@ public class ProductionPowers {
 
         AvailableProductions.add(this.basicProduction);
 
-        for (int i = 0; i < LeadProduction.length && LeadProduction[i] != null; i++) {
-            AvailableProductions.add(LeadProduction[i]);
-        }
+        AvailableProductions.addAll(leadProduction);
 
         return AvailableProductions;
     }
@@ -63,6 +63,42 @@ public class ProductionPowers {
     }
 
     /**
+     * Method that returns true if a dev card can be placed on top of the selected pile
+     * @param card the devCard you are trying to place
+     * @param pos the pile (position) where you are trying to place the devcard
+     * @return
+     */
+
+    public boolean canDevCardBePlaced(DevCard card, int pos){
+
+        //if card level is 1 then we need the pile to be clear
+        if(card.getLevel() == Level.LOW){
+            if(cardPile[pos][0] == null){
+                return true;
+            }else{
+                return false;
+            }
+
+        //if card level is 2 then we need the pile to have a level one card but the second one to be free
+        }else if (card.getLevel() == Level.MEDIUM){
+            if(cardPile[pos][0] != null && cardPile[pos][1] == null){
+                return true;
+            }else{
+                return false;
+            }
+
+        //if card level is 3 then we need the pile to have a level two card but the third one to be free
+        }else{
+            if(cardPile[pos][1] != null && cardPile[pos][2] == null){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    //*note - modifying this method could be possible to check if a dev card can be placed at all, alternatively the method can be called 3 times
+
+    /**
      * adds development card on top of the selected pile
      * @param devCard to add
      * @param position of the pile
@@ -77,13 +113,9 @@ public class ProductionPowers {
      * Adds the extra production from LeadCard
      * @param leadCard the LeaderCard that gives the extra production power
      */
-
     public void addLeadCardProduction(LeadCard leadCard){
-
-        //Player_board_first_implementation
-        LeadProduction[LeadProduction.length] = leadCard.getAbility().getProduction();
-
-
+        if(leadProduction.size() <= MAX_LEADER_PRODUCTIONS) leadProduction.add(leadCard.getAbility().getProduction());
+        else throw new IndexOutOfBoundsException("Maximum productions: " + MAX_LEADER_PRODUCTIONS);
     }
 
 
@@ -102,7 +134,7 @@ public class ProductionPowers {
         this.basicProduction = new Production(inb, outb);
 
         this.cardPile = new DevCard[piles][3];
-        this.LeadProduction = new Production[2];
+        this.leadProduction = new ArrayList<>();
     }
 
     /**

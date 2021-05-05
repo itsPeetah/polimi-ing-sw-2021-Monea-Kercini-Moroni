@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.playerboard.PlayerBoard;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Game rep class.
@@ -68,6 +69,14 @@ public class Game {
         return players.get(currentPlayer);
     }
 
+    /**
+     * Shuffles the player order
+     */
+
+    public void shufflePlayers(){
+        Collections.shuffle(players);
+    }
+
     // Component getters ------------------------------------------------------------------
 
     /**
@@ -120,7 +129,7 @@ public class Game {
         // for now hardcoded
         for (Player p : players) {
             boolean eligible;
-            int playersFaithPoints = 0; // TODO Add logic to get player's FPs
+            int playersFaithPoints = p.getBoard().getFaithPoints();
             // Check eligibility
             if (currentReport == 1 && playersFaithPoints >= 5 && playersFaithPoints <= 8)
                 eligible = true;

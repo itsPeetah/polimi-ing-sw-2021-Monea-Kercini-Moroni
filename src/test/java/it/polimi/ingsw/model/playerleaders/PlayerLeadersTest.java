@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerLeadersTest {
 
-    //Method for creating a basic LC fro testing, taking only it's victory points as input
-
+    //Method for creating a basic LC for testing, taking only it's victory points as input
     private LeadCard basicLC(int vp){
 
         //First initialize the LeadCardReq
@@ -32,8 +31,7 @@ class PlayerLeadersTest {
         LeadCardAbility LCA = new LeadCardAbility(res, res, ResourceType.STONES, prod);
 
         //And lastly the LeadCard
-        LeadCard LC = new LeadCard(vp, "a", LCC, LCA);
-        return LC;
+        return new LeadCard(vp, "a", LCC, LCA);
 
     }
 
@@ -47,8 +45,9 @@ class PlayerLeadersTest {
         //This method is automatically tested below
     }
 
+    /* Test the method with the index as input */
     @Test
-    void playCard() {
+    void playCardWithIndex() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = basicLC(1);
         Hand[1] = basicLC(2);
@@ -58,7 +57,7 @@ class PlayerLeadersTest {
 
         pl.setCards(Hand);
 
-        assertTrue(pl.getPlayedCards().size() == 0); //Check that we have no cards played.
+        assertEquals(pl.getPlayedCards().size(), 0); //Check that we have no cards played.
 
         try{pl.playCard(0);
         } catch (Exception e){
@@ -90,7 +89,56 @@ class PlayerLeadersTest {
         //Check if the new hand corresponds
 
         assertArrayEquals(Hand2, pl.getPlayableCards().toArray(new LeadCard[0]));
+    }
 
+    /* Test the method with the LeadCard as input */
+    @Test
+    void playCardWithLeadCard() {
+        LeadCard[] Hand = new LeadCard[3];
+        Hand[0] = basicLC(1);
+        Hand[1] = basicLC(2);
+        Hand[2] = basicLC(5);
+        //Created an Array of LeadCards
+        PlayerLeaders pl = new PlayerLeaders(3);
+
+        pl.setCards(Hand);
+
+        assertEquals(pl.getPlayedCards().size(), 0); //Check that we have no cards played.
+
+        try{
+            pl.playCard(Hand[0]);
+        } catch (Exception e){
+            fail();
+        }
+
+        try{pl.playCard(Hand[2]);
+        } catch (Exception e){
+            fail();
+        }
+
+        LeadCard[] PlayedHand = new LeadCard[2];
+        PlayedHand[0] = Hand[0];
+        PlayedHand[1] = Hand[2];
+
+        //Check if played cards correspond
+
+        assertArrayEquals(PlayedHand, pl.getPlayedCards().toArray(new LeadCard[0]));
+
+
+
+        //Card has already been played
+
+        assertThrows(PlayerLeadersException.class, ()-> pl.playCard(Hand[0]));
+
+        LeadCard[] Hand2 = new LeadCard[1];
+        Hand2[0] = Hand[1];
+
+        //Check if the new hand corresponds
+
+        assertArrayEquals(Hand2, pl.getPlayableCards().toArray(new LeadCard[0]));
+
+        // Check if playing a card that is not in the player leaders throws the exception
+        assertThrows(PlayerLeadersException.class, ()-> pl.playCard(basicLC(0)));
     }
 
     @Test

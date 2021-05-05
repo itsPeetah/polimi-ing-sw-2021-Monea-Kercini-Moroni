@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public class CardManager {
     /* PATH CONSTANTS */
     public static final String DEV_CARDS_PATH = "src/main/resources/devcards.json";
+    public static final int DEV_CARDS_SIZE = 48;
     public static final String LEAD_CARDS_PATH = "src/main/resources/leadcards.json";
+    public static final int LEAD_CARDS_SIZE = 16;
 
     /**
      * @return List containing all the dev cards in the JSON file.

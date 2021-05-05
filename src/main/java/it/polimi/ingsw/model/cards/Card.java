@@ -24,6 +24,4 @@ public abstract class Card {
     }
 
     public abstract Boolean affordable(Player player);
-
-    public abstract void play(Player player);
 }

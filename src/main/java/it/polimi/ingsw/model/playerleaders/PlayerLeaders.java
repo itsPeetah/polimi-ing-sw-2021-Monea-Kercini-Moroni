@@ -47,9 +47,8 @@ public class PlayerLeaders {
     /**
      * Sets the state of the card at index position as PLAYED
      * @param index is the position of the card that the player plays
-     * @throws Exception if the choosen card is already played or discarded
+     * @throws Exception if the chosen card is already played or discarded
      */
-
     public void playCard(int index) throws PlayerLeadersException{
         if(cardStates[index] == CardState.INHAND) {
             cardStates[index] = CardState.PLAYED;
@@ -58,9 +57,44 @@ public class PlayerLeaders {
         }
     }
 
+    /**
+     * Sets the state of the card in input as PLAYED
+     * @param leadCard must be a card of the player
+     * @throws PlayerLeadersException
+     */
+    public void playCard(LeadCard leadCard) throws PlayerLeadersException {
+        int leadIndex = Arrays.asList(cards).indexOf(leadCard);
+        if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
+        else playCard(leadIndex);
+    }
 
     /**
-     * Gives the player the leader cards he has in his hand and sets the cardstates INHAND
+     * Sets the state of the card at index position as DISCARDED
+     * @param index is the position of the card that the player discards
+     * @throws Exception if the chosen card is already played or discarded
+     */
+    public void discardCard(int index) throws PlayerLeadersException{
+        if(cardStates[index] == CardState.INHAND) {
+            cardStates[index] = CardState.DISCARDED;
+        }else{
+            throw new PlayerLeadersException("Leader Card is already played or discarded.");
+        }
+    }
+
+    /**
+     * Sets the state of the card in input as DISCARDED
+     * @param leadCard must be a card of the player
+     * @throws PlayerLeadersException
+     */
+    public void discardCard(LeadCard leadCard) throws PlayerLeadersException {
+        int leadIndex = Arrays.asList(cards).indexOf(leadCard);
+        if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
+        else discardCard(leadIndex);
+    }
+
+
+    /**
+     * Gives the player the leader cards he has in his hand and sets the card states INHAND
      * @param cards the leader cards
      */
 
