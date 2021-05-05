@@ -4,11 +4,11 @@ import it.polimi.ingsw.network.common.ExSocket;
 
 import java.io.IOException;
 
-public class ClientSideListener implements Runnable {
+public class ClientSideServerListener implements Runnable {
 
     ExSocket socket;
 
-    public ClientSideListener(ExSocket socket) {
+    public ClientSideServerListener(ExSocket socket) {
         this.socket = socket;
     }
 
