@@ -488,6 +488,7 @@ public class GameManager {
             case 1:
                 //automatically replace the white marble with the one granted from the leader ability
                 res.replaceWhite(replaceTypes.get(0));
+                break;
             case 2:
                 //asking the player to choose one of the two resources he can to substitute white
                 //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
@@ -502,6 +503,7 @@ public class GameManager {
                         break;
                     }
                 }
+                break;
 
                 //Than just replace white with the player choice
             default:

@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.server.metapackets.actions.data.ChooseResourceAct
 import it.polimi.ingsw.network.server.metapackets.actions.data.PutResourcesActionData;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -147,7 +148,34 @@ class GameManagerTest {
         assertTrue(res2.equals(newRes));
 
         //Now trying to add a leader with the white replacement ability in the players hand and then play it
+        //lead_9 gives us servants instead of blank
 
+        LeadCard lead_9 = CardManager.loadLeadCardsFromJson().get(8);
+        //ArrayList<LeadCard> leaders = new ArrayList<LeadCard>();
+        //leaders.add(lead_9);
+        LeadCard leaders[] = new LeadCard[2];
+        leaders[0] = lead_9;
+        //Set leader in players hand
+        p.getLeaders().setCards(leaders);
+        //Play leader
+        try {
+            p.getLeaders().playCard(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        res2.add(ResourceType.BLANK, 2);
+
+        Resources res3 = new Resources();
+        res3.add(ResourceType.SHIELDS, 1);
+        res3.add(ResourceType.STONES, 2);
+        res3.add(ResourceType.SERVANTS, 2);
+
+        //After the check res 2 should be equal to res 3
+
+        newRes = gm.checkWhite(p, res2);
+
+        assertTrue(res3.equals(newRes));
 
     }
 
