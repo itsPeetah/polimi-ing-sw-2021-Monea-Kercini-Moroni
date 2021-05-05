@@ -29,10 +29,6 @@ public class ClientSideListener implements Runnable {
 
         System.out.println("Ending connection.");
 
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+        socket.close();
     }
 }

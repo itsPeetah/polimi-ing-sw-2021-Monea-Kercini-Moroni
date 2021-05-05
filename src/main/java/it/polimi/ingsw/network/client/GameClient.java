@@ -33,7 +33,6 @@ public class GameClient {
 
                 if (socket.getSocket().isClosed())
                     break;
-
 //                clientMessage = stdin.nextLine();
 //                socket.send(clientMessage);
 
