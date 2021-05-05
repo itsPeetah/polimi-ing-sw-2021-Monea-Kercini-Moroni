@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.protocols.ConnectionSetupProtocol;
+import it.polimi.ingsw.network.server.components.RemoteUser;
 import it.polimi.ingsw.network.server.components.RoomTable;
 import it.polimi.ingsw.network.server.components.UserTable;
 
@@ -24,6 +25,8 @@ public class GameServer {
 
     private UserTable userTable;            // user table for the server
     private RoomTable roomTable;            // room table for the server
+
+    private Object roomCreationLock;
 
     /**
      * Class constructor.
@@ -108,6 +111,4 @@ public class GameServer {
         }
 
     }
-
-
 }

@@ -43,14 +43,10 @@ public class RoomTable {
      * Register a user room its id.
      * @return whether the operation was successful.
      */
-    public boolean add(GameRoom room){
-        boolean result;
-        String id = room.getId();
+    private void add(GameRoom room){
         synchronized (lock){
-            result = !rooms.containsKey(id);
-            if(result) rooms.put(id, room);
+            rooms.put(room.getId(), room);
         }
-        return result;
     }
 
     /**
@@ -73,5 +69,26 @@ public class RoomTable {
             if(rooms.containsKey(id)) room = rooms.get(id);
         }
         return room;
+    }
+
+    public void createRoom(String roomId, String ownerNickname, RemoteUser owner) throws GameRoomException{
+        synchronized (lock){
+            // Throw exception if the room already exists.
+            if(rooms.containsKey(roomId)) throw new GameRoomException("A room with name \"" + roomId + "\" already exists.");
+            // Create room and add owner
+            GameRoom room = new GameRoom(roomId);
+            room.addUser(ownerNickname, owner);
+            add(room);
+        }
+    }
+
+    public void joinRoom(String roomId, String nickname, RemoteUser user) throws GameRoomException{
+        synchronized (lock){
+            // Throw exception if the room doesn't exist.
+            if(!rooms.containsKey(roomId)) throw new GameRoomException("There's no room with name \""+roomId+"\" on the server.");
+            // Add user to the room
+            GameRoom room = rooms.get(roomId);
+            room.addUser(nickname, user);
+        }
     }
 }

@@ -43,7 +43,7 @@ public class RemoteUser {
 
     }
 
-    public void joinRoom(String roomId, String nickname){
+    public void assignRoom(String roomId, String nickname){
         this.roomId = roomId;
         this.nickname = nickname;
     }
