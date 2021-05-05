@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.common.ExSocket;
-import it.polimi.ingsw.network.protocols.ConnectionSetupProtocol;
-import it.polimi.ingsw.network.server.components.RemoteUser;
+import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.server.components.RoomTable;
 import it.polimi.ingsw.network.server.components.UserTable;
 
