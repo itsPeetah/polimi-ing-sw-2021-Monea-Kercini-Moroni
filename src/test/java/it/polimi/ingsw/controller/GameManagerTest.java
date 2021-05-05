@@ -242,6 +242,14 @@ class GameManagerTest {
 
     }
 
+    @Test
+    void resourceMarketUpdate(){
 
+        //Adding one player to the game
+        GameManager gm = new GameManager();
+        gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+    }
 
 }

@@ -241,7 +241,6 @@ public class GameManager {
                 case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
-
                     break;
 
                 case END_TURN:
@@ -311,9 +310,8 @@ public class GameManager {
      * @param index the row/column he has chosen
      * @return true if it executed the action with no problems
      */
-    private boolean resourceMarketUpdate(Player player, boolean row, int index) {
+    protected boolean resourceMarketUpdate(Player player, boolean row, int index) {
 
-        //boolean row = false; //false for column, true for row
         Resources res = new Resources();
 
         if (row) {
@@ -475,7 +473,7 @@ public class GameManager {
      * @return resources after the white have been removed/replaced
      */
 
-    public Resources checkWhite(Player player, Resources res){
+    protected Resources checkWhite(Player player, Resources res){
         int whiteReplacements = 0;
         ArrayList<ResourceType> replaceTypes = new ArrayList<>();
 
