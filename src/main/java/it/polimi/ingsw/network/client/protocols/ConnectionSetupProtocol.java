@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
+import it.polimi.ingsw.network.client.ClientSideServerListener;
 import it.polimi.ingsw.network.common.ExSocket;
 
 public class ConnectionSetupProtocol implements Runnable{
@@ -29,7 +30,7 @@ public class ConnectionSetupProtocol implements Runnable{
             if(!messageFields[0].equals("READY")){
                 socket.close();
             } else {
-                // TODO launch client side server listener
+                new Thread(new ClientSideServerListener(socket)).start();
             }
         }
     }

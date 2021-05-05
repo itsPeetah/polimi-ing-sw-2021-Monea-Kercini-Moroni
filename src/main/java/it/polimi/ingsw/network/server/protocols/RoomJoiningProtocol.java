@@ -16,10 +16,13 @@ public class RoomJoiningProtocol implements Runnable {
     public void run() {
         System.out.println("User " + user.getId() + " is now connected.");
 
+        String clientMessage;
         String[] clientMessageFields;
         boolean disconnect = false;
         while (true){
-            clientMessageFields = user.receiveMessageFields();
+            clientMessage = user.receiveMessage();
+            System.out.println("[USER "+user.getId()+"] " + clientMessage);
+            clientMessageFields = clientMessage.split("\\s+");
             // Handle "client wants to quit"
             if(clientMessageFields[0].equals("QUIT")){
                 disconnect = true;
@@ -33,8 +36,9 @@ public class RoomJoiningProtocol implements Runnable {
             else if(clientMessageFields[0].equals("ROOMCREATE")){
                 // Success
                 try{
-                    roomCreate(clientMessageFields[1], clientMessageFields[1]);
+                    roomCreate(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
+                    user.sendMessage("OK Successfully created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     break;
                 }
                 // Failure (room already exists)
@@ -46,8 +50,9 @@ public class RoomJoiningProtocol implements Runnable {
             else if(clientMessageFields[0].equals("ROOMJOIN")){
                 // Success
                 try{
-                    roomJoin(clientMessageFields[1], clientMessageFields[1]);
+                    roomJoin(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
+                    user.sendMessage("OK Successfully joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     break;
                 }
                 // Failure (either room doesn't exist or nickname already taken)
