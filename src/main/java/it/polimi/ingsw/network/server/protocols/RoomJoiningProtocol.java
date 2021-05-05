@@ -1,6 +1,5 @@
-package it.polimi.ingsw.network.protocols;
+package it.polimi.ingsw.network.server.protocols;
 
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;

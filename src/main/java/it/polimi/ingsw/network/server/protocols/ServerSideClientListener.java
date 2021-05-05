@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.protocols;
+package it.polimi.ingsw.network.server.protocols;
 
 import it.polimi.ingsw.network.server.components.RemoteUser;
 

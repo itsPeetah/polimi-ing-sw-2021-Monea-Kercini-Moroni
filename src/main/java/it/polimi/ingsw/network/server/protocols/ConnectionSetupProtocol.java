@@ -1,13 +1,8 @@
-package it.polimi.ingsw.network.protocols;
+package it.polimi.ingsw.network.server.protocols;
 
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.RemoteUser;
-import it.polimi.ingsw.network.server.components.GameRoom;
-import it.polimi.ingsw.network.server.components.RoomTable;
-import it.polimi.ingsw.network.server.components.UserTable;
-
-import java.io.IOException;
 
 public class ConnectionSetupProtocol implements Runnable {
 
