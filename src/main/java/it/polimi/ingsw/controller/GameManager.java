@@ -336,47 +336,8 @@ public class GameManager {
         }
 
         //Check if the player has any Lead Ability that transforms his white marbles
-
-        //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2
-        int whiteReplacements = 0;
-        ArrayList<ResourceType> replaceTypes = new ArrayList<>();
-
-        for (int i = 0; i < player.getLeaders().getPlayedCards().size(); i++) {
-            //if player has a leader with the white marble replacement not blank
-            if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK) {
-                whiteReplacements++;
-                replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());
-            }
-        }
-
-        switch (whiteReplacements) {
-            case 1:
-                //automatically replace the white marble with the one granted from the leader ability
-                res.replaceWhite(replaceTypes.get(0));
-            case 2:
-                //asking the player to choose one of the two resources he can to substitute white
-                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
-
-                Resources choice = askPlayerToChooseResource(player);
-
-                //Converting the choice from resources in resource type and adding it
-                for (ResourceType type : ResourceType.values()) {
-                    //also checking if player choice is effectively one of the types he can replace
-                    if(choice.getAmountOf(type) > 0 && (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1)))){
-                        res.replaceWhite(type);
-                        break;
-                    }
-                }
-
-                //Than just replace white with the player choice
-            default:
-                //replace nothing, but do remove the white
-                try {
-                    res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
-                } catch (ResourcesException e) {
-                    e.printStackTrace();
-                }
-        }
+        //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
+        res = checkWhite(player, res);
 
         player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
 
@@ -494,6 +455,59 @@ public class GameManager {
             }
         }
         return r;
+    }
+
+    /**
+     * Methods check if player has any white marble replacements from his leadCards
+     * If so he whether replaces automatically in case the player has only one
+     * or asks player which one he chooses
+     * If not, just removes the blanks from the resource (otherwise they would have to be placed in the warehouse)
+     * @param player
+     * @param res resources to check for white
+     * @return resources after the white have been removed/replaced
+     */
+    private Resources checkWhite(Player player, Resources res){
+        int whiteReplacements = 0;
+        ArrayList<ResourceType> replaceTypes = new ArrayList<>();
+
+        for (int i = 0; i < player.getLeaders().getPlayedCards().size(); i++) {
+            //if player has a leader with the white marble replacement not blank
+            if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK) {
+                whiteReplacements++;
+                replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());
+            }
+        }
+
+        switch (whiteReplacements) {
+            case 1:
+                //automatically replace the white marble with the one granted from the leader ability
+                res.replaceWhite(replaceTypes.get(0));
+            case 2:
+                //asking the player to choose one of the two resources he can to substitute white
+                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
+
+                Resources choice = askPlayerToChooseResource(player);
+
+                //Converting the choice from resources in resource type and adding it
+                for (ResourceType type : ResourceType.values()) {
+                    //also checking if player choice is effectively one of the types he can replace
+                    if(choice.getAmountOf(type) > 0 && (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1)))){
+                        res.replaceWhite(type);
+                        break;
+                    }
+                }
+
+                //Than just replace white with the player choice
+            default:
+                //replace nothing, but do remove the white
+                try {
+                    res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
+                } catch (ResourcesException e) {
+                    e.printStackTrace();
+                }
+        }
+        return res;
+
     }
 
 
