@@ -151,8 +151,6 @@ class GameManagerTest {
         //lead_9 gives us servants instead of blank
 
         LeadCard lead_9 = CardManager.loadLeadCardsFromJson().get(8);
-        //ArrayList<LeadCard> leaders = new ArrayList<LeadCard>();
-        //leaders.add(lead_9);
         LeadCard leaders[] = new LeadCard[2];
         leaders[0] = lead_9;
         //Set leader in players hand
@@ -176,6 +174,49 @@ class GameManagerTest {
         newRes = gm.checkWhite(p, res2);
 
         assertTrue(res3.equals(newRes));
+
+
+        //Now adding the other leader
+        //This time player will need to make a choice
+        //lead_12 gives us coins instead of blank
+
+        LeadCard lead_12 = CardManager.loadLeadCardsFromJson().get(11);
+        leaders[1] = lead_12;
+        //Set leader in players hand
+        p.getLeaders().setCards(leaders);
+        //Play both leaders
+        try {
+            p.getLeaders().playCard(0);
+            p.getLeaders().playCard(1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Resources res4 = new Resources();
+        res4.add(ResourceType.STONES, 2);
+        res4.add(ResourceType.BLANK, 3);
+
+        Resources res5 = new Resources();
+        res5.add(ResourceType.COINS, 3);
+        res5.add(ResourceType.STONES, 2);
+
+        //After the check res 4 should be equal to res 5
+
+        //We choose the second leader as our resource type (coin)
+        Resources choice = new Resources();
+        choice.add(ResourceType.COINS, 1);
+        ChooseResourceActionData pickedRes = new ChooseResourceActionData();
+        pickedRes.setRes(choice);
+        pickedRes.setPlayer("Player 1");
+        MockResponse MR1 = new MockResponse(Action.CHOOSE_RESOURCE, pickedRes);
+        MR1.startSendingResponse();
+
+        newRes = gm.checkWhite(p, res4);
+
+        assertTrue(res5.equals(newRes));
+
+        MR1.stopSendingResponse();
+
 
     }
 
