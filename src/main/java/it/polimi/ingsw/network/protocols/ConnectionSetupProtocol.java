@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.protocols;
 
 import it.polimi.ingsw.network.common.ExSocket;
+import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 import it.polimi.ingsw.network.server.components.GameRoom;
 import it.polimi.ingsw.network.server.components.RoomTable;
@@ -18,11 +19,38 @@ public class ConnectionSetupProtocol implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("New client connected: " + socket.getSocket().getInetAddress().getHostAddress());
+        System.out.println("New client connectinbg: " + socket.getSocket().getInetAddress().getHostAddress());
 
         String[] clientMessageFields;
-        String id;
-        RemoteUser user;
+
+        // WELCOME PROTOCOL
+        socket.send("WELCOME Welcome to the server!");
+        clientMessageFields = socket.receiveFields();
+        // Close connection if client replies unexpectedly.
+        if (!clientMessageFields[0].equals("HELLO")) {
+            socket.send("ERR Connection refused: unexpected reply from client.");
+            socket.close();
+        }
+        // Assign id to client
+        String id = GameServer.getInstance().getUserTable().generateId();
+        socket.send("ID " + id);
+        clientMessageFields = socket.receiveFields();
+        // Refuse connection if client replies unexpectedly.
+        if(clientMessageFields.length < 2 || !clientMessageFields[0].equals("OK") || !clientMessageFields[1].equals(id)){
+            socket.send("ERR Connection refused: unexpected reply from client.");
+            socket.close();
+        }
+        // Successfully connected with the user.
+        RemoteUser user = new RemoteUser(id, socket);
+        socket.send("READY You are now connected to the server!");
+
+        // Switch to ROOM JOINING PROTOCOL
+        new Thread(new RoomJoiningProtocol(user)).start();
+
+/*
+
+
+
 
         while (true) {
             socket.send("Provide nickname (NICK <nickname>)");
@@ -60,7 +88,7 @@ public class ConnectionSetupProtocol implements Runnable {
                     room = new GameRoom(roomID);
                     if (RoomTable.getInstance().add(room)) {
                         socket.send("Ok, you're now in room " + roomID);
-                        RoomTable.getInstance().getRoom(roomID).addUser(id);
+                        RoomTable.getInstance().getRoom(roomID).addUser(id, "test");
                         break;
                     } else {
                         socket.send("Room already exists, retry.");
@@ -70,7 +98,7 @@ public class ConnectionSetupProtocol implements Runnable {
                         socket.send("Room doesn't exist, retry.");
                     } else {
                         socket.send("Ok, you're now in room " + roomID);
-                        RoomTable.getInstance().getRoom(roomID).addUser(id);
+                        RoomTable.getInstance().getRoom(roomID).addUser(id, "test");
                         break;
                     }
                 }
@@ -89,7 +117,7 @@ public class ConnectionSetupProtocol implements Runnable {
             socket.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }
+        }*/
     }
 
 }
