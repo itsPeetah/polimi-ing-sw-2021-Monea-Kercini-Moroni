@@ -19,7 +19,7 @@ public class ConnectionSetupProtocol implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("New client connectinbg: " + socket.getSocket().getInetAddress().getHostAddress());
+        System.out.println("New client connecting: " + socket.getSocket().getInetAddress().getHostAddress());
 
         String[] clientMessageFields;
 
