@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
@@ -17,7 +16,11 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+
 class GameManagerTest {
+
+    final int wait_time = 1;
 
     /**
      * Testing if setup works correctly in a 2 player game
@@ -83,7 +86,7 @@ class GameManagerTest {
         //We wait a millisecond before turning off the player responses (the time is enough)
 
         try {
-            TimeUnit.MILLISECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(wait_time);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -109,8 +112,5 @@ class GameManagerTest {
         System.out.println("YAY");
 
     }
-
-
-
 
 }
