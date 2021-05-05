@@ -220,4 +220,28 @@ class GameManagerTest {
 
     }
 
+    @Test
+    void endGame(){
+
+        GameManager gm = new GameManager();
+
+        gm.addPlayer("Player 1");
+        gm.addPlayer("Player 2");
+
+        //Using faith points to give victory points since it's the easiest way
+
+        //Player 1 gets 2 victory points
+        gm.getGame().getPlayers()[0].getBoard().incrementFaithPoints(10);
+
+        //Player 2 gets 12 victory points
+        gm.getGame().getPlayers()[1].getBoard().incrementFaithPoints(20);
+
+        //While it may sound stupid, it is possible to end game at any given point,
+        //the GameManager will calculate points for the players as it is
+        gm.endGame();
+
+    }
+
+
+
 }

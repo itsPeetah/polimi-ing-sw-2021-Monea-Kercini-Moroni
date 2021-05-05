@@ -272,7 +272,10 @@ public class GameManager {
             //TODO show player his victory points
         }
 
-        int Winner = getWinner(VP);
+        //winner symbolizes the position of the player that has won, not the player or the points!
+
+        int winner = getWinner(VP);
+        //System.out.println(winner);
 
         //TODO notify player #Winner that he is the winner
         //Maybe add post-game functionality
@@ -304,7 +307,7 @@ public class GameManager {
     /**
      * Updates Market after players choice as well as his Warehouse
      * @param player
-     * @param row -true if player has chosen to acquire from row -false if he acquires a column
+     * @param row =true if player has chosen to acquire from row =false if he acquires a column
      * @param index the row/column he has chosen
      * @return true if it executed the action with no problems
      */
