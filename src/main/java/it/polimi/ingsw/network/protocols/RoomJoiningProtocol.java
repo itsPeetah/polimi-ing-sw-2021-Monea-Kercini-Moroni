@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.protocols;
 
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
@@ -18,7 +20,6 @@ public class RoomJoiningProtocol implements Runnable {
         String[] clientMessageFields;
         boolean disconnect = false;
         while (true){
-
             clientMessageFields = user.receiveMessageFields();
             // Handle "client wants to quit"
             if(clientMessageFields[0].equals("QUIT")){
@@ -34,6 +35,7 @@ public class RoomJoiningProtocol implements Runnable {
                 // Success
                 try{
                     roomCreate(clientMessageFields[1], clientMessageFields[1]);
+                    System.out.println("User " + user.getId() + " created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     break;
                 }
                 // Failure (room already exists)
@@ -46,6 +48,7 @@ public class RoomJoiningProtocol implements Runnable {
                 // Success
                 try{
                     roomJoin(clientMessageFields[1], clientMessageFields[1]);
+                    System.out.println("User " + user.getId() + " joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     break;
                 }
                 // Failure (either room doesn't exist or nickname already taken)
@@ -61,23 +64,20 @@ public class RoomJoiningProtocol implements Runnable {
 
         // Disconnect
         if(disconnect){
-            // TODO add
+            user.terminateConnection();
         }
-        // Launch server side listener
+        // Launch server side client listener
         else{
-            // TODO add
+            new Thread(new ServerSideClientListener(user)).start();
         }
 
     }
 
     private void roomCreate(String roomName, String nickname) throws GameRoomException{
-
-        // TODO Implement
+        GameServer.getInstance().getRoomTable().createRoom(roomName, nickname, user);
     }
 
     private void roomJoin(String roomName, String nickname) throws GameRoomException{
-
-        // TODO Implement
-
+        GameServer.getInstance().getRoomTable().joinRoom(roomName, nickname, user);
     }
 }

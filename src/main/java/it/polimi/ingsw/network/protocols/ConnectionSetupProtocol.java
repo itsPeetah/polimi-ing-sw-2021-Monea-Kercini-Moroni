@@ -42,6 +42,7 @@ public class ConnectionSetupProtocol implements Runnable {
         }
         // Successfully connected with the user.
         RemoteUser user = new RemoteUser(id, socket);
+        GameServer.getInstance().getUserTable().add(user);
         socket.send("READY You are now connected to the server!");
 
         // Switch to ROOM JOINING PROTOCOL
