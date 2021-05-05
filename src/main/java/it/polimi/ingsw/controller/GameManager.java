@@ -98,16 +98,19 @@ public class GameManager {
         //shuffle player order
         //game.shufflePlayers();
 
+        /**
         //Preparing stuff for player board
         ArrayList<Warehouse> wh = new ArrayList<>();
         ArrayList<Strongbox> sb = new ArrayList<>();
         ArrayList<ProductionPowers> pp = new ArrayList<>();
         ArrayList<PlayerBoard> pb = new ArrayList<>();
+         */
 
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
+            /**
             //Set up player board
             wh.add(new Warehouse());
             sb.add(new Strongbox());
@@ -115,6 +118,7 @@ public class GameManager {
             pb.add(new PlayerBoard(3, wh.get(i), sb.get(i), pp.get(i)));
 
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
+             */
 
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
@@ -339,6 +343,7 @@ public class GameManager {
         //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
         res = checkWhite(player, res);
 
+        //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
         return true;

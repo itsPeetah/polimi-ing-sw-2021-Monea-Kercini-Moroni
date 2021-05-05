@@ -114,4 +114,12 @@ class GameManagerTest {
 
     }
 
+    @Test
+    void checkWhite(){
+
+        //Adding one player to the game
+        GameManager gm = new GameManager();
+        gm.addPlayer("Player 1");
+    }
+
 }
