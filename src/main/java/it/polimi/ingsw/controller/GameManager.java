@@ -361,7 +361,8 @@ public class GameManager {
 
                 //Converting the choice from resources in resource type and adding it
                 for (ResourceType type : ResourceType.values()) {
-                    if(choice.getAmountOf(type) > 0){
+                    //also checking if player choice is effectively one of the types he can replace
+                    if(choice.getAmountOf(type) > 0 && (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1)))){
                         res.replaceWhite(type);
                         break;
                     }

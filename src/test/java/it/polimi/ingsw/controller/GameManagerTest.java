@@ -22,6 +22,7 @@ class GameManagerTest {
 
     final int wait_time = 1;
 
+
     /**
      * Testing if setup works correctly in a 2 player game
      *
