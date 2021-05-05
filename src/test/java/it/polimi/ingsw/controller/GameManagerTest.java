@@ -250,6 +250,70 @@ class GameManagerTest {
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
+        //Player has chosen the first row
+
+        //Saving first row for later
+        Resources res = new Resources();
+        //System.out.println(gm.getGame().getResourceMarket().getColumns());
+        res.add(gm.getGame().getResourceMarket().getAvailable()[0][0].getValue());
+        res.add(gm.getGame().getResourceMarket().getAvailable()[0][1].getValue());
+        res.add(gm.getGame().getResourceMarket().getAvailable()[0][2].getValue());
+        res.add(gm.getGame().getResourceMarket().getAvailable()[0][3].getValue());
+
+        //removing faith points (player can't add those in his warehouse)
+
+        int fp = 0;
+
+        if (res.getAmountOf(ResourceType.FAITH) > 0) {
+            //increase the faith points
+           fp++;
+            //remove the faith from resources
+            try {
+                res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Remember without the blanks
+        try{
+            res.remove(ResourceType.BLANK, res.getAmountOf(ResourceType.BLANK));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //the player will be asked to update his warehouse
+
+        Warehouse wh = new Warehouse();
+        //Warning: It probably it's not possible to put all the resources the player has in a single warehouse slot
+        //But for the sake of testing we will suppose so
+
+        wh.deposit(res, 1);
+        PutResourcesActionData putres = new PutResourcesActionData();
+        putres.setWh(wh);
+        putres.setPlayer("Player 1");
+        MockResponse MR1 = new MockResponse(Action.PUT_RESOURCES, putres);
+        MR1.startSendingResponse();
+
+        gm.resourceMarketUpdate(p, true, 0);
+
+        MR1.stopSendingResponse();
+
+        //Check that the faith points have been added correctly
+        assertEquals(fp, p.getBoard().getFaithPoints());
+        //System.out.println("Fp:");
+        //System.out.println(fp);
+
+        //Check that the resources have been added correctly
+
+
+        //System.out.println(res.getTotalAmount());
+        //System.out.println(gm.getGame().getPlayers()[0].getBoard().getWarehouse().getResourcesAvailable().getTotalAmount());
+        //System.out.println(wh.getResourceAmountWarehouse());
+
+        //The resources available should be the ones that were in the market tray
+        assertTrue(res.equals(p.getBoard().getWarehouse().getResourcesAvailable()));
+
     }
 
 }
