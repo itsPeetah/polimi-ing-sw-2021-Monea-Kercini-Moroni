@@ -25,7 +25,7 @@
             "amounts":{
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -69,7 +69,7 @@
             "amounts":{
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -113,7 +113,7 @@
             "amounts":{
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -157,7 +157,7 @@
             "amounts":{
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -199,7 +199,7 @@
                "STONES": 2
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -241,7 +241,7 @@
                "SERVANTS": 2
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -283,7 +283,7 @@
                "SHIELDS": 2
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -325,7 +325,7 @@
                "COINS": 2
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -368,7 +368,7 @@
 
             }
          },
-         "greyMarbleReplacement":"SERVANTS",
+         "whiteMarbleReplacement":"SERVANTS",
          "production":{
             "input":{
                "amounts":{
@@ -411,7 +411,7 @@
 
             }
          },
-         "greyMarbleReplacement":"SHIELDS",
+         "whiteMarbleReplacement":"SHIELDS",
          "production":{
             "input":{
                "amounts":{
@@ -454,7 +454,7 @@
 
             }
          },
-         "greyMarbleReplacement":"STONES",
+         "whiteMarbleReplacement":"STONES",
          "production":{
             "input":{
                "amounts":{
@@ -497,7 +497,7 @@
 
             }
          },
-         "greyMarbleReplacement":"COINS",
+         "whiteMarbleReplacement":"COINS",
          "production":{
             "input":{
                "amounts":{
@@ -539,7 +539,7 @@
 
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -582,7 +582,7 @@
 
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -625,7 +625,7 @@
 
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{
@@ -668,7 +668,7 @@
 
             }
          },
-         "greyMarbleReplacement":"BLANK",
+         "whiteMarbleReplacement":"BLANK",
          "production":{
             "input":{
                "amounts":{

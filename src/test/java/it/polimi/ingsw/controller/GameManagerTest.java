@@ -146,6 +146,9 @@ class GameManagerTest {
         //Check if it is equal to res2, the one without the blank
         assertTrue(res2.equals(newRes));
 
+        //Now trying to add a leader with the white replacement ability in the players hand and then play it
+
+
     }
 
 }
