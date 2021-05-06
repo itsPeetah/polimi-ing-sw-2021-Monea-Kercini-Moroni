@@ -8,12 +8,14 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.view.common.GameData;
+import it.polimi.ingsw.view.scenes.GameScene;
 
 public class GameController {
 
     private final GameData gameData;
-    private CommunicationHandler communicationHandler;
+    private final CommunicationHandler communicationHandler;
     private GameState currentState;
+    private GameScene currentScene;
 
     public GameController(GameData gameData) {
         this.gameData = gameData;
