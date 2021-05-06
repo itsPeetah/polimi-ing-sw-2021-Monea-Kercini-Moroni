@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameManagerTest {
     CommunicationHandler communicationHandler;
-    final int wait_time = 1;
+    final int WAIT_TIME = 50;
 
     @BeforeEach
     void generateHandler() {
@@ -91,7 +91,7 @@ class GameManagerTest {
         //We wait a millisecond before turning off the player responses (the time is enough)
 
         try {
-            TimeUnit.MILLISECONDS.sleep(wait_time);
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ class GameManagerTest {
 
         //At this point the game starts
         assertEquals(GamePhase.TURN, gm.gamePhase);
-        
+
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
@@ -302,7 +302,7 @@ class GameManagerTest {
         gm.resourceMarketUpdate(p, true, 0);
 
         try {
-            TimeUnit.MILLISECONDS.sleep(wait_time);
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
         }catch (Exception e){
             e.printStackTrace();
         }
