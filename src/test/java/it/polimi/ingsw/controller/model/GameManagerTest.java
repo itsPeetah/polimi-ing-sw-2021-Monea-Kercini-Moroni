@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
@@ -401,6 +402,34 @@ class GameManagerTest {
         //Supposing the player wants to activate 2 productions
         //One which costs res and adds res and faith points
         //One which costs a choice and adds a choice
+
+        Resources in1 = new Resources();
+        in1.add(ResourceType.COINS, 1);
+        Resources out1 = new Resources();
+        in1.add(ResourceType.SERVANTS, 1).add(ResourceType.FAITH, 1);
+
+        Production prod1 = new Production(in1, out1);
+
+        Resources in2 = new Resources();
+        in1.add(ResourceType.CHOICE, 1);
+        Resources out2 = new Resources();
+        in1.add(ResourceType.CHOICE, 1);
+
+        Production prod2 = new Production(in2, out2);
+
+
+        //Player has a coin and a shield in his warehouse
+
+        Resources res = new Resources();
+        res.add(ResourceType.SHIELDS, 1);
+
+        p.getBoard().getWarehouse().deposit(res, 0);
+        p.getBoard().getWarehouse().deposit(in1, 1);
+
+
+        //Firs case: Player will make wrong choice, so he won't be able to produce anything
+
+
 
 
     }
