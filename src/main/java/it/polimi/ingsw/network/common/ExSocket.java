@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.common;
 
+import kotlin.text.Regex;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -44,14 +46,22 @@ public class ExSocket {
         return  in.nextLine();
     }
 
+    public String[] receiveFields(){
+        return receive().split("\\s+");
+    }
+
     /**
      * Close the socket and its streams.
      * @throws IOException if any issues occur.
      */
-    public void close() throws IOException{
-        in.close();
-        out.close();
-        socket.close();
+    public void close(){
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
 }

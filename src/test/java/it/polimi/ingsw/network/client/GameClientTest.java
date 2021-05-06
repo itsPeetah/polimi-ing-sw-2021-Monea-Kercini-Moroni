@@ -8,6 +8,5 @@ class GameClientTest {
 
         GameClient client = new GameClient("localhost", 42069);
         client.execute();
-
     }
 }

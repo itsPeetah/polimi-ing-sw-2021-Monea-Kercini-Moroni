@@ -8,6 +8,8 @@ import java.util.Random;
  */
 public class UserTable {
 
+    private static final int DEFAULT_ID_LENGTH = 8;
+
     private static UserTable instance;
 
     private Object lock;
@@ -91,6 +93,6 @@ public class UserTable {
      * @return
      */
     public String generateId() {
-        return generateId(6);
+        return generateId(DEFAULT_ID_LENGTH);
     }
 }

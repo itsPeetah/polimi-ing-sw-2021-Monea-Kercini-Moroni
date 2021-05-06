@@ -1,6 +1,10 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.model.game.Game;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Framework class for a game room.
@@ -8,9 +12,8 @@ import java.util.ArrayList;
 public class GameRoom {
 
     private String roomId;              // room id
-
     private Object lock;                // concurrency-safe table lock
-    private ArrayList<String> userIDs;  // users in the room
+    private Hashtable<String, RemoteUser> users;
 
     /**
      * Class constructor.
@@ -19,50 +22,43 @@ public class GameRoom {
         this.roomId = roomId;
 
         this.lock = new Object();
-        this.userIDs = new ArrayList<String>();
+        this.users = new Hashtable<String, RemoteUser>();
     }
 
     public String getId(){
         return roomId;
     }
 
-    /**
-     * Add a user to the room.
-     * @param userID ID of the user to add.
-     * @return whether the operation was successful.
-     */
-    public boolean addUser(String userID){
-        boolean result = false;
+    public void addUser(String nickname, RemoteUser user) throws GameRoomException{
         synchronized (lock) {
-            if (!userIDs.contains(userID)) {
-                userIDs.add(userID);
+            if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
+            users.put(nickname, user);
+            user.assignRoom(roomId, nickname);
+        }
+    }
+
+    public boolean removeUser(String userID){
+        boolean result = false;
+        synchronized (lock){
+            if(users.containsKey(userID)){
+//                userIDs.remove(userID);
                 result = true;
             }
         }
         return result;
     }
 
-    /**
-     * Check if a player is in the room.
-     */
-    public boolean playerIsIn(String id){
-        boolean result;
-        synchronized (lock){
-            result = userIDs.contains(id);
-        }
-        return result;
-    }
+//    /**
+//     * Get user array to iterate upon.
+//     */
+//    public String[] getUsers(){
+//        String[] result;
+//        synchronized (lock) {
+//            result = (String[]) userIDs.toArray();
+//        }
+//        return  result;
+//    }
 
-    /**
-     * Get user array to iterate upon.
-     */
-    public String[] getUsers(){
-        String[] result;
-        synchronized (lock) {
-            result = (String[]) userIDs.toArray();
-        }
-        return  result;
-    }
 
 
 }
