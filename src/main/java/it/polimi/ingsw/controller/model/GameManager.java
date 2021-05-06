@@ -1,10 +1,10 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.model;
 
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.controller.actions.*;
-import it.polimi.ingsw.controller.actions.data.*;
+import it.polimi.ingsw.controller.model.actions.*;
+import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;

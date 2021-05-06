@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.updates;
+package it.polimi.ingsw.controller.model.updates;
 
 public class UpdatePacket {
     Update type;

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.controller.actions.data;
+package it.polimi.ingsw.controller.model.actions.data;
 
-import it.polimi.ingsw.controller.actions.ActionData;
+import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
 

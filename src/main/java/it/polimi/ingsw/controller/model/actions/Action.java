@@ -1,7 +1,7 @@
-package it.polimi.ingsw.controller.actions;
+package it.polimi.ingsw.controller.model.actions;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.actions.data.*;
+import it.polimi.ingsw.controller.model.actions.data.*;
 
 import java.lang.reflect.Type;
 

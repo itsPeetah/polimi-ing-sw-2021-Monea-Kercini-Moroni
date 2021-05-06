@@ -1,13 +1,13 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.model;
 
-import it.polimi.ingsw.controller.actions.Action;
-import it.polimi.ingsw.controller.actions.ActionData;
-import it.polimi.ingsw.controller.actions.ActionPacket;
-import it.polimi.ingsw.controller.messages.Message;
-import it.polimi.ingsw.controller.messages.MessagePacket;
-import it.polimi.ingsw.controller.updates.Update;
-import it.polimi.ingsw.controller.updates.UpdateData;
-import it.polimi.ingsw.controller.updates.UpdatePacket;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionData;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.controller.model.messages.MessagePacket;
+import it.polimi.ingsw.controller.model.updates.Update;
+import it.polimi.ingsw.controller.model.updates.UpdateData;
+import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import static it.polimi.ingsw.controller.actions.Action.*;
+import static it.polimi.ingsw.controller.model.actions.Action.*;
 
 /* CODE EXAMPLE FOR HANDLER USAGE:
 

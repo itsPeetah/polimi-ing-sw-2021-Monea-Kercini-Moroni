@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.model;
 
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
@@ -7,10 +7,10 @@ import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
-import it.polimi.ingsw.controller.actions.Action;
-import it.polimi.ingsw.controller.actions.data.Choose2LeadersActionData;
-import it.polimi.ingsw.controller.actions.data.ChooseResourceActionData;
-import it.polimi.ingsw.controller.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
+import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

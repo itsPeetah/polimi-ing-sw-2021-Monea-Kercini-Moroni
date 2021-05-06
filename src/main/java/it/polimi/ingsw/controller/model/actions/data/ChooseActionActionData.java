@@ -1,7 +1,7 @@
-package it.polimi.ingsw.controller.actions.data;
+package it.polimi.ingsw.controller.model.actions.data;
 
-import it.polimi.ingsw.controller.TurnChoice;
-import it.polimi.ingsw.controller.actions.ActionData;
+import it.polimi.ingsw.controller.model.TurnChoice;
+import it.polimi.ingsw.controller.model.actions.ActionData;
 
 public class ChooseActionActionData extends ActionData {
     private TurnChoice choice;

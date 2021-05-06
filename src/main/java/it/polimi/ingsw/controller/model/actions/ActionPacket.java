@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.actions;
+package it.polimi.ingsw.controller.model.actions;
 
 public class ActionPacket {
     Action action;

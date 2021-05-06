@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.messages;
+package it.polimi.ingsw.controller.model.messages;
 
 public class MessagePacket {
     String player;

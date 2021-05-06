@@ -1,9 +1,10 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.model;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.actions.Action;
-import it.polimi.ingsw.controller.actions.ActionData;
-import it.polimi.ingsw.controller.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.CommunicationHandler;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionData;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
