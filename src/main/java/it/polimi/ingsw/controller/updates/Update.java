@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.server.metapackets.updates;
+package it.polimi.ingsw.controller.updates;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.server.metapackets.updates.data.*;
+import it.polimi.ingsw.controller.updates.data.*;
 
 public enum Update {
     EMPTY(EmptyUpdateData.class);

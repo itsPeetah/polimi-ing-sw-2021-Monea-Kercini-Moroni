@@ -6,13 +6,13 @@ import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
-import it.polimi.ingsw.network.server.metapackets.actions.Action;
-import it.polimi.ingsw.network.server.metapackets.actions.data.Choose2LeadersActionData;
-import it.polimi.ingsw.network.server.metapackets.actions.data.ChooseResourceActionData;
-import it.polimi.ingsw.network.server.metapackets.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.controller.actions.Action;
+import it.polimi.ingsw.controller.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.actions.data.ChooseResourceActionData;
+import it.polimi.ingsw.controller.actions.data.PutResourcesActionData;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,9 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class GameManagerTest {
-
+    CommunicationHandler communicationHandler;
     final int wait_time = 1;
 
+    @BeforeEach
+    void generateHandler() {
+        communicationHandler = new CommunicationHandler();
+    }
 
     /**
      * Testing if setup works correctly in a 2 player game
@@ -34,20 +38,18 @@ class GameManagerTest {
     @Test
     void setup(){
 
-        GameManager gm = new GameManager();
+        GameManager gm = new GameManager(communicationHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
 
         //Players have decided to start the game
-        new Thread(() -> {
-            gm.setupGame();
-        }).start();
+        new Thread(gm::setupGame).start();
 
 
         //Preparing Leaders
-        LeadCard myLeaders1[] = new LeadCard[2];
-        LeadCard myLeaders2[] = new LeadCard[2];
+        LeadCard[] myLeaders1 = new LeadCard[2];
+        LeadCard[] myLeaders2 = new LeadCard[2];
         myLeaders1[0]  = CardManager.loadLeadCardsFromJson().get(0);
         myLeaders1[1]  = CardManager.loadLeadCardsFromJson().get(1);
         myLeaders2[0]  = CardManager.loadLeadCardsFromJson().get(2);
@@ -59,13 +61,13 @@ class GameManagerTest {
         //Player 1 Leaders
         TwoLeaders.setLeaders(myLeaders1);
         TwoLeaders.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
         MR1.startSendingResponse();
 
         //Player 2 Leaders
         TwoLeaders.setLeaders(myLeaders2);
         TwoLeaders.setPlayer("Player 2");
-        MockResponse MR2 = new MockResponse(Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
         MR2.startSendingResponse();
 
         //Player 2 Chooses a resource
@@ -74,7 +76,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(res);
         pickedRes.setPlayer("Player 2");
-        MockResponse MR3 = new MockResponse(Action.CHOOSE_RESOURCE, pickedRes);
+        MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
         MR3.startSendingResponse();
 
         //Player 2 Puts the resource in his warehouse
@@ -83,7 +85,7 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 2");
-        MockResponse MR4 = new MockResponse(Action.PUT_RESOURCES, putres);
+        MockResponse MR4 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
         MR4.startSendingResponse();
 
         //We wait a millisecond before turning off the player responses (the time is enough)
@@ -106,11 +108,13 @@ class GameManagerTest {
         //Testing if we added the correct card to player 2
         assertEquals(myLeaders2[1].getCardId(), gm.getGame().getPlayers()[1].getLeaders().getPlayableCards().get(1).getCardId() );
 
+        //At this point the game starts
+        assertEquals(GamePhase.TURN, gm.gamePhase);
+        
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-        //At this point the game starts
-        assertEquals(GamePhase.TURN, gm.gamePhase);
+
 
         System.out.println("YAY");
 
@@ -120,7 +124,7 @@ class GameManagerTest {
     void checkWhite(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager();
+        GameManager gm = new GameManager(communicationHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -151,7 +155,7 @@ class GameManagerTest {
         //lead_9 gives us servants instead of blank
 
         LeadCard lead_9 = CardManager.loadLeadCardsFromJson().get(8);
-        LeadCard leaders[] = new LeadCard[2];
+        LeadCard[] leaders = new LeadCard[2];
         leaders[0] = lead_9;
         //Set leader in players hand
         p.getLeaders().setCards(leaders);
@@ -208,7 +212,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(choice);
         pickedRes.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(Action.CHOOSE_RESOURCE, pickedRes);
+        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
         MR1.startSendingResponse();
 
         newRes = gm.checkWhite(p, res4);
@@ -223,7 +227,7 @@ class GameManagerTest {
     @Test
     void endGame(){
 
-        GameManager gm = new GameManager();
+        GameManager gm = new GameManager(communicationHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
@@ -246,7 +250,7 @@ class GameManagerTest {
     void resourceMarketUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager();
+        GameManager gm = new GameManager(communicationHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -292,7 +296,7 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(Action.PUT_RESOURCES, putres);
+        MockResponse MR1 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
         MR1.startSendingResponse();
 
         gm.resourceMarketUpdate(p, true, 0);

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.server.metapackets.actions.Action;
-import it.polimi.ingsw.network.server.metapackets.actions.ActionData;
-import it.polimi.ingsw.network.server.metapackets.actions.ActionHandler;
-import it.polimi.ingsw.network.server.metapackets.actions.ActionPacket;
+import it.polimi.ingsw.controller.actions.Action;
+import it.polimi.ingsw.controller.actions.ActionData;
+import it.polimi.ingsw.controller.actions.ActionPacket;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -20,13 +19,13 @@ public class MockResponse {
      * @param action action to be sent.
      * @param data data of the action.
      */
-    protected MockResponse(Action action, ActionData data) {
+    protected MockResponse(CommunicationHandler communicationHandler, Action action, ActionData data) {
         Gson gson = new Gson();
         String stringData = gson.toJson(data, action.getClassOfData());
         ActionPacket actionPacket = new ActionPacket(action, stringData);
         sendingThread = new Thread(() -> {
             while(!isInterrupted.get()){
-                ActionHandler.notify(actionPacket);
+                communicationHandler.notify(actionPacket);
             }
         });
     }

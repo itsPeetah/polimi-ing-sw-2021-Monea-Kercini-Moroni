@@ -1,6 +1,4 @@
-package it.polimi.ingsw.network.server.metapackets.updates;
-
-import it.polimi.ingsw.network.server.metapackets.messages.Message;
+package it.polimi.ingsw.controller.updates;
 
 public class UpdatePacket {
     Update type;

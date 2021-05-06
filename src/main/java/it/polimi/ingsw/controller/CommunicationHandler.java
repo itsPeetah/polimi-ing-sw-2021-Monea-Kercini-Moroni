@@ -1,9 +1,21 @@
-package it.polimi.ingsw.network.server.metapackets.actions;
+package it.polimi.ingsw.controller;
+
+import it.polimi.ingsw.controller.actions.Action;
+import it.polimi.ingsw.controller.actions.ActionData;
+import it.polimi.ingsw.controller.actions.ActionPacket;
+import it.polimi.ingsw.controller.messages.Message;
+import it.polimi.ingsw.controller.messages.MessagePacket;
+import it.polimi.ingsw.controller.updates.Update;
+import it.polimi.ingsw.controller.updates.UpdateData;
+import it.polimi.ingsw.controller.updates.UpdatePacket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
-import static it.polimi.ingsw.network.server.metapackets.actions.Action.*;
+import static it.polimi.ingsw.controller.actions.Action.*;
 
 /* CODE EXAMPLE FOR HANDLER USAGE:
 
@@ -38,14 +50,40 @@ import static it.polimi.ingsw.network.server.metapackets.actions.Action.*;
 
 */
 
-public class ActionHandler {
-    private static final Object lock = new Object();
-    private static final List<Action> requestAction = new ArrayList<>();
-    private static String requestPlayer = null;
-    private static ActionData responseData = null;
-    private static Action responseAction = NONE;
-    private static Boolean ready = false;
-    private static final String EXCEPTION_MESSAGE = "Exception thrown by EventHandler";
+public class CommunicationHandler {
+
+    /* ACTION HANDLER ATTRIBUTES */
+
+    private final Object lock;
+    private final List<Action> requestAction;
+    private String requestPlayer;
+    private ActionData responseData;
+    private Action responseAction;
+    private Boolean ready;
+
+    /* MESSAGE HANDLER ATTRIBUTES */
+
+    private final BlockingQueue<MessagePacket> messageQueue;
+
+    /* UPDATE HANDLER ATTRIBUTES */
+
+    private final BlockingQueue<UpdatePacket> updateQueue;
+
+    /**
+     * Constructor
+     */
+    CommunicationHandler() {
+        lock = new Object();
+        requestAction = new ArrayList<>();
+        requestPlayer = null;
+        responseData = null;
+        responseAction = NONE;
+        ready = false;
+        messageQueue = new LinkedBlockingDeque<>();
+        updateQueue = new LinkedBlockingDeque<>();
+    }
+
+    /* ACTION HANDLER METHODS */
 
     /**
      * Add an expected action and the player that must perform it.
@@ -53,16 +91,16 @@ public class ActionHandler {
      * @param requestedAction action to be performed.
      * @param requestPlayer username of the player that must perform the action. If another action has already been added, make sure that the player for this action is the same one!
      */
-    public static void setExpectedAction(Action requestedAction, String requestPlayer) {
+    public void setExpectedAction(Action requestedAction, String requestPlayer) {
         synchronized(lock) {
 
-            ActionHandler.clear();
+            clear();
 
             // Set the player to wait for
-            ActionHandler.requestPlayer = requestPlayer;
+            this.requestPlayer = requestPlayer;
 
             // Finally, add the action
-            ActionHandler.addExpectedAction(requestedAction);
+            addExpectedAction(requestedAction);
 
         }
     }
@@ -72,11 +110,11 @@ public class ActionHandler {
      * @apiNote This method must be called ONLY AFTER a setExpectedAction call!
      * @param requestedAction action to be performed.
      */
-    public static void addExpectedAction(Action requestedAction) {
+    public void addExpectedAction(Action requestedAction) {
         synchronized(lock) {
 
             // Add the action
-            ActionHandler.requestAction.add(requestedAction);
+            requestAction.add(requestedAction);
 
         }
     }
@@ -85,7 +123,7 @@ public class ActionHandler {
      * Set a response event from an incoming packet.
      * @param actionPacket message from a player
      */
-    public static void notify(ActionPacket actionPacket) {
+    public void notify(ActionPacket actionPacket) {
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.parseData(actionPacket.getData());
         synchronized(lock) {
@@ -94,8 +132,8 @@ public class ActionHandler {
             if(requestAction.contains(responseAction) && responseData.getPlayer().equals(requestPlayer)) {
 
                 // Set the response attributes
-                ActionHandler.responseData = responseData;
-                ActionHandler.responseAction = responseAction;
+                this.responseData = responseData;
+                this.responseAction = responseAction;
 
                 // Notify the controller
                 ready = true;
@@ -109,7 +147,7 @@ public class ActionHandler {
      * Get the response action for the last request.
      * If the response has not arrived yet, the caller is blocked.
      */
-    public static Action getResponseAction() {
+    public Action getResponseAction() {
         synchronized(lock) {
             // Check if the player generated a response
             while (!ready) {
@@ -130,7 +168,7 @@ public class ActionHandler {
      * If data has not arrived yet, the caller is blocked.
      * @param <T> type of the requested data.
      */
-    public static <T extends ActionData> T getResponseData() {
+    public <T extends ActionData> T getResponseData() {
         synchronized(lock) {
             // Check if the player generated a response
             while (!ready) {
@@ -149,9 +187,66 @@ public class ActionHandler {
     /**
      * Reset the expected player and actions fields. This has to be called after a successful notify
      */
-    private static void clear() {
+    private void clear() {
         ready = false;
         requestAction.clear();
         requestPlayer = null;
+    }
+
+    /* MESSAGE HANDLER METHODS */
+
+    /**
+     * Send a message to a player.
+     * @param player player to whom the message is addressed.
+     * @param message type of message.
+     */
+    public void sendMessage(String player, Message message) {
+        MessagePacket newPacket = new MessagePacket(player, message);
+        messageQueue.add(newPacket);
+    }
+
+    /**
+     * Take a message to be sent to a player.
+     * WARNING: if no message is present, the caller will be blocked forever.
+     */
+    public MessagePacket takeMessage() throws InterruptedException {
+        return messageQueue.take();
+    }
+
+    /**
+     * Take a message to be sent to a player.
+     * WARNING: if no message is present, the caller will be blocked until the specified timeout is over.
+     * When the timeout expires, null is returned.
+     */
+    public MessagePacket pollMessage(long timeout, TimeUnit timeUnit) throws InterruptedException {
+        return messageQueue.poll(timeout, timeUnit);
+    }
+
+    /* UPDATE HANDLER METHODS */
+
+    /**
+     * Push an update to be sent to all players.
+     */
+    public void pushUpdate(Update type, UpdateData data) {
+        String jsonData = type.parseData(data);
+        UpdatePacket updatePacket = new UpdatePacket(type, jsonData);
+        updateQueue.add(updatePacket);
+    }
+
+    /**
+     * Take an update ready to be notified to all players.
+     * WARNING: if no update is present, the caller will be blocked forever.
+     */
+    public UpdatePacket takeUpdate() throws InterruptedException {
+        return updateQueue.take();
+    }
+
+    /**
+     * Take an update ready to be notified to all players.
+     * WARNING: if no update is present, the caller will be blocked until the specified timeout is over.
+     * When the timeout expires, null is returned.
+     */
+    public UpdatePacket pollUpdate(long timeout, TimeUnit timeUnit) throws InterruptedException {
+        return updateQueue.poll(timeout, timeUnit);
     }
 }

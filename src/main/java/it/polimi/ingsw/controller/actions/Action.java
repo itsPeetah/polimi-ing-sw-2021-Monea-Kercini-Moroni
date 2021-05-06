@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.server.metapackets.actions;
+package it.polimi.ingsw.controller.actions;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.network.server.metapackets.actions.data.*;
+import it.polimi.ingsw.controller.actions.data.*;
 
 import java.lang.reflect.Type;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server.metapackets.actions;
+package it.polimi.ingsw.controller.actions;
 
 public class ActionPacket {
     Action action;

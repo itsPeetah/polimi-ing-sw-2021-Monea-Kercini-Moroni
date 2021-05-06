@@ -3,8 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.network.server.metapackets.actions.*;
-import it.polimi.ingsw.network.server.metapackets.actions.data.*;
+import it.polimi.ingsw.controller.actions.*;
+import it.polimi.ingsw.controller.actions.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;
@@ -16,10 +16,19 @@ import java.util.Collections;
 
 public class GameManager {
 
-    public GamePhase gamePhase = GamePhase.PREGAME;
+    public GamePhase gamePhase;
+    private final Game game;
+    private final CommunicationHandler communicationHandler;
 
-    // initialize game (with default settings)
-    private Game game = GameFactory.CreateGame();
+    public GameManager(CommunicationHandler communicationHandler) {
+        // Initialize game (with default settings)
+        game = GameFactory.CreateGame();
+        gamePhase = GamePhase.PREGAME;
+        
+        // Set communication handler
+        this.communicationHandler = communicationHandler;
+
+    }
 
     public Game getGame() {
         return game;
@@ -42,8 +51,8 @@ public class GameManager {
     private Resources askPlayerToChooseResource(Player p){
 
         //System.out.println("Hojfodfjdla");
-        ActionHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceActionData data = ActionHandler.getResponseData();
+        communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
+        ChooseResourceActionData data = communicationHandler.getResponseData();
         Resources res = data.getResources();
 
         return res;
@@ -56,8 +65,8 @@ public class GameManager {
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
-        ActionHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesActionData data = ActionHandler.getResponseData();
+        communicationHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+        PutResourcesActionData data = communicationHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
@@ -98,7 +107,7 @@ public class GameManager {
         //shuffle player order
         //game.shufflePlayers();
 
-        /**
+        /*
         //Preparing stuff for player board
         ArrayList<Warehouse> wh = new ArrayList<>();
         ArrayList<Strongbox> sb = new ArrayList<>();
@@ -110,7 +119,7 @@ public class GameManager {
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
-            /**
+            /*
             //Set up player board
             wh.add(new Warehouse());
             sb.add(new Strongbox());
@@ -122,8 +131,8 @@ public class GameManager {
 
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
-            ActionHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersActionData data = ActionHandler.getResponseData();
+            communicationHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+            Choose2LeadersActionData data = communicationHandler.getResponseData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
 
@@ -201,15 +210,15 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
-            ActionHandler.addExpectedAction(Action.DEV_CARD);
-            ActionHandler.addExpectedAction(Action.PRODUCE);
-            ActionHandler.addExpectedAction(Action.PlAY_LEADER);
-            ActionHandler.addExpectedAction(Action.DISCARD_LEADER);
-            ActionHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
-            ActionHandler.addExpectedAction(Action.END_TURN);
+            communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+            communicationHandler.addExpectedAction(Action.DEV_CARD);
+            communicationHandler.addExpectedAction(Action.PRODUCE);
+            communicationHandler.addExpectedAction(Action.PlAY_LEADER);
+            communicationHandler.addExpectedAction(Action.DISCARD_LEADER);
+            communicationHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
+            communicationHandler.addExpectedAction(Action.END_TURN);
 
-            switch (ActionHandler.getResponseAction()) {
+            switch (communicationHandler.getResponseAction()) {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCE_MARKET:
@@ -383,32 +392,32 @@ public class GameManager {
      */
     private boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
 
-        for (int i = 0; i < chosenProduction.size(); i++) {
+        for(Production production : chosenProduction) {
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
-            Resources input = makePlayerChoose(player, chosenProduction.get(i).getInput()); //If player has choice in input he has to choose here
+            Resources input = makePlayerChoose(player, production.getInput()); //If player has choice in input he has to choose here
 
             //check if affordable
-            if( player.getBoard().getResourcesAvailable().isGreaterThan( input )){
+            if (player.getBoard().getResourcesAvailable().isGreaterThan(input)) {
 
                 fromStrongbox.add(input);
 
                 try {
                     //Withdraw as many resources as you need from warehouse
                     fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(input));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 //Withdraw the rest from strongbox
                 player.getBoard().getStrongbox().withdraw(fromStrongbox);
 
-                Resources output = makePlayerChoose(player, chosenProduction.get(i).getOutput()); //If player has choice in input he has to choose here
+                Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in input he has to choose here
 
                 //Add the output of production to the strongbox
                 player.getBoard().getStrongbox().deposit(output);
 
-            }else{
+            } else {
                 //TODO Tell player he doesn't have enough resources
                 return false;
             }
@@ -530,8 +539,8 @@ public class GameManager {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        //ActionHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
-        ResourceMarketActionData playerChoice = ActionHandler.getResponseData();
+        //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+        ResourceMarketActionData playerChoice = communicationHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -545,8 +554,8 @@ public class GameManager {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        //ActionHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
-        DevCardActionData devCardChoice = ActionHandler.getResponseData();
+        //communicationHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
+        DevCardActionData devCardChoice = communicationHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -560,8 +569,8 @@ public class GameManager {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        //ActionHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
-        ProduceActionData produceChoice = ActionHandler.getResponseData();
+        //communicationHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
+        ProduceActionData produceChoice = communicationHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -575,16 +584,16 @@ public class GameManager {
 
     private void playLeader(Player player){
 
-        //ActionHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
-        ChooseLeaderActionData playLeaderEventData = ActionHandler.getResponseData();
+        //communicationHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
+        ChooseLeaderActionData playLeaderEventData = communicationHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
     }
 
     private void discardLeader(Player player){
 
-        //ActionHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
-        ChooseLeaderActionData discardLeaderEventData = ActionHandler.getResponseData();
+        //communicationHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
+        ChooseLeaderActionData discardLeaderEventData = communicationHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }

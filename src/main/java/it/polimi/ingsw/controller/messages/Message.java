@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server.metapackets.messages;
+package it.polimi.ingsw.controller.messages;
 
 public enum Message {
     ERROR("ERROR"),
