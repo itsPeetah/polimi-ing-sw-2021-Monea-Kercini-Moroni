@@ -36,7 +36,7 @@ public enum Action {
      * @param jsonData json formatted string representing a DataEvent
      * @return EventData object representing the correct DataEvent extension object of a certain Action
      */
-    public ActionData parseData(String jsonData) {
+    public <T extends ActionData> T fromJsonToData(String jsonData) {
         Gson gson = new Gson();
         return gson.fromJson(jsonData, (Type)classOfData);
     }

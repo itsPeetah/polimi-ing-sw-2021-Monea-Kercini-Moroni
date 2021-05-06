@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.model.messages;
 
 public class MessagePacket {
     String player;
-    String message;
+    Message message;
 
     /**
      * Constructor for GSON
@@ -11,7 +11,7 @@ public class MessagePacket {
 
     public MessagePacket(String player, Message message) {
         this.player = player;
-        this.message = message.toString();
+        this.message = message;
     }
 
     /**
@@ -24,7 +24,7 @@ public class MessagePacket {
     /**
      * Get the content of the message.
      */
-    public String getMessage() {
+    public Message getMessage() {
         return message;
     }
 }

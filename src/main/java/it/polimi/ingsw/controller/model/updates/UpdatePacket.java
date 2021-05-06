@@ -2,14 +2,14 @@ package it.polimi.ingsw.controller.model.updates;
 
 public class UpdatePacket {
     Update type;
-    String data;
+    UpdateData data;
 
     /**
      * Constructor for GSON
      */
     public UpdatePacket() {}
 
-    public UpdatePacket(Update type, String data) {
+    public UpdatePacket(Update type, UpdateData data) {
         this.type = type;
         this.data = data;
     }
@@ -24,7 +24,7 @@ public class UpdatePacket {
     /**
      * Get json formatted string of data.
      */
-    public String getData() {
+    public UpdateData getData() {
         return data;
     }
 }
