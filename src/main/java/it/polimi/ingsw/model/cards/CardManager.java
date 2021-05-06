@@ -6,8 +6,10 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardManager {
     /* PATH CONSTANTS */
@@ -33,7 +35,15 @@ public class CardManager {
         }
 
         // Read and return the cards
-        return gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
+        ArrayList<DevCard> devCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
+
+        try {
+            jsonFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return devCardList;
     }
 
     /**
@@ -53,6 +63,15 @@ public class CardManager {
         }
 
         // Read and return the cards
-        return gson.fromJson(jsonFile, new TypeToken<ArrayList<LeadCard>>(){}.getType());
+        ArrayList<LeadCard> leadCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<LeadCard>>(){}.getType());
+
+        try {
+            jsonFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Read and return the cards
+        return leadCardList;
     }
 }
