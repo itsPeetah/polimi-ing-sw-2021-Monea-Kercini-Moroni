@@ -395,35 +395,42 @@ public class GameManager {
      */
     private boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
 
+        //Check if all productions can be activated at the beginning, before any actual production has taken place
+
+        //Calculate total costs
+        Resources tot_cost = new Resources();
+        for(Production production : chosenProduction) {
+            tot_cost.add(production.getInput());
+        }
+
+        //If it is not enough
+        if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
+            //TODO Tell player he doesn't have enough resources
+            return false;
+        }
+
         for(Production production : chosenProduction) {
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
             Resources input = makePlayerChoose(player, production.getInput()); //If player has choice in input he has to choose here
 
-            //check if affordable
-            if (player.getBoard().getResourcesAvailable().isGreaterThan(input)) {
+            fromStrongbox.add(input);
 
-                fromStrongbox.add(input);
-
-                try {
-                    //Withdraw as many resources as you need from warehouse
-                    fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(input));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //Withdraw the rest from strongbox
-                player.getBoard().getStrongbox().withdraw(fromStrongbox);
-
-                Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in input he has to choose here
-
-                //Add the output of production to the strongbox
-                player.getBoard().getStrongbox().deposit(output);
-
-            } else {
-                //TODO Tell player he doesn't have enough resources
-                return false;
+            try {
+                //Withdraw as many resources as you need from warehouse
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(input));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            //Withdraw the rest from strongbox
+            player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+            Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in input he has to choose here
+
+            //Add the output of production to the strongbox
+            player.getBoard().getStrongbox().deposit(output);
+
         }
 
         return true;

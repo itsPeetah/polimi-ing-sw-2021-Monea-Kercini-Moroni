@@ -390,4 +390,19 @@ class GameManagerTest {
 
     }
 
+    @Test
+    void produce(){
+
+        //Adding one player to the game
+        GameManager gm = new GameManager(communicationHandler);
+        gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+        //Supposing the player wants to activate 2 productions
+        //One which costs res and adds res and faith points
+        //One which costs a choice and adds a choice
+
+
+    }
+
 }
