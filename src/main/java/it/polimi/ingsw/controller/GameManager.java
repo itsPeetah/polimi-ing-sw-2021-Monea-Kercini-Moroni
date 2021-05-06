@@ -379,6 +379,9 @@ public class GameManager {
             return false;
 
         }else{
+            //Removes the cost from players warehouse
+            player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
+            //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
             return true;
         }

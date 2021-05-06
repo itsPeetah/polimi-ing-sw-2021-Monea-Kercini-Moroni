@@ -355,6 +355,39 @@ class GameManagerTest {
         //This time the card should be in players board
         assertEquals(chosen, p.getBoard().getOwnedDevCards().get(0));
 
+        //And the warehouse should be empty
+        assertEquals(0, p.getBoard().getWarehouse().getResourceAmountWarehouse());
+
+
+        //Now supposing the player wants to buy another level 1 card but wants to put it above this one
+        //This move is illegal, so even if he has the resources he shouldn't be able to do so
+
+        //The card is b_2
+        DevCard chosen2 = CardManager.loadDevCardsFromJson().get(1);
+
+        //It costs 1 coin, 1 servant and 1 stone
+        Resources res2 = new Resources();
+        res2.add(ResourceType.COINS, 1).add(ResourceType.STONES, 1).add(ResourceType.SERVANTS, 1);
+        //Adding these resource in one warehouse floor is an illegal move, but we will ignore this for now
+        //since it doesn't have to do with this test
+        p.getBoard().getWarehouse().deposit(res2, 1);
+
+        //Player tries to put card above the other one
+        gm.devCardMarketUpdate(p, chosen2, 0);
+
+        //The card should have not been added so only the previous card should be in his board
+        assertEquals(1, p.getBoard().getOwnedDevCards().size());
+
+        //Also the resources should have not been touched
+        assertEquals(3, p.getBoard().getWarehouse().getResourceAmountWarehouse());
+
+
+        //If he on the other hand tries to put it on the second position, which is free, there should be no problems
+        gm.devCardMarketUpdate(p, chosen2, 1);
+
+        assertEquals(2, p.getBoard().getOwnedDevCards().size());
+        assertEquals(0, p.getBoard().getWarehouse().getResourceAmountWarehouse());
+
     }
 
 }
