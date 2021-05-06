@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.CardManager;
+import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.ResourceType;
@@ -322,6 +323,37 @@ class GameManagerTest {
 
         //The resources available should be the ones that were in the market tray
         assertTrue(res.equals(p.getBoard().getWarehouse().getResourcesAvailable()));
+
+    }
+
+    @Test
+    void devCardMarketUpdate(){
+
+        //Adding one player to the game
+        GameManager gm = new GameManager(communicationHandler);
+        gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+        //Supposing player has chosen the first card from the DevCards b_1
+        DevCard chosen = CardManager.loadDevCardsFromJson().get(0);
+
+        //Suppose he wants to put it at the first position (it should be free)
+        gm.devCardMarketUpdate(p, chosen, 0);
+
+        //The card should have not been added, because the player lacks the funds
+        assertEquals(0, p.getBoard().getOwnedDevCards().size());
+
+
+        //Now let's add 2 coins to the player board (the cards price)
+        Resources res = new Resources();
+        res.add(ResourceType.COINS, 2);
+        p.getBoard().getWarehouse().deposit(res, 0);
+
+        //Recalling the player trying to buy the card
+        gm.devCardMarketUpdate(p, chosen, 0);
+
+        //This time the card should be in players board
+        assertEquals(chosen, p.getBoard().getOwnedDevCards().get(0));
 
     }
 

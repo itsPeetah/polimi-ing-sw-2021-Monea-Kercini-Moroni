@@ -366,7 +366,7 @@ public class GameManager {
      * @param position The position (pile) the player wants to put the card he bought
      * @return true if it executed the action with no problems
      */
-    private boolean devCardMarketUpdate(Player player, DevCard chosenCard, int position){
+    protected boolean devCardMarketUpdate(Player player, DevCard chosenCard, int position){
 
         //check if affordable
         if(!chosenCard.affordable(player)){
