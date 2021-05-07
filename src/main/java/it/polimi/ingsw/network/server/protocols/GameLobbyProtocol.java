@@ -6,13 +6,13 @@ import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
-public class RoomJoiningProtocol {
+public class GameLobbyProtocol {
 
     private RemoteUser user;
     private String clientMessage;
     private String[] clientMessageFields;
 
-    public RoomJoiningProtocol(RemoteUser user){
+    public GameLobbyProtocol(RemoteUser user){
         this.user = user;
     }
 
