@@ -18,6 +18,7 @@ public class RemoteUser {
         this.id = id;
         this.socket = socket;
         this.roomId = null;
+        this.nickname = null;
     }
 
     public String getId() {return id;}
@@ -41,6 +42,10 @@ public class RemoteUser {
     public void terminateConnection() {
         socket.close();
 
+    }
+
+    public boolean isInRoom(){
+        return roomId != null && nickname != null;
     }
 
     public void assignRoom(String roomId, String nickname){

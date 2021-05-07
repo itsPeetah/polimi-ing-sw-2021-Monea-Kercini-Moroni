@@ -1,79 +1,89 @@
 package it.polimi.ingsw.network.server.protocols;
 
+import it.polimi.ingsw.network.common.ConnectionMessage;
+import it.polimi.ingsw.network.common.GameLobbyMessage;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
-public class RoomJoiningProtocol implements Runnable {
+public class RoomJoiningProtocol {
 
     private RemoteUser user;
+    private String clientMessage;
+    private String[] clientMessageFields;
 
     public RoomJoiningProtocol(RemoteUser user){
         this.user = user;
     }
 
-    @Override
-    public void run() {
-        System.out.println("User " + user.getId() + " is now connected.");
+    public boolean joinOrCreateRoom() {
+        System.out.println("User " + user.getId() + " is now in the lobby.");
 
-        String clientMessage;
-        String[] clientMessageFields;
         boolean disconnect = false;
-        while (true){
+
+
+        while (true) {
             clientMessage = user.receiveMessage();
-            System.out.println("[USER "+user.getId()+"] " + clientMessage);
             clientMessageFields = clientMessage.split("\\s+");
-            // Handle "client wants to quit"
-            if(clientMessageFields[0].equals("QUIT")){
-                disconnect = true;
-                break;
+            System.out.println("[USER " + user.getId() + "] " + clientMessage);
+
+            // Client asks to close the connection.
+            if (ConnectionMessage.QUIT.check(clientMessageFields[0]) || clientMessage == null) {
+                return false;
             }
-            // Handle "not enough arguments"
-            else if (clientMessageFields.length < 3){
+
+            // Not enough arguments were provided.
+            if (clientMessageFields.length < 3) {
                 user.sendMessage("ERR Invalid request: missing arguments.");
+                continue;
             }
-            // Handle "client wants to create a room". Usage: ROOMCREATE <room name> <nickname>
-            else if(clientMessageFields[0].equals("ROOMCREATE")){
+
+            // The user wants to create a room.
+            // Usage: ROOMCREATE <room name> <nickname>
+            if (GameLobbyMessage.CREATE_ROOM.check(clientMessageFields[0])) {
                 // Success
-                try{
+                try {
                     roomCreate(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
-                    user.sendMessage("OK Successfully created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
-                    break;
+                    user.sendMessage(ConnectionMessage.OK.addBody("Successfully created and joined room \" + clientMessageFields[1] + \" as \" + clientMessageFields[2]"));
+                    return true;
                 }
                 // Failure (room already exists)
-                catch(GameRoomException ex){
+                catch (GameRoomException ex) {
                     user.sendMessage("ERR " + ex.getMessage());
+                    continue;
                 }
             }
-            // Handle "client wants to join a room". Usage: ROOMJOIN <room name> <nickname>
-            else if(clientMessageFields[0].equals("ROOMJOIN")){
+
+            // The user wants to join a room.
+            // Usage: ROOMJOIN <room name> <nickname>
+            if (GameLobbyMessage.JOIN_ROOM.check(clientMessageFields[0])) {
                 // Success
-                try{
+                try {
                     roomJoin(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
-                    user.sendMessage("OK Successfully joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
-                    break;
+                    user.sendMessage(ConnectionMessage.OK.addBody("Successfully joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]));
+                    return true;
                 }
                 // Failure (either room doesn't exist or nickname already taken)
-                catch(GameRoomException ex){
+                catch (GameRoomException ex) {
                     user.sendMessage("ERR " + ex.getMessage());
+                    continue;
                 }
             }
-            // Handle invalid request
-            else{
-                user.sendMessage("ERR Invalid request: the request was not valid.");
-            }
+
+            // If the code reaches here the request is not supported.
+            user.sendMessage("ERR Invalid request: the request was not valid.");
         }
 
-        // Disconnect
+        /*// Disconnect
         if(disconnect){
             user.terminateConnection();
         }
         // Launch server side client listener
         else{
             new Thread(new ServerSideClientListener(user)).start();
-        }
+        }*/
 
     }
 
