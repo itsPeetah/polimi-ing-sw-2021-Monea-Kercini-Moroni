@@ -11,7 +11,6 @@ public class ConnectionSetupProtocol implements Runnable{
         this.socket = socket;
     }
 
-
     @Override
     public void run() {
 
