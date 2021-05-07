@@ -50,7 +50,6 @@ public class GameManager {
      */
     private Resources askPlayerToChooseResource(Player p){
 
-        //System.out.println("Hojfodfjdla");
         communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
         ChooseResourceActionData data = communicationHandler.getResponseData();
         Resources res = data.getResources();
@@ -393,26 +392,32 @@ public class GameManager {
      * @param chosenProduction by the player
      * @return true if it executed the action with no problems
      */
-    private boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
+    protected boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
 
         //Check if all productions can be activated at the beginning, before any actual production has taken place
+
+        //First ask the player to choose all input choices
+
+
+        Resources input = new Resources();
 
         //Calculate total costs
         Resources tot_cost = new Resources();
         for(Production production : chosenProduction) {
-            tot_cost.add(production.getInput());
+
+            input = makePlayerChoose(player, production.getInput()); //If player has choice in input he has to choose here
+
+            tot_cost.add(input);
+
         }
 
         //If it is not enough
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
             //TODO Tell player he doesn't have enough resources
             return false;
-        }
 
-        for(Production production : chosenProduction) {
+        }else{
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
-
-            Resources input = makePlayerChoose(player, production.getInput()); //If player has choice in input he has to choose here
 
             fromStrongbox.add(input);
 
@@ -425,8 +430,11 @@ public class GameManager {
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
+        }
 
-            Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in input he has to choose here
+        for(Production production : chosenProduction) {
+
+            Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in output he has to choose here
 
             //Add the output of production to the strongbox
             player.getBoard().getStrongbox().deposit(output);
@@ -513,7 +521,8 @@ public class GameManager {
                 //asking the player to choose one of the two resources he can to substitute white
                 //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
-                Resources choice = askPlayerToChooseResource(player);
+                ChooseResourceActionData data = communicationHandler.getResponseData();
+                Resources choice = data.getResources();
 
                 //Converting the choice from resources in resource type and adding it
                 for (ResourceType type : ResourceType.values()) {
@@ -551,6 +560,10 @@ public class GameManager {
 
         //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
         ResourceMarketActionData playerChoice = communicationHandler.getResponseData();
+
+        //Supposing the player will have to make choice
+        communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+        communicationHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){

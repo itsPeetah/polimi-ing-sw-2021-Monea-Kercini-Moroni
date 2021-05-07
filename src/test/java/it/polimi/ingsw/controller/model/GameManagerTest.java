@@ -15,6 +15,7 @@ import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -392,7 +393,7 @@ class GameManagerTest {
     }
 
     @Test
-    void produce(){
+    void produceUpdate(){
 
         //Adding one player to the game
         GameManager gm = new GameManager(communicationHandler);
@@ -417,6 +418,10 @@ class GameManagerTest {
 
         Production prod2 = new Production(in2, out2);
 
+        ArrayList<Production> chosenProd = new ArrayList<Production>();
+        chosenProd.add(prod1);
+        chosenProd.add(prod2);
+
 
         //Player has a coin and a shield in his warehouse
 
@@ -428,6 +433,19 @@ class GameManagerTest {
 
 
         //Firs case: Player will make wrong choice, so he won't be able to produce anything
+        //He chooses as input servants, which he doesn't have
+
+        Resources choice = new Resources();
+        choice.add(ResourceType.SERVANTS, 1);
+        ChooseResourceActionData pickedRes = new ChooseResourceActionData();
+        pickedRes.setRes(choice);
+        pickedRes.setPlayer("Player 1");
+        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MR1.startSendingResponse();
+
+        gm.produceUpdate(p, chosenProd);
+
+
 
 
 
