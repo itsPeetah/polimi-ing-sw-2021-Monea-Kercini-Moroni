@@ -501,12 +501,9 @@ class GameManagerTest {
             e.printStackTrace();
         }
 
-        //MR2.stopSendingResponse();
-        //MR3.stopSendingResponse();
-
-        // Before checking resuts, wait for the rsponses to arrive
+        // Before checking results, wait for the responses to arrive
         try {
-            TimeUnit.MILLISECONDS.sleep(5000);
+            TimeUnit.MILLISECONDS.sleep(3001);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -514,13 +511,15 @@ class GameManagerTest {
         //Recap:
         //Player pays 1 coin and 1 shield -> warehouse empty
         //Player gets 1 servant and has his faith points increased by 1 (from production 1) and 1 stone from production 2
-        //final warehouse -> 1 servant, 1 stone
+        //final warehouse -> 0
+        //final strongbox -> 1 servant, 1 stone
 
 
         Resources wh_res2 = new Resources();
         wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
-        System.out.println((p.getBoard().getStrongbox().getResourcesAvailable().getAmountOf(ResourceType.STONES)));
+        System.out.println((p.getBoard().getStrongbox().getResourceAmountStrongbox()));
         //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
+        //System.out.println(p.getBoard().getWarehouse().getResourcesAvailable().getAmountOf(ResourceType.COINS));
         assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
     }
 

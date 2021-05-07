@@ -509,6 +509,28 @@ public class GameManager {
     }
 
     /**
+     * Given a resource removes faith from it and gives the player the equivalent faith points
+     * @param player
+     * @param res the resource to check
+     * @return the resource without the faith
+     */
+
+    private Resources faithCheck(Player player, Resources res){
+
+        if (res.getAmountOf(ResourceType.FAITH) > 0) {
+            //increase the faith points
+            player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+            //remove the faith from resources
+            try {
+                res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+
+    /**
      * Methods check if player has any white marble replacements from his leadCards
      * If so he whether replaces automatically in case the player has only one
      * or asks player which one he chooses
