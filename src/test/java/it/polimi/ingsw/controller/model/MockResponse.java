@@ -55,9 +55,10 @@ public class MockResponse {
             try {
                 Thread.sleep((long)secondsToWait * SLEEP_TIME);
             } catch (InterruptedException e) {
+                System.out.println("Error in MockResponse!");
                 e.printStackTrace();
             }
             communicationHandler.notify(actionPacket);
-        });
+        }).start();
     }
 }
