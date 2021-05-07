@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.common;
+package it.polimi.ingsw.network.common.messages;
 
 public interface IMessageClass {
 
