@@ -152,7 +152,7 @@ public class GameManager {
 
             }
         }
-        //System.out.println("aijfoaocwd");
+
         startGame();
     }
 
@@ -282,7 +282,6 @@ public class GameManager {
         //winner symbolizes the position of the player that has won, not the player or the points!
 
         int winner = getWinner(VP);
-        //System.out.println(winner);
 
         //TODO notify player #Winner that he is the winner
         //Maybe add post-game functionality
@@ -401,9 +400,6 @@ public class GameManager {
 
         }
 
-        //System.out.println(player.getBoard().getResourcesAvailable().getAmountOf(ResourceType.SHIELDS));
-        //System.out.println(tot_cost.getAmountOf(ResourceType.SERVANTS));
-
         //If it is not enough
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
             //TODO Tell player he doesn't have enough resources
@@ -498,8 +494,7 @@ public class GameManager {
                 e.printStackTrace();
             }
         }
-        //System.out.println("Making player choose result:");
-        //System.out.println(no_choice.getAmountOf(ResourceType.SERVANTS));
+
         return no_choice;
 
     }
@@ -537,11 +532,14 @@ public class GameManager {
      */
 
     protected Resources checkWhite(Player player, Resources res){
+
         int whiteReplacements = 0;
         ArrayList<ResourceType> replaceTypes = new ArrayList<>();
 
         for (int i = 0; i < player.getLeaders().getPlayedCards().size(); i++) {
+
             //if player has a leader with the white marble replacement not blank
+
             if (player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement() != ResourceType.BLANK) {
                 whiteReplacements++;
                 replaceTypes.add(player.getLeaders().getPlayedCards().get(i).getAbility().getWhiteMarbleReplacement());

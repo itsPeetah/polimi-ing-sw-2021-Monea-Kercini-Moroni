@@ -430,7 +430,6 @@ class GameManagerTest {
 
         p.getBoard().getWarehouse().deposit(res, 0);
         p.getBoard().getWarehouse().deposit(in1, 1);
-        //System.out.println((p.getBoard().getWarehouse().getResourceAmountWarehouse()));
 
 
         //First case: Player will make wrong choice, so he won't be able to produce anything
@@ -452,7 +451,7 @@ class GameManagerTest {
 
         Resources wh_res = new Resources();
         wh_res.add(res).add(in1);
-        //System.out.println((p.getBoard().getWarehouse().getResourceAmountWarehouse()));
+
         assertTrue(wh_res.equals(p.getBoard().getResourcesAvailable()));
 
 
@@ -493,8 +492,6 @@ class GameManagerTest {
         MR3.sendResponseWithDelay(2);
 
 
-        //gm.produceUpdate(p, chosenProd);
-
         try {
             TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
         }catch (Exception e){
@@ -518,8 +515,7 @@ class GameManagerTest {
         Resources wh_res2 = new Resources();
         wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
         System.out.println((p.getBoard().getStrongbox().getResourceAmountStrongbox()));
-        //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
-        //System.out.println(p.getBoard().getWarehouse().getResourcesAvailable().getAmountOf(ResourceType.COINS));
+
         assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
 
         //Check if we got the extra faith point
