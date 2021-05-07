@@ -468,6 +468,7 @@ class GameManagerTest {
         //He chooses as input shields, which he has
 
         //Using thread this time as there will be multiple exchanges with player
+
         new Thread(() -> {
             gm.produceUpdate(p, chosenProd);
         }).start();
@@ -478,7 +479,7 @@ class GameManagerTest {
         pickedRes2.setRes(choice2);
         pickedRes2.setPlayer("Player 1");
         MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes2);
-        MR2.startSendingResponse();
+        MR2.sendResponseWithDelay(1);
 
 
         //In this case he can also has to choose the output, stones in our test
@@ -489,7 +490,8 @@ class GameManagerTest {
         pickedRes3.setRes(choice3);
         pickedRes3.setPlayer("Player 1");
         MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes3);
-        MR3.startSendingResponse();
+        MR3.sendResponseWithDelay(2);
+
 
         //gm.produceUpdate(p, chosenProd);
 
@@ -499,8 +501,8 @@ class GameManagerTest {
             e.printStackTrace();
         }
 
-        MR2.stopSendingResponse();
-        MR3.stopSendingResponse();
+        //MR2.stopSendingResponse();
+        //MR3.stopSendingResponse();
 
         //Recap:
         //Player pays 1 coin and 1 shield -> warehouse empty
@@ -512,7 +514,7 @@ class GameManagerTest {
         wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
         System.out.println((p.getBoard().getStrongbox().getResourcesAvailable().getAmountOf(ResourceType.STONES)));
         //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
-        //assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
+        assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
 
     }
 
