@@ -337,16 +337,7 @@ public class GameManager {
         }
 
         //Check if there is a red marble (gives faith) and remove it
-        if (res.getAmountOf(ResourceType.FAITH) > 0) {
-            //increase the faith points
-            player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
-            //remove the faith from resources
-            try {
-                res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        res = faithCheck(player, res);
 
         //Check if the player has any Lead Ability that transforms his white marbles
         //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
@@ -442,7 +433,12 @@ public class GameManager {
             //Adding output
             for(Production production : chosenProduction) {
 
+                //Removes faith from resource, otherwise it will end up in Strongbox!
+
                 Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in output he has to choose here
+
+                //Removes faith from resource, otherwise it will end up in Strongbox!
+                output = faithCheck(player, output);
 
                 //Add the output of production to the strongbox
                 player.getBoard().getStrongbox().deposit(output);
