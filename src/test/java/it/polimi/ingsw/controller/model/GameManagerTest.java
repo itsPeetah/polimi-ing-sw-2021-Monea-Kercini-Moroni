@@ -27,7 +27,7 @@ class GameManagerTest {
 
     @BeforeEach
     void generateHandler() {
-        communicationHandler = new CommunicationHandler();
+        communicationHandler = new CommunicationHandler(null);
     }
 
     /**

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.controller.model.CommunicationHandler;
+import it.polimi.ingsw.controller.model.GameManager;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
@@ -15,6 +17,8 @@ public class GameRoom {
     private String roomId;              // room id
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
+    private final CommunicationHandler communicationHandler;
+    private GameManager gameManager;
 
     /**
      * Class constructor.
@@ -24,6 +28,8 @@ public class GameRoom {
 
         this.lock = new Object();
         this.users = new Hashtable<String, RemoteUser>();
+        this.communicationHandler = new CommunicationHandler(this);
+        this.gameManager = null;
     }
 
     public String getId(){
@@ -49,19 +55,30 @@ public class GameRoom {
         return result;
     }
 
-    // TODO add NetworkPacket
     // TODO error handling?
     public void sendTo(String player, NetworkPacket packet){
         users.get(player).sendMessage(packet.toJson());
     }
 
-    // TODO add NetworkPacket
     public void broadcast(NetworkPacket packet){
-        for (String key: users.keySet()){
-            users.get(key).sendMessage(packet.toJson());
+        for (String player: users.keySet()){
+            users.get(player).sendMessage(packet.toJson());
         }
     }
 
+    // todo redirect action network packets from SSCL
+    public void notify(NetworkPacket packet) {
+        communicationHandler.notify(packet);
+    }
 
-
+    // todo check ownership
+    public boolean startGame() {
+        gameManager = new GameManager(communicationHandler);
+        for(String player: users.keySet()) {
+            gameManager.addPlayer(player);
+        }
+        // todo shuffle players
+        gameManager.setupGame();
+        return true;
+    }
 }

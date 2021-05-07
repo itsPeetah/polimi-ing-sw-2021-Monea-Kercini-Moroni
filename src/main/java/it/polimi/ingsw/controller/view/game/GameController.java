@@ -13,13 +13,13 @@ import it.polimi.ingsw.view.scenes.GameScene;
 public class GameController {
 
     private final GameData gameData;
-    private final CommunicationHandler communicationHandler;
+    private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
     private GameScene currentScene;
 
     public GameController(GameData gameData) {
         this.gameData = gameData;
-        this.communicationHandler = new CommunicationHandler(this);
+        this.gameControllerIOHandler = new GameControllerIOHandler(this);
         currentState = GameState.IDLE;
     }
 
@@ -35,6 +35,7 @@ public class GameController {
     }
 
     protected void reactToMessage(Message message) {
+        String messageContent = message.toString();
 
     }
 
@@ -52,11 +53,12 @@ public class GameController {
                 break;
             case PUT_RESOURCES:
                 if(!checkPutResourcesAction(action.fromJsonToData(actionPacket.getData()))) return;
+                // Todo what to do if the player put resources is not successful?
                 break;
         }
 
         // Push the action to the model controller
-        communicationHandler.pushAction(actionPacket);
+        gameControllerIOHandler.pushAction(actionPacket);
     }
 
     /* SPECIFIC ACTIONS CHECK METHODS */
@@ -80,8 +82,8 @@ public class GameController {
         currentState = nextState;
     }
 
-    public CommunicationHandler getCommunicationHandler() {
-        return communicationHandler;
+    public GameControllerIOHandler getGameControllerIOHandler() {
+        return gameControllerIOHandler;
     }
 
 
