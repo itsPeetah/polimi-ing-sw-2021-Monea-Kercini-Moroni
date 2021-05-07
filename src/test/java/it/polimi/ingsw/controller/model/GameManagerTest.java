@@ -510,7 +510,7 @@ class GameManagerTest {
 
         Resources wh_res2 = new Resources();
         wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
-        System.out.println((p.getBoard().getStrongbox().getResourcesAvailable().getAmountOf(ResourceType.SERVANTS)));
+        System.out.println((p.getBoard().getStrongbox().getResourcesAvailable().getAmountOf(ResourceType.STONES)));
         //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
         //assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
 
