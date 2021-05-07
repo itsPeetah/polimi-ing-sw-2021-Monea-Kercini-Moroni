@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.network.common.NetworkPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,16 +49,18 @@ public class GameRoom {
         return result;
     }
 
-//    /**
-//     * Get user array to iterate upon.
-//     */
-//    public String[] getUsers(){
-//        String[] result;
-//        synchronized (lock) {
-//            result = (String[]) userIDs.toArray();
-//        }
-//        return  result;
-//    }
+    // TODO add NetworkPacket
+    // TODO error handling?
+    public void sendTo(String player, NetworkPacket packet){
+        users.get(player).sendMessage(packet.toJson());
+    }
+
+    // TODO add NetworkPacket
+    public void broadcast(NetworkPacket packet){
+        for (String key: users.keySet()){
+            users.get(key).sendMessage(packet.toJson());
+        }
+    }
 
 
 
