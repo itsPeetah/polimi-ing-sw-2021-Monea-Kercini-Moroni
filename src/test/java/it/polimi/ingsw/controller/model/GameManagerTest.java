@@ -433,7 +433,7 @@ class GameManagerTest {
         //System.out.println((p.getBoard().getWarehouse().getResourceAmountWarehouse()));
 
 
-        //Firs case: Player will make wrong choice, so he won't be able to produce anything
+        //First case: Player will make wrong choice, so he won't be able to produce anything
         //He chooses as input servants, which he doesn't have
 
         Resources choice = new Resources();
@@ -457,9 +457,62 @@ class GameManagerTest {
 
 
 
+        try {
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
+        //Second case: Player will make right choice, so the productions should take place
+        //He chooses as input shields, which he has
 
+        //Using thread this time as there will be multiple exchanges with player
+        new Thread(() -> {
+            gm.produceUpdate(p, chosenProd);
+        }).start();
+
+        Resources choice2 = new Resources();
+        choice2.add(ResourceType.SHIELDS, 1);
+        ChooseResourceActionData pickedRes2 = new ChooseResourceActionData();
+        pickedRes2.setRes(choice2);
+        pickedRes2.setPlayer("Player 1");
+        MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes2);
+        MR2.startSendingResponse();
+
+
+        //In this case he can also has to choose the output, stones in our test
+
+        Resources choice3 = new Resources();
+        choice3.add(ResourceType.STONES, 1);
+        ChooseResourceActionData pickedRes3 = new ChooseResourceActionData();
+        pickedRes3.setRes(choice3);
+        pickedRes3.setPlayer("Player 1");
+        MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes3);
+        MR3.startSendingResponse();
+
+        //gm.produceUpdate(p, chosenProd);
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        MR2.stopSendingResponse();
+        MR3.stopSendingResponse();
+
+        //Recap:
+        //Player pays 1 coin and 1 shield -> warehouse empty
+        //Player gets 1 servant and has his faith points increased by 1 (from production 1) and 1 stone from production 2
+        //final warehouse -> 1 servant, 1 stone
+
+
+        Resources wh_res2 = new Resources();
+        wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
+        System.out.println((p.getBoard().getStrongbox().getResourcesAvailable().getAmountOf(ResourceType.SERVANTS)));
+        //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
+        //assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
 
     }
 

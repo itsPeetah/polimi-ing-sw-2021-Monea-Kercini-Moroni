@@ -410,12 +410,17 @@ public class GameManager {
 
         }
 
+        //System.out.println(player.getBoard().getResourcesAvailable().getAmountOf(ResourceType.SHIELDS));
+        //System.out.println(tot_cost.getAmountOf(ResourceType.SERVANTS));
+
         //If it is not enough
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
             //TODO Tell player he doesn't have enough resources
             return false;
 
         }else{
+
+            System.out.println("YWAY");
 
             //Paying cost
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
@@ -432,9 +437,9 @@ public class GameManager {
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
 
+            System.out.println("Finished taking in");
 
             //Adding output
-
             for(Production production : chosenProduction) {
 
                 Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in output he has to choose here
@@ -480,18 +485,27 @@ public class GameManager {
      */
     private Resources makePlayerChoose(Player p, Resources r){
 
-        //ask player to choose resource until he has finished all choices
-        while (r.getAmountOf(ResourceType.CHOICE)>0) {
+        Resources no_choice = new Resources();
+        no_choice.add(r);
 
-            r.add(askPlayerToChooseResource(p));
+        //ask player to choose resource until he has finished all choices
+        while (no_choice.getAmountOf(ResourceType.CHOICE)>0) {
+
+            no_choice.add(askPlayerToChooseResource(p));
+
+            System.out.println("ho scelto input, da i quali stones:");
+            System.out.println(no_choice.getAmountOf(ResourceType.STONES));
 
             try {
-                r.remove(ResourceType.CHOICE, 1);
+                no_choice.remove(ResourceType.CHOICE, 1);
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return r;
+        //System.out.println("Making player choose result:");
+        //System.out.println(no_choice.getAmountOf(ResourceType.SERVANTS));
+        return no_choice;
+
     }
 
     /**
