@@ -4,34 +4,46 @@ import it.polimi.ingsw.network.client.ClientSideServerListener;
 import it.polimi.ingsw.network.common.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
-public class ConnectionSetupProtocol implements Runnable{
+public class ConnectionSetupProtocol {
 
     private ExSocket socket;
+    private String serverMessage;
+
     public  ConnectionSetupProtocol(ExSocket socket){
         this.socket = socket;
     }
 
-    @Override
-    public void run() {
+    public String getUserId() {
 
-        System.out.println("[SERVER] " + socket.receive());
+        // Receive WELCOME
+        serverMessage = socket.receive();
+        System.out.println("[SERVER] " + serverMessage);
+
+        // Send HELLO
         socket.send("HELLO");
-        String message = socket.receive();
-        System.out.println("[SERVER] " + message);
-        String[] messageFields = message.split("\\s+");
 
-        if(messageFields.length < 2 || !ConnectionMessage.ASSIGNID.check(messageFields[0])) {
-            socket.close();
-        } else {
-            socket.send(ConnectionMessage.OK.addBody(messageFields[1]));
-            message = socket.receive();
-            System.out.println("[SERVER] " + message);
-            messageFields = message.split("\\s+");
-            if(!ConnectionMessage.READY.check(messageFields[0])){
-                socket.close();
-            } else {
-                new Thread(new ClientSideServerListener(socket)).start();
-            }
+        // Receive ID
+        String userId;
+        serverMessage = socket.receive();
+        System.out.println("[SERVER] " + serverMessage);
+
+        String[] messageFields = serverMessage.split("\\s+");
+
+        if(messageFields.length < 2 || !ConnectionMessage.ASSIGNID.check(messageFields[0]))
+            return null;
+        else {
+            userId = messageFields[1];
+            socket.send(ConnectionMessage.OK.addBody(userId));
         }
+
+        // Receive ready
+        serverMessage = socket.receive();
+        System.out.println("[SERVER] " + serverMessage);
+        messageFields = serverMessage.split("\\s+");
+
+        if(!ConnectionMessage.READY.check(messageFields[0]))
+            return null;
+        else
+            return userId;
     }
 }

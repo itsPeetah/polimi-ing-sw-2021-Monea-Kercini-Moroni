@@ -26,7 +26,6 @@ public class ConnectionSetupProtocol {
         if (!ConnectionMessage.HELLO.check(clientMessageFields[0])) {
             System.out.println("Client did not reply to welcome message");
             socket.send(ConnectionMessage.unexpectedReplyError);
-            /*socket.close();*/
             return null;
         }
 
@@ -39,7 +38,6 @@ public class ConnectionSetupProtocol {
         if(clientMessageFields.length < 2 || !ConnectionMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
             socket.send(ConnectionMessage.unexpectedReplyError);
             System.out.println("Client did not confirm the correct id");
-            /*socket.close();*/
             return null;
         }
 

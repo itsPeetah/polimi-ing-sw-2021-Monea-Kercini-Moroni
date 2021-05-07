@@ -1,12 +1,14 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.client.protocols.ConnectionSetupProtocol;
+import it.polimi.ingsw.network.common.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
-
-import java.io.IOException;
 
 public class ClientSideServerListener implements Runnable {
 
-    ExSocket socket;
+    private ExSocket socket;
+    private String serverMessage;
+    private String[] serverMessageFields;
 
     public ClientSideServerListener(ExSocket socket) {
         this.socket = socket;
@@ -15,20 +17,28 @@ public class ClientSideServerListener implements Runnable {
     @Override
     public void run() {
 
-        String serverMessage;
+        String userId = new ConnectionSetupProtocol(socket).getUserId();
+        /*if(userId == null){
+            closeConnection();
+            return;
+        }*/
 
         while (true) {
             serverMessage = socket.receive();
-            if (serverMessage == null || serverMessage.equals("#quit")) {
-                System.out.println("Received quit instruction.");
-                break;
-            } else {
-                System.out.println(serverMessage);
+            serverMessageFields = serverMessage.split("\\s+");
+            if (serverMessage == null || ConnectionMessage.QUIT.check(serverMessageFields[0])) {
+                closeConnection();
+                return;
             }
+
+            System.out.println(serverMessage);
         }
+    }
 
-        System.out.println("Ending connection.");
-
+    private void closeConnection(){
+        System.out.println("Received quit instruction.");
         socket.close();
     }
 }
+
+
