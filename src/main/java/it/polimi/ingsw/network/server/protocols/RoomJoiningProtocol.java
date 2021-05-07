@@ -46,7 +46,7 @@ public class RoomJoiningProtocol {
                     roomCreate(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     user.sendMessage(
-                            ConnectionMessage.OK.addBody("Successfully created and joined room \" + clientMessageFields[1] + \" as \" + clientMessageFields[2]")
+                            ConnectionMessage.OK.addBody("Successfully created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2])
                     );
                     return true;
                 }

@@ -36,6 +36,6 @@ public enum ConnectionMessage implements IMessageClass {
     }
 
     public boolean check(String arguments, String message){
-        return this.addBody(arguments).equals(message + " ");
+        return this.addBody(arguments).equals(message);
     }
 }

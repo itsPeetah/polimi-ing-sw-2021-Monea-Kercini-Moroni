@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.server.protocols.RoomJoiningProtocol;
+import it.polimi.ingsw.network.server.protocols.ServerSideClientListener;
 
 public class RemoteConnectionHandler implements Runnable {
 
@@ -40,12 +41,16 @@ public class RemoteConnectionHandler implements Runnable {
         }
 
         // Listen for player
+        ServerSideClientListener listener = new ServerSideClientListener(user);
+        listener.run();
 
+        // When the listener is done close the connection.
+        closeConnection();
     }
 
     private void closeConnection(){
 
-        socket.send(ConnectionMessage.QUIT.addBody("Communication with server closed."));
+        socket.send(ConnectionMessage.QUIT.addBody("Communication closed."));
 
         if(user == null) {
             socket.close();
@@ -53,5 +58,7 @@ public class RemoteConnectionHandler implements Runnable {
         else{
             user.terminateConnection();
         }
+
+        System.out.println(socket.getSocket().isClosed());
     }
 }
