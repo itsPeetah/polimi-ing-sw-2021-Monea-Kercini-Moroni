@@ -521,6 +521,9 @@ class GameManagerTest {
         //System.out.println(prod2.getInput().getAmountOf(ResourceType.CHOICE));
         //System.out.println(p.getBoard().getWarehouse().getResourcesAvailable().getAmountOf(ResourceType.COINS));
         assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
+
+        //Check if we got the extra faith point
+        assertEquals(1, p.getBoard().getFaithPoints());
     }
 
 }
