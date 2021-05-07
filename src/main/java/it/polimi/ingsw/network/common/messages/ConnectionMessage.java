@@ -26,7 +26,6 @@ public enum ConnectionMessage implements IMessageClass {
         return messageCode;
     }
 
-
     public String addBody(String body){
         return messageCode + " " + body;
     }
