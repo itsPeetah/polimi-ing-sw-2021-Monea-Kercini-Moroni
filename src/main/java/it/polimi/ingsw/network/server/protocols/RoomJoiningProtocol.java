@@ -19,9 +19,6 @@ public class RoomJoiningProtocol {
     public boolean joinOrCreateRoom() {
         System.out.println("User " + user.getId() + " is now in the lobby.");
 
-        boolean disconnect = false;
-
-
         while (true) {
             clientMessage = user.receiveMessage();
             clientMessageFields = clientMessage.split("\\s+");
