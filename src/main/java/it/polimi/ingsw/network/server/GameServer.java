@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.common.ExSocket;
+import it.polimi.ingsw.network.server.components.RemoteConnectionHandler;
 import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.server.components.RoomTable;
 import it.polimi.ingsw.network.server.components.UserTable;
@@ -92,7 +93,7 @@ public class GameServer {
                 // Pause until new connection
                 // Handle new connections in a new thread
                 ExSocket socket = new ExSocket(serverSocket.accept());
-                connectionHandlerExecutor.submit(new ConnectionSetupProtocol(socket));
+                connectionHandlerExecutor.submit(new RemoteConnectionHandler(socket));
             }catch (IOException ex){
                 System.out.println(ex.getMessage());
                 break;

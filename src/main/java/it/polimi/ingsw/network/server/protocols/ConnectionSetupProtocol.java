@@ -1,46 +1,50 @@
 package it.polimi.ingsw.network.server.protocols;
 
+import it.polimi.ingsw.network.common.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
-import it.polimi.ingsw.network.server.components.RemoteUser;
 
-public class ConnectionSetupProtocol implements Runnable {
+public class ConnectionSetupProtocol {
 
     private ExSocket socket;
+    private String[] clientMessageFields;
 
     public ConnectionSetupProtocol(ExSocket socket) {
         this.socket = socket;
     }
 
-    @Override
-    public void run() {
+    public String getUserId() {
+
+        // New client has connected
         System.out.println("New client connecting: " + socket.getSocket().getInetAddress().getHostAddress());
 
-        String[] clientMessageFields;
+        // WELCOME
+        socket.send(ConnectionMessage.welcomeMessage);
 
-        // WELCOME PROTOCOL
-        socket.send("WELCOME Welcome to the server!");
+        // Expect HELLO
         clientMessageFields = socket.receiveFields();
-        // Close connection if client replies unexpectedly.
-        if (!clientMessageFields[0].equals("HELLO")) {
-            socket.send("ERR Connection refused: unexpected reply from client.");
-            socket.close();
+        if (!ConnectionMessage.HELLO.check(clientMessageFields[0])) {
+            System.out.println("Client did not reply to welcome message");
+            socket.send(ConnectionMessage.unexpectedReplyError);
+            /*socket.close();*/
+            return null;
         }
-        // Assign id to client
+
+        // Generate id for client
         String id = GameServer.getInstance().getUserTable().generateId();
-        socket.send("ID " + id);
-        clientMessageFields = socket.receiveFields();
-        // Refuse connection if client replies unexpectedly.
-        if(clientMessageFields.length < 2 || !clientMessageFields[0].equals("OK") || !clientMessageFields[1].equals(id)){
-            socket.send("ERR Connection refused: unexpected reply from client.");
-            socket.close();
-        }
-        // Successfully connected with the user.
-        RemoteUser user = new RemoteUser(id, socket);
-        GameServer.getInstance().getUserTable().add(user);
-        socket.send("READY You are now connected to the server!");
+        socket.send(ConnectionMessage.ASSIGNID.addBody(id));
 
-        // Switch to ROOM JOINING PROTOCOL
-        new Thread(new RoomJoiningProtocol(user)).start();
+        // EXPECT OK <id>
+        clientMessageFields = socket.receiveFields();
+        if(clientMessageFields.length < 2 || !ConnectionMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
+            socket.send(ConnectionMessage.unexpectedReplyError);
+            /*socket.close();*/
+            return null;
+        }
+
+        // Connection is ready
+        socket.send(ConnectionMessage.connectionReadyMessage);
+
+        return id;
     }
 }
