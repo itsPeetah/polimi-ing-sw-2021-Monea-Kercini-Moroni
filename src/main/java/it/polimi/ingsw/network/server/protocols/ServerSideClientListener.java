@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.server.protocols;
 
-import it.polimi.ingsw.network.common.ConnectionMessage;
+import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.controller.model.messages.MessagePacket;
+import it.polimi.ingsw.network.common.messages.ConnectionMessage;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
 public class ServerSideClientListener {
@@ -16,11 +18,13 @@ public class ServerSideClientListener {
         while (true){
 
             clientMessage = user.receiveMessage();
-            user.sendMessage("[SERVER] Did you say \"" + clientMessage + "\"?");
+            /*user.sendMessage("[SERVER] Did you say \"" + clientMessage + "\"?");*/
 
             if(ConnectionMessage.QUIT.check(clientMessage)){
                 return;
             }
+
+            user.getRoom().broadcast(null);
 
         }
     }

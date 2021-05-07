@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.common;
+package it.polimi.ingsw.network.common.messages;
 
 public enum ConnectionMessage implements IMessageClass {
     WELCOME("WELCOME"),
@@ -25,7 +25,6 @@ public enum ConnectionMessage implements IMessageClass {
     public String getCode() {
         return messageCode;
     }
-
 
     public String addBody(String body){
         return messageCode + " " + body;

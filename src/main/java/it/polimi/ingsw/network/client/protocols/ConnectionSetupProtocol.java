@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
-import it.polimi.ingsw.network.client.ClientSideServerListener;
-import it.polimi.ingsw.network.common.ConnectionMessage;
+import it.polimi.ingsw.network.common.messages.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 public class ConnectionSetupProtocol {

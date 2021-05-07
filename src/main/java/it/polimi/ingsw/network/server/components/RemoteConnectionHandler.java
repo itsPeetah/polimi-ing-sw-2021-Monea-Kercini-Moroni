@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.server.components;
 
-import it.polimi.ingsw.network.common.ConnectionMessage;
+import it.polimi.ingsw.network.common.messages.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
-import it.polimi.ingsw.network.server.protocols.RoomJoiningProtocol;
+import it.polimi.ingsw.network.server.protocols.GameLobbyProtocol;
 import it.polimi.ingsw.network.server.protocols.ServerSideClientListener;
 
 public class RemoteConnectionHandler implements Runnable {
@@ -33,7 +33,7 @@ public class RemoteConnectionHandler implements Runnable {
         GameServer.getInstance().getUserTable().add(user);
 
         // Game Lobby protocol
-        boolean roomJoined = new RoomJoiningProtocol(user).joinOrCreateRoom();
+        boolean roomJoined = new GameLobbyProtocol(user).joinOrCreateRoom();
 
         if(!roomJoined || !user.isInRoom()){
             closeConnection();
