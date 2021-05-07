@@ -58,7 +58,5 @@ public class RemoteConnectionHandler implements Runnable {
         else{
             user.terminateConnection();
         }
-
-        System.out.println(socket.getSocket().isClosed());
     }
 }
