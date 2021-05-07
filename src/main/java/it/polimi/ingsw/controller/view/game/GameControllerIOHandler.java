@@ -7,11 +7,11 @@ import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CommunicationHandler {
+public class GameControllerIOHandler {
     private final ExecutorService pool;
     private final GameController gameController;
 
-    public CommunicationHandler(GameController gameController) {
+    public GameControllerIOHandler(GameController gameController) {
         pool = Executors.newCachedThreadPool();
         this.gameController = gameController;
 

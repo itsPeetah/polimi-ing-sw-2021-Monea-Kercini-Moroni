@@ -12,8 +12,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Class for manually sending actions to ActionHandler.
  */
 public class MockResponse {
-    Thread sendingThread;
-    AtomicBoolean isInterrupted = new AtomicBoolean();
+    private static final int SLEEP_TIME = 1000;
+    private final Thread sendingThread;
+    private final AtomicBoolean isInterrupted = new AtomicBoolean();
+    private final ActionPacket actionPacket;
+    private final CommunicationHandler communicationHandler;
 
     /**
      * Create a mock response.
@@ -22,8 +25,9 @@ public class MockResponse {
      */
     protected MockResponse(CommunicationHandler communicationHandler, Action action, ActionData data) {
         Gson gson = new Gson();
+        this.communicationHandler = communicationHandler;
         String stringData = gson.toJson(data, action.getClassOfData());
-        ActionPacket actionPacket = new ActionPacket(action, stringData);
+        actionPacket = new ActionPacket(action, stringData);
         sendingThread = new Thread(() -> {
             while(!isInterrupted.get()){
                 communicationHandler.notify(actionPacket);
@@ -44,5 +48,16 @@ public class MockResponse {
      */
     protected void stopSendingResponse() {
         while(!isInterrupted.get()) isInterrupted.compareAndSet(false, true);
+    }
+
+    protected void sendResponseWithDelay(int secondsToWait) {
+        new Thread(() -> {
+            try {
+                Thread.sleep((long)secondsToWait * SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            communicationHandler.notify(actionPacket);
+        });
     }
 }

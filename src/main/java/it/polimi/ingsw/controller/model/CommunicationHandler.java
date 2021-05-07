@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.server.components.GameRoom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class CommunicationHandler {
 
     /* ACTION HANDLER ATTRIBUTES */
 
+    private final GameRoom gameRoom;
     private final Object lock;
     private final List<Action> requestAction;
     private String requestPlayer;
@@ -39,7 +43,8 @@ public class CommunicationHandler {
     /**
      * Constructor
      */
-    CommunicationHandler() {
+    public CommunicationHandler(GameRoom gameRoom) {
+        this.gameRoom = gameRoom;
         lock = new Object();
         requestAction = new ArrayList<>();
         requestPlayer = null;
@@ -87,7 +92,17 @@ public class CommunicationHandler {
     }
 
     /**
-     * Set a response event from an incoming packet.
+     * Set a response event from an incoming network packet.
+     * @param actionNetworkPacket message from a player
+     */
+    public void notify(NetworkPacket actionNetworkPacket) {
+        Gson gson = new Gson();
+        ActionPacket actionPacket = gson.fromJson(actionNetworkPacket.getPayload(), ActionPacket.class);
+        notify(actionPacket);
+    }
+
+    /**
+     * Set a response event from an incoming action packet.
      * @param actionPacket message from a player
      */
     public void notify(ActionPacket actionPacket) {
@@ -169,7 +184,9 @@ public class CommunicationHandler {
      */
     public void sendMessage(String player, Message message) {
         MessagePacket newPacket = new MessagePacket(player, message);
-        messageQueue.add(newPacket);
+        NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(newPacket);
+        gameRoom.sendTo(player, networkPacket);
+        //messageQueue.add(newPacket);
     }
 
     /**
@@ -196,7 +213,9 @@ public class CommunicationHandler {
      */
     public void pushUpdate(Update type, UpdateData data) {
         UpdatePacket updatePacket = new UpdatePacket(type, data);
-        updateQueue.add(updatePacket);
+        NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);
+        gameRoom.broadcast(networkPacket);
+        //updateQueue.add(updatePacket);
     }
 
     /**

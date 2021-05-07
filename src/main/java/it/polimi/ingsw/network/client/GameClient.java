@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.client.protocols.ConnectionSetupProtocol;
+import it.polimi.ingsw.network.common.messages.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 import java.io.IOException;
@@ -28,11 +28,9 @@ public class GameClient {
     public void execute(){
         try {
             socket = new ExSocket(new Socket(hostName, hostPortNumber));
-            new Thread(new ConnectionSetupProtocol(socket)).start();
+            new Thread(new ClientSideServerListener(socket)).start();
 
             Scanner stdin = new Scanner(System.in);
-
-            // TODO fix here
 
             String clientMessage;
             while(true){
@@ -42,7 +40,7 @@ public class GameClient {
 
                 if(isReady) {
                     clientMessage = stdin.nextLine();
-                    if(clientMessage.equals("STOP")) {
+                    if(ConnectionMessage.QUIT.check(clientMessage)) {
                         isReady = false;
                     }
                     socket.send(clientMessage);

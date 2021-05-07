@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.controller.model.CommunicationHandler;
+import it.polimi.ingsw.controller.model.GameManager;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.network.common.NetworkPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +17,8 @@ public class GameRoom {
     private String roomId;              // room id
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
+    private final CommunicationHandler communicationHandler;
+    private GameManager gameManager;
 
     /**
      * Class constructor.
@@ -23,6 +28,8 @@ public class GameRoom {
 
         this.lock = new Object();
         this.users = new Hashtable<String, RemoteUser>();
+        this.communicationHandler = new CommunicationHandler(this);
+        this.gameManager = null;
     }
 
     public String getId(){
@@ -48,17 +55,30 @@ public class GameRoom {
         return result;
     }
 
-//    /**
-//     * Get user array to iterate upon.
-//     */
-//    public String[] getUsers(){
-//        String[] result;
-//        synchronized (lock) {
-//            result = (String[]) userIDs.toArray();
-//        }
-//        return  result;
-//    }
+    // TODO error handling?
+    public void sendTo(String player, NetworkPacket packet){
+        users.get(player).sendMessage(packet.toJson());
+    }
 
+    public void broadcast(NetworkPacket packet){
+        for (String player: users.keySet()){
+            users.get(player).sendMessage(packet.toJson());
+        }
+    }
 
+    // todo redirect action network packets from SSCL
+    public void notify(NetworkPacket packet) {
+        communicationHandler.notify(packet);
+    }
 
+    // todo check ownership
+    public boolean startGame() {
+        gameManager = new GameManager(communicationHandler);
+        for(String player: users.keySet()) {
+            gameManager.addPlayer(player);
+        }
+        // todo shuffle players
+        gameManager.setupGame();
+        return true;
+    }
 }
