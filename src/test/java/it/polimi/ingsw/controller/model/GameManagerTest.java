@@ -117,8 +117,6 @@ class GameManagerTest {
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-
-
         System.out.println("YAY");
 
     }
@@ -199,6 +197,7 @@ class GameManagerTest {
             e.printStackTrace();
         }
 
+
         Resources res4 = new Resources();
         res4.add(ResourceType.STONES, 2);
         res4.add(ResourceType.BLANK, 3);
@@ -209,6 +208,7 @@ class GameManagerTest {
 
         //After the check res 4 should be equal to res 5
 
+
         //We choose the second leader as our resource type (coin)
         Resources choice = new Resources();
         choice.add(ResourceType.COINS, 1);
@@ -216,13 +216,13 @@ class GameManagerTest {
         pickedRes.setRes(choice);
         pickedRes.setPlayer("Player 1");
         MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
-        MR1.startSendingResponse();
+        MR1.sendResponseWithDelay(1);
 
         newRes = gm.checkWhite(p, res4);
 
         assertTrue(res5.equals(newRes));
 
-        MR1.stopSendingResponse();
+        //MR1.stopSendingResponse();
 
 
     }
@@ -514,7 +514,6 @@ class GameManagerTest {
 
         Resources wh_res2 = new Resources();
         wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
-        System.out.println((p.getBoard().getStrongbox().getResourceAmountStrongbox()));
 
         assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
 

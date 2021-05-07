@@ -165,7 +165,7 @@ public class GameManager {
 
     private void startGame(){
 
-        System.out.println("Game has started!");
+        //System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
 
@@ -173,8 +173,6 @@ public class GameManager {
 
         //Turns will keep being played until it's the last round and it's the last players turn
         while (!lastRound || !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
-
-            //System.out.println("Game has started!");
 
             playTurn(game.getCurrentPlayer());
 
@@ -407,8 +405,6 @@ public class GameManager {
 
         }else{
 
-            System.out.println("YWAY");
-
             //Paying cost
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
@@ -423,8 +419,6 @@ public class GameManager {
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
-
-            System.out.println("Finished taking in");
 
             //Adding output
             for(Production production : chosenProduction) {
@@ -484,9 +478,6 @@ public class GameManager {
         while (no_choice.getAmountOf(ResourceType.CHOICE)>0) {
 
             no_choice.add(askPlayerToChooseResource(p));
-
-            System.out.println("ho scelto input, da i quali stones:");
-            System.out.println(no_choice.getAmountOf(ResourceType.STONES));
 
             try {
                 no_choice.remove(ResourceType.CHOICE, 1);
@@ -552,8 +543,12 @@ public class GameManager {
                 res.replaceWhite(replaceTypes.get(0));
                 break;
             case 2:
+
                 //asking the player to choose one of the two resources he can to substitute white
                 //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
+
+                //Maybe this line will need to be switched off in the real game, but it is necessary for testing
+                communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
 
                 ChooseResourceActionData data = communicationHandler.getResponseData();
                 Resources choice = data.getResources();
