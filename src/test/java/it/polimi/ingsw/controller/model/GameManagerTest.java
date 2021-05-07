@@ -407,14 +407,14 @@ class GameManagerTest {
         Resources in1 = new Resources();
         in1.add(ResourceType.COINS, 1);
         Resources out1 = new Resources();
-        in1.add(ResourceType.SERVANTS, 1).add(ResourceType.FAITH, 1);
+        out1.add(ResourceType.SERVANTS, 1).add(ResourceType.FAITH, 1);
 
         Production prod1 = new Production(in1, out1);
 
         Resources in2 = new Resources();
-        in1.add(ResourceType.CHOICE, 1);
+        in2.add(ResourceType.CHOICE, 1);
         Resources out2 = new Resources();
-        in1.add(ResourceType.CHOICE, 1);
+        out2.add(ResourceType.CHOICE, 1);
 
         Production prod2 = new Production(in2, out2);
 
@@ -430,6 +430,7 @@ class GameManagerTest {
 
         p.getBoard().getWarehouse().deposit(res, 0);
         p.getBoard().getWarehouse().deposit(in1, 1);
+        //System.out.println((p.getBoard().getWarehouse().getResourceAmountWarehouse()));
 
 
         //Firs case: Player will make wrong choice, so he won't be able to produce anything
@@ -444,6 +445,16 @@ class GameManagerTest {
         MR1.startSendingResponse();
 
         gm.produceUpdate(p, chosenProd);
+
+        MR1.stopSendingResponse();
+
+        //Checking if the warehouse was actually left untouched
+
+        Resources wh_res = new Resources();
+        wh_res.add(res).add(in1);
+        //System.out.println((p.getBoard().getWarehouse().getResourceAmountWarehouse()));
+        assertTrue(wh_res.equals(p.getBoard().getResourcesAvailable()));
+
 
 
 

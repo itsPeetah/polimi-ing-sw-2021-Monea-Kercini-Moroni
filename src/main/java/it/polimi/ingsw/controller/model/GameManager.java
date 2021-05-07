@@ -398,7 +398,6 @@ public class GameManager {
 
         //First ask the player to choose all input choices
 
-
         Resources input = new Resources();
 
         //Calculate total costs
@@ -417,28 +416,33 @@ public class GameManager {
             return false;
 
         }else{
+
+            //Paying cost
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
-            fromStrongbox.add(input);
+            fromStrongbox.add(tot_cost);
 
             try {
                 //Withdraw as many resources as you need from warehouse
-                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(input));
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(tot_cost));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
-        }
 
-        for(Production production : chosenProduction) {
 
-            Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in output he has to choose here
+            //Adding output
 
-            //Add the output of production to the strongbox
-            player.getBoard().getStrongbox().deposit(output);
+            for(Production production : chosenProduction) {
 
+                Resources output = makePlayerChoose(player, production.getOutput()); //If player has choice in output he has to choose here
+
+                //Add the output of production to the strongbox
+                player.getBoard().getStrongbox().deposit(output);
+
+            }
         }
 
         return true;
@@ -594,6 +598,9 @@ public class GameManager {
 
         //communicationHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
         ProduceActionData produceChoice = communicationHandler.getResponseData();
+
+        //Warning: May need to set the action as expecting action choice
+        //but if this resets the action taken, than the whole production choice order should be changed.
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
