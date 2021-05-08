@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.model;
 
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -36,7 +38,6 @@ public class ModelController {
     }
 
 
-    //TODO RECHECK IF METHOD WILL BE USED LIKE THIS
     public void addPlayer(String nickname){
         try {
             game.addPlayer(nickname);
@@ -204,7 +205,7 @@ public class ModelController {
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
 
-        //TODO notify player it's his turn
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
@@ -282,7 +283,7 @@ public class ModelController {
 
         int winner = getWinner(VP);
 
-        //TODO notify player #Winner that he is the winner
+        modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
         //Maybe add post-game functionality
     }
 
@@ -358,12 +359,12 @@ public class ModelController {
 
         //check if affordable
         if(!chosenCard.affordable(player)){
-            //TODO Tell player he doesn't have enough resources
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.NOT_ENOUGH_RESOURCES);
             return false;
 
             //check if it's possible to place that card there
         }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
-            //TODO Tell player he can't put that card there
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ILLEGAL_CARD_PLACE);
             return false;
 
         }else{
@@ -401,7 +402,7 @@ public class ModelController {
 
         //If it is not enough
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
-            //TODO Tell player he doesn't have enough resources
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.NOT_ENOUGH_RESOURCES);
             return false;
 
         }else{
@@ -450,7 +451,7 @@ public class ModelController {
         if(chosenLeader.affordable(player)){
             chosenLeader.play(player);
         }else{
-            //TODO remind player that he doesn't meet the requirements to play this card
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
     }
 
@@ -546,7 +547,6 @@ public class ModelController {
             case 2:
 
                 //asking the player to choose one of the two resources he can to substitute white
-                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
                 //Maybe this line will need to be switched off in the real game, but it is necessary for testing
                 modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
@@ -599,7 +599,7 @@ public class ModelController {
         if(!primaryActionUsed){
             primaryActionUsed = resourceMarketUpdate(player, playerChoice.isRow(), playerChoice.getIndex());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
@@ -614,7 +614,7 @@ public class ModelController {
         if(!primaryActionUsed){
             primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
@@ -632,7 +632,7 @@ public class ModelController {
         if(!primaryActionUsed){
             primaryActionUsed = produceUpdate(player, produceChoice.getChosenProd());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
