@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server.protocols;
 
-import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.server.components.RemoteUser;
@@ -51,6 +50,6 @@ public class ServerSideClientListener {
     }
 
     private void handleActionPacket(NetworkPacket packet){
-        /*user.getRoom().notify(packet);*/
+        user.getRoom().notify(packet);
     }
 }
