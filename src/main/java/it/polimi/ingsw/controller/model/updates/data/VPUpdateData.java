@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.model.updates.data;
 
-public class VPUpdateData {
+import it.polimi.ingsw.controller.model.updates.UpdateData;
+
+public class VPUpdateData implements UpdateData {
     int vp;
 
     public VPUpdateData(int vp) {

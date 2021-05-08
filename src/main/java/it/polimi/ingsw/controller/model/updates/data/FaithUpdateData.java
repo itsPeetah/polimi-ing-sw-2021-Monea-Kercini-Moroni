@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.model.updates.data;
 
-public class FaithUpdateData {
+import it.polimi.ingsw.controller.model.updates.UpdateData;
+
+public class FaithUpdateData implements UpdateData {
     int fp;
 
     public int getFaithPoints() {

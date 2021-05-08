@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.model.updates.data;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.model.game.MarketTray;
 
-public class ResourceMarketUpdateData {
+public class ResourceMarketUpdateData implements UpdateData {
 
     MarketTray MT;
 
