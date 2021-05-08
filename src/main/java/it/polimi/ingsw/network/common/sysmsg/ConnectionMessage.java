@@ -1,6 +1,6 @@
-package it.polimi.ingsw.network.common.messages;
+package it.polimi.ingsw.network.common.sysmsg;
 
-public enum ConnectionMessage implements IMessageClass {
+public enum ConnectionMessage implements ISystemMessage {
     WELCOME("WELCOME"),
     HELLO("HELLO"),
     ASSIGNID("ID"),

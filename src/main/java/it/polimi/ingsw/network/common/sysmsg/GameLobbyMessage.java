@@ -1,9 +1,9 @@
-package it.polimi.ingsw.network.common.messages;
+package it.polimi.ingsw.network.common.sysmsg;
 
 /**
  * System messages for the game lobby.
  */
-public enum GameLobbyMessage implements IMessageClass {
+public enum GameLobbyMessage implements ISystemMessage {
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ");
 

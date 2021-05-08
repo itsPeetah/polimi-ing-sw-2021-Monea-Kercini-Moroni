@@ -1,9 +1,9 @@
-package it.polimi.ingsw.network.common.messages;
+package it.polimi.ingsw.network.common.sysmsg;
 
 /**
  * System message enum method interface.
  */
-public interface IMessageClass {
+public interface ISystemMessage {
 
     /**
      * Message code getter.

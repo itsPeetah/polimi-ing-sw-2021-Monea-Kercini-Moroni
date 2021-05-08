@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.server.protocols;
 
-import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.controller.model.messages.MessagePacket;
-import it.polimi.ingsw.network.common.messages.ConnectionMessage;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
 public class ServerSideClientListener {

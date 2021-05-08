@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server.protocols;
 
-import it.polimi.ingsw.network.common.messages.ConnectionMessage;
-import it.polimi.ingsw.network.common.messages.GameLobbyMessage;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
