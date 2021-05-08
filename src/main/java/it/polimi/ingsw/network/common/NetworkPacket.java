@@ -69,6 +69,22 @@ public class NetworkPacket {
     }
 
     /**
+     * Build a system message network packet.
+     * @param message Content of the message.
+     */
+    public static NetworkPacket buildSystemMessagePacket(String message){
+        return new NetworkPacket(NetworkPacketType.SYSTEM, message);
+    }
+
+    /**
+     * Build a debug message network packet.
+     * @param message Content of the message.
+     */
+    public static NetworkPacket buildDebugPacket(String message){
+        return new NetworkPacket(NetworkPacketType.DEBUG, message);
+    }
+
+    /**
      * Build a message network packet.
      * @param messagePacket Packet to be wrapped in the network packet.
      */
