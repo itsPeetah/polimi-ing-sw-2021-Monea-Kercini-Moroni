@@ -20,7 +20,7 @@ public class DevCardActionData extends ActionData {
         this.position = position;
     }
 
-    public DevCard getChooenCard() {
+    public DevCard getChosenCard() {
         return chosenCard;
     }
 

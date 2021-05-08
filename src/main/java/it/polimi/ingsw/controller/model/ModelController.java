@@ -345,6 +345,8 @@ public class ModelController {
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
+        //modelControllerIOHandler.pushUpdate();
+
         return true;
     }
 
@@ -612,7 +614,7 @@ public class ModelController {
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
-            primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
+            primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChosenCard(), devCardChoice.getPosition());
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
