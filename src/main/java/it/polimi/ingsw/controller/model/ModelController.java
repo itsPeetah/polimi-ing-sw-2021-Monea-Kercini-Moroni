@@ -5,9 +5,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
-import it.polimi.ingsw.controller.model.updates.data.FaithUpdateData;
-import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
-import it.polimi.ingsw.controller.model.updates.data.WarehouseUpdateData;
+import it.polimi.ingsw.controller.model.updates.data.*;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -685,5 +683,48 @@ public class ModelController {
 
         modelControllerIOHandler.pushUpdate(Update.FAITH, fUp);
     }
+
+    /**
+     * All the other update methods
+     * @param player
+     */
+
+    private void updateWarehouse(Player player){
+
+        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
+        modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
+    }
+
+    private void updateResourceMarket(){
+
+        ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
+        modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
+    }
+
+    private void updateDevCardMarket(){
+
+        DevCardMarketUpdateData devUp = new DevCardMarketUpdateData(game.getDevCardMarket());
+        modelControllerIOHandler.pushUpdate(Update.DEVCARD_MARKET, devUp);
+    }
+
+    private void updateProductionPowers(Player player){
+
+        ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player);
+        modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);
+    }
+
+    private void updateLeaders(Player player){
+
+        PlayerLeadersUpdateData plUp = new PlayerLeadersUpdateData(player.getLeaders(), player);
+        modelControllerIOHandler.pushUpdate(Update.LEADERS, plUp);
+    }
+
+    private void updateVP(int[] VP){
+
+        VPUpdateData VPUp = new VPUpdateData(VP);
+        modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
+
+    }
+
 
 }
