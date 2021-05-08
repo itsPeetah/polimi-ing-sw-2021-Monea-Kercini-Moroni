@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller.model;
 
+import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerboard.Warehouse;
@@ -14,6 +17,7 @@ import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,13 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-class GameManagerTest {
-    CommunicationHandler communicationHandler;
+class ModelControllerTest {
+    ModelControllerIOHandler modelControllerIOHandler;
     final int WAIT_TIME = 50;
+    final int LONG_WAIT_TIME = 500;
 
     @BeforeEach
     void generateHandler() {
-        communicationHandler = new CommunicationHandler(null);
+        modelControllerIOHandler = new MPModelControllerIOHandler(null);
     }
 
     /**
@@ -39,7 +44,7 @@ class GameManagerTest {
     @Test
     void setup(){
 
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
@@ -62,14 +67,14 @@ class GameManagerTest {
         //Player 1 Leaders
         TwoLeaders.setLeaders(myLeaders1);
         TwoLeaders.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
-        MR1.startSendingResponse();
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MR1.sendResponseWithDelay(1);
 
         //Player 2 Leaders
         TwoLeaders.setLeaders(myLeaders2);
         TwoLeaders.setPlayer("Player 2");
-        MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
-        MR2.startSendingResponse();
+        MockResponse MR2 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MR2.sendResponseWithDelay(2);
 
         //Player 2 Chooses a resource
         Resources res = new Resources();
@@ -77,8 +82,8 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(res);
         pickedRes.setPlayer("Player 2");
-        MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
-        MR3.startSendingResponse();
+        MockResponse MR3 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MR3.sendResponseWithDelay(3);
 
         //Player 2 Puts the resource in his warehouse
         Warehouse wh = new Warehouse();
@@ -86,20 +91,16 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 2");
-        MockResponse MR4 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
-        MR4.startSendingResponse();
+        MockResponse MR4 = new MockResponse(modelControllerIOHandler, Action.PUT_RESOURCES, putres);
+        MR4.sendResponseWithDelay(4);
 
         //We wait a millisecond before turning off the player responses (the time is enough)
 
         try {
-            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
         }catch (Exception e){
             e.printStackTrace();
         }
-        MR1.stopSendingResponse();
-        MR2.stopSendingResponse();
-        MR3.stopSendingResponse();
-        MR4.stopSendingResponse();
 
         //Testing if we have the player in game
         assertEquals("Player 1", gm.getGame().getPlayers()[0].getNickname() );
@@ -115,8 +116,6 @@ class GameManagerTest {
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-
-
         System.out.println("YAY");
 
     }
@@ -125,7 +124,7 @@ class GameManagerTest {
     void checkWhite(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -197,6 +196,7 @@ class GameManagerTest {
             e.printStackTrace();
         }
 
+
         Resources res4 = new Resources();
         res4.add(ResourceType.STONES, 2);
         res4.add(ResourceType.BLANK, 3);
@@ -207,20 +207,21 @@ class GameManagerTest {
 
         //After the check res 4 should be equal to res 5
 
+
         //We choose the second leader as our resource type (coin)
         Resources choice = new Resources();
         choice.add(ResourceType.COINS, 1);
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(choice);
         pickedRes.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
-        MR1.startSendingResponse();
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MR1.sendResponseWithDelay(1);
 
         newRes = gm.checkWhite(p, res4);
 
         assertTrue(res5.equals(newRes));
 
-        MR1.stopSendingResponse();
+        //MR1.stopSendingResponse();
 
 
     }
@@ -228,7 +229,7 @@ class GameManagerTest {
     @Test
     void endGame(){
 
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
@@ -242,7 +243,7 @@ class GameManagerTest {
         gm.getGame().getPlayers()[1].getBoard().incrementFaithPoints(20);
 
         //While it may sound stupid, it is possible to end game at any given point,
-        //the GameManager will calculate points for the players as it is
+        //the ModelController will calculate points for the players as it is
         gm.endGame();
 
     }
@@ -251,7 +252,7 @@ class GameManagerTest {
     void resourceMarketUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -297,7 +298,7 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.PUT_RESOURCES, putres);
         MR1.startSendingResponse();
 
         gm.resourceMarketUpdate(p, true, 0);
@@ -330,7 +331,7 @@ class GameManagerTest {
     void devCardMarketUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -388,6 +389,135 @@ class GameManagerTest {
         assertEquals(2, p.getBoard().getOwnedDevCards().size());
         assertEquals(0, p.getBoard().getWarehouse().getResourceAmountWarehouse());
 
+    }
+
+    @Test
+    void produceUpdate(){
+
+        //Adding one player to the game
+        ModelController gm = new ModelController(modelControllerIOHandler);
+        gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+        //Supposing the player wants to activate 2 productions
+        //One which costs res and adds res and faith points
+        //One which costs a choice and adds a choice
+
+        Resources in1 = new Resources();
+        in1.add(ResourceType.COINS, 1);
+        Resources out1 = new Resources();
+        out1.add(ResourceType.SERVANTS, 1).add(ResourceType.FAITH, 1);
+
+        Production prod1 = new Production(in1, out1);
+
+        Resources in2 = new Resources();
+        in2.add(ResourceType.CHOICE, 1);
+        Resources out2 = new Resources();
+        out2.add(ResourceType.CHOICE, 1);
+
+        Production prod2 = new Production(in2, out2);
+
+        ArrayList<Production> chosenProd = new ArrayList<Production>();
+        chosenProd.add(prod1);
+        chosenProd.add(prod2);
+
+
+        //Player has a coin and a shield in his warehouse
+
+        Resources res = new Resources();
+        res.add(ResourceType.SHIELDS, 1);
+
+        p.getBoard().getWarehouse().deposit(res, 0);
+        p.getBoard().getWarehouse().deposit(in1, 1);
+
+
+        //First case: Player will make wrong choice, so he won't be able to produce anything
+        //He chooses as input servants, which he doesn't have
+
+        Resources choice = new Resources();
+        choice.add(ResourceType.SERVANTS, 1);
+        ChooseResourceActionData pickedRes = new ChooseResourceActionData();
+        pickedRes.setRes(choice);
+        pickedRes.setPlayer("Player 1");
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MR1.startSendingResponse();
+
+        gm.produceUpdate(p, chosenProd);
+
+        MR1.stopSendingResponse();
+
+        //Checking if the warehouse was actually left untouched
+
+        Resources wh_res = new Resources();
+        wh_res.add(res).add(in1);
+
+        assertTrue(wh_res.equals(p.getBoard().getResourcesAvailable()));
+
+
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        //Second case: Player will make right choice, so the productions should take place
+        //He chooses as input shields, which he has
+
+        //Using thread this time as there will be multiple exchanges with player
+
+        new Thread(() -> {
+            gm.produceUpdate(p, chosenProd);
+        }).start();
+
+        Resources choice2 = new Resources();
+        choice2.add(ResourceType.SHIELDS, 1);
+        ChooseResourceActionData pickedRes2 = new ChooseResourceActionData();
+        pickedRes2.setRes(choice2);
+        pickedRes2.setPlayer("Player 1");
+        MockResponse MR2 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes2);
+        MR2.sendResponseWithDelay(1);
+
+
+        //In this case he can also has to choose the output, stones in our test
+
+        Resources choice3 = new Resources();
+        choice3.add(ResourceType.STONES, 1);
+        ChooseResourceActionData pickedRes3 = new ChooseResourceActionData();
+        pickedRes3.setRes(choice3);
+        pickedRes3.setPlayer("Player 1");
+        MockResponse MR3 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes3);
+        MR3.sendResponseWithDelay(2);
+
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // Before checking results, wait for the responses to arrive
+        try {
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //Recap:
+        //Player pays 1 coin and 1 shield -> warehouse empty
+        //Player gets 1 servant and has his faith points increased by 1 (from production 1) and 1 stone from production 2
+        //final warehouse -> 0
+        //final strongbox -> 1 servant, 1 stone
+
+
+        Resources wh_res2 = new Resources();
+        wh_res2.add(ResourceType.SERVANTS, 1).add(ResourceType.STONES, 1);
+
+        assertTrue(wh_res2.equals(p.getBoard().getResourcesAvailable()));
+
+        //Check if we got the extra faith point
+        assertEquals(1, p.getBoard().getFaithPoints());
     }
 
 }
