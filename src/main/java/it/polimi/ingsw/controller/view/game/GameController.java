@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
+import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.view.common.GameData;
 import it.polimi.ingsw.view.scenes.GameScene;
 
@@ -23,7 +24,7 @@ public class GameController {
         currentState = GameState.IDLE;
     }
 
-    protected void reactToUpdate(Update update, UpdateData updateData) {
+    public void reactToUpdate(Update update, UpdateData updateData) {
         // TODO code to apply the update
 
         // If the player is not in IDLE, it means that the action performed was accepted.
@@ -34,7 +35,7 @@ public class GameController {
 
     }
 
-    protected void reactToMessage(Message message) {
+    public void reactToMessage(Message message) {
         String messageContent = message.toString();
 
     }
@@ -43,7 +44,7 @@ public class GameController {
      * React to an action performed by the player.
      * This class will push the action to the server if the check of the action is passed, or handle the problem if need be.
      */
-    protected void reactToAction(ActionPacket actionPacket) {
+    public void reactToAction(ActionPacket actionPacket) {
         Action action = actionPacket.getAction();
 
         // Check action correctness if necessary
