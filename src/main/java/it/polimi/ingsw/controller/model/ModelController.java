@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
+import it.polimi.ingsw.controller.model.updates.data.WarehouseUpdateData;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -348,7 +349,11 @@ public class ModelController {
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
+        //Send update of all stuff that has been updated
         ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
+        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
+
+
         modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
 
         return true;
