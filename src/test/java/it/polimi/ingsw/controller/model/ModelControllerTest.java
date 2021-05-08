@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.model;
 
+import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -23,13 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-class GameManagerTest {
-    CommunicationHandler communicationHandler;
+class ModelControllerTest {
+    ModelControllerIOHandler modelControllerIOHandler;
     final int WAIT_TIME = 50;
+    final int LONG_WAIT_TIME = 500;
 
     @BeforeEach
     void generateHandler() {
-        communicationHandler = new CommunicationHandler(null);
+        modelControllerIOHandler = new MPModelControllerIOHandler(null);
     }
 
     /**
@@ -41,7 +44,7 @@ class GameManagerTest {
     @Test
     void setup(){
 
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
@@ -64,14 +67,14 @@ class GameManagerTest {
         //Player 1 Leaders
         TwoLeaders.setLeaders(myLeaders1);
         TwoLeaders.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
-        MR1.startSendingResponse();
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MR1.sendResponseWithDelay(1);
 
         //Player 2 Leaders
         TwoLeaders.setLeaders(myLeaders2);
         TwoLeaders.setPlayer("Player 2");
-        MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
-        MR2.startSendingResponse();
+        MockResponse MR2 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MR2.sendResponseWithDelay(2);
 
         //Player 2 Chooses a resource
         Resources res = new Resources();
@@ -79,8 +82,8 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(res);
         pickedRes.setPlayer("Player 2");
-        MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
-        MR3.startSendingResponse();
+        MockResponse MR3 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MR3.sendResponseWithDelay(3);
 
         //Player 2 Puts the resource in his warehouse
         Warehouse wh = new Warehouse();
@@ -88,20 +91,16 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 2");
-        MockResponse MR4 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
-        MR4.startSendingResponse();
+        MockResponse MR4 = new MockResponse(modelControllerIOHandler, Action.PUT_RESOURCES, putres);
+        MR4.sendResponseWithDelay(4);
 
         //We wait a millisecond before turning off the player responses (the time is enough)
 
         try {
-            TimeUnit.MILLISECONDS.sleep(WAIT_TIME);
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
         }catch (Exception e){
             e.printStackTrace();
         }
-        MR1.stopSendingResponse();
-        MR2.stopSendingResponse();
-        MR3.stopSendingResponse();
-        MR4.stopSendingResponse();
 
         //Testing if we have the player in game
         assertEquals("Player 1", gm.getGame().getPlayers()[0].getNickname() );
@@ -125,7 +124,7 @@ class GameManagerTest {
     void checkWhite(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -215,7 +214,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(choice);
         pickedRes.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
         MR1.sendResponseWithDelay(1);
 
         newRes = gm.checkWhite(p, res4);
@@ -230,7 +229,7 @@ class GameManagerTest {
     @Test
     void endGame(){
 
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
 
         gm.addPlayer("Player 1");
         gm.addPlayer("Player 2");
@@ -244,7 +243,7 @@ class GameManagerTest {
         gm.getGame().getPlayers()[1].getBoard().incrementFaithPoints(20);
 
         //While it may sound stupid, it is possible to end game at any given point,
-        //the GameManager will calculate points for the players as it is
+        //the ModelController will calculate points for the players as it is
         gm.endGame();
 
     }
@@ -253,7 +252,7 @@ class GameManagerTest {
     void resourceMarketUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -299,7 +298,7 @@ class GameManagerTest {
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.PUT_RESOURCES, putres);
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.PUT_RESOURCES, putres);
         MR1.startSendingResponse();
 
         gm.resourceMarketUpdate(p, true, 0);
@@ -332,7 +331,7 @@ class GameManagerTest {
     void devCardMarketUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -396,7 +395,7 @@ class GameManagerTest {
     void produceUpdate(){
 
         //Adding one player to the game
-        GameManager gm = new GameManager(communicationHandler);
+        ModelController gm = new ModelController(modelControllerIOHandler);
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
@@ -440,7 +439,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes = new ChooseResourceActionData();
         pickedRes.setRes(choice);
         pickedRes.setPlayer("Player 1");
-        MockResponse MR1 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes);
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
         MR1.startSendingResponse();
 
         gm.produceUpdate(p, chosenProd);
@@ -477,7 +476,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes2 = new ChooseResourceActionData();
         pickedRes2.setRes(choice2);
         pickedRes2.setPlayer("Player 1");
-        MockResponse MR2 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes2);
+        MockResponse MR2 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes2);
         MR2.sendResponseWithDelay(1);
 
 
@@ -488,7 +487,7 @@ class GameManagerTest {
         ChooseResourceActionData pickedRes3 = new ChooseResourceActionData();
         pickedRes3.setRes(choice3);
         pickedRes3.setPlayer("Player 1");
-        MockResponse MR3 = new MockResponse(communicationHandler, Action.CHOOSE_RESOURCE, pickedRes3);
+        MockResponse MR3 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes3);
         MR3.sendResponseWithDelay(2);
 
 
@@ -500,7 +499,7 @@ class GameManagerTest {
 
         // Before checking results, wait for the responses to arrive
         try {
-            TimeUnit.MILLISECONDS.sleep(3001);
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
         }catch (Exception e){
             e.printStackTrace();
         }

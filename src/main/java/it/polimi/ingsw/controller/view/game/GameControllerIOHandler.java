@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller.view.game;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.common.NetworkPacket;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,7 +19,9 @@ public class GameControllerIOHandler {
 
     }
 
-    public void notifyMessage(MessagePacket messagePacket) {
+    public void notifyMessage(NetworkPacket networkPacket) {
+        Gson gson = new Gson();
+        MessagePacket messagePacket = gson.fromJson(networkPacket.getPayload(), MessagePacket.class);
         pool.submit(() -> gameController.reactToMessage(messagePacket.getMessage()));
     }
 
@@ -25,7 +29,9 @@ public class GameControllerIOHandler {
         pool.submit(() -> gameController.reactToAction(actionPacket));
     }
 
-    public void notifyUpdate(UpdatePacket updatePacket) {
+    public void notifyUpdate(NetworkPacket networkPacket) {
+        Gson gson = new Gson();
+        UpdatePacket updatePacket = gson.fromJson(networkPacket.getPayload(), UpdatePacket.class);
         pool.submit(() -> gameController.reactToUpdate(updatePacket.getUpdate(), updatePacket.getData()));
     }
 
