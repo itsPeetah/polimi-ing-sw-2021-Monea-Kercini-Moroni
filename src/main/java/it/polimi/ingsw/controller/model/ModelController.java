@@ -85,6 +85,9 @@ public class ModelController {
                 }
             }
 
+            //update
+            updateWarehouse(p);
+
             return updatedWarehouse;
 
         }else{
@@ -349,12 +352,8 @@ public class ModelController {
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
         //Send update of all stuff that has been updated
-        ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
-        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
-
-        modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
-        modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
-
+        updateResourceMarket();
+        //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
         updateFaithPoints();
 
         return true;
@@ -376,6 +375,7 @@ public class ModelController {
 
             //check if it's possible to place that card there
         }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
+
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.ILLEGAL_CARD_PLACE);
             return false;
 
@@ -384,6 +384,12 @@ public class ModelController {
             player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+
+            //Update
+            updateDevCardMarket();
+            updateProductionPowers(player);
+            updateWarehouse(player);
+
             return true;
         }
     }
@@ -450,6 +456,10 @@ public class ModelController {
             }
         }
 
+        //update
+        updateWarehouse(player);
+        updateFaithPoints();
+
         return true;
     }
 
@@ -462,6 +472,9 @@ public class ModelController {
 
         if(chosenLeader.affordable(player)){
             chosenLeader.play(player);
+
+            //update
+            updateLeaders(player);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
@@ -475,6 +488,9 @@ public class ModelController {
     private void discardLeaderUpdate(Player player, LeadCard chosenLeader){
 
         chosenLeader.discard(player);
+
+        //update
+        updateLeaders(player);
     }
 
     /**
