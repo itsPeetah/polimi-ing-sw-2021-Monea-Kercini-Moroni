@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.model;
 
+import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -14,19 +15,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class GameManager {
+public class ModelController {
 
     public GamePhase gamePhase;
     private final Game game;
-    private final CommunicationHandler communicationHandler;
+    private final ModelControllerIOHandler modelControllerIOHandler;
 
-    public GameManager(CommunicationHandler communicationHandler) {
+    public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
         game = GameFactory.CreateGame();
         gamePhase = GamePhase.PREGAME;
         
         // Set communication handler
-        this.communicationHandler = communicationHandler;
+        this.modelControllerIOHandler = modelControllerIOHandler;
 
     }
 
@@ -50,8 +51,8 @@ public class GameManager {
      */
     private Resources askPlayerToChooseResource(Player p){
 
-        communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceActionData data = communicationHandler.getResponseData();
+        modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
+        ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
         Resources res = data.getResources();
 
         return res;
@@ -64,8 +65,8 @@ public class GameManager {
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
-        communicationHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesActionData data = communicationHandler.getResponseData();
+        modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+        PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
         //If player has less resources than he should have give other players extra faith point
@@ -130,8 +131,8 @@ public class GameManager {
 
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
-            communicationHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersActionData data = communicationHandler.getResponseData();
+            modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+            Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
 
@@ -207,15 +208,15 @@ public class GameManager {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
-            communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
-            communicationHandler.addExpectedAction(Action.DEV_CARD);
-            communicationHandler.addExpectedAction(Action.PRODUCE);
-            communicationHandler.addExpectedAction(Action.PlAY_LEADER);
-            communicationHandler.addExpectedAction(Action.DISCARD_LEADER);
-            communicationHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
-            communicationHandler.addExpectedAction(Action.END_TURN);
+            modelControllerIOHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
+            modelControllerIOHandler.addExpectedAction(Action.DEV_CARD);
+            modelControllerIOHandler.addExpectedAction(Action.PRODUCE);
+            modelControllerIOHandler.addExpectedAction(Action.PlAY_LEADER);
+            modelControllerIOHandler.addExpectedAction(Action.DISCARD_LEADER);
+            modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
+            modelControllerIOHandler.addExpectedAction(Action.END_TURN);
 
-            switch (communicationHandler.getResponseAction()) {
+            switch (modelControllerIOHandler.getResponseAction()) {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCE_MARKET:
@@ -548,9 +549,9 @@ public class GameManager {
                 //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
                 //Maybe this line will need to be switched off in the real game, but it is necessary for testing
-                communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+                modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
 
-                ChooseResourceActionData data = communicationHandler.getResponseData();
+                ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
                 Resources choice = data.getResources();
 
                 //Converting the choice from resources in resource type and adding it
@@ -588,11 +589,11 @@ public class GameManager {
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
         //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
-        ResourceMarketActionData playerChoice = communicationHandler.getResponseData();
+        ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
         //Supposing the player will have to make choice
-        communicationHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
-        communicationHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
+        modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+        modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -607,7 +608,7 @@ public class GameManager {
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
         //communicationHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
-        DevCardActionData devCardChoice = communicationHandler.getResponseData();
+        DevCardActionData devCardChoice = modelControllerIOHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
@@ -622,7 +623,7 @@ public class GameManager {
     private boolean produce(Player player, boolean primaryActionUsed){
 
         //communicationHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
-        ProduceActionData produceChoice = communicationHandler.getResponseData();
+        ProduceActionData produceChoice = modelControllerIOHandler.getResponseData();
 
         //Warning: May need to set the action as expecting action choice
         //but if this resets the action taken, than the whole production choice order should be changed.
@@ -640,7 +641,7 @@ public class GameManager {
     private void playLeader(Player player){
 
         //communicationHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
-        ChooseLeaderActionData playLeaderEventData = communicationHandler.getResponseData();
+        ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
     }
@@ -648,7 +649,7 @@ public class GameManager {
     private void discardLeader(Player player){
 
         //communicationHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
-        ChooseLeaderActionData discardLeaderEventData = communicationHandler.getResponseData();
+        ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }

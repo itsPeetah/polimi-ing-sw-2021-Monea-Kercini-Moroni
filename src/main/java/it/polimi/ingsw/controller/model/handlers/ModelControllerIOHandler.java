@@ -1,30 +1,28 @@
-package it.polimi.ingsw.controller.model;
+package it.polimi.ingsw.controller.model.handlers;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
-import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.server.components.GameRoom;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.controller.model.actions.Action.*;
 
-public class CommunicationHandler {
+/**
+ * Abstract helper class that handle the input and output of the controller.
+ * There are two different concrete implementations: one for MultiPlayer games (sending packets through the network) and one for SinglePlayer games (communicating directly with the view-controller).
+ */
+public abstract class ModelControllerIOHandler {
 
     /* ACTION HANDLER ATTRIBUTES */
 
-    private final GameRoom gameRoom;
+
     private final Object lock;
     private final List<Action> requestAction;
     private String requestPlayer;
@@ -32,27 +30,16 @@ public class CommunicationHandler {
     private Action responseAction;
     private Boolean ready;
 
-    /* MESSAGE HANDLER ATTRIBUTES */
-
-    private final BlockingQueue<MessagePacket> messageQueue;
-
-    /* UPDATE HANDLER ATTRIBUTES */
-
-    private final BlockingQueue<UpdatePacket> updateQueue;
-
     /**
      * Constructor
      */
-    public CommunicationHandler(GameRoom gameRoom) {
-        this.gameRoom = gameRoom;
+    public ModelControllerIOHandler() {
         lock = new Object();
         requestAction = new ArrayList<>();
         requestPlayer = null;
         responseData = null;
         responseAction = NONE;
         ready = false;
-        messageQueue = new LinkedBlockingDeque<>();
-        updateQueue = new LinkedBlockingDeque<>();
     }
 
     /* ACTION HANDLER METHODS */
@@ -105,7 +92,7 @@ public class CommunicationHandler {
      * Set a response event from an incoming action packet.
      * @param actionPacket message from a player
      */
-    public void notify(ActionPacket actionPacket) {
+    private void notify(ActionPacket actionPacket) {
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.fromJsonToData(actionPacket.getData());
         synchronized(lock) {
@@ -182,56 +169,12 @@ public class CommunicationHandler {
      * @param player player to whom the message is addressed.
      * @param message type of message.
      */
-    public void sendMessage(String player, Message message) {
-        MessagePacket newPacket = new MessagePacket(player, message);
-        NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(newPacket);
-        gameRoom.sendTo(player, networkPacket);
-        //messageQueue.add(newPacket);
-    }
-
-    /**
-     * Take a message to be sent to a player.
-     * WARNING: if no message is present, the caller will be blocked forever.
-     */
-    public MessagePacket takeMessage() throws InterruptedException {
-        return messageQueue.take();
-    }
-
-    /**
-     * Take a message to be sent to a player.
-     * WARNING: if no message is present, the caller will be blocked until the specified timeout is over.
-     * When the timeout expires, null is returned.
-     */
-    public MessagePacket pollMessage(long timeout, TimeUnit timeUnit) throws InterruptedException {
-        return messageQueue.poll(timeout, timeUnit);
-    }
+    public abstract void sendMessage(String player, Message message);
 
     /* UPDATE HANDLER METHODS */
 
     /**
      * Push an update to be sent to all players.
      */
-    public void pushUpdate(Update type, UpdateData data) {
-        UpdatePacket updatePacket = new UpdatePacket(type, data);
-        NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);
-        gameRoom.broadcast(networkPacket);
-        //updateQueue.add(updatePacket);
-    }
-
-    /**
-     * Take an update ready to be notified to all players.
-     * WARNING: if no update is present, the caller will be blocked forever.
-     */
-    public UpdatePacket takeUpdate() throws InterruptedException {
-        return updateQueue.take();
-    }
-
-    /**
-     * Take an update ready to be notified to all players.
-     * WARNING: if no update is present, the caller will be blocked until the specified timeout is over.
-     * When the timeout expires, null is returned.
-     */
-    public UpdatePacket pollUpdate(long timeout, TimeUnit timeUnit) throws InterruptedException {
-        return updateQueue.poll(timeout, timeUnit);
-    }
+    public abstract void pushUpdate(Update type, UpdateData data);
 }

@@ -1,12 +1,10 @@
 package it.polimi.ingsw.network.server.components;
 
-import it.polimi.ingsw.controller.model.CommunicationHandler;
-import it.polimi.ingsw.controller.model.GameManager;
-import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.controller.model.ModelController;
+import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -17,8 +15,8 @@ public class GameRoom {
     private String roomId;              // room id
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
-    private final CommunicationHandler communicationHandler;
-    private GameManager gameManager;
+    private final ModelControllerIOHandler modelControllerIOHandler;
+    private ModelController modelController;
 
     /**
      * Class constructor.
@@ -28,8 +26,8 @@ public class GameRoom {
 
         this.lock = new Object();
         this.users = new Hashtable<String, RemoteUser>();
-        this.communicationHandler = new CommunicationHandler(this);
-        this.gameManager = null;
+        this.modelControllerIOHandler = new MPModelControllerIOHandler(this);
+        this.modelController = null;
     }
 
     public String getId(){
@@ -68,17 +66,17 @@ public class GameRoom {
 
     // todo redirect action network packets from SSCL
     public void notify(NetworkPacket packet) {
-        communicationHandler.notify(packet);
+        modelControllerIOHandler.notify(packet);
     }
 
     // todo check ownership
     public boolean startGame() {
-        gameManager = new GameManager(communicationHandler);
+        modelController = new ModelController(modelControllerIOHandler);
         for(String player: users.keySet()) {
-            gameManager.addPlayer(player);
+            modelController.addPlayer(player);
         }
         // todo shuffle players
-        gameManager.setupGame();
+        modelController.setupGame();
         return true;
     }
 }
