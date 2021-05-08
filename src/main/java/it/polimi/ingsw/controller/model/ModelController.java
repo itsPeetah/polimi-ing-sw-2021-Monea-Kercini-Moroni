@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
+import it.polimi.ingsw.controller.model.updates.data.FaithUpdateData;
 import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
 import it.polimi.ingsw.controller.model.updates.data.WarehouseUpdateData;
 import it.polimi.ingsw.model.cards.CardManager;
@@ -353,7 +354,6 @@ public class ModelController {
         ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
 
-
         modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
 
         return true;
@@ -663,6 +663,23 @@ public class ModelController {
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+    }
+
+    /**
+     * Method for making the faithUpdate easier (sending message to view with updated faith points for each player)
+     */
+
+    private void updateFaithPoints(){
+
+        int fp[] = new int[4];
+
+        for (int i = 0; i < game.getPlayers().length; i++) {
+            fp[i] = game.getPlayers()[i].getBoard().getFaithPoints();
+        }
+
+        FaithUpdateData fUp = new FaithUpdateData(fp);
+
+        modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, fUp);
     }
 
 }
