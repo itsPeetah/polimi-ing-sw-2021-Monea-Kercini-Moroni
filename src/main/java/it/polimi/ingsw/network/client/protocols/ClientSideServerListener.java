@@ -42,7 +42,7 @@ public class ClientSideServerListener {
     public void handleSystemMessage(NetworkPacket packet){
         String serverMessage = packet.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
-        
+
         if (serverMessage == null || ConnectionMessage.QUIT.check(messageFields[0])) {
             done = true;
             return;
@@ -54,5 +54,6 @@ public class ClientSideServerListener {
         System.out.println(clientMessage);
     }
 }
+
 
 

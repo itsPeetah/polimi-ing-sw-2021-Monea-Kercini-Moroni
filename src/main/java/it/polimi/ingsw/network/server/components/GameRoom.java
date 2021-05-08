@@ -96,9 +96,9 @@ public class GameRoom {
             modelController.addPlayer(player);
         }
         // randomize order
-        gameManager.getGame().shufflePlayers();
+        modelController.getGame().shufflePlayers();
         // Start the game
-        gameManager.setupGame();
+        modelController.setupGame();
         // todo check ownership
         // todo shuffle players
         modelController.setupGame();
