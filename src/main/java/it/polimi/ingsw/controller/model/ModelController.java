@@ -355,6 +355,9 @@ public class ModelController {
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
 
         modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
+        modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
+
+        updateFaithPoints();
 
         return true;
     }
@@ -665,6 +668,7 @@ public class ModelController {
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }
 
+
     /**
      * Method for making the faithUpdate easier (sending message to view with updated faith points for each player)
      */
@@ -679,7 +683,7 @@ public class ModelController {
 
         FaithUpdateData fUp = new FaithUpdateData(fp);
 
-        modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, fUp);
+        modelControllerIOHandler.pushUpdate(Update.FAITH, fUp);
     }
 
 }
