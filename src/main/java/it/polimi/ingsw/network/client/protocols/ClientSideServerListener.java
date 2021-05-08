@@ -30,10 +30,10 @@ public class ClientSideServerListener {
                     handleDebugMessage(np);
                     break;
                 case MESSAGE:
-                    // TODO Add message handle
+                    // TODO Add message handle (GAIOHandler)
                     break;
                 case UPDATE:
-                    // TODO Add Update handle
+                    // TODO Add Update handle (GAIOHandler)
                     break;
             }
         }

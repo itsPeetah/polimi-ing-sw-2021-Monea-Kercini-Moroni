@@ -27,14 +27,14 @@ public class SPModelControllerIOHandler extends ModelControllerIOHandler {
     @Override
     public void sendMessage(String player, Message message) {
         MessagePacket messagePacket = new MessagePacket(player, message);
-        NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(messagePacket);
-        gameControllerIOHandler.notifyMessage(networkPacket);
+        /*NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(messagePacket);*/
+        gameControllerIOHandler.notifyMessage(messagePacket);
     }
 
     @Override
     public void pushUpdate(Update type, UpdateData data) {
         UpdatePacket updatePacket = new UpdatePacket(type, data);
-        NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);
-        gameControllerIOHandler.notifyUpdate(networkPacket);
+        /*NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);*/
+        gameControllerIOHandler.notifyUpdate(updatePacket);
     }
 }

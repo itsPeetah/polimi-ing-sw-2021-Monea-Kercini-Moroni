@@ -20,9 +20,7 @@ public abstract class GameControllerIOHandler {
 
     }
 
-    public void notifyMessage(NetworkPacket messageNetworkPacket) {
-        Gson gson = new Gson();
-        MessagePacket messagePacket = gson.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
+    public void notifyMessage(MessagePacket messagePacket) {
         pool.submit(() -> gameController.reactToMessage(messagePacket.getMessage()));
     }
 
@@ -30,9 +28,7 @@ public abstract class GameControllerIOHandler {
         pool.submit(() -> gameController.reactToAction(actionPacket));
     }
 
-    public void notifyUpdate(NetworkPacket updateNetworkPacket) {
-        Gson gson = new Gson();
-        UpdatePacket updatePacket = gson.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
+    public void notifyUpdate(UpdatePacket updatePacket) {
         pool.submit(() -> gameController.reactToUpdate(updatePacket.getUpdate(), updatePacket.getData()));
     }
 

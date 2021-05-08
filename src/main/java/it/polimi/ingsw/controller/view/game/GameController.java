@@ -55,7 +55,7 @@ public class GameController {
 
     public void reactToMessage(Message message) {
         String messageContent = message.toString();
-
+        // Todo what to do with the message?
     }
 
     /**
