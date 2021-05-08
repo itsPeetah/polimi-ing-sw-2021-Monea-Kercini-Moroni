@@ -24,7 +24,7 @@ public class ClientSideServerListener implements Runnable {
         }*/
 
         while (true) {
-            serverMessage = socket.receive();
+            serverMessage = socket.receiveSysMsg();
             serverMessageFields = serverMessage.split("\\s+");
             if (serverMessage == null || ConnectionMessage.QUIT.check(serverMessageFields[0])) {
                 closeConnection();

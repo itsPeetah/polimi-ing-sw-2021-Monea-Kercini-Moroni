@@ -3,8 +3,6 @@ package it.polimi.ingsw.network.server.components;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 
-import java.io.IOException;
-
 /**
  * Rep class for a remote user.
  */
@@ -49,14 +47,14 @@ public class RemoteUser {
      * Send a message via the socket.
      */
     public void sendMessage(String message){
-        socket.send(message);
+        socket.sendSysMsg(message);
     }
 
     /**
      * Receive a message from the socket.
      */
     public String receiveMessage(){
-        return  socket.receive();
+        return  socket.receiveSysMsg();
     }
 
     /**

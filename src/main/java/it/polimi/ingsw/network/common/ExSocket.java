@@ -32,23 +32,38 @@ public class ExSocket {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
+    public void send(NetworkPacket packet){
+        out.println(packet.toJson());
+        out.flush();
+    }
+
+    public NetworkPacket receive(){
+        String json = in.nextLine();
+        return NetworkPacket.fromString(json);
+    }
+
     /**
      * Send a message to the socket's output stream.
      */
-    public void send(String message){
-        out.println(message);
-        out.flush();
+    public void sendSysMsg(String message){
+        send(NetworkPacket.buildSystemMessagePacket(message));
+        /*out.println(message);
+        out.flush();*/
     }
 
     /**
      * Receive a message from the socket's input stream.
      */
-    public String receive(){
-        return  in.nextLine();
+    public String receiveSysMsg(){
+        String message = receive().getPayload();
+        return message;
+        /*return  in.nextLine();*/
     }
 
-    public String[] receiveFields(){
-        return receive().split("\\s+");
+
+
+    public String[] receiveSysMsgFields(){
+        return receiveSysMsg().split("\\s+");
     }
 
     /**

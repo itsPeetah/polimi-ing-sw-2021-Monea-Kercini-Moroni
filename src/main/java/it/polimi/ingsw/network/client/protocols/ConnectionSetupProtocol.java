@@ -15,15 +15,15 @@ public class ConnectionSetupProtocol {
     public String getUserId() {
 
         // Receive WELCOME
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSysMsg();
         System.out.println("[SERVER] " + serverMessage);
 
         // Send HELLO
-        socket.send("HELLO");
+        socket.sendSysMsg("HELLO");
 
         // Receive ID
         String userId;
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSysMsg();
         System.out.println("[SERVER] " + serverMessage);
 
         String[] messageFields = serverMessage.split("\\s+");
@@ -32,11 +32,11 @@ public class ConnectionSetupProtocol {
             return null;
         else {
             userId = messageFields[1];
-            socket.send(ConnectionMessage.OK.addBody(userId));
+            socket.sendSysMsg(ConnectionMessage.OK.addBody(userId));
         }
 
         // Receive ready
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSysMsg();
         System.out.println("[SERVER] " + serverMessage);
         messageFields = serverMessage.split("\\s+");
 

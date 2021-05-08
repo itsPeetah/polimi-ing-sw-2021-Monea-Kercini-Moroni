@@ -43,7 +43,7 @@ public class GameClient {
                     if(ConnectionMessage.QUIT.check(clientMessage)) {
                         isReady = false;
                     }
-                    socket.send(clientMessage);
+                    socket.sendSysMsg(clientMessage);
                 }
             }
 
