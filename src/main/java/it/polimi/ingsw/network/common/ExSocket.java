@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.common;
 
-import kotlin.text.Regex;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Socket extension class.
+ */
 public class ExSocket {
 
     private Socket socket;      // the actual socket

@@ -3,15 +3,20 @@ package it.polimi.ingsw.network.server.components;
 import it.polimi.ingsw.network.common.messages.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
-import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
-import it.polimi.ingsw.network.server.protocols.GameLobbyProtocol;
-import it.polimi.ingsw.network.server.protocols.ServerSideClientListener;
+import it.polimi.ingsw.network.server.protocols.*;
 
+/**
+ * Runnable class to handle the connection with one remote user.
+ */
 public class RemoteConnectionHandler implements Runnable {
 
-    private ExSocket socket;
-    private RemoteUser user;
+    private ExSocket socket;    // user's socket
+    private RemoteUser user;    // user reference
 
+    /**
+     * Class constructor.
+     * @param socket The socket the connection is coming from.
+     */
     public RemoteConnectionHandler(ExSocket socket){
         this.socket = socket;
         this.user = null;
@@ -48,6 +53,9 @@ public class RemoteConnectionHandler implements Runnable {
         closeConnection();
     }
 
+    /**
+     * Handle the closing of the connection.
+     */
     private void closeConnection(){
 
         socket.send(ConnectionMessage.QUIT.addBody("Communication closed."));

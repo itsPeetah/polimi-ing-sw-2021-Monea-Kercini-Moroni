@@ -32,10 +32,19 @@ public class GameRoom {
         this.gameManager = null;
     }
 
+    /**
+     * Room id getter.
+     */
     public String getId(){
         return roomId;
     }
 
+    /**
+     * Add a user to the room.
+     * @param nickname User's local (room) nickname.
+     * @param user User reference.
+     * @throws GameRoomException if the nickname is already taken.
+     */
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
@@ -44,6 +53,7 @@ public class GameRoom {
         }
     }
 
+    // TOFIX
     public boolean removeUser(String userID){
         boolean result = false;
         synchronized (lock){
@@ -67,18 +77,31 @@ public class GameRoom {
     }
 
     // todo redirect action network packets from SSCL
+
+    /**
+     * Notify an action packet to the room's IOHandler
+     * @param packet (ActionPacket) Network Packet to handle.
+     */
     public void notify(NetworkPacket packet) {
         communicationHandler.notify(packet);
     }
 
-    // todo check ownership
+    /**
+     * Start the game
+     * @return
+     */
     public boolean startGame() {
+        // Instantiate controller
         gameManager = new GameManager(communicationHandler);
+        // add players
         for(String player: users.keySet()) {
             gameManager.addPlayer(player);
         }
-        // todo shuffle players
+        // randomize order
+        gameManager.getGame().shufflePlayers();
+        // Start the game
         gameManager.setupGame();
+        // todo check ownership
         return true;
     }
 }
