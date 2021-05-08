@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
-import it.polimi.ingsw.controller.view.game.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
 /**
