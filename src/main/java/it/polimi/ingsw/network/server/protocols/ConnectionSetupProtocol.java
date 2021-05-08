@@ -19,30 +19,30 @@ public class ConnectionSetupProtocol {
         System.out.println("New client connecting: " + socket.getSocket().getInetAddress().getHostAddress());
 
         // WELCOME
-        socket.sendSysMsg(ConnectionMessage.welcomeMessage);
+        socket.sendSystemMessage(ConnectionMessage.welcomeMessage);
 
         // Expect HELLO
-        clientMessageFields = socket.receiveSysMsgFields();
+        clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
         if (!ConnectionMessage.HELLO.check(clientMessageFields[0])) {
             System.out.println("Client did not reply to welcome message");
-            socket.sendSysMsg(ConnectionMessage.unexpectedReplyError);
+            socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
             return null;
         }
 
         // Generate id for client
         String id = GameServer.getInstance().getUserTable().generateId();
-        socket.sendSysMsg(ConnectionMessage.ASSIGNID.addBody(id));
+        socket.sendSystemMessage(ConnectionMessage.ASSIGNID.addBody(id));
 
         // EXPECT OK <id>
-        clientMessageFields = socket.receiveSysMsgFields();
+        clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
         if(clientMessageFields.length < 2 || !ConnectionMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
-            socket.sendSysMsg(ConnectionMessage.unexpectedReplyError);
+            socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
             System.out.println("Client did not confirm the correct id");
             return null;
         }
 
         // Connection is ready
-        socket.sendSysMsg(ConnectionMessage.connectionReadyMessage);
+        socket.sendSystemMessage(ConnectionMessage.connectionReadyMessage);
 
         return id;
     }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
@@ -32,6 +34,9 @@ public class GameClient {
 
             Scanner stdin = new Scanner(System.in);
 
+            // TODO FIX THIS MESS
+            // TODO CLIENT DOES NOT HAVE TO HANDLE INPUT
+
             String clientMessage;
             while(true){
 
@@ -43,7 +48,12 @@ public class GameClient {
                     if(ConnectionMessage.QUIT.check(clientMessage)) {
                         isReady = false;
                     }
-                    socket.sendSysMsg(clientMessage);
+
+                    if(clientMessage.charAt(0) == '/'){
+                        socket.send(new NetworkPacket(NetworkPacketType.DEBUG, clientMessage));
+                    } else {
+                        socket.sendSystemMessage(clientMessage);
+                    }
                 }
             }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.network.common.ExSocket;
+import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.server.GameServer;
 
 /**
@@ -43,25 +44,26 @@ public class RemoteUser {
      */
     public GameRoom getRoom(){ return GameServer.getInstance().getRoomTable().getRoom(roomId); }
 
-    /**
-     * Send a message via the socket.
-     */
-    public void sendMessage(String message){
-        socket.sendSysMsg(message);
+    public void send(NetworkPacket packet){
+        socket.send(packet);
+    }
+
+    public NetworkPacket receive(){
+        return socket.receive();
     }
 
     /**
-     * Receive a message from the socket.
+     * Send a system message via the socket.
      */
-    public String receiveMessage(){
-        return  socket.receiveSysMsg();
+    public void sendSystemMessage(String message){
+        socket.sendSystemMessage(message);
     }
 
     /**
-     * Receive a message from the socket already split at each white space.
+     * Receive a system message from the socket.
      */
-    public String[] receiveMessageFields(){
-        return receiveMessage().split("\\s+");
+    public String receiveSystemMessage(){
+        return  socket.receiveSystemMessage();
     }
 
     /**

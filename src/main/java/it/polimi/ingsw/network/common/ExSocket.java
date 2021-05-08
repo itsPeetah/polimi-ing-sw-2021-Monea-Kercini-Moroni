@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.common;
 
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -45,7 +47,7 @@ public class ExSocket {
     /**
      * Send a message to the socket's output stream.
      */
-    public void sendSysMsg(String message){
+    public void sendSystemMessage(String message){
         send(NetworkPacket.buildSystemMessagePacket(message));
         /*out.println(message);
         out.flush();*/
@@ -54,16 +56,10 @@ public class ExSocket {
     /**
      * Receive a message from the socket's input stream.
      */
-    public String receiveSysMsg(){
-        String message = receive().getPayload();
+    public String receiveSystemMessage(){
+        NetworkPacket np = receive();
+        String message = np.getPacketType() == NetworkPacketType.SYSTEM ? np.getPayload() : ConnectionMessage.ERR.getCode();
         return message;
-        /*return  in.nextLine();*/
-    }
-
-
-
-    public String[] receiveSysMsgFields(){
-        return receiveSysMsg().split("\\s+");
     }
 
     /**

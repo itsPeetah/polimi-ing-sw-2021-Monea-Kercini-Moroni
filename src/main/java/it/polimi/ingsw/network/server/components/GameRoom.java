@@ -2,11 +2,8 @@ package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.controller.model.CommunicationHandler;
 import it.polimi.ingsw.controller.model.GameManager;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -67,12 +64,12 @@ public class GameRoom {
 
     // TODO error handling?
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).sendMessage(packet.toJson());
+        users.get(player).sendSystemMessage(packet.toJson());
     }
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).sendMessage(packet.toJson());
+            users.get(player).sendSystemMessage(packet.toJson());
         }
     }
 
