@@ -1,16 +1,16 @@
-package it.polimi.ingsw.network.server.protocols;
+package it.polimi.ingsw.network.client.protocols;
 
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import it.polimi.ingsw.network.server.components.RemoteUser;
+import it.polimi.ingsw.network.common.ExSocket;
 
-public class ServerSideClientListener {
+public class ClientSideServerListener {
 
-    private RemoteUser user;
+    private ExSocket socket;
     private boolean done;
 
-    public ServerSideClientListener(RemoteUser user){
-        this.user = user;
+    public ClientSideServerListener(ExSocket socket) {
+        this.socket = socket;
         this.done = false;
     }
 
@@ -18,10 +18,10 @@ public class ServerSideClientListener {
 
         this.done = false;
 
-        while (true){
+        while (true) {
             if(done) break;
 
-            NetworkPacket np = user.receive();
+            NetworkPacket np = socket.receive();
             switch (np.getPacketType()){
                 case SYSTEM:
                     handleSystemMessage(np);
@@ -29,17 +29,21 @@ public class ServerSideClientListener {
                 case DEBUG:
                     handleDebugMessage(np);
                     break;
-                case ACTION:
-                    handleActionPacket(np);
+                case MESSAGE:
+                    // TODO Add message handle
+                    break;
+                case UPDATE:
+                    // TODO Add Update handle
                     break;
             }
         }
     }
 
-    private void handleSystemMessage(NetworkPacket packet){
-        String clientMessage = packet.getPayload();
+    public void handleSystemMessage(NetworkPacket packet){
 
-        if(ConnectionMessage.QUIT.check(clientMessage)){
+        String serverMessage = packet.getPayload();
+        String[] messageFields = serverMessage.split(" ", 2);
+        if (serverMessage == null || ConnectionMessage.QUIT.check(messageFields[0])) {
             done = true;
             return;
         }
@@ -49,8 +53,6 @@ public class ServerSideClientListener {
         String clientMessage = packet.getPayload();
         System.out.println(clientMessage);
     }
-
-    private void handleActionPacket(NetworkPacket packet){
-        user.getRoom().notify(packet);
-    }
 }
+
+

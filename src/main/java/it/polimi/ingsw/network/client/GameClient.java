@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.client.protocols.ClientSideServerListener;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
@@ -30,13 +31,12 @@ public class GameClient {
     public void execute(){
         try {
             socket = new ExSocket(new Socket(hostName, hostPortNumber));
-            new Thread(new ClientSideServerListener(socket)).start();
-
-            Scanner stdin = new Scanner(System.in);
+            new Thread(new ClientConnectionHandler(socket)).start();
 
             // TODO FIX THIS MESS
             // TODO CLIENT DOES NOT HAVE TO HANDLE INPUT
 
+            Scanner stdin = new Scanner(System.in);
             String clientMessage;
             while(true){
 
@@ -64,6 +64,8 @@ public class GameClient {
             System.out.println(ex.getMessage());
         }
     }
+
+
 
 
 }
