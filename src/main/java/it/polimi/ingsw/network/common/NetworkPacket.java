@@ -32,7 +32,6 @@ public class NetworkPacket {
 
     /**
      * Packet Type getter.
-     * @return
      */
     public NetworkPacketType getPacketType() {
         return packetType;
@@ -40,7 +39,6 @@ public class NetworkPacket {
 
     /**
      * Payload getter.
-     * @return
      */
     public String getPayload() {
         return payload;
