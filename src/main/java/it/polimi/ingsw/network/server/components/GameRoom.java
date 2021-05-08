@@ -30,10 +30,19 @@ public class GameRoom {
         this.modelController = null;
     }
 
+    /**
+     * Room id getter.
+     */
     public String getId(){
         return roomId;
     }
 
+    /**
+     * Add a user to the room.
+     * @param nickname User's local (room) nickname.
+     * @param user User reference.
+     * @throws GameRoomException if the nickname is already taken.
+     */
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
@@ -42,6 +51,7 @@ public class GameRoom {
         }
     }
 
+    // TOFIX
     public boolean removeUser(String userID){
         boolean result = false;
         synchronized (lock){
@@ -55,26 +65,41 @@ public class GameRoom {
 
     // TODO error handling?
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).sendMessage(packet.toJson());
+        users.get(player).sendSystemMessage(packet.toJson());
     }
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).sendMessage(packet.toJson());
+            users.get(player).sendSystemMessage(packet.toJson());
         }
     }
 
     // todo redirect action network packets from SSCL
+
+    /**
+     * Notify an action packet to the room's IOHandler
+     * @param packet (ActionPacket) Network Packet to handle.
+     */
     public void notify(NetworkPacket packet) {
         modelControllerIOHandler.notify(packet);
     }
 
-    // todo check ownership
+    /**
+     * Start the game
+     * @return
+     */
     public boolean startGame() {
+        // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
+        // add players
         for(String player: users.keySet()) {
             modelController.addPlayer(player);
         }
+        // randomize order
+        gameManager.getGame().shufflePlayers();
+        // Start the game
+        gameManager.setupGame();
+        // todo check ownership
         // todo shuffle players
         modelController.setupGame();
         return true;

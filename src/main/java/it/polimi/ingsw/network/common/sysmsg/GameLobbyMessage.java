@@ -1,11 +1,17 @@
-package it.polimi.ingsw.network.common.messages;
+package it.polimi.ingsw.network.common.sysmsg;
 
-public enum GameLobbyMessage implements IMessageClass {
+/**
+ * System messages for the game lobby.
+ */
+public enum GameLobbyMessage implements ISystemMessage {
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ");
 
     private final String messageCode;
 
+    /**
+     * Constructor
+     */
     GameLobbyMessage(String code){
         messageCode = code;
     }
@@ -13,7 +19,6 @@ public enum GameLobbyMessage implements IMessageClass {
     public String getCode() {
         return messageCode;
     }
-
 
     public String addBody(String body){
         return messageCode + " " + body;
@@ -24,6 +29,6 @@ public enum GameLobbyMessage implements IMessageClass {
     }
 
     public boolean check(String arguments, String message){
-        return this.addBody(arguments).equals(message + " ");
+        return this.addBody(arguments).equals(message);
     }
 }

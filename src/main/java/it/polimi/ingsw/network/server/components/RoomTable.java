@@ -71,6 +71,13 @@ public class RoomTable {
         return room;
     }
 
+    /**
+     * Create a new room.
+     * @param roomId Name of the new room.
+     * @param ownerNickname Nickname of the owner (creator) of the room.
+     * @param owner Owner user reference.
+     * @throws GameRoomException if there is already a room with the same name.
+     */
     public void createRoom(String roomId, String ownerNickname, RemoteUser owner) throws GameRoomException{
         synchronized (lock){
             // Throw exception if the room already exists.
@@ -82,6 +89,13 @@ public class RoomTable {
         }
     }
 
+    /**
+     * Join an existing room.
+     * @param roomId Name of the room to join.
+     * @param nickname Nickname of the user.
+     * @param user User reference.
+     * @throws GameRoomException either if the room does not exist or if the name is already taken inside of that room.
+     */
     public void joinRoom(String roomId, String nickname, RemoteUser user) throws GameRoomException{
         synchronized (lock){
             // Throw exception if the room doesn't exist.

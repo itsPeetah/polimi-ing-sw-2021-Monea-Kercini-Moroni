@@ -1,12 +1,15 @@
 package it.polimi.ingsw.network.common;
 
-import kotlin.text.Regex;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Socket extension class.
+ */
 public class ExSocket {
 
     private Socket socket;      // the actual socket
@@ -31,23 +34,32 @@ public class ExSocket {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
+    public void send(NetworkPacket packet){
+        out.println(packet.toJson());
+        out.flush();
+    }
+
+    public NetworkPacket receive(){
+        String json = in.nextLine();
+        return NetworkPacket.fromString(json);
+    }
+
     /**
      * Send a message to the socket's output stream.
      */
-    public void send(String message){
-        out.println(message);
-        out.flush();
+    public void sendSystemMessage(String message){
+        send(NetworkPacket.buildSystemMessagePacket(message));
+        /*out.println(message);
+        out.flush();*/
     }
 
     /**
      * Receive a message from the socket's input stream.
      */
-    public String receive(){
-        return  in.nextLine();
-    }
-
-    public String[] receiveFields(){
-        return receive().split("\\s+");
+    public String receiveSystemMessage(){
+        NetworkPacket np = receive();
+        String message = np.getPacketType() == NetworkPacketType.SYSTEM ? np.getPayload() : ConnectionMessage.ERR.getCode();
+        return message;
     }
 
     /**

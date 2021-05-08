@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
-import it.polimi.ingsw.network.common.messages.ConnectionMessage;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 public class ConnectionSetupProtocol {
@@ -15,30 +15,30 @@ public class ConnectionSetupProtocol {
     public String getUserId() {
 
         // Receive WELCOME
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSystemMessage();
         System.out.println("[SERVER] " + serverMessage);
 
         // Send HELLO
-        socket.send("HELLO");
+        socket.sendSystemMessage("HELLO");
 
         // Receive ID
         String userId;
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSystemMessage();
         System.out.println("[SERVER] " + serverMessage);
 
-        String[] messageFields = serverMessage.split("\\s+");
+        String[] messageFields = serverMessage.split(" ", 2);
 
         if(messageFields.length < 2 || !ConnectionMessage.ASSIGNID.check(messageFields[0]))
             return null;
         else {
             userId = messageFields[1];
-            socket.send(ConnectionMessage.OK.addBody(userId));
+            socket.sendSystemMessage(ConnectionMessage.OK.addBody(userId));
         }
 
         // Receive ready
-        serverMessage = socket.receive();
+        serverMessage = socket.receiveSystemMessage();
         System.out.println("[SERVER] " + serverMessage);
-        messageFields = serverMessage.split("\\s+");
+        messageFields = serverMessage.split(" ", 2);
 
         if(!ConnectionMessage.READY.check(messageFields[0]))
             return null;
