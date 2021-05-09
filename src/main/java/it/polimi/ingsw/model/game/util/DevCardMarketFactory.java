@@ -25,7 +25,7 @@ public class DevCardMarketFactory {
         ArrayList<DevCard> allCards = CardManager.loadDevCardsFromJson();
 
         //shuffle cards in a specific way: conserving the color order and the level order
-        for (int start = 0; start < 44; start+=4) {
+        for (int start = 0; start <= 44; start+=4) {
             Collections.shuffle(allCards.subList(start, start+4));
         }
 
