@@ -10,37 +10,74 @@ import java.util.ArrayList;
  */
 public class DevCardMarket {
 
-    // members todo perhaps differentiate tiers/colors
-    private ArrayList<DevCard> availableCards;
+    // matrix of array list
+    //first [] symbolizes the color in this order: blue, purple, green, yellow
+    //second [] symbolizes the level
+    private ArrayList<DevCard> availableCards[][] = new ArrayList[4][3];
 
     /**
      * Constructor.
      * @param cards Cards to be made available at start.
      */
     public DevCardMarket(ArrayList<DevCard> cards){
-        // Add cards to the available
-        availableCards = cards;
+
+        //Adding cards in the correct position
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 3; i++) {
+                availableCards[j][i].add(cards.get(j*3+i));
+            }
+        }
+
     }
 
     /**
-     * Returns the available DevCards.
-     * @return Array of currently available cards.
+     * Returns the available DevCards for purchase
+     * @return Arraylist of currently available cards.
      */
-    public DevCard[] getAvailableCards(){
-        DevCard[] dcs = new DevCard[availableCards.size()];
-        return availableCards.toArray(dcs);
+    public ArrayList<DevCard> getAvailableCards(){
+
+        ArrayList<DevCard> available = new ArrayList<>();
+
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 3; i++) {
+                //The cards available for purchase are the top ones
+                available.add(availableCards[j][i].get(availableCards[j][i].size()));
+            }
+        }
+
+        return available;
+
     }
+
 
     /**
      * Removes a card from the market.
-     * @param index Card to be removed.
+     * @param card Card to be removed.
      * @return Whether the operation was successful.
-     */
-    public boolean buyCard(int index, Player player) throws ArrayIndexOutOfBoundsException {
-        if(index >= availableCards.size()) throw new ArrayIndexOutOfBoundsException("Trying to buy a card that does not exist.");
-        // if(!availableCards.get(index).affordable(player)) return false;
-        // Todo move buying logic here from controller?
-        DevCard dc = availableCards.remove(index);
+     * */
+
+    public boolean buyCard(DevCard card) throws DevCardMarketException {
+
+        //Search for the card the player has chosen to remove
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 3; i++) {
+                //The cards available for purchase are the top ones
+                if (card.equals(availableCards[j][i].get(availableCards[j][i].size()))) {
+                    //Remove found card
+                    availableCards[j][i].remove(availableCards[j][i].size());
+                    return true;
+                }
+            }
+        }
+        //If it was not found
+        throw new DevCardMarketException("Trying to buy a card that is not available for sale.");
+    }
+
+
+    public boolean isAnyColumnFree(){
+        for (int i = 0; i < 0; i++) {
+
+        }
         return true;
     }
 }

@@ -14,6 +14,7 @@ import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.network.server.components.GameRoom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +30,11 @@ class ModelControllerTest {
     ModelControllerIOHandler modelControllerIOHandler;
     final int WAIT_TIME = 50;
     final int LONG_WAIT_TIME = 500;
+    GameRoom gr = new GameRoom("Room_1");
 
     @BeforeEach
     void generateHandler() {
-        modelControllerIOHandler = new MPModelControllerIOHandler(null);
+        modelControllerIOHandler = new MPModelControllerIOHandler(gr);
     }
 
     /**

@@ -22,8 +22,9 @@ public class DevCardMarketFactory {
     public static DevCardMarket BuildDevCardMarket(GameSettingsLevel cardAmount){
         // Get all cards
         ArrayList<DevCard> allCards = CardManager.loadDevCardsFromJson();
-        // Sort them based on their id
-        allCards.sort(Comparator.comparing(Card::getCardId));
+
+        //TODO shuffle cards in a specific way: conserving the color order and the level order
+
         // Only take right cards
         ArrayList<DevCard> finalCards = new ArrayList<DevCard>();
         for(int i = 0; i < allCards.size(); i++){
