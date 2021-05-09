@@ -10,7 +10,12 @@ public class SoloAction {
 
     private ArrayList<SoloActionTokens> soloActionTokens = new ArrayList<SoloActionTokens>();
     private int difficulty;
-    private BlackCross cross;
+    private BlackCross cross = new BlackCross();
+
+    public SoloAction(int difficulty) {
+        this.difficulty = difficulty;
+        soloActionTokens = createSoloActionDeck();
+    }
 
     /**
      * Prepares Lorenzo solo action tokens for single player
@@ -33,6 +38,14 @@ public class SoloAction {
 
         return soloActionTokens;
     }
+
+    /**
+     * Set game difficulty
+     * While it is possible to add game difficulty to the constructor directly,
+     * this way it is easier to change game difficulty mid-game,
+     * if such an option might be included as an extra in the future
+     * @param difficulty
+     */
 
     public void setSoloGameDifficulty(int difficulty) {
         this.difficulty = difficulty;

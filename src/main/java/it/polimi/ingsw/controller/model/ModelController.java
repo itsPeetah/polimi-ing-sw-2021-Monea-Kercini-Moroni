@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
+import it.polimi.ingsw.model.singleplayer.SoloAction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +26,11 @@ public class ModelController {
     public GamePhase gamePhase;
     private final Game game;
     private final ModelControllerIOHandler modelControllerIOHandler;
+    private boolean singlePlayer = false;
+
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;
+    }
 
     public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
@@ -159,6 +165,10 @@ public class ModelController {
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
 
             }
+        }
+
+        if(singlePlayer){
+            SoloAction Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
         }
 
         startGame();
