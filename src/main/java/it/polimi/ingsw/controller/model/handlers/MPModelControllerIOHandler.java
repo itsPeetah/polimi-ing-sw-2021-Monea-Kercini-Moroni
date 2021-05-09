@@ -29,13 +29,21 @@ public class MPModelControllerIOHandler extends ModelControllerIOHandler {
     public void sendMessage(String player, Message message) {
         MessagePacket newPacket = new MessagePacket(player, message);
         NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(newPacket);
-        gameRoom.sendTo(player, networkPacket);
+        try {
+            gameRoom.sendTo(player, networkPacket);
+        } catch (Exception e) {
+            System.out.println("ModelControllerIOHandler error: no packet was sent");
+        }
     }
 
     @Override
     public void pushUpdate(Update type, UpdateData data) {
         UpdatePacket updatePacket = new UpdatePacket(type, data);
         NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);
-        gameRoom.broadcast(networkPacket);
+        try {
+            gameRoom.broadcast(networkPacket);
+        } catch (Exception e) {
+            System.out.println("ModelControllerIOHandler error: no packet was sent");
+        }
     }
 }
