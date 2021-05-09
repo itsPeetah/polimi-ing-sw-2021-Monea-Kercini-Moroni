@@ -22,9 +22,12 @@ public class DevCardMarket {
     public DevCardMarket(ArrayList<DevCard> cards){
 
         //Adding cards in the correct position
-        for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < 3; i++) {
-                availableCards[j][i].add(cards.get(j*3+i));
+        for (int j = 0; j < 4; j++) { //4 colors
+            for (int i = 0; i < 3; i++) { //3 levels
+                for (int k = 0; k < 4; k++) { //4 cards for each
+                    availableCards[j][i].add(cards.get(j*12 + i*4 +k));
+                }
+
             }
         }
 
