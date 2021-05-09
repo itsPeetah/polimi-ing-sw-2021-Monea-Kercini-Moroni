@@ -34,4 +34,6 @@ public final class SoloAction {
         this.difficulty = difficulty;
     }
 
+
+
 }

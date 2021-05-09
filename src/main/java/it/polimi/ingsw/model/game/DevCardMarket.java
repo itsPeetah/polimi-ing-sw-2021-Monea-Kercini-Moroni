@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class DevCardMarket {
 
     // matrix of array list
-    //first [] symbolizes the color in this order: blue, purple, green, yellow (or whatever)
+    //first [] symbolizes the color in this order: blue, purple, green, yellow
     //second [] symbolizes the level
     private ArrayList<DevCard> availableCards[][] = new ArrayList[4][3];
 
@@ -98,5 +99,55 @@ public class DevCardMarket {
             }
         }
         return false;
+    }
+
+    /**
+     * Discrads 2 dev cards of that color, starting from the lower ones to the higher levels
+     * @param color
+     * @return true if all the cards of that color are finished (free column)
+     *          in this case Lorenzo has won
+     */
+
+    public boolean discard2 (Color color){
+
+        int i = 0;
+        int discarded = 0;
+        int c = 0;
+
+        //converting color to integer
+        switch (color){
+            case BLUE:
+                c=0;
+                break;
+            case PURPLE:
+                c=1;
+                break;
+            case GREEN:
+                c=2;
+                break;
+            case YELLOW:
+                c=3;
+                break;
+        }
+
+        while(i<3 && discarded < 2){
+
+            //Check if that level is over
+            if (availableCards[c][i].size()==0){
+                //Change level
+                i++;
+            }else{
+                //Cards is removed
+                availableCards[c][i].remove(availableCards[c][i].size()-1);
+                discarded++;
+            }
+        }
+
+        //If a column was finished
+        if (isAnyColumnFree()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
