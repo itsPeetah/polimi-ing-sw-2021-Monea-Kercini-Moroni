@@ -24,6 +24,10 @@ public class DevCardMarketFactory {
         // Get all cards
         ArrayList<DevCard> allCards = CardManager.loadDevCardsFromJson();
 
+        //shuffle cards in a specific way: conserving the color order and the level order
+        for (int start = 0; start <= 44; start+=4) {
+            Collections.shuffle(allCards.subList(start, start+4));
+        }
 
         // Only take right cards
         ArrayList<DevCard> finalCards = new ArrayList<DevCard>();
@@ -38,10 +42,6 @@ public class DevCardMarketFactory {
             }
         }
 
-        //shuffle cards in a specific way: conserving the color order and the level order
-        for (int start = 0; start <= 44; start+=4) {
-            Collections.shuffle(allCards.subList(start, start+4));
-        }
 
         // Instantiate and return
         DevCardMarket dcm;
