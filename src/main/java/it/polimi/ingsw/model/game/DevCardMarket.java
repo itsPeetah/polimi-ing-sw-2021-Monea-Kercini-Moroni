@@ -11,26 +11,28 @@ import java.util.ArrayList;
 public class DevCardMarket {
 
     // matrix of array list
-    //first [] symbolizes the color in this order: blue, purple, green, yellow
+    //first [] symbolizes the color in this order: blue, purple, green, yellow (or whatever)
     //second [] symbolizes the level
     private ArrayList<DevCard> availableCards[][] = new ArrayList[4][3];
 
     /**
+     *
      * Constructor.
+     * The input order should be: blue, low, random; blue, medium, random and so on (Color, level, 1 of the 4)
      * @param cards Cards to be made available at start.
+     *
      */
     public DevCardMarket(ArrayList<DevCard> cards){
 
         //Adding cards in the correct position
         for (int j = 0; j < 4; j++) { //4 colors
             for (int i = 0; i < 3; i++) { //3 levels
+                availableCards[j][i] = new ArrayList<>();
                 for (int k = 0; k < 4; k++) { //4 cards for each
                     availableCards[j][i].add(cards.get(j*12 + i*4 +k));
                 }
-
             }
         }
-
     }
 
     /**
@@ -44,7 +46,7 @@ public class DevCardMarket {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 3; i++) {
                 //The cards available for purchase are the top ones
-                available.add(availableCards[j][i].get(availableCards[j][i].size()));
+                available.add(availableCards[j][i].get(availableCards[j][i].size()-1));
             }
         }
 
@@ -65,9 +67,9 @@ public class DevCardMarket {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 3; i++) {
                 //The cards available for purchase are the top ones
-                if (card.equals(availableCards[j][i].get(availableCards[j][i].size()))) {
+                if (card.equals(availableCards[j][i].get(availableCards[j][i].size()-1))) {
                     //Remove found card
-                    availableCards[j][i].remove(availableCards[j][i].size());
+                    availableCards[j][i].remove(availableCards[j][i].size()-1);
                     return true;
                 }
             }

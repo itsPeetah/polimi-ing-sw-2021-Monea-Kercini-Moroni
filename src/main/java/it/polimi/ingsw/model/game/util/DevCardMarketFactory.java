@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.DevCardMarket;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -23,7 +24,11 @@ public class DevCardMarketFactory {
         // Get all cards
         ArrayList<DevCard> allCards = CardManager.loadDevCardsFromJson();
 
-        //TODO shuffle cards in a specific way: conserving the color order and the level order
+        //shuffle cards in a specific way: conserving the color order and the level order
+        for (int start = 0; start < 44; start+=4) {
+            Collections.shuffle(allCards.subList(start, start+4));
+        }
+
 
         // Only take right cards
         ArrayList<DevCard> finalCards = new ArrayList<DevCard>();

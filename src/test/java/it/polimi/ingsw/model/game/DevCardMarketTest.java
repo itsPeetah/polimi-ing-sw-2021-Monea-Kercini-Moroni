@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.game.util.DevCardMarketFactory;
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.game.util.MarketTrayFactory;
 import it.polimi.ingsw.model.general.Color;
@@ -19,7 +20,12 @@ class DevCardMarketTest {
     @Test
     void testBuyCard() {
         // initialize DevCardMarket
-        // todo replace this with factory when ready
+
+        DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
+        ArrayList<DevCard> aval = dcm.getAvailableCards();
+        for (int i = 0; i < aval.size(); i++) {
+            System.out.println(aval.get(i).getCardId());
+        }
 
         /**
         Resources cost = new Resources();
