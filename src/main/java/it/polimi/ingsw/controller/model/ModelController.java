@@ -384,6 +384,12 @@ public class ModelController {
             player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+            //Remove Card from DevCardMarket
+            try {
+                game.getDevCardMarket().buyCard(chosenCard);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             //Update
             updateDevCardMarket();
