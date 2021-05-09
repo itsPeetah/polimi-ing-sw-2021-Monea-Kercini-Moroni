@@ -78,9 +78,23 @@ public class DevCardMarket {
 
 
     public boolean isAnyColumnFree(){
-        for (int i = 0; i < 0; i++) {
+        int column_cards;
 
+        //Check all columns
+        for (int i = 0; i < 4; i++) {
+
+            column_cards=0;
+
+            for(int j=0; j<3; j++){
+                if(availableCards[i][j].size()!=0){
+                    column_cards+=1;
+                }
+            }
+
+            if(column_cards==0){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 }
