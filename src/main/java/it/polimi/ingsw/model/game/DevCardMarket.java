@@ -23,14 +23,14 @@ public class DevCardMarket {
      * @param cards Cards to be made available at start.
      *
      */
-    public DevCardMarket(ArrayList<DevCard> cards){
+    public DevCardMarket(ArrayList<DevCard> cards, int cards_per_tier){
 
         //Adding cards in the correct position
         for (int j = 0; j < 4; j++) { //4 colors
             for (int i = 0; i < 3; i++) { //3 levels
                 availableCards[j][i] = new ArrayList<>();
-                for (int k = 0; k < 4; k++) { //4 cards for each
-                    availableCards[j][i].add(cards.get(j*12 + i*4 +k));
+                for (int k = 0; k < cards_per_tier; k++) { //4 cards for each
+                    availableCards[j][i].add(cards.get(j*3*cards_per_tier + i*cards_per_tier +k));
                 }
             }
         }
