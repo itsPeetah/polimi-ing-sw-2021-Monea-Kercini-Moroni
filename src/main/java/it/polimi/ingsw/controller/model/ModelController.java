@@ -32,7 +32,12 @@ public class ModelController {
     public void setSinglePlayer(boolean singlePlayer) {
         this.singlePlayer = singlePlayer;
     }
-
+    public boolean isSinglePlayer() {
+        return singlePlayer;
+    }
+    public SoloAction getLorenzo() {
+        return Lorenzo;
+    }
 
     public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
@@ -117,7 +122,6 @@ public class ModelController {
             setSinglePlayer(true);
         }
 
-
         //Initialize leader cards
         ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
 
@@ -148,7 +152,6 @@ public class ModelController {
 
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
              */
-
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
@@ -210,17 +213,17 @@ public class ModelController {
             }
 
             //if player has reached the end of the faith track
-            //todo confirm if faith track is actually 20
+            //todo confirm if faith track ends at 20
             if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
                 lastRound = true;
             }
 
             //In a single player game, the game might end if Lorenzo wins
-
             if(singlePlayer) {
 
                 //Lorenzo plays his turn
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
+                    //Lorenzo has won the game
                     modelControllerIOHandler.sendMessage(game.getCurrentPlayer().getNickname(), Message.LOSER);
                 }
                 //Sending action token to view

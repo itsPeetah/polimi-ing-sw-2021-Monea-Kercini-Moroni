@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.model;
 
+import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.model.cards.CardManager;
@@ -520,6 +521,64 @@ class ModelControllerTest {
 
         //Check if we got the extra faith point
         assertEquals(1, p.getBoard().getFaithPoints());
+    }
+
+    @Test
+    void SinglePlayer(){
+
+        //Adding one player to the game
+        ModelController gm = new ModelController(modelControllerIOHandler);
+        gm.addPlayer("Player 1");
+        Player p = gm.getGame().getPlayers()[0];
+
+        //Starting the game
+        new Thread(() -> {
+            gm.setupGame();
+        }).start();
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //Confirming the game is single player
+        assertEquals(true, gm.isSinglePlayer());
+
+        //Preparing Leaders
+        LeadCard[] myLeaders1 = new LeadCard[2];
+        myLeaders1[0]  = CardManager.loadLeadCardsFromJson().get(0);
+        myLeaders1[1]  = CardManager.loadLeadCardsFromJson().get(1);
+
+        Choose2LeadersActionData TwoLeaders = new Choose2LeadersActionData();
+
+        //Player chooses his Leaders
+        TwoLeaders.setLeaders(myLeaders1);
+        TwoLeaders.setPlayer("Player 1");
+        MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_2_LEADERS, TwoLeaders);
+        MR1.sendResponseWithDelay(1);
+
+        //Now it should be player turns
+
+        //Supposing he ends his turn without doing anything
+        NoneActionData none = new NoneActionData();
+        none.setPlayer("Player 1");
+        MockResponse MR2 = new MockResponse(modelControllerIOHandler, Action.END_TURN, none);
+        MR2.sendResponseWithDelay(2);
+
+        //Now it should be Lorenzo's turn
+        //It is played in automatically and an update is sent
+
+        //Waiting for player to make his choices
+        try {
+            TimeUnit.MILLISECONDS.sleep(LONG_WAIT_TIME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //Controlling if the token changes over time
+        System.out.println(gm.getLorenzo().getLastPlayedToken());
+
     }
 
 }
