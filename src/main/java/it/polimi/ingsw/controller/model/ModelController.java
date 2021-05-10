@@ -211,11 +211,13 @@ public class ModelController {
             //In a single player game, the game might end if Lorenzo wins
 
             if(singlePlayer) {
+
                 //Lorenzo plays his turn
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
                     //todo Lorenzo has won the game
                 }
-
+                //Sending action token to view
+                updateActionToken();
             }
 
 
@@ -769,17 +771,14 @@ public class ModelController {
 
         VPUpdateData VPUp = new VPUpdateData(VP);
         modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
-
     }
 
-    /**
+
     private void updateActionToken(){
 
-        ActionTokenUpdateData ATUp = new ActionTokenUpdateData();
-        modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
-
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken());
+        modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
-     */
 
 
 }

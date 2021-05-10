@@ -11,7 +11,8 @@ public enum Update {
     DEVCARD_MARKET(DevCardMarketUpdateData.class),
     PRODUCTION_POWERS(ProductionPowersUpdateData.class),
     LEADERS(PlayerLeadersUpdateData.class),
-    VP(VPUpdateData.class);
+    VP(VPUpdateData.class),
+    SOLO_ACTION(ActionTokenUpdateData.class);
 
     private final Class<?> classOfData;
 
