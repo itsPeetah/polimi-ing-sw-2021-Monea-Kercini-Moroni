@@ -2,20 +2,16 @@ package it.polimi.ingsw.controller.model;
 
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
-import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.data.*;
-import it.polimi.ingsw.model.cards.CardManager;
-import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.controller.model.actions.*;
 import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
-import it.polimi.ingsw.model.singleplayer.SoloAction;
+import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,6 +58,7 @@ public class ModelController {
         }
     }
 
+
     /**
      * Method for letting player choose a resource
      * @return the resource
@@ -74,6 +71,7 @@ public class ModelController {
 
         return res;
     }
+
 
     /**
      * Player has to put the resources in the correct Warehouse place
@@ -109,6 +107,7 @@ public class ModelController {
             return wh;
         }
     }
+
 
     /**
      * Setting up new game after all the players have joined
@@ -185,6 +184,7 @@ public class ModelController {
         startGame();
     }
 
+
     /**
      * The game starts
      * The game will now stay on turn phase until last round it's triggered
@@ -213,7 +213,6 @@ public class ModelController {
             }
 
             //if player has reached the end of the faith track
-            //todo confirm if faith track ends at 20
             if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
                 lastRound = true;
             }
@@ -234,6 +233,7 @@ public class ModelController {
         }
         endGame();
     }
+
 
     /**
      * This method represents a players turn
@@ -285,7 +285,8 @@ public class ModelController {
                     break;
 
                 //Player has chosen rearrange the resources he has in his warehouse
-                //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
+                //(this choice is practically useless since player can arrange his warehouse anytime he acquires
+                // resources from Market Tray)
                 case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
@@ -301,6 +302,7 @@ public class ModelController {
 
     }
 
+
     /**
      * Calculate victory points for each player and show victory screens
      */
@@ -310,7 +312,9 @@ public class ModelController {
         gamePhase = GamePhase.END;
 
         //Calculate VP for each player
-        int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more easily accessed
+
+        //An integer array for storing player VP so it can be more easily accessed
+        int[] VP = new int[game.getPlayers().length];
 
         for (int i = 0; i< game.getPlayers().length; i++) {
 
@@ -326,6 +330,7 @@ public class ModelController {
         modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
         //Maybe add post-game functionality
     }
+
 
     /**
      * get the position of the winning player (the one with the highest number of points)
@@ -349,6 +354,7 @@ public class ModelController {
         }
         return winner; // position of the one wih most VP found
     }
+
 
     /**
      * Updates Market after players choice as well as his Warehouse
@@ -393,6 +399,7 @@ public class ModelController {
         return true;
     }
 
+
     /**
      * Updates The development card market and player board
      * @param player
@@ -433,6 +440,7 @@ public class ModelController {
             return true;
         }
     }
+
 
     /**
      * Updates the warehouse and strongbox with players choice
@@ -503,6 +511,7 @@ public class ModelController {
         return true;
     }
 
+
     /**
      * Plays the Leader Card the player has chosen
      * @param player
@@ -520,6 +529,7 @@ public class ModelController {
         }
     }
 
+
     /**
      * Discard the Leader Card the player has chosen
      * @param player
@@ -532,6 +542,7 @@ public class ModelController {
         //update
         updateLeaders(player);
     }
+
 
     /**
      * Makes the player choose all the resources he wants from the input resources, if it has any choices
@@ -560,6 +571,7 @@ public class ModelController {
 
     }
 
+
     /**
      * Given a resource removes faith from it and gives the player the equivalent faith points
      * @param player
@@ -581,6 +593,7 @@ public class ModelController {
         }
         return res;
     }
+
 
     /**
      * Methods check if player has any white marble replacements from his leadCards
@@ -652,7 +665,6 @@ public class ModelController {
      * The only difference is they take care of the I/O - getting the player choice
      * and whether the primary action has been used
      */
-
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
@@ -781,12 +793,10 @@ public class ModelController {
         modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
     }
 
-
     private void updateActionToken(){
 
         ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
-
 
 }
