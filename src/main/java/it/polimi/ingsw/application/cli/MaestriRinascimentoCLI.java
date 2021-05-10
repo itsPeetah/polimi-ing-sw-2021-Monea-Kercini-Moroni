@@ -17,6 +17,7 @@ public class MaestriRinascimentoCLI {
     public static final CLILobby lobbyScene = new CLILobby("Maestri del Rinascimento - Lobby");
     public static final CLIRoom roomScene = new CLIRoom("Maestri del Rinascimento - Pre-Partita");
     public static final CLIGame gameScene = new CLIGame("Maestri del Rinascimento - In Gioco");
+    public static final CLIStop stoppedScene = new CLIStop("Maestri del Rinascimento - Fine");
 
     public static void main(String[] args){
 
@@ -24,8 +25,8 @@ public class MaestriRinascimentoCLI {
 
         gameApplication.connect("localhost", 42069);
 
-        appRunning = true;
-        while(appRunning){
+        boolean done = false;
+        while(!done){
 
             GameApplicationState state = gameApplication.getApplicationState();
             switch (state){
@@ -44,6 +45,10 @@ public class MaestriRinascimentoCLI {
                 case INGAME:
                     gameScene.show();
                     gameScene.getInput();
+                    break;
+                case STOPPED:
+                    stoppedScene.show();
+                    done = true;
                     break;
                 default:
                     // Do nothing...
