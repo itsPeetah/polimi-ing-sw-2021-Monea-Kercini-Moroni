@@ -28,10 +28,11 @@ public class ModelController {
     private final ModelControllerIOHandler modelControllerIOHandler;
     private boolean singlePlayer = false;
 
+    private SoloAction Lorenzo;
     public void setSinglePlayer(boolean singlePlayer) {
         this.singlePlayer = singlePlayer;
     }
-    SoloAction Lorenzo;
+
 
     public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
@@ -110,6 +111,11 @@ public class ModelController {
     public void setupGame(){
 
         gamePhase = GamePhase.START;
+
+        //If there is only one player set the game as single player
+        if(game.getPlayers().length==1){
+            setSinglePlayer(true);
+        }
 
 
         //Initialize leader cards
@@ -204,6 +210,7 @@ public class ModelController {
             }
 
             //if player has reached the end of the faith track
+            //todo confirm if faith track is actually 20
             if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
                 lastRound = true;
             }
