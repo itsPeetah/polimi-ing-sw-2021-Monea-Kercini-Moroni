@@ -1,6 +1,6 @@
 package it.polimi.ingsw.application.cli.components;
 
-public class CLIScene {
+public abstract class CLIScene {
 
     protected final String title;
 
