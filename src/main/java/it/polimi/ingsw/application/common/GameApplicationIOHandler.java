@@ -47,8 +47,18 @@ public class GameApplicationIOHandler {
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
 
-        if (serverMessage == null || ConnectionMessage.QUIT.check(messageFields[0])) {
-           return -1;
+        if (ConnectionMessage.QUIT.check(messageFields[0])) {
+            GameApplication.getInstance().setApplicationState(GameApplicationState.STOPPED);
+            return -1;
+        } else {
+            if(ConnectionMessage.OK.check(messageFields[0])){
+                if(messageFields.length > 1) handleSystemOK(messageFields[1]);
+                else handleSystemOK(null);
+            } else if (ConnectionMessage.ERR.check(messageFields[0])){
+                if(messageFields.length > 1) handleSystemERR(messageFields[1]);
+                else handleSystemERR(null);
+            }
+
         }
 
         return 0;
@@ -56,6 +66,28 @@ public class GameApplicationIOHandler {
 
     public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){
         GameApplication.getInstance().out(debugMessageNetworkPacket.getPayload());
+    }
+
+    private void handleSystemOK(String args){
+
+        GameApplicationState state = GameApplication.getInstance().getApplicationState();
+        switch (state){
+            case CONNECTING_TO_ROOM:
+                if(args != null) GameApplication.getInstance().out(args);
+                GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
+                break;
+        }
+
+    }
+
+    private void handleSystemERR(String args){
+        GameApplicationState state = GameApplication.getInstance().getApplicationState();
+        switch (state){
+            case CONNECTING_TO_ROOM:
+                if(args != null) GameApplication.getInstance().out(args);
+                GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+                break;
+        }
     }
 
 }
