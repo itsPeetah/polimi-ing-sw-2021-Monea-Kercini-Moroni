@@ -16,7 +16,7 @@ public class MaestriRinascimentoGUI {
         appRunning = true;
 
         /*GameClient networkClient = new GameClient("localhost", 42069);*/
-        GameApplication gameApplication = new GameApplication(GameApplicationMode.GUI);
+        GameApplication gameApplication = new GameApplication();
 
         while(appRunning){
 

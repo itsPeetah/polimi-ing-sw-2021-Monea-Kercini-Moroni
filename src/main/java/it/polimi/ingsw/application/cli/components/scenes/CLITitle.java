@@ -14,14 +14,14 @@ public class CLITitle extends CLIScene {
 
     @Override
     public void show() {
-        stdout("========= Maestri del Rinascimento =========");
-        stdout("Versione CLI");
-        stdout("============================================");
+        stdout("========= Masters of Renaissance =========");
+        stdout("CLI Version");
+        stdout("==========================================");
     }
     @Override
     public void getInput() {
         Scanner in = new Scanner(System.in);
-        stdout("Premi invio per continuare.");
+        stdout("Press [ENTER] to continue.");
         in.nextLine();
         GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
     }

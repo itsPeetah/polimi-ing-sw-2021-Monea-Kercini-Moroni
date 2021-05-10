@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.common;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
@@ -10,15 +11,19 @@ import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class GameApplicationIOHandler {
-    private final static Gson gson = new Gson();
+public class GameApplicationIOHandler {
+    protected final static Gson gson = new Gson();
+
+    private static GameApplicationIOHandler instance;
+    public static GameApplicationIOHandler getInstance(){
+        if(instance == null) instance = new GameApplicationIOHandler();
+        return instance;
+    }
 
     // TODO make class abstract
     // TODO make subclasses CLIApplicationIOHandler and GUIApplicationIOHandler
-    // TODO Add IOHandler to GameApplication constructor
 
     public GameApplicationIOHandler() {
-
     }
 
     // TODO Add others
@@ -50,7 +55,7 @@ public abstract class GameApplicationIOHandler {
     }
 
     public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){
-
+        GameApplication.getInstance().out(debugMessageNetworkPacket.getPayload());
     }
 
 }

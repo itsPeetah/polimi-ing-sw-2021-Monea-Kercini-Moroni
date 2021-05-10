@@ -2,14 +2,13 @@ package it.polimi.ingsw.application.cli;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
-import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationException;
-import it.polimi.ingsw.application.common.GameApplicationMode;
-import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.network.client.GameClient;
-import it.polimi.ingsw.network.common.sysmsg.ISystemMessage;
+import it.polimi.ingsw.application.common.*;
+import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 
-public class MaestriRinasimentoCLI {
+public class MaestriRinascimentoCLI {
+
+    public static final GameApplication gameApplication = new GameApplication();
+    public static final GameApplicationIOHandler GAIOHandler = new GameApplicationIOHandler();
 
     public static boolean appRunning;
 
@@ -24,17 +23,9 @@ public class MaestriRinasimentoCLI {
     public static void main(String[] args){
 
         currentScene = startupScene;
-        /*GameClient networkClient = new GameClient("localhost", 42069);*/
-
-        GameApplication gameApplication = new GameApplication(GameApplicationMode.CLI);
         currentScene.show();
 
-        try {
-            gameApplication.connect("localhost", 42069);
-        } catch (GameApplicationException ex){
-            System.out.println(ex.getMessage());
-            return;
-        }
+        gameApplication.connect("localhost", 42069);
 
         appRunning = true;
         while(appRunning){

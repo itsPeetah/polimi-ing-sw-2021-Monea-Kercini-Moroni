@@ -1,13 +1,8 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
-import it.polimi.ingsw.application.cli.MaestriRinasimentoCLI;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class CLIStartup extends CLIScene {
 

@@ -1,13 +1,14 @@
 package it.polimi.ingsw.network.client.protocols;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 public class ClientSideServerListener {
 
-    private ExSocket socket;
+    private final ExSocket socket;
     private boolean done;
 
     public ClientSideServerListener(ExSocket socket) {
@@ -19,11 +20,10 @@ public class ClientSideServerListener {
 
         this.done = false;
 
-        while (true) {
-            if(done) break;
+        while (!done) {
 
             NetworkPacket np = socket.receive();
-            switch (np.getPacketType()){
+            switch (np.getPacketType()) {
                 case SYSTEM:
                     handleSystemMessage(np);
                     break;
@@ -31,10 +31,10 @@ public class ClientSideServerListener {
                     handleDebugMessage(np);
                     break;
                 case MESSAGE:
-                    GameApplication.getInstance().getIoHandler().notifyMessage(np);
+                    GameApplicationIOHandler.getInstance().notifyMessage(np);
                     break;
                 case UPDATE:
-                    GameApplication.getInstance().getIoHandler().notifyUpdate(np);
+                    GameApplicationIOHandler.getInstance().notifyUpdate(np);
                     break;
             }
         }
@@ -42,15 +42,14 @@ public class ClientSideServerListener {
 
     public void handleSystemMessage(NetworkPacket packet){
 
-        int returnCode = GameApplication.getInstance().getIoHandler().handleSystemMessage(packet);
+        int returnCode = GameApplicationIOHandler.getInstance().handleSystemMessage(packet);
         if(returnCode < 0){
             done = true;
-            return;
         }
     }
 
     private void handleDebugMessage(NetworkPacket packet){
-        GameApplication.getInstance().getIoHandler().handleDebugMessage(packet);
+        GameApplicationIOHandler.getInstance().handleDebugMessage(packet);
     }
 }
 

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationState;
+import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 
 import java.util.Scanner;
@@ -29,6 +32,7 @@ public class CLILobby extends CLIScene {
     public void getInput() {
         Scanner in = new Scanner(System.in);
         String[] fields;
+        String output = "";
         boolean done = false;
         while(!done) {
             fields = in.nextLine().split(" ");
@@ -51,7 +55,7 @@ public class CLILobby extends CLIScene {
                     if (nickname == null || roomName == null)
                         stdout("Error: choose a nickname and a room name first. Retry.");
                     else {
-                        String message = GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname);
+                        output = GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname);
                         done = true;
                     }
                     break;
@@ -59,11 +63,13 @@ public class CLILobby extends CLIScene {
                     if (nickname == null || roomName == null)
                         stdout("Error: choose a nickname and a room name first. Retry.");
                     else{
-                        String message = GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname);
+                        output = GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname);
                         done = true;
                     }
                     break;
             }
         }
+        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+        GameApplication.getInstance().sendNetworkPacket(new NetworkPacket(NetworkPacketType.SYSTEM, output));
     }
 }

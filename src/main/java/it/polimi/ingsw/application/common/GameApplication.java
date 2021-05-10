@@ -1,7 +1,5 @@
 package it.polimi.ingsw.application.common;
 
-import it.polimi.ingsw.application.common.iohandlers.CLIApplicationIOHandler;
-import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
@@ -9,66 +7,119 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 
 public class GameApplication {
 
-    protected static GameApplication instance;
+    private static GameApplicationMode outputMode = GameApplicationMode.CLI;
+    public static void setOutputMode(GameApplicationMode mode) { outputMode = mode; }
 
-    protected GameClient networkClient;
-    protected GameApplicationState applicationState;
-    protected GameApplicationIOHandler ioHandler;
-    protected GameController gameController;
+    // Singleton
+    private static GameApplication instance;
+    public static GameApplication getInstance() {
+        if(instance == null) instance = new GameApplication();
+        return instance;
+    }
 
-    protected boolean gameExists;
+    // State
+    private GameApplicationState applicationState;
+    private boolean isRunning;
 
-    protected Object lock;
+    // Components
+    private GameClient networkClient;
+    private GameController gameController;
 
-    public GameApplication(GameApplicationMode applicationMode){
+    // Remove?
+    /*protected GameApplicationIOHandler ioHandler;*/
+
+    // Concurrency
+    private Object lock;
+
+
+    /**
+     * Class constructor
+     */
+    public GameApplication(){
+        this.isRunning = false;
         this.applicationState = GameApplicationState.STARTUP;
-        this.ioHandler = applicationMode == GameApplicationMode.CLI ? new CLIApplicationIOHandler() : new GUIApplicationIOHandler();
-
         this.networkClient = null;
         this.gameController = null;
-
         this.lock = new Object();
 
         instance = this;
     }
 
-    public static GameApplication getInstance() throws NullPointerException{
-        if(instance == null) throw new NullPointerException();
-        return instance;
-    }
+    // Application state
 
+    /**
+     * Application state getter.
+     */
     public GameApplicationState getApplicationState(){
         synchronized (lock){
             return applicationState;
         }
     }
 
+    /**
+     * Application state setter.
+     */
     public void setApplicationState(GameApplicationState state){
         synchronized (lock){
             this.applicationState = state;
         }
     }
 
+    /**
+     * Is running getter.
+     */
+    public boolean isRunning(){ return isRunning; }
+
+    /**
+     * Has the networking been initialized?
+     */
+    public boolean isOnNetwork() {return networkClient != null; }
+
+    /**
+     * Has the game been set up?
+     */
+    public boolean gameExists(){return gameController != null; }
+
+    /**
+     * Game controller IO Handler getter.
+     * @throws NullPointerException if the game has not been initialized.
+     */
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
         if(gameController == null) throw new NullPointerException();
         return gameController.getGameControllerIOHandler();
     }
 
-    public GameApplicationIOHandler getIoHandler(){
-        return ioHandler;
+    // Output
+    public void out(String output){
+
+        if(outputMode == GameApplicationMode.CLI){
+            // TODO move to its own class
+            System.out.println(output);
+        } else {
+            // TODO Add gui class to do this
+        }
+
     }
 
-    public boolean isOnNetwork() {return networkClient != null; }
-    public boolean gameExists(){return gameController != null; }
 
-    public void connect(String hostName, int portNumber) throws GameApplicationException{
+    // Networking stuff
+
+    /**
+     * Start the network client
+     * @param hostName Server address.
+     * @param portNumber Server port number.
+     * @throws GameApplicationException if trying
+     */
+    public void connect(String hostName, int portNumber){
         synchronized (lock) {
             if (isOnNetwork())
-                throw new GameApplicationException("The application is already connected.");
+                return;
 
             networkClient = new GameClient(hostName, portNumber);
             if(!networkClient.start())
                 networkClient = null;
+            else
+                isRunning = true;
         }
     }
 
@@ -77,7 +128,7 @@ public class GameApplication {
         networkClient.send(packet);
     }
 
-    // TODO Set state
+
     // TODO Setup game (SP/MP)
     // TODO Others
 
