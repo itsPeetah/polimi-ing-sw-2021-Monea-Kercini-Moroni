@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.common.GameData;
 public class GameApplication {
 
     protected static GameApplication instance;
-    
+
     protected GameClient networkClient;
     protected GameApplicationState applicationState;
     protected GameApplicationIOHandler ioHandler;
@@ -17,7 +17,7 @@ public class GameApplication {
     protected boolean gameExists;
 
     public GameApplication(GameClient networkClient){
-        this.applicationState = GameApplicationState.STARTED;
+        this.applicationState = GameApplicationState.STARTUP;
         this.networkClient = networkClient;
         this.ioHandler = new GameApplicationIOHandler();
         this.gameController = null;
