@@ -47,7 +47,11 @@ public class DevCardMarket {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 3; i++) {
                 //The cards available for purchase are the top ones
-                available.add(availableCards[j][i].get(availableCards[j][i].size()-1));
+
+                //A column-row combination might also be free, it's cards finished
+                if(availableCards[j][i].size()>0) {
+                    available.add(availableCards[j][i].get(availableCards[j][i].size() - 1));
+                }
             }
         }
 

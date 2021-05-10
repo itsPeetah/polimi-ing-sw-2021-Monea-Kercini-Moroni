@@ -22,30 +22,57 @@ class DevCardMarketTest {
         // initialize DevCardMarket
 
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
+
+
         ArrayList<DevCard> aval = dcm.getAvailableCards();
+
+        //printing all devCard market cards
         for (int i = 0; i < aval.size(); i++) {
             System.out.println(aval.get(i).getCardId());
         }
 
-        /**
-        Resources cost = new Resources();
-        cost.add(ResourceType.COINS, 1);
+        //trying to remove the first of the available cards in DCM
+        try {
+            dcm.buyCard(aval.get(0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        ArrayList<DevCard> cards = new ArrayList<DevCard>();
-        cards.add(new DevCard(1, "card1", Level.LOW, Color.BLUE, cost, null));
-        cards.add(new DevCard(1, "card2", Level.LOW, Color.BLUE, cost, null));
-        //cards.add(new DevCard(1, "card3", Level.LOW, Color.BLUE, cost, null));
+        ArrayList<DevCard> aval2 = dcm.getAvailableCards();
 
-        DevCardMarket dcm = new DevCardMarket(cards);
-        Player p = new Player("Joe Chapter");
+        aval2 = dcm.getAvailableCards();
+        //printing all devCard market cards
+        for (int i = 0; i < aval.size(); i++) {
+            System.out.println(aval2.get(i).getCardId());
+        }
 
-        // add resources to player
-        Resources r = new Resources();
-        r.add(ResourceType.COINS, 2);
-        r.add(ResourceType.SHIELDS, 2);
+        //confirming that only the first card was removed
 
-        p.getBoard().getStrongbox().deposit(r);
+        assertFalse(aval.get(0).equals(aval2.get(0)));
 
-         */
+        for (int i = 1; i < aval.size(); i++) {
+            assertTrue(aval.get(i).equals(aval2.get(i)));
+        }
+
+        //buying 3 more cards of that type -> only 11 cards should be available after this
+        for (int i = 0; i < 3; i++) {
+            aval = dcm.getAvailableCards();
+            try {
+                dcm.buyCard(aval.get(0));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        aval = dcm.getAvailableCards();
+
+        System.out.println("-------------------------------");
+        //printing all devCard market cards
+        for (int i = 0; i < aval.size(); i++) {
+            System.out.println(aval.get(i).getCardId());
+        }
+
+        assertEquals(11, aval.size());
+
+
     }
 }
