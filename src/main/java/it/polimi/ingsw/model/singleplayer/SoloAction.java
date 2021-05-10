@@ -11,6 +11,7 @@ public class SoloAction {
     private ArrayList<SoloActionTokens> soloActionTokens = new ArrayList<SoloActionTokens>();
     private int difficulty;
     private BlackCross cross = new BlackCross();
+    private SoloActionTokens lastPlayedToken;
 
     public SoloAction(int difficulty) {
         this.difficulty = difficulty;
@@ -54,11 +55,13 @@ public class SoloAction {
     /**
      * Simulates Lorenzos turn in a single player turn
      * @param dcm the DevCardMarket Lorenzo applies his actions
-     * @return true if Lorenzo has won the turn
+     * @return true if Lorenzo has won the game
      */
     public boolean playLorenzoTurn(DevCardMarket dcm){
 
         boolean win = false;
+
+        lastPlayedToken = soloActionTokens.get(0);
 
         switch (soloActionTokens.get(0)){
 
@@ -83,6 +86,10 @@ public class SoloAction {
                 soloActionTokens = createSoloActionDeck();
                 break;
         }
+
+        //Discard this token
+        soloActionTokens.remove(0);
+
         return win;
     }
 

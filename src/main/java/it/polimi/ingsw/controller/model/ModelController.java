@@ -31,6 +31,7 @@ public class ModelController {
     public void setSinglePlayer(boolean singlePlayer) {
         this.singlePlayer = singlePlayer;
     }
+    SoloAction Lorenzo;
 
     public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
@@ -167,8 +168,9 @@ public class ModelController {
             }
         }
 
+        //If single player game instantiate Lorenzo, the opponent
         if(singlePlayer){
-            SoloAction Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
+            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
         }
 
         startGame();
@@ -207,6 +209,16 @@ public class ModelController {
             }
 
             //In a single player game, the game might end if Lorenzo wins
+
+            if(singlePlayer) {
+                //Lorenzo plays his turn
+                if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
+                    //todo Lorenzo has won the game
+                }
+
+            }
+
+
 
             game.increaseTurnCounter();
         }
@@ -759,6 +771,15 @@ public class ModelController {
         modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
 
     }
+
+    /**
+    private void updateActionToken(){
+
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData();
+        modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
+
+    }
+     */
 
 
 }
