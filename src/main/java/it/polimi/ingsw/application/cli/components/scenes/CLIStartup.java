@@ -15,6 +15,7 @@ public class CLIStartup extends CLIScene {
 
     @Override
     public void show() {
+        clearConsole();
         stdout("Maestri del Rinascimento");
         stdout("Loading...");
     }
@@ -23,6 +24,5 @@ public class CLIStartup extends CLIScene {
     public void getInput() {
         Scanner in = new Scanner(System.in);
         in.nextLine();
-        MaestriRinasimentoCLI.appRunning = false;
     }
 }

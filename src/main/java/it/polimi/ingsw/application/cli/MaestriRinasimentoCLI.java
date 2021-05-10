@@ -3,6 +3,8 @@ package it.polimi.ingsw.application.cli;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationException;
+import it.polimi.ingsw.application.common.GameApplicationMode;
 import it.polimi.ingsw.network.client.GameClient;
 
 public class MaestriRinasimentoCLI {
@@ -20,15 +22,22 @@ public class MaestriRinasimentoCLI {
     public static void main(String[] args){
 
         currentScene = startupScene;
-        GameClient networkClient = new GameClient("localhost", 42069);
+        /*GameClient networkClient = new GameClient("localhost", 42069);*/
 
-        GameApplication gameApplication = new GameApplication(networkClient);
-        gameApplication.setAsInstance();
+        GameApplication gameApplication = new GameApplication(GameApplicationMode.CLI);
+        currentScene.show();
+        currentScene.getInput();
+        try {
+            gameApplication.connect("localhost", 42069);
+        } catch (GameApplicationException ex){
+            System.out.println(ex.getMessage());
+            return;
+        }
 
         appRunning = true;
         while(appRunning){
 
-            switch (GameApplication.getInstance().getState()){
+            switch (GameApplication.getInstance().getApplicationState()){
                 case STARTED:
                     currentScene = titleScene;
                     break;

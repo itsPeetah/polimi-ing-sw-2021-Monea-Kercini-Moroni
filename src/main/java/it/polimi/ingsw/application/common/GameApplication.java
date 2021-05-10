@@ -1,9 +1,11 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.application.common.iohandlers.CLIApplicationIOHandler;
+import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
-import it.polimi.ingsw.view.common.GameData;
+import it.polimi.ingsw.network.common.NetworkPacket;
 
 public class GameApplication {
 
@@ -16,14 +18,17 @@ public class GameApplication {
 
     protected boolean gameExists;
 
-    public GameApplication(GameClient networkClient){
-        this.applicationState = GameApplicationState.STARTUP;
-        this.networkClient = networkClient;
-        this.ioHandler = new GameApplicationIOHandler();
-        this.gameController = null;
-    }
+    protected Object lock;
 
-    public void setAsInstance(){
+    public GameApplication(GameApplicationMode applicationMode){
+        this.applicationState = GameApplicationState.STARTUP;
+        this.ioHandler = applicationMode == GameApplicationMode.CLI ? new CLIApplicationIOHandler() : new GUIApplicationIOHandler();
+
+        this.networkClient = null;
+        this.gameController = null;
+
+        this.lock = new Object();
+
         instance = this;
     }
 
@@ -32,8 +37,16 @@ public class GameApplication {
         return instance;
     }
 
-    public GameApplicationState getState(){
-        return applicationState;
+    public GameApplicationState getApplicationState(){
+        synchronized (lock){
+            return applicationState;
+        }
+    }
+
+    public void setApplicationState(GameApplicationState state){
+        synchronized (lock){
+            this.applicationState = state;
+        }
     }
 
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
@@ -43,6 +56,25 @@ public class GameApplication {
 
     public GameApplicationIOHandler getIoHandler(){
         return ioHandler;
+    }
+
+    public boolean isOnNetwork() {return networkClient != null; }
+    public boolean gameExists(){return gameController != null; }
+
+    public void connect(String hostName, int portNumber) throws GameApplicationException{
+        synchronized (lock) {
+            if (isOnNetwork())
+                throw new GameApplicationException("The application is already connected.");
+
+            networkClient = new GameClient(hostName, portNumber);
+            if(!networkClient.start())
+                networkClient = null;
+        }
+    }
+
+    public void sendNetworkPacket(NetworkPacket packet) {
+        if(!isOnNetwork()) return;
+        networkClient.send(packet);
     }
 
     // TODO Set state

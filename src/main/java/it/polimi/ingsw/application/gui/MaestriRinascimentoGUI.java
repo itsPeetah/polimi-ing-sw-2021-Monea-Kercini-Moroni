@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationMode;
 import it.polimi.ingsw.network.client.GameClient;
 
 public class MaestriRinascimentoGUI {
@@ -14,12 +15,12 @@ public class MaestriRinascimentoGUI {
 
         appRunning = true;
 
-        GameClient networkClient = new GameClient("localhost", 42069);
-        GameApplication gameApplication = new GameApplication(networkClient);
+        /*GameClient networkClient = new GameClient("localhost", 42069);*/
+        GameApplication gameApplication = new GameApplication(GameApplicationMode.GUI);
 
         while(appRunning){
 
-            switch (GameApplication.getInstance().getState()){
+            switch (GameApplication.getInstance().getApplicationState()){
                 // TODO Do states
             }
         }
