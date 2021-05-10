@@ -23,6 +23,10 @@ public class SoloAction {
      * difficulty - in case we want to make different difficulty levels
      */
     private ArrayList<SoloActionTokens> createSoloActionDeck(){
+
+        //resetting deck
+        soloActionTokens.clear();
+
         switch (difficulty){
             default:
                 soloActionTokens.add(SoloActionTokens.DISCARD_2_BLUE);
@@ -86,11 +90,13 @@ public class SoloAction {
                 soloActionTokens = createSoloActionDeck();
                 break;
         }
-
         //Discard this token
         soloActionTokens.remove(0);
 
         return win;
     }
 
+    public SoloActionTokens getLastPlayedToken() {
+        return lastPlayedToken;
+    }
 }
