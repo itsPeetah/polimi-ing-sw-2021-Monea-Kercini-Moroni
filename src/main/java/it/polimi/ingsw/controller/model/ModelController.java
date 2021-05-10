@@ -214,13 +214,11 @@ public class ModelController {
 
                 //Lorenzo plays his turn
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
-                    //todo Lorenzo has won the game
+                    modelControllerIOHandler.sendMessage(game.getCurrentPlayer().getNickname(), Message.LOSER);
                 }
                 //Sending action token to view
                 updateActionToken();
             }
-
-
 
             game.increaseTurnCounter();
         }
