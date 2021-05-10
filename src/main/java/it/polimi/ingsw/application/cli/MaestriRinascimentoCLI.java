@@ -18,12 +18,9 @@ public class MaestriRinascimentoCLI {
     public static final CLIRoom roomScene = new CLIRoom("Maestri del Rinascimento - Pre-Partita");
     public static final CLIGame gameScene = new CLIGame("Maestri del Rinascimento - In Gioco");
 
-    public static CLIScene currentScene;
-
     public static void main(String[] args){
 
-        currentScene = startupScene;
-        currentScene.show();
+        startupScene.show();
 
         gameApplication.connect("localhost", 42069);
 
@@ -33,22 +30,24 @@ public class MaestriRinascimentoCLI {
             GameApplicationState state = gameApplication.getApplicationState();
             switch (state){
                 case STARTED:
-                    currentScene = titleScene;
+                    titleScene.show();
+                    titleScene.getInput();
                     break;
                 case LOBBY:
-                    currentScene = lobbyScene;
+                    lobbyScene.show();
+                    lobbyScene.getInput();
                     break;
                 case PREGAME:
-                    currentScene = roomScene;
+                    roomScene.show();
+                    roomScene.getInput();
                     break;
                 case INGAME:
-                    currentScene = gameScene;
+                    gameScene.show();
+                    gameScene.getInput();
                     break;
-            }
-
-            if(state != GameApplicationState.STARTUP) {
-                currentScene.show();
-                currentScene.getInput();
+                default:
+                    // Do nothing...
+                    break;
             }
         }
 

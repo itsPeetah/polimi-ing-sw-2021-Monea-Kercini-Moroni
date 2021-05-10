@@ -20,6 +20,9 @@ public class CLILobby extends CLIScene {
         super(title);
         nickname = null;
         roomName = null;
+
+        nickname = "Player";
+        roomName = "Room_One";
     }
 
     @Override
@@ -34,8 +37,8 @@ public class CLILobby extends CLIScene {
                 ? "[" + ANSIColor.RED + "CHOOSE GAME ROOM" + ANSIColor.RESET + "]"
                 : "[" + ANSIColor.GREEN + roomName + ANSIColor.RESET + "]";
 
-        stdout("Nickname: " + nickLabel);
-        stdout("Game room: " + roomLabel);
+        stdout("Nickname:\t" + nickLabel);
+        stdout("Game room:\t" + roomLabel);
 
         stdout("==============================");
     }
@@ -85,11 +88,14 @@ public class CLILobby extends CLIScene {
             case "quit":
                 makeChoice(ConnectionMessage.QUIT.getCode());
                 break;
+            default:
+                stdout("Error: invalid command.");
+                break;
         }
     }
 
     private void makeChoice(String choice){
-
+        stdout("Processing request, please wait.");
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, choice);
         GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
         GameApplication.getInstance().sendNetworkPacket(np);
