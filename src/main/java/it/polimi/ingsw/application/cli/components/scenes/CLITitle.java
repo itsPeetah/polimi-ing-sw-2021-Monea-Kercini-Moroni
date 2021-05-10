@@ -20,9 +20,8 @@ public class CLITitle extends CLIScene {
     }
     @Override
     public void getInput() {
-        Scanner in = new Scanner(System.in);
         stdout("Press [ENTER] to continue.");
-        in.nextLine();
+        input.nextLine();
         GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
     }
 }

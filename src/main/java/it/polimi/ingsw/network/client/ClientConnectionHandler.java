@@ -31,7 +31,7 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     private void closeConnection(){
-        System.out.println("Connection with the server closed.");
+        GameApplication.getInstance().out("Connection with the server closed.");
         client.stop();
     }
 }
