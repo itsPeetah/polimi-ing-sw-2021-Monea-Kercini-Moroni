@@ -26,10 +26,10 @@ class DevCardMarketTest {
         //available cards
         ArrayList<DevCard> aval = dcm.getAvailableCards();
 
-        //printing all devCard market cards
+        /*//printing all devCard market cards
         for (int i = 0; i < aval.size(); i++) {
             System.out.println(aval.get(i).getCardId());
-        }
+        }*/
 
         //trying to remove the first of the available cards in DCM
         try {
@@ -41,10 +41,10 @@ class DevCardMarketTest {
         ArrayList<DevCard> aval2 = dcm.getAvailableCards();
 
         aval2 = dcm.getAvailableCards();
-        //printing all devCard market cards
+        /*//printing all devCard market cards
         for (int i = 0; i < aval.size(); i++) {
             System.out.println(aval2.get(i).getCardId());
-        }
+        }*/
 
         //confirming that only the first card was removed
 
@@ -65,11 +65,11 @@ class DevCardMarketTest {
         }
         aval = dcm.getAvailableCards();
 
-        System.out.println("-------------------------------");
+        /*System.out.println("-------------------------------");
         //printing all devCard market cards
         for (int i = 0; i < aval.size(); i++) {
             System.out.println(aval.get(i).getCardId());
-        }
+        }*/
 
         assertEquals(11, aval.size());
 
@@ -84,10 +84,10 @@ class DevCardMarketTest {
         //available cards
         ArrayList<DevCard> aval = dcm.getAvailableCards();
 
-        //printing all devCard market cards
+        /*//printing all devCard market cards
         for (int i = 0; i < aval.size(); i++) {
             System.out.println(aval.get(i).getCardId());
-        }
+        }*/
 
         //trying to discard 2 blue cards
         dcm.discard2(Color.BLUE);
@@ -95,10 +95,11 @@ class DevCardMarketTest {
         //available cards
         ArrayList<DevCard> aval2 = dcm.getAvailableCards();
 
-        //printing all devCard market cards
+        /**printing all devCard market cards
         for (int i = 0; i < aval2.size(); i++) {
             System.out.println(aval2.get(i).getCardId());
         }
+         */
 
         assertFalse(aval.get(0).equals(aval2.get(0)));
 
@@ -110,10 +111,11 @@ class DevCardMarketTest {
         //available cards
         ArrayList<DevCard> aval3 = dcm.getAvailableCards();
 
-        //printing all devCard market cards
+        /**printing all devCard market cards
         for (int i = 0; i < aval3.size(); i++) {
             System.out.println(aval3.get(i).getCardId());
         }
+         */
 
         assertEquals(11, aval3.size());
 
@@ -133,10 +135,12 @@ class DevCardMarketTest {
         //available cards
         ArrayList<DevCard> aval4 = dcm.getAvailableCards();
 
+        /**
         //printing all devCard market cards
         for (int i = 0; i < aval4.size(); i++) {
             System.out.println(aval4.get(i).getCardId());
         }
+         */
 
         assertEquals(9, aval4.size());
         assertEquals(true, dcm.isAnyColumnFree());
