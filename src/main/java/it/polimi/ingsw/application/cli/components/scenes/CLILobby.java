@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.common.NetworkPacket;
@@ -26,8 +27,12 @@ public class CLILobby extends CLIScene {
         clearConsole();
         stdout("========= Game Lobby =========");
 
-        String nickLabel = nickname == null ? "[\u001B[31mCHOOSE NICKNAME\u001B[0m]" : "[\u001B[32m" + nickname + "\u001B[0m]";
-        String roomLabel = roomName == null ? "[\u001B[31mCHOOSE ROOM NAME\u001B[0m]" : "[\u001B[32m" + roomName + "\u001B[0m]";
+        String nickLabel = nickname == null
+                ? "[" + ANSIColor.RED + "CHOOSE NICKNAME" + ANSIColor.RESET + "]"
+                : "[" + ANSIColor.GREEN + nickname + ANSIColor.RESET + "]";
+        String roomLabel = roomName == null
+                ? "[" + ANSIColor.RED + "CHOOSE GAME ROOM" + ANSIColor.RESET + "]"
+                : "[" + ANSIColor.GREEN + roomName + ANSIColor.RESET + "]";
 
         stdout("Nickname: " + nickLabel);
         stdout("Game room: " + roomLabel);
