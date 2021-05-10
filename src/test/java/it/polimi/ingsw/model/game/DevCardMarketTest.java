@@ -19,11 +19,11 @@ class DevCardMarketTest {
 
     @Test
     void testBuyCard() {
-        // initialize DevCardMarket
 
+        // initialize DevCardMarket
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
 
-
+        //available cards
         ArrayList<DevCard> aval = dcm.getAvailableCards();
 
         //printing all devCard market cards
@@ -73,6 +73,73 @@ class DevCardMarketTest {
 
         assertEquals(11, aval.size());
 
+    }
+
+    @Test
+    void discard2test(){
+
+        // initialize DevCardMarket
+        DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
+
+        //available cards
+        ArrayList<DevCard> aval = dcm.getAvailableCards();
+
+        //printing all devCard market cards
+        for (int i = 0; i < aval.size(); i++) {
+            System.out.println(aval.get(i).getCardId());
+        }
+
+        //trying to discard 2 blue cards
+        dcm.discard2(Color.BLUE);
+
+        //available cards
+        ArrayList<DevCard> aval2 = dcm.getAvailableCards();
+
+        //printing all devCard market cards
+        for (int i = 0; i < aval2.size(); i++) {
+            System.out.println(aval2.get(i).getCardId());
+        }
+
+        assertFalse(aval.get(0).equals(aval2.get(0)));
+
+        //discarding 2 more blue cards
+        //after this the first level blue cards should disappear
+
+        dcm.discard2(Color.BLUE);
+
+        //available cards
+        ArrayList<DevCard> aval3 = dcm.getAvailableCards();
+
+        //printing all devCard market cards
+        for (int i = 0; i < aval3.size(); i++) {
+            System.out.println(aval3.get(i).getCardId());
+        }
+
+        assertEquals(11, aval3.size());
+
+
+        //Now let's try to remove the whole blue cards
+        dcm.discard2(Color.BLUE);
+        dcm.discard2(Color.BLUE);
+        dcm.discard2(Color.BLUE);
+
+        //Before removing the last 2 blue cards check if any columns are free
+        assertEquals(false, dcm.isAnyColumnFree());
+
+        dcm.discard2(Color.BLUE);
+
+        //There are no more blue cards left
+
+        //available cards
+        ArrayList<DevCard> aval4 = dcm.getAvailableCards();
+
+        //printing all devCard market cards
+        for (int i = 0; i < aval4.size(); i++) {
+            System.out.println(aval4.get(i).getCardId());
+        }
+
+        assertEquals(9, aval4.size());
+        assertEquals(true, dcm.isAnyColumnFree());
 
     }
 }
