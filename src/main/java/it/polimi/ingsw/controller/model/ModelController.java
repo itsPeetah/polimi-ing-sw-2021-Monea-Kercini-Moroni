@@ -293,13 +293,13 @@ public class ModelController {
         for (int i = 0; i< game.getPlayers().length; i++) {
 
             VP[i] = game.getPlayers()[i].getVictoryPoints();
-
-            //TODO show player his victory points
         }
 
         //winner symbolizes the position of the player that has won, not the player or the points!
-
         int winner = getWinner(VP);
+
+        //Sending to players their corresponding victory points
+        updateVP(VP);
 
         modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
         //Maybe add post-game functionality
