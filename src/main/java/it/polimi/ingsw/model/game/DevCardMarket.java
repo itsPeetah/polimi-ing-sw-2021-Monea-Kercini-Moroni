@@ -39,7 +39,6 @@ public class DevCardMarket {
     public boolean buyCard(int index, Player player) throws ArrayIndexOutOfBoundsException {
         if(index >= availableCards.size()) throw new ArrayIndexOutOfBoundsException("Trying to buy a card that does not exist.");
         // if(!availableCards.get(index).affordable(player)) return false;
-        // Todo move buying logic here from controller?
         DevCard dc = availableCards.remove(index);
         return true;
     }
