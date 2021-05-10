@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 
 public class GameApplication {
 
+    // Output mode (CLI/GUI)
     private static GameApplicationMode outputMode = GameApplicationMode.CLI;
     public static void setOutputMode(GameApplicationMode mode) { outputMode = mode; }
 
