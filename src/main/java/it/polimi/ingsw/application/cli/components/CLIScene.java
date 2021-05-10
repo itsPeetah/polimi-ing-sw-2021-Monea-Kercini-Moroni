@@ -8,12 +8,16 @@ public abstract class CLIScene {
         this.title = title;
     }
 
-    public void show(){
+    public void update(){
+        // Override
+    }
 
+    public void show(){
+        // Override
     }
 
     public void getInput(){
-
+        // Override
     }
 
     public void stdout(String message){
