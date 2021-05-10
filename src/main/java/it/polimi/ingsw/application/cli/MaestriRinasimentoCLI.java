@@ -46,7 +46,6 @@ public class MaestriRinasimentoCLI {
                     break;
                 case LOBBY:
                     currentScene = lobbyScene;
-                    appRunning = false;
                     break;
                 case PREGAME:
                     currentScene = roomScene;

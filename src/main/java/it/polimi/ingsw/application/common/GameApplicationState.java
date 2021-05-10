@@ -5,5 +5,6 @@ public enum GameApplicationState {
     STARTED,
     LOBBY,
     PREGAME,
-    INGAME;
+    INGAME,
+    WAITING;
 }

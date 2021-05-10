@@ -17,9 +17,9 @@ public class CLIStartup extends CLIScene {
 
     @Override
     public void show() {
-        clearConsole();
+        /*clearConsole();
         stdout("Maestri del Rinascimento");
-        stdout("Loading...");
+        stdout("Loading...");*/
     }
 
     @Override

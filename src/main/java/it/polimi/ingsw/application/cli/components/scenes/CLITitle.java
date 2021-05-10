@@ -14,9 +14,10 @@ public class CLITitle extends CLIScene {
 
     @Override
     public void show() {
-        stdout("Maestri del Rinascimento (versione CLI)");
+        stdout("========= Maestri del Rinascimento =========");
+        stdout("Versione CLI");
+        stdout("============================================");
     }
-
     @Override
     public void getInput() {
         Scanner in = new Scanner(System.in);
