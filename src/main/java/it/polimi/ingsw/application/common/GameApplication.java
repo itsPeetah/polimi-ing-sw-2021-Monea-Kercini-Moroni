@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.common.GameData;
 public class GameApplication {
 
     protected static GameApplication instance;
+    
     protected GameClient networkClient;
     protected GameApplicationState applicationState;
     protected GameApplicationIOHandler ioHandler;
