@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,6 +36,21 @@ public abstract class GameApplicationIOHandler {
     public void pushAction(ActionPacket actionPacket) {
         NetworkPacket networkPacket = NetworkPacket.buildActionPacket(actionPacket);
         GameApplication.getInstance().sendNetworkPacket(networkPacket);
+    }
+
+    public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
+        String serverMessage = systemMessageNetworkPacket.getPayload();
+        String[] messageFields = serverMessage.split(" ", 2);
+
+        if (serverMessage == null || ConnectionMessage.QUIT.check(messageFields[0])) {
+           return -1;
+        }
+
+        return 0;
+    }
+
+    public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){
+
     }
 
 }

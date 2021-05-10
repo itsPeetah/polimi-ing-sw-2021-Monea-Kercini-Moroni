@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.client.protocols.ClientSideServerListener;
 import it.polimi.ingsw.network.client.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.common.ExSocket;
@@ -18,6 +20,8 @@ public class ClientConnectionHandler implements Runnable {
     public void run() {
 
         String userId = new ConnectionSetupProtocol(client.getSocket()).getUserId();
+
+        GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
 
         ClientSideServerListener listener = new ClientSideServerListener(client.getSocket());
         listener.run();

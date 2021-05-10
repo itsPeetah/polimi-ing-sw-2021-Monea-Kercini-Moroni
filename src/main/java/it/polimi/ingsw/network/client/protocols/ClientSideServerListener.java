@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
@@ -30,28 +31,26 @@ public class ClientSideServerListener {
                     handleDebugMessage(np);
                     break;
                 case MESSAGE:
-                    // TODO Add message handle (GAIOHandler)
+                    GameApplication.getInstance().getIoHandler().notifyMessage(np);
                     break;
                 case UPDATE:
-                    // TODO Add Update handle (GAIOHandler)
+                    GameApplication.getInstance().getIoHandler().notifyUpdate(np);
                     break;
             }
         }
     }
 
     public void handleSystemMessage(NetworkPacket packet){
-        String serverMessage = packet.getPayload();
-        String[] messageFields = serverMessage.split(" ", 2);
 
-        if (serverMessage == null || ConnectionMessage.QUIT.check(messageFields[0])) {
+        int returnCode = GameApplication.getInstance().getIoHandler().handleSystemMessage(packet);
+        if(returnCode < 0){
             done = true;
             return;
         }
     }
 
     private void handleDebugMessage(NetworkPacket packet){
-        String clientMessage = packet.getPayload();
-        System.out.println(clientMessage);
+        GameApplication.getInstance().getIoHandler().handleDebugMessage(packet);
     }
 }
 

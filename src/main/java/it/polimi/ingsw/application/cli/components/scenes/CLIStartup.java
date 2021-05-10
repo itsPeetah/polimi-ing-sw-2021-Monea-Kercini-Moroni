@@ -2,6 +2,8 @@ package it.polimi.ingsw.application.cli.components.scenes;
 
 import it.polimi.ingsw.application.cli.MaestriRinasimentoCLI;
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationState;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,7 +24,8 @@ public class CLIStartup extends CLIScene {
 
     @Override
     public void getInput() {
-        Scanner in = new Scanner(System.in);
-        in.nextLine();
+        /*Scanner in = new Scanner(System.in);
+        in.nextLine();*/
+        while(GameApplication.getInstance().getApplicationState() == GameApplicationState.STARTUP){}
     }
 }

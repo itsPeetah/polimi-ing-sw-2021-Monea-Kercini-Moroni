@@ -5,7 +5,9 @@ import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationException;
 import it.polimi.ingsw.application.common.GameApplicationMode;
+import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.client.GameClient;
+import it.polimi.ingsw.network.common.sysmsg.ISystemMessage;
 
 public class MaestriRinasimentoCLI {
 
@@ -26,7 +28,7 @@ public class MaestriRinasimentoCLI {
 
         GameApplication gameApplication = new GameApplication(GameApplicationMode.CLI);
         currentScene.show();
-        currentScene.getInput();
+
         try {
             gameApplication.connect("localhost", 42069);
         } catch (GameApplicationException ex){
@@ -37,12 +39,14 @@ public class MaestriRinasimentoCLI {
         appRunning = true;
         while(appRunning){
 
-            switch (GameApplication.getInstance().getApplicationState()){
+            GameApplicationState state = gameApplication.getApplicationState();
+            switch (state){
                 case STARTED:
                     currentScene = titleScene;
                     break;
                 case LOBBY:
                     currentScene = lobbyScene;
+                    appRunning = false;
                     break;
                 case PREGAME:
                     currentScene = roomScene;
@@ -52,12 +56,11 @@ public class MaestriRinasimentoCLI {
                     break;
             }
 
-            currentScene.update();
-            currentScene.show();
-            currentScene.getInput();
+            if(state != GameApplicationState.STARTUP) {
+                currentScene.show();
+                currentScene.getInput();
+            }
         }
-
-
 
     }
 }
