@@ -9,8 +9,12 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class GameApplicationIOHandler {
+public abstract class GameApplicationIOHandler {
     private final static Gson gson = new Gson();
+
+    // TODO make class abstract
+    // TODO make subclasses CLIApplicationIOHandler and GUIApplicationIOHandler
+    // TODO Add IOHandler to GameApplication constructor
 
     public GameApplicationIOHandler() {
 
@@ -30,7 +34,7 @@ public class GameApplicationIOHandler {
 
     public void pushAction(ActionPacket actionPacket) {
         NetworkPacket networkPacket = NetworkPacket.buildActionPacket(actionPacket);
-        // TODO Send via network
+        GameApplication.getInstance().sendNetworkPacket(networkPacket);
     }
 
 }
