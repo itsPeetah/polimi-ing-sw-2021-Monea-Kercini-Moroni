@@ -38,20 +38,24 @@ public class GameClient {
         }
     }
 
-    public void execute(){
+    public boolean start(){
 
-        if(isRunning()) return;
+        if(isRunning()) return true;
         setActive(true);
 
+        boolean couldStart;
         try {
             socket = new ExSocket(new Socket(hostName, hostPortNumber));
             new Thread(new ClientConnectionHandler(this)).start();
-
+            couldStart = true;
         } catch (UnknownHostException ex){
             System.out.println("UnknownHostException while connecting.");
+            couldStart = false;
         } catch (IOException ex){
             System.out.println(ex.getMessage());
+            couldStart = false;
         }
+        return couldStart;
     }
 
     private void setActive(boolean state){
