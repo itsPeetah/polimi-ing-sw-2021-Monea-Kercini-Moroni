@@ -206,6 +206,8 @@ public class ModelController {
                 lastRound = true;
             }
 
+            //In a single player game, the game might end if Lorenzo wins
+
             game.increaseTurnCounter();
         }
         endGame();
@@ -723,7 +725,7 @@ public class ModelController {
 
     private void updateWarehouse(Player player){
 
-        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player);
+        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }
 
@@ -741,13 +743,13 @@ public class ModelController {
 
     private void updateProductionPowers(Player player){
 
-        ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player);
+        ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);
     }
 
     private void updateLeaders(Player player){
 
-        PlayerLeadersUpdateData plUp = new PlayerLeadersUpdateData(player.getLeaders(), player);
+        PlayerLeadersUpdateData plUp = new PlayerLeadersUpdateData(player.getLeaders(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.LEADERS, plUp);
     }
 

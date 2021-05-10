@@ -7,9 +7,9 @@ import it.polimi.ingsw.model.playerboard.Warehouse;
 public class WarehouseUpdateData implements UpdateData {
 
     Warehouse wh;
-    Player p; //Player whose warehouse has been updated
+    String p; //Player whose warehouse has been updated
 
-    public WarehouseUpdateData(Warehouse wh, Player p) {
+    public WarehouseUpdateData(Warehouse wh, String p) {
         this.wh = wh;
         this.p = p;
     }
@@ -18,7 +18,7 @@ public class WarehouseUpdateData implements UpdateData {
         return wh;
     }
 
-    public Player getPlayer() {
+    public String getPlayer() {
         return p;
     }
 }

@@ -6,13 +6,13 @@ import it.polimi.ingsw.model.playerleaders.PlayerLeaders;
 
 public class PlayerLeadersUpdateData implements UpdateData {
     PlayerLeaders pl;
-    Player p;
+    String p;
 
-    public Player getP() {
+    public String getP() {
         return p;
     }
 
-    public PlayerLeadersUpdateData(PlayerLeaders pl, Player p) {
+    public PlayerLeadersUpdateData(PlayerLeaders pl, String p) {
         this.pl = pl;
         this.p = p;
     }

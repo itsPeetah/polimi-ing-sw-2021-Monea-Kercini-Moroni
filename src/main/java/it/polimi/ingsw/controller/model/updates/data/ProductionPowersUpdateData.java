@@ -7,14 +7,14 @@ import it.polimi.ingsw.model.playerboard.ProductionPowers;
 public class ProductionPowersUpdateData implements UpdateData {
 
     ProductionPowers pp;
-    Player p;
+    String p;
 
-    public ProductionPowersUpdateData(ProductionPowers pp, Player p) {
+    public ProductionPowersUpdateData(ProductionPowers pp, String p) {
         this.pp = pp;
         this.p = p;
     }
 
-    public Player getPlayer() {
+    public String getPlayer() {
         return p;
     }
 
