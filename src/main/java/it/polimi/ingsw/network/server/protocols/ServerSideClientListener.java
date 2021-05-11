@@ -51,6 +51,7 @@ public class ServerSideClientListener {
             return;
         }
         // LEAVE
+        // TODO Check whether the user can do this (game not started yet).
         else if (GameLobbyMessage.LEAVE_ROOM.check(clientMessage)){
             user.leaveCurrentRoom();
             done = true;
