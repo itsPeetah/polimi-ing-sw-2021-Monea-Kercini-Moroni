@@ -221,7 +221,7 @@ public class ModelController {
             }
 
             //if player has reached the end of the faith track
-            if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
+            if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 24){
                 lastRound = true;
             }
 

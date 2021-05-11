@@ -14,7 +14,7 @@ public class BlackCross {
         blackFaith += amount;
 
         //This means that Lorenzo has won the game
-        if(blackFaith>=20){
+        if(blackFaith>=24){
             return true;
         }
 
