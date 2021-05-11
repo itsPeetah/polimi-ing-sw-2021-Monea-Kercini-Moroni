@@ -26,6 +26,14 @@ public class CLIRoom extends CLIScene {
 
     @Override
     public void getInput() {
-        input.nextLine();
+        String[] fields = input.nextLine().split(" ");
+        switch (fields[0]){
+            case "help":
+                help();
+                break;
+            default:
+                stdout("The command is not supported or has not been implemented yet");
+                break;
+        }
     }
 }
