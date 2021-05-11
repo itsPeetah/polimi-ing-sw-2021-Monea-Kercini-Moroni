@@ -20,6 +20,7 @@ public class GameApplication {
 
     // State
     private GameApplicationState applicationState;
+    private String userId, userNickname, roomName;
     private boolean isRunning;
 
     // Components
@@ -42,6 +43,10 @@ public class GameApplication {
         this.networkClient = null;
         this.gameController = null;
         this.lock = new Object();
+
+        this.userId = null;
+        this.userNickname = null;
+        this.roomName = null;
 
         instance = this;
     }
@@ -88,6 +93,30 @@ public class GameApplication {
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
         if(gameController == null) throw new NullPointerException();
         return gameController.getGameControllerIOHandler();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     // Output

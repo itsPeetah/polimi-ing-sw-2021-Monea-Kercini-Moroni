@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
@@ -42,7 +43,9 @@ public class ConnectionSetupProtocol {
 
         if(!ConnectionMessage.READY.check(messageFields[0]))
             return null;
-        else
+        else {
+            GameApplication.getInstance().setUserId(userId);
             return userId;
+        }
     }
 }

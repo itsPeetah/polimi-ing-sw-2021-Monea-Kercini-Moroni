@@ -18,11 +18,11 @@ public class CLILobby extends CLIScene {
 
     public CLILobby(String title) {
         super(title);
-        nickname = null;
-        roomName = null;
+        nickname = GameApplication.getInstance().getUserNickname();
+        roomName = GameApplication.getInstance().getRoomName();
 
-        nickname = "Player";
-        roomName = "Room_One";
+        nickname = "Pla/*yer";
+        roomName = "Roo*/m_One";
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CLILobby extends CLIScene {
         String in = input.nextLine();
         String[] fields = in.split(" ", 2);
 
-        switch (fields[0]){
+        switch (fields[0]) {
             case "help":
                 help();
                 break;
@@ -78,12 +78,20 @@ public class CLILobby extends CLIScene {
             case "create":
                 if (nickname == null || roomName == null)
                     stdout("Error: choose a nickname and a room name first. Retry.");
-                else makeChoice(GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
+                else {
+                    GameApplication.getInstance().setUserNickname(nickname);
+                    GameApplication.getInstance().setRoomName(roomName);
+                    makeChoice(GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
+                }
                 break;
             case "join":
                 if (nickname == null || roomName == null)
                     stdout("Error: choose a nickname and a room name first. Retry.");
-                else makeChoice(GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
+                else {
+                    GameApplication.getInstance().setUserNickname(nickname);
+                    GameApplication.getInstance().setRoomName(roomName);
+                    makeChoice(GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
+                }
                 break;
             case "quit":
                 makeChoice(ConnectionMessage.QUIT.getCode());
