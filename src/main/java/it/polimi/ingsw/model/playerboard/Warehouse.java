@@ -134,5 +134,41 @@ public class Warehouse{
         this.leaderExtraUsed = w.leaderExtraUsed;
     }
 
+    /**
+     * Method returns true if warehouse is correctly organized
+     * @return
+     */
+
+    public boolean isOrganized(){
+        
+        if (content[0].getTotalAmount()<=3 && isSingleType(content[0])
+            && content[1].getTotalAmount()<=2 && isSingleType(content[1])
+            && content[2].getTotalAmount()<=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the resource is of a single type
+     * @param r Resourcess to check
+     * @return
+     */
+    
+    public boolean isSingleType(Resources r){
+        int types = 0;
+        for (ResourceType type : ResourceType.values()) {
+            if(r.getAmountOf(type)>0){
+                types++;
+            }
+        }
+        if(types<=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
 }
