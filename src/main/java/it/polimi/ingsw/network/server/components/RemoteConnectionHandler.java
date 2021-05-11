@@ -37,17 +37,19 @@ public class RemoteConnectionHandler implements Runnable {
         user = new RemoteUser(userId, socket);
         GameServer.getInstance().getUserTable().add(user);
 
-        // Game Lobby protocol
-        boolean roomJoined = new GameLobbyProtocol(user).joinOrCreateRoom();
+        // Loop handles the player possibly leaving a room before the game has started
+        while(true) {
+            // Game Lobby protocol
+            boolean roomJoined = new GameLobbyProtocol(user).joinOrCreateRoom();
 
-        if(!roomJoined || !user.isInRoom()){
-            closeConnection();
-            return;
+            if (!roomJoined || !user.isInRoom()) break;
+
+            // Listen for player
+            ServerSideClientListener listener = new ServerSideClientListener(user);
+            boolean backToLobby = listener.run();
+
+            if(!backToLobby) break;
         }
-
-        // Listen for player
-        ServerSideClientListener listener = new ServerSideClientListener(user);
-        listener.run();
 
         // When the listener is done close the connection.
         closeConnection();

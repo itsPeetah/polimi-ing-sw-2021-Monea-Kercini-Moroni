@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.view.game.handlers;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.GameController;
@@ -15,6 +16,6 @@ public class MPGameControllerIOHandler extends  GameControllerIOHandler{
     @Override
     public void pushAction(ActionPacket actionPacket) {
         /*NetworkPacket networkPacket = NetworkPacket.buildActionPacket(actionPacket);*/
-        GameApplication.getInstance().getIoHandler().pushAction(actionPacket);
+        GameApplicationIOHandler.getInstance().pushAction(actionPacket);
     }
 }

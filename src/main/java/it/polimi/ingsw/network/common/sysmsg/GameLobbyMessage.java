@@ -5,7 +5,8 @@ package it.polimi.ingsw.network.common.sysmsg;
  */
 public enum GameLobbyMessage implements ISystemMessage {
     CREATE_ROOM("ROOMC"),
-    JOIN_ROOM("ROOMJ");
+    JOIN_ROOM("ROOMJ"),
+    LEAVE_ROOM("ROOML");
 
     private final String messageCode;
 

@@ -6,8 +6,6 @@ import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class GameClientTest {
 
     public static void main(String[] args) {
@@ -16,7 +14,7 @@ class GameClientTest {
         Scanner stdin = new Scanner(System.in);
         String clientMessage;
         boolean done = false;
-        client.execute();
+        client.start();
 
         while(client.isRunning()) {
 
