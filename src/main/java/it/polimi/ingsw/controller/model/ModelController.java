@@ -84,8 +84,16 @@ public class ModelController {
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
-        //If player has less resources than he should have give other players extra faith point
+        //Checking if player hasn't hacked the game
         if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
+
+            //Checking if the warehouse organization is correct
+            if (!updatedWarehouse.isOrganized()){
+                //todo message player he has fucked up
+                return wh;
+            }
+
+            //If player has less resources than he should have give other players extra faith point
 
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
 
