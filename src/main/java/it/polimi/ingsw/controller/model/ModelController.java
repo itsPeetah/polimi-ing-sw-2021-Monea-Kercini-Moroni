@@ -306,6 +306,9 @@ public class ModelController {
                     break;
             }
 
+            //After each action check if the player has triggered a vatican report event
+            game.checkVaticanReport();
+
         }while(!turnFinished);
 
     }

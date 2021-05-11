@@ -145,4 +145,34 @@ public class Game {
         lastVaticanReport++;
     }
 
+    /**
+     * Method for activating Vatican report if a player reaches the right point
+     *
+     * **NOTE this method can be changed to return a boolean so we can call
+     * the doVaticanReport on controller and send a nice message to the players
+     */
+
+    public void checkVaticanReport(){
+
+        //find the player who has reached furthest in the game track
+
+        int maxFaith = 0;
+
+        for (Player p : players) {
+            maxFaith = Math.max(maxFaith, p.getBoard().getFaithPoints());
+        }
+
+        //Check if a new vatican report is to be activated
+
+        if((lastVaticanReport==0 && maxFaith>=8)
+            || (lastVaticanReport==1 && maxFaith>=16)
+            || (lastVaticanReport==2 && maxFaith>=20)){
+                try {
+                    doVaticanReport();
+                } catch (GameException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
 }
