@@ -21,8 +21,8 @@ public class CLILobby extends CLIScene {
         nickname = GameApplication.getInstance().getUserNickname();
         roomName = GameApplication.getInstance().getRoomName();
 
-        nickname = "Pla/*yer";
-        roomName = "Roo*/m_One";
+        /*nickname = "Player";
+        roomName = "Room_One";*/
     }
 
     @Override
