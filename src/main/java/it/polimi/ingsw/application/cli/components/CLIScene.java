@@ -29,7 +29,7 @@ public abstract class CLIScene {
         // Override
     }
 
-    public void stdout(String message){
+    public void print(String message){
         System.out.println(message);
     }
 

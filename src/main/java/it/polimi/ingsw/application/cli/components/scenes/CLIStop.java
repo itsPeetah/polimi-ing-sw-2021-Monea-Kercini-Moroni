@@ -11,10 +11,10 @@ public class CLIStop extends CLIScene {
 
     @Override
     public void show() {
-        stdout("========= GAME OVER =========");
-        stdout(ANSIColor.YELLOW + "Thank you for playing" + ANSIColor.RESET);
-        stdout("Game by Cranio Creations");
-        stdout("Programmed by Marvin Kercini, Giovanni Monea and Pietro Moroni");
-        stdout("=============================");
+        print("========= GAME OVER =========");
+        print(ANSIColor.YELLOW + "Thank you for playing" + ANSIColor.RESET);
+        print("Game by Cranio Creations");
+        print("Programmed by Marvin Kercini, Giovanni Monea and Pietro Moroni");
+        print("=============================");
     }
 }

@@ -4,8 +4,6 @@ import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 
-import java.util.Scanner;
-
 public class CLITitle extends CLIScene {
 
     public CLITitle(String title) {
@@ -14,13 +12,13 @@ public class CLITitle extends CLIScene {
 
     @Override
     public void show() {
-        stdout("========= Masters of Renaissance =========");
-        stdout("CLI Version");
-        stdout("==========================================");
+        print("========= Masters of Renaissance =========");
+        print("CLI Version");
+        print("==========================================");
     }
     @Override
     public void getInput() {
-        stdout("Press [ENTER] to continue.");
+        print("Press [ENTER] to continue.");
         input.nextLine();
         GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
     }
