@@ -9,12 +9,18 @@ import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
 
 public class ActionTokenUpdateData implements UpdateData {
     SoloActionTokens ActionToken;
+    int blackCross;
 
     public SoloActionTokens getActionToken() {
         return ActionToken;
     }
 
-    public ActionTokenUpdateData(SoloActionTokens actionToken) {
+    public ActionTokenUpdateData(SoloActionTokens actionToken, int blackCross) {
         ActionToken = actionToken;
+        this.blackCross = blackCross;
+    }
+
+    public int getBlackCross() {
+        return blackCross;
     }
 }

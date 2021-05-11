@@ -99,4 +99,8 @@ public class SoloAction {
     public SoloActionTokens getLastPlayedToken() {
         return lastPlayedToken;
     }
+
+    public int getCross() {
+        return cross.getBlackFaith();
+    }
 }

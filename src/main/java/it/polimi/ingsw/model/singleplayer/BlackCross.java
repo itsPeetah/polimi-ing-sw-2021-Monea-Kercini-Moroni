@@ -20,4 +20,8 @@ public class BlackCross {
 
         return false;
     }
+
+    public int getBlackFaith() {
+        return blackFaith;
+    }
 }

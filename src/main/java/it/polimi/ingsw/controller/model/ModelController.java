@@ -803,7 +803,7 @@ public class ModelController {
 
     private void updateActionToken(){
 
-        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken());
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
 
