@@ -27,6 +27,11 @@ public class CLIRoom extends CLIScene {
     @Override
     public void getInput() {
         String[] fields = input.nextLine().split(" ");
+
+        // Skip command if the game has started.
+        if(GameApplication.getInstance().gameExists())
+            return;
+
         switch (fields[0]){
             case "help":
                 help();
