@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.cli.components.scenes;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
+import it.polimi.ingsw.application.common.GameApplication;
 
 public class CLIRoom extends CLIScene {
 
@@ -12,8 +13,15 @@ public class CLIRoom extends CLIScene {
     @Override
     public void show() {
         stdout("========= Game Room =========");
-        stdout(ANSIColor.WHITE_BACKGROUND  + ANSIColor.BLACK + "Not implemented yet" + ANSIColor.RESET);
+        stdout("You're into room: " + ANSIColor.GREEN + GameApplication.getInstance().getRoomName() + ANSIColor.RESET);
+        stdout("Your nickname is: " + ANSIColor.GREEN + GameApplication.getInstance().getUserNickname() +ANSIColor.RESET);
         stdout("=============================");
+    }
+
+    @Override
+    public void help() {
+        stdout("Use command \"leave\" to leave the room before the game starts.");
+        stdout("Use command \"start\" to start the game (must be room owner). "+ ANSIColor.RED + "(NOT YET IMPLEMENTED )" + ANSIColor.RESET);
     }
 
     @Override
