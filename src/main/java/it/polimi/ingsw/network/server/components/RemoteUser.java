@@ -71,7 +71,6 @@ public class RemoteUser {
      */
     public void terminateConnection() {
         socket.close();
-
     }
 
     /**
@@ -82,6 +81,12 @@ public class RemoteUser {
     public void assignRoom(String roomId, String nickname){
         this.roomId = roomId;
         this.nickname = nickname;
+    }
+
+    public void leaveCurrentRoom(){
+        if(isInRoom()){
+            GameServer.getInstance().getRoomTable().getRoom(roomId).removeUser(nickname);
+        }
     }
 
 
