@@ -5,6 +5,7 @@ public enum GameApplicationState {
     STARTED,
     LOBBY,
     CONNECTING_TO_ROOM,
+    LEAVING_ROOM,
     PREGAME,
     INGAME,
     STOPPED;
