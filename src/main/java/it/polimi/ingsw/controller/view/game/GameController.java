@@ -10,7 +10,7 @@ import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
-import it.polimi.ingsw.view.common.GameData;
+import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.scenes.GameScene;
 
 public class GameController {
