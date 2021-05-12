@@ -64,70 +64,15 @@ public class GameController {
     /**
      * React to an action performed by the player.
      * This class will push the action to the server if the check of the action is passed, or handle the problem if need be.
+     *
+     * action.fromJsonToData(actionPacket.getData()
      */
     public void reactToAction(ActionPacket actionPacket) {
         Action action = actionPacket.getAction();
 
-        // Check action correctness if necessary
-        switch(action) {
-            case CHOOSE_2_LEADERS:
-                if(!checkChoose2LeadersAction(action.fromJsonToData(actionPacket.getData()))) return;
-                break;
-            case PUT_RESOURCES:
-                if(!checkPutResourcesAction(action.fromJsonToData(actionPacket.getData()))) return;
-                // Todo what to do if the player put resources is not successful?
-                break;
-        }
-
         // Push the action to the model controller
         gameControllerIOHandler.pushAction(actionPacket);
     }
-
-    /* SPECIFIC ACTIONS CHECK METHODS */
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkPlayLeaderAction(ChooseLeaderActionData data) {
-        return true;
-    }
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkDiscardLeaderAction(ChooseLeaderActionData data) {
-        return true;
-    }
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkChoose2LeadersAction(Choose2LeadersActionData data) {
-        return true;
-    }
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkPutResourcesAction(PutResourcesActionData data) {
-        return true;
-    }
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkBuyDevCardAction(DevCardActionData data) {
-        return true;
-    }
-
-    /**
-     * Check correctness of this type of action.
-     */
-    private boolean checkProduceAction(ProduceActionData data) {
-        return true;
-    }
-
-
 
     protected void moveToState(GameState nextState) {
         currentState = nextState;
