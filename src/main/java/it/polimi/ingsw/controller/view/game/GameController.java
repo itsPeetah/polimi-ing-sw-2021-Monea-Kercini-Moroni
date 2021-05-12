@@ -60,7 +60,7 @@ public class GameController {
         this.currentState = GameState.IDLE;
     }
 
-    public void reactToUpdate(Update update, UpdateData updateData) {
+    public void reactToUpdate(Update update, String updateDataString) {
         // TODO code to apply the update
 
         // If the player is not in IDLE, it means that the action performed was accepted.

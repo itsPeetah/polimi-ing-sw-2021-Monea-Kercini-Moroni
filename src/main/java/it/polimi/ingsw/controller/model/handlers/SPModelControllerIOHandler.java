@@ -34,7 +34,7 @@ public class SPModelControllerIOHandler extends ModelControllerIOHandler {
 
     @Override
     public void pushUpdate(Update type, UpdateData data) {
-        UpdatePacket updatePacket = new UpdatePacket(type, data);
+        UpdatePacket updatePacket = new UpdatePacket(type, type.parseData(data));
         /*NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);*/
         gameController.getGameControllerIOHandler().notifyUpdate(updatePacket);
     }
