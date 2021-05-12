@@ -42,7 +42,6 @@ public class ModelController {
         
         // Set communication handler
         this.modelControllerIOHandler = modelControllerIOHandler;
-
     }
 
     public Game getGame() {
