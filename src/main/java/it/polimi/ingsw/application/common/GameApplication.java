@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.common.GameData;
 
 public class GameApplication {
+    private static final String DEFAULT_SP_NICKNAME = "Player";
 
     // Output mode (CLI/GUI)
     private static GameApplicationMode outputMode = GameApplicationMode.CLI;
@@ -166,7 +167,7 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startSPGame() {
-        gameController = new GameController(new GameData(), getUserNickname());
+        gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
     }
 
     /**
