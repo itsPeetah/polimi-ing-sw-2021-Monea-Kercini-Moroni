@@ -28,4 +28,12 @@ public class PlayerData {
     public Strongbox getStrongbox() {
         return strongbox;
     }
+
+    public PlayerData() {
+        devCards = new DevCards();
+        playerLeaders = new PlayerLeaders();
+        faithTrack = new FaithTrack();
+        warehouse = new Warehouse();
+        strongbox = new Strongbox();
+    }
 }

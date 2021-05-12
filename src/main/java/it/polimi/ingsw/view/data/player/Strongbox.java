@@ -14,7 +14,7 @@ public class Strongbox extends Observable {
         notifyObservers(content);
     }
 
-    public Strongbox(Resources content) {
+    public Strongbox() {
         this.content = new Resources();
     }
 }

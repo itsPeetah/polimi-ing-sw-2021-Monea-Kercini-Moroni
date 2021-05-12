@@ -22,4 +22,12 @@ public class CommonData {
     public Lorenzo getLorenzo() {
         return lorenzo;
     }
+
+    //for quickly constructing empty classes
+
+
+    public CommonData() {
+        dcm = new DevCardMarket();
+        mt = new MarketTray();
+    }
 }
