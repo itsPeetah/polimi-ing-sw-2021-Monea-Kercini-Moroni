@@ -2,15 +2,7 @@ package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationMode;
-import it.polimi.ingsw.application.gui.scenes.GUIStartup;
 import it.polimi.ingsw.network.client.GameClient;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class MaestriRinascimentoGUI {
     /* Visualization attributes */

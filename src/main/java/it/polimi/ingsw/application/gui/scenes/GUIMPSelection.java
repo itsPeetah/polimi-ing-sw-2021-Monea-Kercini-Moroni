@@ -4,20 +4,16 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.gui.GUIStage;
 import it.polimi.ingsw.application.gui.MaestriRinascimentoGUI;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -84,19 +80,9 @@ public class GUIMPSelection {
         grid.add(hbBtn, 1, 4);
 
         // Buttons actions
-        joinRoomBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
-            }
-        });
+        joinRoomBtn.setOnAction(actionEvent -> performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM));
 
-        createRoomBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM);
-            }
-        });
+        createRoomBtn.setOnAction(actionEvent -> performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM));
 
         // Create scene
         return new Scene(grid, length, height);
@@ -109,24 +95,19 @@ public class GUIMPSelection {
         return getScene(MaestriRinascimentoGUI.LENGTH, MaestriRinascimentoGUI.HEIGHT);
     }
 
-    private static void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage){
-        GameApplication.getInstance().setUserNickname(username);
-        GameApplication.getInstance().setRoomName(room);
-        GameApplication.getInstance().out("Processing request, please wait.");
-        String messageContent = gameLobbyMessage.addBody(room + " " + username);
-        NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
-        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
-        GameApplication.getInstance().sendNetworkPacket(np);
-        while(GameApplication.getInstance().getApplicationState() == GameApplicationState.CONNECTING_TO_ROOM) {}
-        GameApplicationState newState = GameApplication.getInstance().getApplicationState();
-        if(newState == GameApplicationState.PREGAME) {
-            GUIStage.setScene(GUIPreGame.getScene());
-        } else {
-            Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
-            connectionErrorAlert.setTitle("Connection error");
-            connectionErrorAlert.setHeaderText(null);
-            connectionErrorAlert.setContentText("Error.");
-            connectionErrorAlert.showAndWait();
-        }
+    private static void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
+        new Thread(() -> {
+            GameApplication.getInstance().setUserNickname(username);
+            GameApplication.getInstance().setRoomName(room);
+            GameApplication.getInstance().out("Processing request, please wait.");
+            String messageContent = gameLobbyMessage.addBody(room + " " + username);
+            NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
+            GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+            GameApplication.getInstance().sendNetworkPacket(np);
+            while (GameApplication.getInstance().getApplicationState() == GameApplicationState.CONNECTING_TO_ROOM) {}
+            GameApplicationState newState = GameApplication.getInstance().getApplicationState();
+            if (newState == GameApplicationState.PREGAME) {
+                Platform.runLater(() -> GUIStage.setScene(GUIPreGame.getScene()));
+            }}).start();
     }
 }
