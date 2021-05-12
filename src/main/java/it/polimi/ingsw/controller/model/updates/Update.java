@@ -1,7 +1,10 @@
 package it.polimi.ingsw.controller.model.updates;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.updates.data.*;
+
+import java.lang.reflect.Type;
 
 public enum Update {
     EMPTY(EmptyUpdateData.class),
@@ -14,6 +17,8 @@ public enum Update {
     VP(VPUpdateData.class),
     SOLO_ACTION(ActionTokenUpdateData.class);
 
+    private static final Gson gson = new Gson();
+
     private final Class<?> classOfData;
 
     Update(Class<?> classOfData) {
@@ -25,7 +30,14 @@ public enum Update {
      * @return json formatted string representing an UpdateData object.
      */
     public String parseData(UpdateData data) {
-        Gson gson = new Gson();
         return gson.toJson(data, classOfData);
+    }
+
+    /**
+     * Parse a UpdateData json formatted string to an object of the correct subclass of UpdateData.
+     * @return object of the correct subclass of UpdateData.
+     */
+    public <T extends UpdateData> T getUpdateData(String updateDataString) {
+        return gson.fromJson(updateDataString, (Type)classOfData);
     }
 }

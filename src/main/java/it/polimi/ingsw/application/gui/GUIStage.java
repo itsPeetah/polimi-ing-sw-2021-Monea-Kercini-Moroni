@@ -3,10 +3,12 @@ package it.polimi.ingsw.application.gui;
 import it.polimi.ingsw.application.gui.scenes.GUIMainMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class GUIStage extends Application {
     private static Stage primaryStage;
@@ -17,6 +19,8 @@ public class GUIStage extends Application {
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         setScene(GUIMainMenu.getScene());
+        stage.setResizable(false);
+        stage.setOnCloseRequest(windowEvent -> stage.close());
         stage.show();
     }
 
