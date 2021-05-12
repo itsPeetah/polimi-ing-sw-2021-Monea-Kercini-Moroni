@@ -3,7 +3,19 @@ package it.polimi.ingsw.view.data;
 import java.util.List;
 
 public class GameData {
-    CommonData commonData;
-    PlayerData player;
-    List<PlayerData> otherPlayers;
+
+    CommonData common;
+    List<PlayerData> players;
+
+    /**
+     * Constructor
+     */
+
+    public GameData() {
+
+        common = new CommonData();
+        for (PlayerData p : players) {
+            p = new PlayerData();
+        }
+    }
 }
