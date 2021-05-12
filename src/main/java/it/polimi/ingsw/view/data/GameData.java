@@ -7,6 +7,14 @@ public class GameData {
     CommonData common;
     List<PlayerData> players;
 
+    public CommonData getCommon() {
+        return common;
+    }
+
+    public List<PlayerData> getPlayers() {
+        return players;
+    }
+
     /**
      * Constructor
      */

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller.view.game;
 
+import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
@@ -25,60 +27,65 @@ public class GameController {
     private boolean mainActionUsed;
 
     /**
-     * Constructor for MP game controller.
-     * @param gameData
+     * Constructor for a MP game controller.
+     * @param gameData data of the game.
      */
     public GameController(GameData gameData) {
         this.gameData = gameData;
         this.gameControllerIOHandler = new MPGameControllerIOHandler(this);
-        currentState = GameState.IDLE;
+        this.currentState = GameState.IDLE;
     }
 
     /**
-     * Constructor for SP game controller.
-     * @param gameData
-     * @param modelControllerIOHandler IO handler of the model controller, necessary to communicate without network.
+     * Constructor for a SP game controller.
+     * @param gameData data of the game.
+     * @param playerNickname nickname of the player.
      */
-    public GameController(GameData gameData, ModelControllerIOHandler modelControllerIOHandler) {
+    public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
-        this.gameControllerIOHandler = new SPGameControllerIOHandler(this, modelControllerIOHandler);
-        currentState = GameState.IDLE;
+
+        // Generate SP Model IO handler
+        SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
+
+        // Generate model controller
+        ModelController modelController = new ModelController(spModelControllerIOHandler);
+        modelController.addPlayer(playerNickname);
+        modelController.setSinglePlayer(true);
+
+        // Generate SP GC IO handler
+        this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
+
+        // Now that the handlers are connected, start the game
+        modelController.setupGame();
+
+        this.currentState = GameState.IDLE;
     }
 
-    public void reactToUpdate(Update update, UpdateData updateData) {
-
-        //apply update
+    public void reactToUpdate(Update update, String updateDataString) {
+        // TODO code to apply the update
 
         switch (update){
-
             case RESOURCE_MARKET:
-
-
-
-
+                ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
+                //gameData. res.getMT()
         }
-
-
-    }
-
-    public void reactToMessage(Message message) {
-        String messageContent = message.toString();
-        // Todo what to do with the message?
 
         // If the player is not in IDLE, it means that the action performed was accepted.
         if(currentState != GameState.IDLE) {
-            // TODO what to do now?
             moveToState(GameState.ENDGAME);
             //moveToScene();
 
         }
     }
 
+    public void reactToMessage(Message message) {
+        String messageContent = message.toString();
+        // Todo what to do with the message?
+    }
+
     /**
      * React to an action performed by the player.
      * This class will push the action to the server if the check of the action is passed, or handle the problem if need be.
-     *
-     * action.fromJsonToData(actionPacket.getData()
      */
     public void reactToAction(ActionPacket actionPacket) {
         Action action = actionPacket.getAction();
@@ -86,6 +93,7 @@ public class GameController {
         // Push the action to the model controller
         gameControllerIOHandler.pushAction(actionPacket);
     }
+
 
     protected void moveToState(GameState nextState) {
         currentState = nextState;
