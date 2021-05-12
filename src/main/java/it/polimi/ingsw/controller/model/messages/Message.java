@@ -6,7 +6,9 @@ public enum Message {
     NOT_ENOUGH_RESOURCES("You don't have enough resources."),
     ILLEGAL_CARD_PLACE("You can't put the card there."),
     REQUIREMENTS_NOT_MET("You don't meet the requirements to play this card."),
-    ALREADY_USED_PRIMARY_ACTION("You have already used your primary action.");
+    ALREADY_USED_PRIMARY_ACTION("You have already used your primary action."),
+    WINNER("VICTORY!"),
+    LOSER("WASTED! You were no match for Lorenzo's magnificence!");
 
     private final String message;
 

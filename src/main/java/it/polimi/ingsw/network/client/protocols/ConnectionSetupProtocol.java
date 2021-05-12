@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.protocols;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
@@ -16,7 +17,7 @@ public class ConnectionSetupProtocol {
 
         // Receive WELCOME
         serverMessage = socket.receiveSystemMessage();
-        System.out.println("[SERVER] " + serverMessage);
+        /*System.out.println("[SERVER] " + serverMessage);*/
 
         // Send HELLO
         socket.sendSystemMessage("HELLO");
@@ -24,7 +25,7 @@ public class ConnectionSetupProtocol {
         // Receive ID
         String userId;
         serverMessage = socket.receiveSystemMessage();
-        System.out.println("[SERVER] " + serverMessage);
+        /*System.out.println("[SERVER] " + serverMessage);*/
 
         String[] messageFields = serverMessage.split(" ", 2);
 
@@ -37,12 +38,14 @@ public class ConnectionSetupProtocol {
 
         // Receive ready
         serverMessage = socket.receiveSystemMessage();
-        System.out.println("[SERVER] " + serverMessage);
+        /*System.out.println("[SERVER] " + serverMessage);*/
         messageFields = serverMessage.split(" ", 2);
 
         if(!ConnectionMessage.READY.check(messageFields[0]))
             return null;
-        else
+        else {
+            GameApplication.getInstance().setUserId(userId);
             return userId;
+        }
     }
 }

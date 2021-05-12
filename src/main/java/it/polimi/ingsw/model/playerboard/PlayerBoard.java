@@ -40,9 +40,9 @@ public class PlayerBoard {
     public void incrementFaithPoints(int amount){
         faithPoints += amount;
 
-        //Faith points cannot be be more than 20
-        if(faithPoints>20){
-            faithPoints = 20;
+        //Faith points cannot be be more than 24
+        if(faithPoints>24){
+            faithPoints = 24;
         }
     }
 
@@ -194,5 +194,9 @@ public class PlayerBoard {
      */
     public void addMarble(ResourceType additionalMarble) {
         leadMarbles.add(additionalMarble);
+    }
+
+    public boolean[] getReportsAttended() {
+        return reportsAttended;
     }
 }

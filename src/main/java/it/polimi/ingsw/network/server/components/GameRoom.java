@@ -51,12 +51,13 @@ public class GameRoom {
         }
     }
 
-    // TOFIX
-    public boolean removeUser(String userID){
+    // TODO if in game prevent from succeeding
+    // TODO if room is empty after a user has left delete it.
+    public boolean removeUser(String nickname){
         boolean result = false;
         synchronized (lock){
-            if(users.containsKey(userID)){
-//                userIDs.remove(userID);
+            if(users.containsKey(nickname)){
+                users.remove(nickname);
                 result = true;
             }
         }

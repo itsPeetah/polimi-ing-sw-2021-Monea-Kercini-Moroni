@@ -134,5 +134,66 @@ public class Warehouse{
         this.leaderExtraUsed = w.leaderExtraUsed;
     }
 
+    /**
+     * Method returns true if warehouse is correctly organized
+     * @return
+     */
+
+    public boolean isOrganized(){
+        
+        if (content[0].getTotalAmount()<=3 && isSingleType(content[0])
+            && content[1].getTotalAmount()<=2 && isSingleType(content[1])
+            && content[2].getTotalAmount()<=1
+            && areDifferentTypes(content[0], content[1])
+            && areDifferentTypes(content[1], content[2])
+            && areDifferentTypes(content[0], content[2])){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the resource is of a single type
+     * @param r Resourcess to check
+     * @return
+     */
+    
+    private boolean isSingleType(Resources r){
+        int types = 0;
+        for (ResourceType type : ResourceType.values()) {
+            if(r.getAmountOf(type)>0){
+                types++;
+            }
+        }
+        if(types<=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the two SINGLE TYPE resources are different
+     * @param r1
+     * @param r2
+     * @return
+     */
+
+    private boolean areDifferentTypes(Resources r1, Resources r2){
+
+        //If one of the resources is empty they are considered different types
+        if(r1.getTotalAmount()==0 || r2.getTotalAmount()==0){
+            return true;
+        }
+
+        //If adding the two resources together only one type of resource than they were the same type of resource
+        if (isSingleType(r1.add(r2))){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 
 }

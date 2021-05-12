@@ -2,8 +2,7 @@ package it.polimi.ingsw.controller.view.game;
 
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
-import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
@@ -20,6 +19,9 @@ public class GameController {
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
     private GameScene currentScene;
+
+    private int turn;
+    private boolean mainActionUsed;
 
     /**
      * Constructor for MP game controller.
@@ -49,8 +51,9 @@ public class GameController {
         if(currentState != GameState.IDLE) {
             // TODO what to do now?
             moveToState(GameState.ENDGAME);
-        }
+            //moveToScene();
 
+        }
     }
 
     public void reactToMessage(Message message) {
@@ -68,7 +71,7 @@ public class GameController {
         // Check action correctness if necessary
         switch(action) {
             case CHOOSE_2_LEADERS:
-                if(!checkChooseLeaderAction(action.fromJsonToData(actionPacket.getData()))) return;
+                if(!checkChoose2LeadersAction(action.fromJsonToData(actionPacket.getData()))) return;
                 break;
             case PUT_RESOURCES:
                 if(!checkPutResourcesAction(action.fromJsonToData(actionPacket.getData()))) return;
@@ -85,7 +88,21 @@ public class GameController {
     /**
      * Check correctness of this type of action.
      */
-    private boolean checkChooseLeaderAction(ChooseLeaderActionData data) {
+    private boolean checkPlayLeaderAction(ChooseLeaderActionData data) {
+        return true;
+    }
+
+    /**
+     * Check correctness of this type of action.
+     */
+    private boolean checkDiscardLeaderAction(ChooseLeaderActionData data) {
+        return true;
+    }
+
+    /**
+     * Check correctness of this type of action.
+     */
+    private boolean checkChoose2LeadersAction(Choose2LeadersActionData data) {
         return true;
     }
 
@@ -96,14 +113,29 @@ public class GameController {
         return true;
     }
 
+    /**
+     * Check correctness of this type of action.
+     */
+    private boolean checkBuyDevCardAction(DevCardActionData data) {
+        return true;
+    }
+
+    /**
+     * Check correctness of this type of action.
+     */
+    private boolean checkProduceAction(ProduceActionData data) {
+        return true;
+    }
+
+
 
     protected void moveToState(GameState nextState) {
         currentState = nextState;
     }
+    protected void moveToScene(GameScene nextScene) { currentScene = nextScene;}
 
     public GameControllerIOHandler getGameControllerIOHandler() {
         return gameControllerIOHandler;
     }
-
 
 }

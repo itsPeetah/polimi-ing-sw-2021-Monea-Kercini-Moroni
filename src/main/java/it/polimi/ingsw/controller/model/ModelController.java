@@ -1,15 +1,17 @@
 package it.polimi.ingsw.controller.model;
 
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
-import it.polimi.ingsw.model.cards.CardManager;
-import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.controller.model.updates.Update;
+import it.polimi.ingsw.controller.model.updates.data.*;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.controller.model.actions.*;
 import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.game.util.GameFactory;
 import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
+import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,18 @@ public class ModelController {
     public GamePhase gamePhase;
     private final Game game;
     private final ModelControllerIOHandler modelControllerIOHandler;
+    private boolean singlePlayer = false;
+
+    private SoloAction Lorenzo;
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;
+    }
+    public boolean isSinglePlayer() {
+        return singlePlayer;
+    }
+    public SoloAction getLorenzo() {
+        return Lorenzo;
+    }
 
     public ModelController(ModelControllerIOHandler modelControllerIOHandler) {
         // Initialize game (with default settings)
@@ -36,7 +50,6 @@ public class ModelController {
     }
 
 
-    //TODO RECHECK IF METHOD WILL BE USED LIKE THIS
     public void addPlayer(String nickname){
         try {
             game.addPlayer(nickname);
@@ -44,6 +57,7 @@ public class ModelController {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Method for letting player choose a resource
@@ -58,6 +72,7 @@ public class ModelController {
         return res;
     }
 
+
     /**
      * Player has to put the resources in the correct Warehouse place
      * @param res resources player has to put
@@ -69,8 +84,16 @@ public class ModelController {
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
 
-        //If player has less resources than he should have give other players extra faith point
+        //Checking if player hasn't hacked the game
         if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
+
+            //Checking if the warehouse organization is correct
+            if (!updatedWarehouse.isOrganized()){
+                //todo message player he has fucked up
+                return wh;
+            }
+
+            //If player has less resources than he should have give other players extra faith point
 
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
 
@@ -81,6 +104,9 @@ public class ModelController {
                 }
             }
 
+            //update
+            updateWarehouse(p);
+
             return updatedWarehouse;
 
         }else{
@@ -90,6 +116,7 @@ public class ModelController {
         }
     }
 
+
     /**
      * Setting up new game after all the players have joined
      */
@@ -97,6 +124,10 @@ public class ModelController {
 
         gamePhase = GamePhase.START;
 
+        //If there is only one player set the game as single player
+        if(game.getPlayers().length==1){
+            setSinglePlayer(true);
+        }
 
         //Initialize leader cards
         ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
@@ -129,7 +160,6 @@ public class ModelController {
             game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
              */
 
-
             //The player has been offered 4 leader cards on the model side and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
             Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
@@ -154,8 +184,14 @@ public class ModelController {
             }
         }
 
+        //If single player game instantiate Lorenzo, the opponent
+        if(singlePlayer){
+            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
+        }
+
         startGame();
     }
+
 
     /**
      * The game starts
@@ -185,14 +221,27 @@ public class ModelController {
             }
 
             //if player has reached the end of the faith track
-            if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 20){
+            if(game.getCurrentPlayer().getBoard().getFaithPoints() >= 24){
                 lastRound = true;
+            }
+
+            //In a single player game, the game might end if Lorenzo wins
+            if(singlePlayer) {
+
+                //Lorenzo plays his turn
+                if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
+                    //Lorenzo has won the game
+                    modelControllerIOHandler.sendMessage(game.getCurrentPlayer().getNickname(), Message.LOSER);
+                }
+                //Sending action token to view
+                updateActionToken();
             }
 
             game.increaseTurnCounter();
         }
         endGame();
     }
+
 
     /**
      * This method represents a players turn
@@ -204,7 +253,7 @@ public class ModelController {
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
 
-        //TODO notify player it's his turn
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
@@ -244,7 +293,8 @@ public class ModelController {
                     break;
 
                 //Player has chosen rearrange the resources he has in his warehouse
-                //(this choice is practically useless since player can arrange his warehouse anytime he acquires resources from Market Tray)
+                //(this choice is practically useless since player can arrange his warehouse anytime he acquires
+                // resources from Market Tray)
                 case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
                     player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
@@ -256,9 +306,13 @@ public class ModelController {
                     break;
             }
 
+            //After each action check if the player has triggered a vatican report event
+            game.checkVaticanReport();
+
         }while(!turnFinished);
 
     }
+
 
     /**
      * Calculate victory points for each player and show victory screens
@@ -269,22 +323,25 @@ public class ModelController {
         gamePhase = GamePhase.END;
 
         //Calculate VP for each player
-        int[] VP = new int[game.getPlayers().length]; //An integer array for storing player VP so it can be more easily accessed
+
+        //An integer array for storing player VP so it can be more easily accessed
+        int[] VP = new int[game.getPlayers().length];
 
         for (int i = 0; i< game.getPlayers().length; i++) {
 
             VP[i] = game.getPlayers()[i].getVictoryPoints();
-
-            //TODO show player his victory points
         }
 
         //winner symbolizes the position of the player that has won, not the player or the points!
-
         int winner = getWinner(VP);
 
-        //TODO notify player #Winner that he is the winner
+        //Sending to players their corresponding victory points
+        updateVP(VP);
+
+        modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
         //Maybe add post-game functionality
     }
+
 
     /**
      * get the position of the winning player (the one with the highest number of points)
@@ -308,6 +365,7 @@ public class ModelController {
         }
         return winner; // position of the one wih most VP found
     }
+
 
     /**
      * Updates Market after players choice as well as his Warehouse
@@ -344,8 +402,14 @@ public class ModelController {
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
 
+        //Send update of all stuff that has been updated
+        updateResourceMarket();
+        //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
+        updateFaithPoints();
+
         return true;
     }
+
 
     /**
      * Updates The development card market and player board
@@ -358,12 +422,13 @@ public class ModelController {
 
         //check if affordable
         if(!chosenCard.affordable(player)){
-            //TODO Tell player he doesn't have enough resources
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.NOT_ENOUGH_RESOURCES);
             return false;
 
             //check if it's possible to place that card there
         }else if (!player.getBoard().getProductionPowers().canDevCardBePlaced(chosenCard, position)){
-            //TODO Tell player he can't put that card there
+
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ILLEGAL_CARD_PLACE);
             return false;
 
         }else{
@@ -371,9 +436,22 @@ public class ModelController {
             player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+            //Remove Card from DevCardMarket
+            try {
+                game.getDevCardMarket().buyCard(chosenCard);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            //Update
+            updateDevCardMarket();
+            updateProductionPowers(player);
+            updateWarehouse(player);
+
             return true;
         }
     }
+
 
     /**
      * Updates the warehouse and strongbox with players choice
@@ -401,7 +479,7 @@ public class ModelController {
 
         //If it is not enough
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(tot_cost)) {
-            //TODO Tell player he doesn't have enough resources
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.NOT_ENOUGH_RESOURCES);
             return false;
 
         }else{
@@ -437,8 +515,13 @@ public class ModelController {
             }
         }
 
+        //update
+        updateWarehouse(player);
+        updateFaithPoints();
+
         return true;
     }
+
 
     /**
      * Plays the Leader Card the player has chosen
@@ -449,10 +532,14 @@ public class ModelController {
 
         if(chosenLeader.affordable(player)){
             chosenLeader.play(player);
+
+            //update
+            updateLeaders(player);
         }else{
-            //TODO remind player that he doesn't meet the requirements to play this card
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
     }
+
 
     /**
      * Discard the Leader Card the player has chosen
@@ -462,7 +549,11 @@ public class ModelController {
     private void discardLeaderUpdate(Player player, LeadCard chosenLeader){
 
         chosenLeader.discard(player);
+
+        //update
+        updateLeaders(player);
     }
+
 
     /**
      * Makes the player choose all the resources he wants from the input resources, if it has any choices
@@ -491,6 +582,7 @@ public class ModelController {
 
     }
 
+
     /**
      * Given a resource removes faith from it and gives the player the equivalent faith points
      * @param player
@@ -512,6 +604,7 @@ public class ModelController {
         }
         return res;
     }
+
 
     /**
      * Methods check if player has any white marble replacements from his leadCards
@@ -546,7 +639,6 @@ public class ModelController {
             case 2:
 
                 //asking the player to choose one of the two resources he can to substitute white
-                //TODO recheck how will the player be only offered the two resources he has the card (probably clients side)
 
                 //Maybe this line will need to be switched off in the real game, but it is necessary for testing
                 modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
@@ -585,7 +677,6 @@ public class ModelController {
      * and whether the primary action has been used
      */
 
-
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
         //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
@@ -599,7 +690,7 @@ public class ModelController {
         if(!primaryActionUsed){
             primaryActionUsed = resourceMarketUpdate(player, playerChoice.isRow(), playerChoice.getIndex());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
@@ -612,9 +703,9 @@ public class ModelController {
 
         //Do this action only if the player has not used his primary action
         if(!primaryActionUsed){
-            primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChooenCard(), devCardChoice.getPosition());
+            primaryActionUsed = devCardMarketUpdate(player, devCardChoice.getChosenCard(), devCardChoice.getPosition());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
@@ -632,7 +723,7 @@ public class ModelController {
         if(!primaryActionUsed){
             primaryActionUsed = produceUpdate(player, produceChoice.getChosenProd());
         }else{
-            //TODO notify player he has already used his primary action
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.ALREADY_USED_PRIMARY_ACTION);
         }
 
         return primaryActionUsed;
@@ -652,6 +743,71 @@ public class ModelController {
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+    }
+
+
+    /**
+     * Method for making the faithUpdate easier (sending message to view with updated faith points for each player)
+     */
+
+    private void updateFaithPoints(){
+
+        int fp[] = new int[4];
+
+        for (int i = 0; i < game.getPlayers().length; i++) {
+            fp[i] = game.getPlayers()[i].getBoard().getFaithPoints();
+        }
+
+        FaithUpdateData fUp = new FaithUpdateData(fp);
+
+        modelControllerIOHandler.pushUpdate(Update.FAITH, fUp);
+    }
+
+    /**
+     * All the other update methods
+     * @param player
+     */
+
+    private void updateWarehouse(Player player){
+
+        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getNickname());
+        modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
+    }
+
+    private void updateResourceMarket(){
+
+        ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
+        modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);
+    }
+
+    private void updateDevCardMarket(){
+
+        DevCardMarketUpdateData devUp = new DevCardMarketUpdateData(game.getDevCardMarket());
+        modelControllerIOHandler.pushUpdate(Update.DEVCARD_MARKET, devUp);
+    }
+
+    private void updateProductionPowers(Player player){
+
+        ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player.getNickname());
+        modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);
+    }
+
+    private void updateLeaders(Player player){
+
+        PlayerLeadersUpdateData plUp = new PlayerLeadersUpdateData(player.getLeaders(), player.getNickname());
+        modelControllerIOHandler.pushUpdate(Update.LEADERS, plUp);
+    }
+
+    private void updateVP(int[] VP){
+
+        VPUpdateData VPUp = new VPUpdateData(VP);
+        modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
+    }
+
+    private void updateActionToken(){
+
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross());
+        modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
 
 }
