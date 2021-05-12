@@ -261,6 +261,7 @@ class ModelControllerTest {
 
         //Player has chosen the first row
 
+
         //Saving first row for later
         Resources res = new Resources();
         //System.out.println(gm.getGame().getResourceMarket().getColumns());
@@ -294,10 +295,21 @@ class ModelControllerTest {
         //the player will be asked to update his warehouse
 
         Warehouse wh = new Warehouse();
-        //Warning: It probably it's not possible to put all the resources the player has in a single warehouse slot
-        //But for the sake of testing we will suppose so
+        //WARNING: The resources might not be able to be put in the warehouse directly
+        //They must be divided by floors otherwise the player response will be ignored as incorrect
 
-        wh.deposit(res, 1);
+        //For the sake of simplicity, we will suppose the player decided to keep just 1 of his marbles,
+        //If they are not faith or blank, obviously
+
+        Resources chosen = new Resources();
+
+        if(gm.getGame().getResourceMarket().getAvailable()[0][0].getValue().getAmountOf(ResourceType.BLANK)!=0
+        && gm.getGame().getResourceMarket().getAvailable()[0][0].getValue().getAmountOf(ResourceType.FAITH)!=0){
+
+            chosen.add(gm.getGame().getResourceMarket().getAvailable()[0][0].getValue());
+        }
+
+        wh.deposit(chosen, 1);
         PutResourcesActionData putres = new PutResourcesActionData();
         putres.setWh(wh);
         putres.setPlayer("Player 1");
@@ -318,15 +330,15 @@ class ModelControllerTest {
         //System.out.println("Fp:");
         //System.out.println(fp);
 
-        //Check that the resources have been added correctly
 
+        //Check that the resources have been added correctly
 
         //System.out.println(res.getTotalAmount());
         //System.out.println(gm.getGame().getPlayers()[0].getBoard().getWarehouse().getResourcesAvailable().getTotalAmount());
         //System.out.println(wh.getResourceAmountWarehouse());
 
-        //The resources available should be the ones that were in the market tray
-        assertTrue(res.equals(p.getBoard().getWarehouse().getResourcesAvailable()));
+        //The resources available should be the first one that was in the market tray
+        assertTrue(chosen.equals(p.getBoard().getWarehouse().getResourcesAvailable()));
 
     }
 
