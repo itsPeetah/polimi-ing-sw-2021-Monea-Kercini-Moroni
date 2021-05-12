@@ -1,11 +1,16 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.application.gui.GUIStage;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.view.common.GameData;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 public class GameApplication {
+    private static final String DEFAULT_SP_NICKNAME = "Player";
 
     // Output mode (CLI/GUI)
     private static GameApplicationMode outputMode = GameApplicationMode.CLI;
@@ -126,7 +131,7 @@ public class GameApplication {
             // TODO move to its own class
             System.out.println(output);
         } else {
-            // TODO Add gui class to do this
+            GUIStage.showDialog(output);
         }
 
     }
@@ -144,13 +149,13 @@ public class GameApplication {
         synchronized (lock) {
             if (isOnNetwork())
                 return;
-
-            networkClient = new GameClient(hostName, portNumber);
-            if(!networkClient.start())
-                networkClient = null;
-            else
-                isRunning = true;
         }
+
+        networkClient = new GameClient(hostName, portNumber);
+        if(!networkClient.start())
+            networkClient = null;
+        else
+            isRunning = true;
     }
 
     public void sendNetworkPacket(NetworkPacket packet) {
@@ -158,9 +163,17 @@ public class GameApplication {
         networkClient.send(packet);
     }
 
+    /**
+     * Start a SP game.
+     */
+    public void startSPGame() {
+        gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
+    }
 
-    // TODO Setup game (SP/MP)
-    // TODO Others
-
-
+    /**
+     * Start a MP game.
+     */
+    public void startMPGame() {
+        gameController = new GameController(new GameData());
+    }
 }

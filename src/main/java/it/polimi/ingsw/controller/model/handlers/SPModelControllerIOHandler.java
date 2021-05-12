@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
@@ -13,28 +14,28 @@ import it.polimi.ingsw.network.common.NetworkPacket;
  * It communicates directly with the view controller.
  */
 public class SPModelControllerIOHandler extends ModelControllerIOHandler {
-    private final GameControllerIOHandler gameControllerIOHandler;
+    private final GameController gameController;
 
     /**
      * Constructor
-     * @param gameControllerIOHandler IO handler of the view controller, in order to enable communications between the two controllers.
+     * @param gameController view controller, in order to enable communications between the two controllers.
      */
-    public SPModelControllerIOHandler(GameControllerIOHandler gameControllerIOHandler) {
+    public SPModelControllerIOHandler(GameController gameController) {
         super();
-        this.gameControllerIOHandler = gameControllerIOHandler;
+        this.gameController = gameController;
     }
 
     @Override
     public void sendMessage(String player, Message message) {
         MessagePacket messagePacket = new MessagePacket(player, message);
         /*NetworkPacket networkPacket = NetworkPacket.buildMessagePacket(messagePacket);*/
-        gameControllerIOHandler.notifyMessage(messagePacket);
+        gameController.getGameControllerIOHandler().notifyMessage(messagePacket);
     }
 
     @Override
     public void pushUpdate(Update type, UpdateData data) {
-        UpdatePacket updatePacket = new UpdatePacket(type, data);
+        UpdatePacket updatePacket = new UpdatePacket(type, type.parseData(data));
         /*NetworkPacket networkPacket = NetworkPacket.buildUpdatePacket(updatePacket);*/
-        gameControllerIOHandler.notifyUpdate(updatePacket);
+        gameController.getGameControllerIOHandler().notifyUpdate(updatePacket);
     }
 }

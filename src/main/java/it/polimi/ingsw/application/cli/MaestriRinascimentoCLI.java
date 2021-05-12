@@ -1,9 +1,7 @@
 package it.polimi.ingsw.application.cli;
 
-import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.*;
-import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 
 public class MaestriRinascimentoCLI {
 

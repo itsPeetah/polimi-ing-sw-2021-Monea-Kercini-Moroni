@@ -1,15 +1,11 @@
 package it.polimi.ingsw.application.common;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.application.common.iohandlers.GUIApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class GameApplicationIOHandler {
     protected final static Gson gson = new Gson();
@@ -20,13 +16,8 @@ public class GameApplicationIOHandler {
         return instance;
     }
 
-    // TODO make class abstract
-    // TODO make subclasses CLIApplicationIOHandler and GUIApplicationIOHandler
-
     public GameApplicationIOHandler() {
     }
-
-    // TODO Add others
 
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
         MessagePacket messagePacket = gson.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
