@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
+import it.polimi.ingsw.controller.model.updates.data.DevCardMarketUpdateData;
 import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
@@ -65,9 +66,15 @@ public class GameController {
         // TODO code to apply the update
 
         switch (update){
+
             case RESOURCE_MARKET:
                 ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
-                //gameData. res.getMT()
+                gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
+                gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
+                break;
+            case DEVCARD_MARKET:
+                DevCardMarketUpdateData dcm = update.getUpdateData(updateDataString);
+                gameData.getCommon().getDevCardMarket().setAvailableCards(dcm.getDevCardMarket().getVisibleCards());
         }
 
         // If the player is not in IDLE, it means that the action performed was accepted.

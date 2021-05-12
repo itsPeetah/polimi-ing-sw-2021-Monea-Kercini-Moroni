@@ -54,9 +54,32 @@ public class DevCardMarket {
                 }
             }
         }
-
         return available;
+    }
 
+    /**
+     *
+     * @return the matrix of dev cards as the players see it
+     * where there is no card a null value is returned
+     */
+
+    public DevCard[][] getVisibleCards(){
+
+        DevCard[][] visible = new DevCard[4][3];
+
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 3; i++) {
+
+                //A column-row combination might also be free, it's cards finished
+                if(availableCards[j][i].size()>0) {
+                    //The cards available for purchase are the top ones
+                    visible[j][i] = availableCards[j][i].get(availableCards[j][i].size() - 1);
+                }else{
+                    visible[j][i] = null;
+                }
+            }
+        }
+        return visible;
     }
 
 
