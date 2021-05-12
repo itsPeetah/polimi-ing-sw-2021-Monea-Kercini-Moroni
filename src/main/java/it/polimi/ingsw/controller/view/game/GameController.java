@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
+import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
@@ -45,7 +46,24 @@ public class GameController {
     }
 
     public void reactToUpdate(Update update, UpdateData updateData) {
-        // TODO code to apply the update
+
+        //apply update
+
+        switch (update){
+
+            case RESOURCE_MARKET:
+
+
+
+
+        }
+
+
+    }
+
+    public void reactToMessage(Message message) {
+        String messageContent = message.toString();
+        // Todo what to do with the message?
 
         // If the player is not in IDLE, it means that the action performed was accepted.
         if(currentState != GameState.IDLE) {
@@ -54,11 +72,6 @@ public class GameController {
             //moveToScene();
 
         }
-    }
-
-    public void reactToMessage(Message message) {
-        String messageContent = message.toString();
-        // Todo what to do with the message?
     }
 
     /**
