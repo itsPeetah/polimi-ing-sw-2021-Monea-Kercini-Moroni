@@ -89,6 +89,7 @@ public class ModelController {
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
+                //notify player of his mistake
                 modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;
             }
@@ -107,6 +108,8 @@ public class ModelController {
             //update
             updateWarehouse(p);
 
+            //send ok to the view controller
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
             return updatedWarehouse;
 
         }else{
@@ -450,6 +453,7 @@ public class ModelController {
             updateProductionPowers(player);
             updateWarehouse(player);
 
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
             return true;
         }
     }
@@ -521,6 +525,7 @@ public class ModelController {
         updateWarehouse(player);
         updateFaithPoints();
 
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         return true;
     }
 
@@ -537,6 +542,7 @@ public class ModelController {
 
             //update
             updateLeaders(player);
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
@@ -554,6 +560,8 @@ public class ModelController {
 
         //update
         updateLeaders(player);
+
+        //I suppose no message is needed here since the leader is for sure discarded, so the game just goes on
     }
 
 
