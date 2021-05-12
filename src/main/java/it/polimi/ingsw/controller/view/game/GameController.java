@@ -81,7 +81,6 @@ public class GameController {
 
             case PRODUCTION_POWERS:
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
-                //pp.getProductionPowers().
 
         }
 

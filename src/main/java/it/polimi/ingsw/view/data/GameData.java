@@ -1,18 +1,15 @@
 package it.polimi.ingsw.view.data;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GameData {
 
     CommonData common;
-    List<PlayerData> players;
+    HashMap<String, PlayerData> playerTable = new HashMap<>();
 
     public CommonData getCommon() {
         return common;
-    }
-
-    public List<PlayerData> getPlayers() {
-        return players;
     }
 
     /**
@@ -22,8 +19,15 @@ public class GameData {
     public GameData() {
 
         common = new CommonData();
-        for (PlayerData p : players) {
-            p = new PlayerData();
-        }
     }
+
+
+    public void addPlayer(String name){
+        playerTable.put(name, new PlayerData());
+    }
+
+    public void getPlayerData(String name){
+        playerTable.get(name);
+    }
+
 }
