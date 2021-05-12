@@ -89,7 +89,7 @@ public class ModelController {
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
-                //todo message player he has fucked up
+                modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;
             }
 
