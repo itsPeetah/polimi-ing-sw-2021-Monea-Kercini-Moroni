@@ -9,10 +9,6 @@ public class MaestriRinascimentoGUI {
     public static final int LENGTH = 600;
     public static final int HEIGHT = 250;
 
-
-    /* Game attributes */
-    private GameClient networkClient;
-
     public static void main(String[] args){
 
         // Create the backend application
