@@ -1,9 +1,12 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.view.common.GameData;
 
 public class GameApplication {
 
@@ -144,13 +147,13 @@ public class GameApplication {
         synchronized (lock) {
             if (isOnNetwork())
                 return;
-
-            networkClient = new GameClient(hostName, portNumber);
-            if(!networkClient.start())
-                networkClient = null;
-            else
-                isRunning = true;
         }
+
+        networkClient = new GameClient(hostName, portNumber);
+        if(!networkClient.start())
+            networkClient = null;
+        else
+            isRunning = true;
     }
 
     public void sendNetworkPacket(NetworkPacket packet) {
@@ -158,9 +161,17 @@ public class GameApplication {
         networkClient.send(packet);
     }
 
+    /**
+     * Start a SP game.
+     */
+    public void startSPGame() {
+        gameController = GameController.generateSPGameController();
+    }
 
-    // TODO Setup game (SP/MP)
-    // TODO Others
-
-
+    /**
+     * Start a MP game.
+     */
+    public void startMPGame() {
+        gameController = GameController.generateMPGameController();
+    }
 }

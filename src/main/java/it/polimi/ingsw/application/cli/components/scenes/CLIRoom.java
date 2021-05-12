@@ -21,7 +21,7 @@ public class CLIRoom extends CLIScene {
     @Override
     public void help() {
         print("Use command \"leave\" to leave the room before the game starts.");
-        print("Use command \"start\" to start the game (must be room owner). "+ ANSIColor.RED + "(NOT YET IMPLEMENTED )" + ANSIColor.RESET);
+        print("Use command \"start\" to start the game (must be room owner). "+ ANSIColor.RED + "(NOT YET IMPLEMENTED)" + ANSIColor.RESET);
     }
 
     @Override

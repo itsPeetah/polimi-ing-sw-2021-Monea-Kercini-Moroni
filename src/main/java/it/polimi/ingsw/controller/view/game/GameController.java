@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
+import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
@@ -24,23 +25,40 @@ public class GameController {
     private boolean mainActionUsed;
 
     /**
-     * Constructor for MP game controller.
-     * @param gameData
+     * Generate and return a game controller for a SP game.
      */
-    public GameController(GameData gameData) {
-        this.gameData = gameData;
-        this.gameControllerIOHandler = new MPGameControllerIOHandler(this);
-        currentState = GameState.IDLE;
+    public static GameController generateSPGameController() {
+        return new GameController(new GameData(), false);
     }
 
     /**
-     * Constructor for SP game controller.
-     * @param gameData
-     * @param modelControllerIOHandler IO handler of the model controller, necessary to communicate without network.
+     * Generate and return a game controller for MP game.
      */
-    public GameController(GameData gameData, ModelControllerIOHandler modelControllerIOHandler) {
+    public static GameController generateMPGameController() {
+        return new GameController(new GameData(), true);
+    }
+
+    /**
+     * Constructor for a game controller.
+     * @param gameData data of the game.
+     * @param isMultiplayer boolean indicating if the new game is a multiplayer game or not.
+     */
+    private GameController(GameData gameData, boolean isMultiplayer) {
         this.gameData = gameData;
-        this.gameControllerIOHandler = new SPGameControllerIOHandler(this, modelControllerIOHandler);
+
+        // If MultiPlayer
+        if(isMultiplayer) this.gameControllerIOHandler = new MPGameControllerIOHandler(this);
+        // If SinglePlayer
+        else {
+            // Generate SP Model IO handler
+            SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
+
+            // Generate SP GC IO handler
+            this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
+
+            // Now the handlers are connected
+        }
+
         currentState = GameState.IDLE;
     }
 
