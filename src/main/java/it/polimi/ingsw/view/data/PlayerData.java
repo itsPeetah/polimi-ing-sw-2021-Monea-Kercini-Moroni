@@ -3,6 +3,9 @@ package it.polimi.ingsw.view.data;
 import it.polimi.ingsw.view.data.player.*;
 
 public class PlayerData {
+
+    private String nickname;
+
     private DevCards devCards;
     private FaithTrack faithTrack;
     private PlayerLeaders playerLeaders;
@@ -35,5 +38,13 @@ public class PlayerData {
         faithTrack = new FaithTrack();
         warehouse = new Warehouse();
         strongbox = new Strongbox();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

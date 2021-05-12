@@ -72,9 +72,12 @@ public class GameController {
                 gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
                 gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
                 break;
+
             case DEVCARD_MARKET:
                 DevCardMarketUpdateData dcm = update.getUpdateData(updateDataString);
                 gameData.getCommon().getDevCardMarket().setAvailableCards(dcm.getDevCardMarket().getVisibleCards());
+                break;
+
         }
 
         // If the player is not in IDLE, it means that the action performed was accepted.
