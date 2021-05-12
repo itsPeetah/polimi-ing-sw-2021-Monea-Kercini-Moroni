@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.data.DevCardMarketUpdateData;
+import it.polimi.ingsw.controller.model.updates.data.ProductionPowersUpdateData;
 import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
@@ -77,6 +78,10 @@ public class GameController {
                 DevCardMarketUpdateData dcm = update.getUpdateData(updateDataString);
                 gameData.getCommon().getDevCardMarket().setAvailableCards(dcm.getDevCardMarket().getVisibleCards());
                 break;
+
+            case PRODUCTION_POWERS:
+                ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
+                //pp.getProductionPowers().
 
         }
 
