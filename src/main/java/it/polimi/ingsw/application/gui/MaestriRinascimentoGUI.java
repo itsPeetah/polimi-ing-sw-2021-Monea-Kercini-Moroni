@@ -5,25 +5,23 @@ import it.polimi.ingsw.application.common.GameApplicationMode;
 import it.polimi.ingsw.network.client.GameClient;
 
 public class MaestriRinascimentoGUI {
-
-    private GameClient networkClient;
-    private GameApplication gameApplication;
-
-    public static boolean appRunning;
+    /* Visualization attributes */
+    public static final int LENGTH = 600;
+    public static final int HEIGHT = 250;
 
     public static void main(String[] args){
 
-        appRunning = true;
+        // Create the backend application
+        GameApplication gameApplication = GameApplication.getInstance();
 
-        /*GameClient networkClient = new GameClient("localhost", 42069);*/
-        GameApplication gameApplication = new GameApplication();
+        // Set GUI output mode
+        GameApplication.setOutputMode(GameApplicationMode.GUI);
 
-        while(appRunning){
+        // Connect to the server
+        gameApplication.connect("localhost", 42069);
 
-            switch (GameApplication.getInstance().getApplicationState()){
-                // TODO Do states
-            }
-        }
+        // Create the stage and start the GUI
+        GUIStage.main(args);
 
     }
 }

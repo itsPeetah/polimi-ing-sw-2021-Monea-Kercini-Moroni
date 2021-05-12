@@ -1,13 +1,13 @@
 package it.polimi.ingsw.application.common;
 
-import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
-import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
+import it.polimi.ingsw.application.gui.GUIStage;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.common.GameData;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 public class GameApplication {
     private static final String DEFAULT_SP_NICKNAME = "Player";
@@ -131,7 +131,7 @@ public class GameApplication {
             // TODO move to its own class
             System.out.println(output);
         } else {
-            // TODO Add gui class to do this
+            GUIStage.showDialog(output);
         }
 
     }
