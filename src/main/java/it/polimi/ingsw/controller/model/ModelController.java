@@ -138,13 +138,11 @@ public class ModelController {
         //shuffle player order
         //game.shufflePlayers();
 
-        /*
-        //Preparing stuff for player board
-        ArrayList<Warehouse> wh = new ArrayList<>();
-        ArrayList<Strongbox> sb = new ArrayList<>();
-        ArrayList<ProductionPowers> pp = new ArrayList<>();
-        ArrayList<PlayerBoard> pb = new ArrayList<>();
-         */
+        //Updating the view with the current Market Tray and DevCard market
+        //This might influence player choice on the leader and extra resources
+
+        updateResourceMarket();
+        updateDevCardMarket();
 
         //Getting player Leader choices and Extra resources depending on player order
 
@@ -182,6 +180,10 @@ public class ModelController {
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
 
             }
+
+            //After each players choice update the view
+            updateWarehouse(game.getPlayers()[i]);
+            updateFaithPoints();
         }
 
         //If single player game instantiate Lorenzo, the opponent
