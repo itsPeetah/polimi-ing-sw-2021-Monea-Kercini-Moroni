@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.common.GameData;
@@ -165,13 +166,13 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startSPGame() {
-        gameController = GameController.generateSPGameController();
+        gameController = new GameController(new GameData(), getUserNickname());
     }
 
     /**
      * Start a MP game.
      */
     public void startMPGame() {
-        gameController = GameController.generateMPGameController();
+        gameController = new GameController(new GameData());
     }
 }

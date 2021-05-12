@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.view.game;
 
+import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
@@ -25,41 +26,38 @@ public class GameController {
     private boolean mainActionUsed;
 
     /**
-     * Generate and return a game controller for a SP game.
-     */
-    public static GameController generateSPGameController() {
-        return new GameController(new GameData(), false);
-    }
-
-    /**
-     * Generate and return a game controller for MP game.
-     */
-    public static GameController generateMPGameController() {
-        return new GameController(new GameData(), true);
-    }
-
-    /**
-     * Constructor for a game controller.
+     * Constructor for a MP game controller.
      * @param gameData data of the game.
-     * @param isMultiplayer boolean indicating if the new game is a multiplayer game or not.
      */
-    private GameController(GameData gameData, boolean isMultiplayer) {
+    public GameController(GameData gameData) {
+        this.gameData = gameData;
+        this.gameControllerIOHandler = new MPGameControllerIOHandler(this);
+        this.currentState = GameState.IDLE;
+    }
+
+    /**
+     * Constructor for a SP game controller.
+     * @param gameData data of the game.
+     * @param playerNickname nickname of the player.
+     */
+    public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
 
-        // If MultiPlayer
-        if(isMultiplayer) this.gameControllerIOHandler = new MPGameControllerIOHandler(this);
-        // If SinglePlayer
-        else {
-            // Generate SP Model IO handler
-            SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
+        // Generate SP Model IO handler
+        SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
 
-            // Generate SP GC IO handler
-            this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
+        // Generate model controller
+        ModelController modelController = new ModelController(spModelControllerIOHandler);
+        modelController.addPlayer(playerNickname);
+        modelController.setSinglePlayer(true);
 
-            // Now the handlers are connected
-        }
+        // Generate SP GC IO handler
+        this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
 
-        currentState = GameState.IDLE;
+        // Now that the handlers are connected, start the game
+        modelController.setupGame();
+
+        this.currentState = GameState.IDLE;
     }
 
     public void reactToUpdate(Update update, UpdateData updateData) {
