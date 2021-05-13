@@ -11,14 +11,12 @@ import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
 import it.polimi.ingsw.view.data.GameData;
-import it.polimi.ingsw.view.scenes.GameScene;
 
 public class GameController {
 
     private final GameData gameData;
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
-    private GameScene currentScene;
 
     private int turn = 0;
 
@@ -250,7 +248,6 @@ public class GameController {
     protected void moveToState(GameState nextState) {
         currentState = nextState;
     }
-    protected void moveToScene(GameScene nextScene) { currentScene = nextScene;}
 
     public GameControllerIOHandler getGameControllerIOHandler() {
         return gameControllerIOHandler;
