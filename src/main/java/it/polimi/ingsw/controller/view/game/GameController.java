@@ -122,7 +122,10 @@ public class GameController {
                 }
                 break;
 
-
+            case SOLO_ACTION:
+                ActionTokenUpdateData at = update.getUpdateData(updateDataString);
+                gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
+                gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());
         }
 
         // If the player is not in IDLE, it means that the action performed was accepted.
