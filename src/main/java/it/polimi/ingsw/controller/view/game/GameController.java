@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.view.game;
 
 import it.polimi.ingsw.controller.model.ModelController;
-import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
@@ -122,21 +121,34 @@ public class GameController {
                 ActionTokenUpdateData at = update.getUpdateData(updateDataString);
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());
+                break;
         }
     }
 
+    /**
+     * The message and the state will decide the next state of the player
+     * @param message
+     */
 
     public void reactToMessage(Message message) {
         String messageContent = message.toString();
-        // Todo what to do with the message?
+
+        switch (message){
+
+            case START_TURN:
+                moveToState(GameState.TURN_CHOICE);
+                break;
+
+            case NOT_ENOUGH_RESOURCES:
+        }
     }
 
     /**
      * React to an action performed by the player.
-     * This class will push the action to the server if the check of the action is passed, or handle the problem if need be.
+     * This class will push the action to the server, or handle the problem if need be.
      */
     public void reactToAction(ActionPacket actionPacket) {
-        Action action = actionPacket.getAction();
+        //Action action = actionPacket.getAction();
 
         // Push the action to the model controller
         gameControllerIOHandler.pushAction(actionPacket);
