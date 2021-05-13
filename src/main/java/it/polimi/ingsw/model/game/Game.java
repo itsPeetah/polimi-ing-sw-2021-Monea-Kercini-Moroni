@@ -75,6 +75,19 @@ public class Game {
         return pls;
     }
 
+    public boolean[][] getAllReportsAttended(){
+
+        boolean[][] reports = new boolean[players.size()][3];
+
+        //adding reports
+
+        for (int i = 0; i < players.size(); i++) {
+            reports[i] = players.get(i).getBoard().getReportsAttended();
+        }
+
+        return reports;
+    }
+
     /**
      * Gets the player whose turn it currently is.
      */

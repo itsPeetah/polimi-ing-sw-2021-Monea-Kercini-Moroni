@@ -108,7 +108,7 @@ public class GameController {
                     gameData.getPlayerData(vp.getPlayers()[i]).setVP(vp.getVP()[i]);
                 }
                 break;
-
+            case FAITH:
 
         }
 

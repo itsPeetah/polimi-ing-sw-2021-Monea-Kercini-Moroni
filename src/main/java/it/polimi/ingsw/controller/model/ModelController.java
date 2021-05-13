@@ -768,7 +768,7 @@ public class ModelController {
             fp[i] = game.getPlayers()[i].getBoard().getFaithPoints();
         }
 
-        FaithUpdateData fUp = new FaithUpdateData(fp);
+        FaithUpdateData fUp = new FaithUpdateData(fp, game.getPlayerNames(), game.getAllReportsAttended());
 
         modelControllerIOHandler.pushUpdate(Update.FAITH, fUp);
     }
