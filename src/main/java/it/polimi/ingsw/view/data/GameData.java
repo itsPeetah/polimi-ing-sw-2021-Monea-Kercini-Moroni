@@ -26,8 +26,8 @@ public class GameData {
         playerTable.put(name, new PlayerData());
     }
 
-    public void getPlayerData(String name){
-        playerTable.get(name);
+    public PlayerData getPlayerData(String name){
+        return playerTable.get(name);
     }
 
 }

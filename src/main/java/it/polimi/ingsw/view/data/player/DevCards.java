@@ -7,15 +7,15 @@ public class DevCards extends Observable {
 
     //keeping only the necessary 3 cards that are in view
 
-    private DevCards[] devCards;
+    private DevCard[] devCards;
 
-    public void setDevCards(DevCards[] devCards) {
+    public void setDevCards(DevCard[] devCards) {
         this.devCards = devCards;
         setChanged();
         notifyObservers(devCards);
     }
 
     public DevCards() {
-        this.devCards = new DevCards[3];
+        this.devCards = new DevCard[3];
     }
 }
