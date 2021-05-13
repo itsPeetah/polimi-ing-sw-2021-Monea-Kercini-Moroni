@@ -65,6 +65,9 @@ public class ModelController {
      */
     private Resources askPlayerToChooseResource(Player p){
 
+        //notifying player he has to choose a resource
+        modelControllerIOHandler.sendMessage(p.getNickname(), Message.CHOOSE_RESOURCE);
+
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
         ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
         Resources res = data.getResources();
@@ -156,6 +159,9 @@ public class ModelController {
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
+
+            //notifying player he has to choose 2 leaders
+            modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
