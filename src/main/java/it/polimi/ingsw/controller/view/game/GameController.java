@@ -165,12 +165,42 @@ public class GameController {
                 GameApplication.getInstance().out(messageContent);
                 //This might be triggered in different scenarios
                 //Player MUST have his warehouse organized before going on
-                moveToState(GameState.ORGANIZE_WAREHOUSE);
+
+                switch (currentState){
+
+                    //If player was in setup state -> after organizing his warehouse he can't do nothing else
+                    case SETUP:
+                        moveToState(GameState.ORGANIZE_WAREHOUSE_S);
+                        break;
+                    default:
+                        moveToState(GameState.ORGANIZE_WAREHOUSE);
+                }
 
             case WINNER:
                 //This player is the winner
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
+            case LOSER:
+                //This player is a loser
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.ENDGAME);
+
+            case OK:
+                //This is the most tricky case
+                //The next state that comes after the ok depends on our current state
+
+                if(currentState==GameState.ORGANIZE_WAREHOUSE_S){
+                    moveToState(GameState.IDLE);
+                }else if(currentState==GameState.ORGANIZE_WAREHOUSE){
+                    moveToState(GameState.TURN_CHOICE);
+                    //This was the current state theoretically
+                }else{
+                    //The server controller is just confirming a action the player has done during his turn
+
+                }
+
+
+
         }
     }
 
