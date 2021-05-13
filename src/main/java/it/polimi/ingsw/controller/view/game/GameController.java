@@ -199,19 +199,23 @@ public class GameController {
                     default:
                         moveToState(GameState.ORGANIZE_WAREHOUSE);
                 }
+                break;
 
             case WINNER:
                 //This player is the winner
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
+                break;
             case LOSER:
                 //This player is a loser
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
+                break;
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
+                break;
 
             case OK:
                 //This is the most tricky case
@@ -225,10 +229,8 @@ public class GameController {
                 }else{
                     //The server controller is just confirming a action the player has done during his turn
                     //The player is still playing his turn
-
                 }
-
-
+                break;
 
         }
     }
