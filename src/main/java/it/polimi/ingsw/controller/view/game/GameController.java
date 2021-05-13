@@ -152,6 +152,10 @@ public class GameController {
                 break;
 
             case INCORRECT_REPLACEMENT:
+                //Super rare case
+                //Triggered when player has 2 leaders with replace white ability activated and yet chooses another
+                // resource to replace white
+
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.PICK_RESOURCES);
                 break;
@@ -202,6 +206,10 @@ public class GameController {
                 moveToState(GameState.ENDGAME);
             case LOSER:
                 //This player is a loser
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.ENDGAME);
+            case LOSER_MULTIPLAYER:
+                //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
 
