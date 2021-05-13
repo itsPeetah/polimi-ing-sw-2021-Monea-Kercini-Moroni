@@ -10,6 +10,14 @@ public class PlayerLeaders {
     private LeadCard[] cards;
     private CardState[] cardStates;
 
+    public LeadCard[] getCards() {
+        return cards;
+    }
+
+    public CardState[] getCardStates() {
+        return cardStates;
+    }
+
     /**
      *
      * @return All the cards the player has in hand.
