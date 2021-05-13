@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class GUIStage extends Application {
+public class GUIApplication extends Application {
     private static Stage primaryStage;
     private static Alert oldDialog;
 

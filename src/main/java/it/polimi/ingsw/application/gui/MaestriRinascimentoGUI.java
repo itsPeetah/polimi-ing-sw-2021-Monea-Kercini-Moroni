@@ -2,7 +2,6 @@ package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationMode;
-import it.polimi.ingsw.network.client.GameClient;
 
 public class MaestriRinascimentoGUI {
     /* Visualization attributes */
@@ -21,7 +20,7 @@ public class MaestriRinascimentoGUI {
         gameApplication.connect("localhost", 42069);
 
         // Create the stage and start the GUI
-        GUIStage.main(args);
+        GUIApplication.main(args);
 
     }
 }
