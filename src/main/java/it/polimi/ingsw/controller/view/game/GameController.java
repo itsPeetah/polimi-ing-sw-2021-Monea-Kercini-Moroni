@@ -99,6 +99,9 @@ public class GameController {
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
                 break;
+
+            case VP:
+
         }
 
         // If the player is not in IDLE, it means that the action performed was accepted.

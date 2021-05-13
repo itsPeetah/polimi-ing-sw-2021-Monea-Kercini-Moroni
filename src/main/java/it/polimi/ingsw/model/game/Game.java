@@ -62,6 +62,20 @@ public class Game {
     }
 
     /**
+     *
+     * @return player names array
+     */
+    public String[] getPlayerNames(){
+
+        String[] pls = new String[players.size()];
+
+        for (int i = 0; i < players.size(); i++) {
+            pls[i] = players.get(i).getNickname();
+        }
+        return pls;
+    }
+
+    /**
      * Gets the player whose turn it currently is.
      */
     public Player getCurrentPlayer() {

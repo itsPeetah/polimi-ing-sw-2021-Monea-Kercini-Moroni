@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.playerboard.*;
 import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -140,9 +141,9 @@ public class ModelController {
         //shuffle player order
         //game.shufflePlayers();
 
+
         //Updating the view with the current Market Tray and DevCard market
         //This might influence player choice on the leader and extra resources
-
         updateResourceMarket();
         updateDevCardMarket();
 
@@ -809,7 +810,7 @@ public class ModelController {
 
     private void updateVP(int[] VP){
 
-        VPUpdateData VPUp = new VPUpdateData(VP);
+        VPUpdateData VPUp = new VPUpdateData(VP, game.getPlayerNames());
         modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
     }
 
