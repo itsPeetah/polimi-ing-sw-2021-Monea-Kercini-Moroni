@@ -147,19 +147,15 @@ public class ModelController {
         updateResourceMarket();
         updateDevCardMarket();
 
+        //Notifying players tha game has started
+        for(Player p : game.getPlayers()){
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
+        }
+
+
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
-
-            /*
-            //Set up player board
-            wh.add(new Warehouse());
-            sb.add(new Strongbox());
-            pp.add(new ProductionPowers(3));
-            pb.add(new PlayerBoard(3, wh.get(i), sb.get(i), pp.get(i)));
-
-            game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
-             */
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
