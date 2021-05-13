@@ -42,7 +42,6 @@ public class ModelController {
         
         // Set communication handler
         this.modelControllerIOHandler = modelControllerIOHandler;
-
     }
 
     public Game getGame() {
@@ -64,6 +63,9 @@ public class ModelController {
      * @return the resource
      */
     private Resources askPlayerToChooseResource(Player p){
+
+        //notifying player he has to choose a resource
+        modelControllerIOHandler.sendMessage(p.getNickname(), Message.CHOOSE_RESOURCE);
 
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
         ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
@@ -89,7 +91,8 @@ public class ModelController {
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
-                //todo message player he has fucked up
+                //notify player of his mistake
+                modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;
             }
 
@@ -107,6 +110,8 @@ public class ModelController {
             //update
             updateWarehouse(p);
 
+            //send ok to the view controller
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
             return updatedWarehouse;
 
         }else{
@@ -138,27 +143,24 @@ public class ModelController {
         //shuffle player order
         //game.shufflePlayers();
 
-        /*
-        //Preparing stuff for player board
-        ArrayList<Warehouse> wh = new ArrayList<>();
-        ArrayList<Strongbox> sb = new ArrayList<>();
-        ArrayList<ProductionPowers> pp = new ArrayList<>();
-        ArrayList<PlayerBoard> pb = new ArrayList<>();
-         */
+
+        //Updating the view with the current Market Tray and DevCard market
+        //This might influence player choice on the leader and extra resources
+        updateResourceMarket();
+        updateDevCardMarket();
+
+        //Notifying players tha game has started
+        for(Player p : game.getPlayers()){
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
+        }
+
 
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
-            /*
-            //Set up player board
-            wh.add(new Warehouse());
-            sb.add(new Strongbox());
-            pp.add(new ProductionPowers(3));
-            pb.add(new PlayerBoard(3, wh.get(i), sb.get(i), pp.get(i)));
-
-            game.getPlayers()[i].setBoard(pb.get(i)); //Assign Board to Player
-             */
+            //notifying player he has to choose 2 leaders
+            modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
 
             //The player has been offered 4 leader cards on the model side and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
@@ -182,6 +184,10 @@ public class ModelController {
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
 
             }
+
+            //After each players choice update the view
+            updateWarehouse(game.getPlayers()[i]);
+            updateFaithPoints();
         }
 
         //If single player game instantiate Lorenzo, the opponent
@@ -338,7 +344,20 @@ public class ModelController {
         //Sending to players their corresponding victory points
         updateVP(VP);
 
-        modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
+        for (int i = 0; i < game.getPlayers().length; i++) {
+
+            if(i==winner){
+                //winner
+                modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.WINNER);
+            }else{
+                //loser playing multi player
+                modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.LOSER_MULTIPLAYER);
+            }
+            //In single player the message is already sent by Lorenzo
+
+        }
+
+
         //Maybe add post-game functionality
     }
 
@@ -448,6 +467,7 @@ public class ModelController {
             updateProductionPowers(player);
             updateWarehouse(player);
 
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
             return true;
         }
     }
@@ -519,6 +539,7 @@ public class ModelController {
         updateWarehouse(player);
         updateFaithPoints();
 
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         return true;
     }
 
@@ -535,6 +556,7 @@ public class ModelController {
 
             //update
             updateLeaders(player);
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
@@ -552,6 +574,8 @@ public class ModelController {
 
         //update
         updateLeaders(player);
+
+        //I suppose no message is needed here since the leader is for sure discarded, so the game just goes on
     }
 
 
@@ -638,25 +662,36 @@ public class ModelController {
                 break;
             case 2:
 
-                //asking the player to choose one of the two resources he can to substitute white
+                //Keep asking player until he chooses a correct replace type
+                boolean done = false;
 
-                //Maybe this line will need to be switched off in the real game, but it is necessary for testing
-                modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+                while(!done) {
 
-                ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
-                Resources choice = data.getResources();
+                    //asking the player to choose one of the two resources he can to substitute white
 
-                //Converting the choice from resources in resource type and adding it
-                for (ResourceType type : ResourceType.values()) {
-                    //also checking if player choice is effectively one of the types he can replace
-                    if(choice.getAmountOf(type) > 0 && (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1)))){
-                        res.replaceWhite(type);
-                        break;
+                    //Maybe this line will need to be switched off in the real game, but it is necessary for testing
+                    modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+
+                    ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
+                    Resources choice = data.getResources();
+
+                    //Converting the choice from resources in resource type and adding it
+                    for (ResourceType type : ResourceType.values()) {
+                        //also checking if player choice is effectively one of the types he can replace
+                        if (choice.getAmountOf(type) > 0) {
+                            //He has the leader ability
+                            if (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1))) {
+                                res.replaceWhite(type);
+                                done = true;
+                            } else {
+                                //He has chosen a resource no leader lets him replace
+                                modelControllerIOHandler.sendMessage(player.getNickname(), Message.INCORRECT_REPLACEMENT);
+                            }
+                        }
                     }
                 }
                 break;
 
-                //Than just replace white with the player choice
             default:
                 //replace nothing, but do remove the white
                 try {
@@ -758,7 +793,7 @@ public class ModelController {
             fp[i] = game.getPlayers()[i].getBoard().getFaithPoints();
         }
 
-        FaithUpdateData fUp = new FaithUpdateData(fp);
+        FaithUpdateData fUp = new FaithUpdateData(fp, game.getPlayerNames(), game.getAllReportsAttended());
 
         modelControllerIOHandler.pushUpdate(Update.FAITH, fUp);
     }
@@ -800,7 +835,7 @@ public class ModelController {
 
     private void updateVP(int[] VP){
 
-        VPUpdateData VPUp = new VPUpdateData(VP);
+        VPUpdateData VPUp = new VPUpdateData(VP, game.getPlayerNames());
         modelControllerIOHandler.pushUpdate(Update.VP, VPUp);
     }
 

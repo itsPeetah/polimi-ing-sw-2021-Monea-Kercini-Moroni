@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.view.common.GameData;
+import it.polimi.ingsw.view.data.GameData;
 
 public class GameApplication {
     private static final String DEFAULT_SP_NICKNAME = "Player";

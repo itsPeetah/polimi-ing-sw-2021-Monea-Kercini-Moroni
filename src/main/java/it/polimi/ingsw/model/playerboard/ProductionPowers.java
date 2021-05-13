@@ -62,6 +62,29 @@ public class ProductionPowers {
         return AvailableCards;
     }
 
+
+    /**
+     * Get visible cards
+     * //todo test this method
+     */
+
+    public DevCard[] getVisibleDevCards(){
+
+        DevCard[] visible = new DevCard[3];
+
+        for (int i = 0; i < cardPile.length; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                //if the slot is empty and it's not the first slot, get the previous slot (the card on top)
+
+                if (cardPile[i][j] == null && i!=0) {
+                    visible[j] = cardPile[i-1][j];
+                }
+            }
+        }
+        return visible;
+    }
+
     /**
      * Method that returns true if a dev card can be placed on top of the selected pile
      * @param card the devCard you are trying to place

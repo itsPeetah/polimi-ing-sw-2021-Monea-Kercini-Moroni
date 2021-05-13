@@ -62,6 +62,33 @@ public class Game {
     }
 
     /**
+     *
+     * @return player names array
+     */
+    public String[] getPlayerNames(){
+
+        String[] pls = new String[players.size()];
+
+        for (int i = 0; i < players.size(); i++) {
+            pls[i] = players.get(i).getNickname();
+        }
+        return pls;
+    }
+
+    public boolean[][] getAllReportsAttended(){
+
+        boolean[][] reports = new boolean[players.size()][3];
+
+        //adding reports
+
+        for (int i = 0; i < players.size(); i++) {
+            reports[i] = players.get(i).getBoard().getReportsAttended();
+        }
+
+        return reports;
+    }
+
+    /**
      * Gets the player whose turn it currently is.
      */
     public Player getCurrentPlayer() {

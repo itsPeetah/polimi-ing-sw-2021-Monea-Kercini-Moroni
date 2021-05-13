@@ -7,14 +7,26 @@ import it.polimi.ingsw.controller.model.updates.UpdateData;
 
 public class FaithUpdateData implements UpdateData {
 
-    int fp[];
+    String[] players;
+    int[] fp;
+    boolean[][] reportsAttended; //The first one id for the player, the second for the reports he has attended
 
-    //returns the faith points of the player in that position
-    public int getFaithPoints(int p) {
-        return fp[p];
+
+    public FaithUpdateData(int[] fp, String[] players, boolean[][] reports) {
+        this.fp = fp;
+        this.players = players;
+        this.reportsAttended = reports;
     }
 
-    public FaithUpdateData(int[] fp) {
-        this.fp = fp;
+    public int[] getFp() {
+        return fp;
+    }
+
+    public String[] getPlayers() {
+        return players;
+    }
+
+    public boolean[][] getReportsAttended() {
+        return reportsAttended;
     }
 }
