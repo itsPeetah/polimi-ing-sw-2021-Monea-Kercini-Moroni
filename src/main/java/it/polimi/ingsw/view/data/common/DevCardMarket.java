@@ -7,7 +7,7 @@ public class DevCardMarket extends Observable {
 
     private DevCard availableCards[][];
 
-    public void setAvailableCards(DevCard[][] availableCards) {
+    public synchronized void setAvailableCards(DevCard[][] availableCards) {
         this.availableCards = availableCards;
         setChanged();
         notifyObservers(availableCards);

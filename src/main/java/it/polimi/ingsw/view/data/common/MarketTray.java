@@ -8,19 +8,19 @@ public class MarketTray extends Observable {
     private ResourceMarble[][] available;
     private ResourceMarble[] waiting;
 
-    public void setAvailable(ResourceMarble[][] available) {
+    public synchronized void setAvailable(ResourceMarble[][] available) {
         this.available = available;
         setChanged();
         notifyObservers(available);
     }
 
-    public void setWaiting(ResourceMarble[] waiting) {
+    public synchronized void setWaiting(ResourceMarble[] waiting) {
         this.waiting = waiting;
         setChanged();
         notifyObservers(waiting);
     }
 
-    public void MarketTray(){
+    public MarketTray(){
         available = new ResourceMarble[3][4];
         waiting = new ResourceMarble[1];
     }
