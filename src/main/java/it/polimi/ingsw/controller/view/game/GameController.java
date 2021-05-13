@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.view.game;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.ModelController;
+import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
@@ -238,7 +239,11 @@ public class GameController {
      * This class will push the action to the server, or handle the problem if need be.
      */
     public void reactToAction(ActionPacket actionPacket) {
-        //Action action = actionPacket.getAction();
+
+        //If the action is end turn the state should be changed
+        if(actionPacket.getAction()== Action.END_TURN){
+            moveToState(GameState.IDLE);
+        }
 
         // Push the action to the model controller
         gameControllerIOHandler.pushAction(actionPacket);
