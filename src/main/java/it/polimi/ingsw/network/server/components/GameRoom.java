@@ -66,7 +66,7 @@ public class GameRoom {
 
     // TODO error handling?
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).sendSystemMessage(packet.toJson());
+        users.get(player).send(packet);
     }
 
     public void broadcast(NetworkPacket packet){
