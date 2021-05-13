@@ -1,10 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.gui.GUIStage;
+import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.MaestriRinascimentoGUI;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,9 +20,9 @@ public class GUIGameModeSelection {
         Button backBtn = new Button("Back");
 
         // Add event handlers to buttons
-        mpBtn.setOnAction(actionEvent -> GUIStage.setScene(GUIMPSelection.getScene()));
+        mpBtn.setOnAction(actionEvent -> GUIApplication.setScene(GUIMPSelection.getScene()));
 
-        backBtn.setOnAction(actionEvent -> GUIStage.setScene(GUIMainMenu.getScene()));
+        backBtn.setOnAction(actionEvent -> GUIApplication.setScene(GUIMainMenu.getScene()));
 
         // Create menu
         VBox vbox = new VBox(15);

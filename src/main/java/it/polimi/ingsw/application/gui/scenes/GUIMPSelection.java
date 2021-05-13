@@ -2,7 +2,7 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.GUIStage;
+import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.MaestriRinascimentoGUI;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
@@ -35,7 +35,7 @@ public class GUIMPSelection {
             Optional<ButtonType> result = connectionAlert.showAndWait();
             if(result.get() == ButtonType.OK) {
                 GameApplication.getInstance().connect("localhost", 42069);
-                if (GameApplication.getInstance().isOnNetwork()) GUIStage.setScene(GUIMPSelection.getScene());
+                if (GameApplication.getInstance().isOnNetwork()) GUIApplication.setScene(GUIMPSelection.getScene());
                 else {
                     Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
                     connectionErrorAlert.setTitle("Connection error");
@@ -107,7 +107,7 @@ public class GUIMPSelection {
             while (GameApplication.getInstance().getApplicationState() == GameApplicationState.CONNECTING_TO_ROOM) {}
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             if (newState == GameApplicationState.PREGAME) {
-                Platform.runLater(() -> GUIStage.setScene(GUIPreGame.getScene()));
+                Platform.runLater(() -> GUIApplication.setScene(GUIPreGame.getScene()));
             }}).start();
     }
 }
