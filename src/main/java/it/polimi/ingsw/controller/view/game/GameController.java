@@ -3,12 +3,9 @@ package it.polimi.ingsw.controller.view.game;
 import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.*;
-import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
-import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.data.*;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
@@ -68,7 +65,6 @@ public class GameController {
      */
 
     public void reactToUpdate(Update update, String updateDataString) {
-        // TODO code to apply the update
 
         switch (update){
 
@@ -127,14 +123,8 @@ public class GameController {
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());
         }
-
-        // If the player is not in IDLE, it means that the action performed was accepted.
-        if(currentState != GameState.IDLE) {
-            moveToState(GameState.ENDGAME);
-            //moveToScene();
-
-        }
     }
+
 
     public void reactToMessage(Message message) {
         String messageContent = message.toString();
