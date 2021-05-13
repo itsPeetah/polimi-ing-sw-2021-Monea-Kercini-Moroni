@@ -26,6 +26,7 @@ public abstract class GameControllerIOHandler {
 
     public void notifyAction(ActionPacket actionPacket) {
         pool.submit(() -> gameController.reactToAction(actionPacket));
+        pool.submit(() -> pushAction(actionPacket));
     }
 
     public void notifyUpdate(UpdatePacket updatePacket) {
