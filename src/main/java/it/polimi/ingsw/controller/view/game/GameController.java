@@ -136,6 +136,16 @@ public class GameController {
 
         switch (message){
 
+            case GAME_HAS_STARTED:
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.SETUP);
+                break;
+
+            case CHOOSE_LEADERS:
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.CHOOSE_LEADERS);
+                break;
+
             case START_TURN:
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
