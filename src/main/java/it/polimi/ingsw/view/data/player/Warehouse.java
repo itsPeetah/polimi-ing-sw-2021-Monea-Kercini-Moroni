@@ -6,11 +6,18 @@ import java.util.Observable;
 
 public class Warehouse extends Observable {
     private Resources content[];
+    private Resources extra;
 
     public void setContent(Resources[] content) {
         this.content = content;
         setChanged();
         notifyObservers(content);
+    }
+
+    public void setExtra(Resources extra) {
+        this.extra = extra;
+        setChanged();
+        notifyObservers(extra);
     }
 
     public Warehouse() {

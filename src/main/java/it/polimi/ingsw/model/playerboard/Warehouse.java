@@ -11,6 +11,19 @@ public class Warehouse{
     private Resources leaderExtraAvailable; // 2+2 extra (2 same type for each leader card bonus that might have been played) with floor reference 3
     private Resources leaderExtraUsed;
 
+
+    public Resources[] getContent() {
+        return content;
+    }
+
+    /**
+     *
+     * @return the resources deposited on the leaderExtraCards
+     */
+    public Resources getLeaderExtraUsed() {
+        return leaderExtraUsed;
+    }
+
     /**
      * Deposit the resources at the floor gotten as integer input
      * @param resources
@@ -153,9 +166,6 @@ public class Warehouse{
         }
     }
 
-    public Resources[] getContent() {
-        return content;
-    }
 
     /**
      * Returns true if the resource is of a single type
