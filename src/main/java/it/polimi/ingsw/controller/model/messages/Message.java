@@ -12,7 +12,7 @@ public enum Message {
     ILLEGAL_CARD_PLACE("You can't put the card there."),
     REQUIREMENTS_NOT_MET("You don't meet the requirements to play this card."),
     ALREADY_USED_PRIMARY_ACTION("You have already used your primary action."),
-    WAREHOUSE_UNORGANIZED("Your warehouse is not organized."),
+    WAREHOUSE_UNORGANIZED("Please organize your warehouse."),
     WINNER("VICTORY!"),
     LOSER("WASTED! You were no match for Lorenzo's magnificence!"),
     LOSER_MULTIPLAYER("WASTED!");

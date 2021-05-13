@@ -146,6 +146,16 @@ public class GameController {
                 moveToState(GameState.CHOOSE_LEADERS);
                 break;
 
+            case CHOOSE_RESOURCE:
+                GameApplication.getInstance().out(messageContent);
+                //Game state is left the same (whether setup or turn)
+                break;
+
+            case INCORRECT_REPLACEMENT:
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.PICK_RESOURCES);
+                break;
+
             case START_TURN:
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
