@@ -30,4 +30,13 @@ public class CommonData {
         dcm = new DevCardMarket();
         mt = new MarketTray();
     }
+
+    @Override
+    public String toString() {
+        return "CommonData{" +
+                "dcm=" + dcm.toString() +
+                ", mt=" + mt.toString() +
+                ", lorenzo=" + lorenzo.toString() +
+                '}';
+    }
 }
