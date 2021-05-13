@@ -101,6 +101,14 @@ public class GameController {
                 break;
 
             case VP:
+                VPUpdateData vp = update.getUpdateData(updateDataString);
+
+                //Adding to each player their corresponding victory points
+                for (int i = 0; i < vp.getPlayers().length; i++) {
+                    gameData.getPlayerData(vp.getPlayers()[i]).setVP(vp.getVP()[i]);
+                }
+                break;
+
 
         }
 

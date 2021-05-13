@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.data.player.*;
 public class PlayerData {
 
     private String nickname;
+    private int VP;
 
     private DevCards devCards;
     private FaithTrack faithTrack;
@@ -46,5 +47,9 @@ public class PlayerData {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setVP(int VP) {
+        this.VP = VP;
     }
 }
