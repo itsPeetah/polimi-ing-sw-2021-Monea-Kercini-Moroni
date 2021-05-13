@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.playerboard.*;
 import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -345,7 +344,20 @@ public class ModelController {
         //Sending to players their corresponding victory points
         updateVP(VP);
 
-        modelControllerIOHandler.sendMessage(game.getPlayers()[winner].getNickname(), Message.WINNER);
+        for (int i = 0; i < game.getPlayers().length; i++) {
+
+            if(i==winner){
+                //winner
+                modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.WINNER);
+            }else{
+                //loser playing multi player
+                modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.LOSER_MULTIPLAYER);
+            }
+            //In single player the message is already sent by Lorenzo
+
+        }
+
+
         //Maybe add post-game functionality
     }
 
