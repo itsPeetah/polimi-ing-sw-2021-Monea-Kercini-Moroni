@@ -108,7 +108,20 @@ public class GameController {
                     gameData.getPlayerData(vp.getPlayers()[i]).setVP(vp.getVP()[i]);
                 }
                 break;
+
             case FAITH:
+                FaithUpdateData fp = update.getUpdateData(updateDataString);
+
+                for (int i = 0; i < fp.getPlayers().length; i++) {
+
+                    //adding to each player the corresponding faith points
+                    gameData.getPlayerData(fp.getPlayers()[i]).getFaithTrack().setFaith(fp.getFp()[i]);
+
+                    //adding to each player the corresponding reports attended
+                    gameData.getPlayerData(fp.getPlayers()[i]).getFaithTrack().setReportsAttended(fp.getReportsAttended()[i]);
+                }
+                break;
+
 
         }
 
