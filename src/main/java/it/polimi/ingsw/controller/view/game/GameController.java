@@ -63,6 +63,12 @@ public class GameController {
         this.currentState = GameState.IDLE;
     }
 
+    /**
+     * Method that reacts to an update by sending it to the view "model"
+     * @param update
+     * @param updateDataString
+     */
+
     public void reactToUpdate(Update update, String updateDataString) {
         // TODO code to apply the update
 
@@ -82,6 +88,8 @@ public class GameController {
             case PRODUCTION_POWERS:
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
+            case LEADERS:
+
 
         }
 
