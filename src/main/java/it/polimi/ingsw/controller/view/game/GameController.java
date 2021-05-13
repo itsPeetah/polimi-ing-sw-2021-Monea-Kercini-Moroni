@@ -196,6 +196,7 @@ public class GameController {
                     //This was the current state theoretically
                 }else{
                     //The server controller is just confirming a action the player has done during his turn
+                    //The player is still playing his turn
 
                 }
 
