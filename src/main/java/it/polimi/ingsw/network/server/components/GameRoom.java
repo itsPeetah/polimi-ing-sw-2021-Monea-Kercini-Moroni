@@ -75,8 +75,6 @@ public class GameRoom {
         }
     }
 
-    // todo redirect action network packets from SSCL
-
     /**
      * Notify an action packet to the room's IOHandler
      * @param packet (ActionPacket) Network Packet to handle.
