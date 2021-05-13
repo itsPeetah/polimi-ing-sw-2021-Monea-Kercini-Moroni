@@ -20,8 +20,7 @@ public class GameController {
     private GameState currentState;
     private GameScene currentScene;
 
-    private int turn;
-    private boolean mainActionUsed;
+    private int turn = 0;
 
     /**
      * Constructor for a MP game controller.
@@ -161,6 +160,7 @@ public class GameController {
                 break;
 
             case START_TURN:
+                turn++;
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
                 break;
