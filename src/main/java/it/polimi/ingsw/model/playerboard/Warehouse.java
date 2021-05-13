@@ -153,6 +153,10 @@ public class Warehouse{
         }
     }
 
+    public Resources[] getContent() {
+        return content;
+    }
+
     /**
      * Returns true if the resource is of a single type
      * @param r Resourcess to check

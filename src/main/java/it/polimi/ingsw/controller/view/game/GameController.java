@@ -9,10 +9,7 @@ import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
-import it.polimi.ingsw.controller.model.updates.data.DevCardMarketUpdateData;
-import it.polimi.ingsw.controller.model.updates.data.PlayerLeadersUpdateData;
-import it.polimi.ingsw.controller.model.updates.data.ProductionPowersUpdateData;
-import it.polimi.ingsw.controller.model.updates.data.ResourceMarketUpdateData;
+import it.polimi.ingsw.controller.model.updates.data.*;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
@@ -97,7 +94,10 @@ public class GameController {
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setStates(pl.getPlayerLeaders().getCardStates());
                 break;
 
-
+            case WAREHOUSE:
+                WarehouseUpdateData wh = update.getUpdateData(updateDataString);
+                gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
+                break;
         }
 
         // If the player is not in IDLE, it means that the action performed was accepted.
