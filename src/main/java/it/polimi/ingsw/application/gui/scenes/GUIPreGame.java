@@ -1,11 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.GUIStage;
 import it.polimi.ingsw.application.gui.MaestriRinascimentoGUI;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
