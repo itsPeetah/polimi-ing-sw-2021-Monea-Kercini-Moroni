@@ -650,25 +650,36 @@ public class ModelController {
                 break;
             case 2:
 
-                //asking the player to choose one of the two resources he can to substitute white
+                //Keep asking player until he chooses a correct replace type
+                boolean done = false;
 
-                //Maybe this line will need to be switched off in the real game, but it is necessary for testing
-                modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+                while(!done) {
 
-                ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
-                Resources choice = data.getResources();
+                    //asking the player to choose one of the two resources he can to substitute white
 
-                //Converting the choice from resources in resource type and adding it
-                for (ResourceType type : ResourceType.values()) {
-                    //also checking if player choice is effectively one of the types he can replace
-                    if(choice.getAmountOf(type) > 0 && (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1)))){
-                        res.replaceWhite(type);
-                        break;
+                    //Maybe this line will need to be switched off in the real game, but it is necessary for testing
+                    modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
+
+                    ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
+                    Resources choice = data.getResources();
+
+                    //Converting the choice from resources in resource type and adding it
+                    for (ResourceType type : ResourceType.values()) {
+                        //also checking if player choice is effectively one of the types he can replace
+                        if (choice.getAmountOf(type) > 0) {
+                            //He has the leader ability
+                            if (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1))) {
+                                res.replaceWhite(type);
+                                done = true;
+                            } else {
+                                //He has chosen a resource no leader lets him replace
+                                modelControllerIOHandler.sendMessage(player.getNickname(), Message.INCORRECT_REPLACEMENT);
+                            }
+                        }
                     }
                 }
                 break;
 
-                //Than just replace white with the player choice
             default:
                 //replace nothing, but do remove the white
                 try {
