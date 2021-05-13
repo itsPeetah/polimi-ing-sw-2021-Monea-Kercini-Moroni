@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.view.game;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
@@ -136,10 +137,40 @@ public class GameController {
         switch (message){
 
             case START_TURN:
+                GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
                 break;
 
             case NOT_ENOUGH_RESOURCES:
+                //This is triggered whether by trying to produce without having the necessary input or not enough to
+                // buy a dev card
+
+                //game stays at the same state (turn choice)
+                GameApplication.getInstance().out(messageContent);
+                break;
+            case ILLEGAL_CARD_PLACE:
+                //game stays at the same state (turn choice)
+                GameApplication.getInstance().out(messageContent);
+                break;
+            case REQUIREMENTS_NOT_MET:
+                //game stays at the same state (turn choice)
+                GameApplication.getInstance().out(messageContent);
+                break;
+            case ALREADY_USED_PRIMARY_ACTION:
+                //game stays at the same state (turn choice)
+                GameApplication.getInstance().out(messageContent);
+                break;
+
+            case WAREHOUSE_UNORGANIZED:
+                GameApplication.getInstance().out(messageContent);
+                //This might be triggered in different scenarios
+                //Player MUST have his warehouse organized before going on
+                moveToState(GameState.ORGANIZE_WAREHOUSE);
+
+            case WINNER:
+                //This player is the winner
+                GameApplication.getInstance().out(messageContent);
+                moveToState(GameState.ENDGAME);
         }
     }
 
