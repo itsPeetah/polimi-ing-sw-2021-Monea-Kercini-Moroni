@@ -7,7 +7,8 @@ public enum GameLobbyMessage implements ISystemMessage {
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ"),
     LEAVE_ROOM("ROOML"),
-    START_ROOM("ROOMS");
+    START_ROOM("ROOMS"),
+    PLAYERS_IN_ROOM("ROOMP");
 
     private final String messageCode;
 
