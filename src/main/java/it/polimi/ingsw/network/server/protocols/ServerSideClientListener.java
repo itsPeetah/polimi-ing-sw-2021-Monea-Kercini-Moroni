@@ -72,10 +72,10 @@ public class ServerSideClientListener {
     }
 
     private void handleDebugMessage(NetworkPacket packet){
-        String clientMessage = packet.getPayload();
-        System.out.println("[USER "+ user.getId() + "] " + clientMessage);
-        clientMessage = "[SERVER ECHO] You said: " + clientMessage;
-        user.send(new NetworkPacket(NetworkPacketType.DEBUG, clientMessage));
+        /*String clientMessage = packet.getPayload();*/
+        System.out.println("[USER "+ user.getId() + "] " + packet.getPayload());
+        /*clientMessage = "[SERVER ECHO] You said: " + clientMessage;*/
+        /*user.send(new NetworkPacket(NetworkPacketType.DEBUG, clientMessage));*/
     }
 
     private void handleActionPacket(NetworkPacket packet){
