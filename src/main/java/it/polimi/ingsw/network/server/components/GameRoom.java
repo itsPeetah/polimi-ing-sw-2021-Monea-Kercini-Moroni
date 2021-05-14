@@ -66,16 +66,14 @@ public class GameRoom {
 
     // TODO error handling?
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).sendSystemMessage(packet.toJson());
+        users.get(player).send(packet);
     }
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).sendSystemMessage(packet.toJson());
+            users.get(player).send(packet);
         }
     }
-
-    // todo redirect action network packets from SSCL
 
     /**
      * Notify an action packet to the room's IOHandler
