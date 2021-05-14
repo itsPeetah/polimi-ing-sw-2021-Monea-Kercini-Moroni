@@ -6,11 +6,15 @@ import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class ServerSideClientListener {
 
     private RemoteUser user;
     private boolean done;
     private boolean continueAfterReturning;
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public ServerSideClientListener(RemoteUser user){
         this.user = user;
@@ -56,6 +60,13 @@ public class ServerSideClientListener {
             user.leaveCurrentRoom();
             done = true;
             continueAfterReturning = true;
+            return;
+        }
+        // START
+        else if (GameLobbyMessage.START_ROOM.check(clientMessage)) {
+            System.out.println("Starting room");
+            executorService.submit(() -> user.getRoom().startGame());
+            System.out.println("Started room");
             return;
         }
     }

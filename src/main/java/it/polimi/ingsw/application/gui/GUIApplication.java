@@ -18,7 +18,7 @@ public class GUIApplication extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
-        setScene(GUIMainMenu.getScene());
+        GUIScene.MAIN_MENU.load();
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> stage.close());
         stage.show();
