@@ -15,7 +15,9 @@ public enum Update {
     PRODUCTION_POWERS(ProductionPowersUpdateData.class),
     LEADERS(PlayerLeadersUpdateData.class),
     VP(VPUpdateData.class),
-    SOLO_ACTION(ActionTokenUpdateData.class);
+    SOLO_ACTION(ActionTokenUpdateData.class),
+    LEADERS_TO_CHOOSE_FROM(DisposableLeadersUpdateData.class),
+    RESOURCES_TO_PUT(ResourcesToPutUpdateData.class);
 
     private static final Gson gson = new Gson();
 

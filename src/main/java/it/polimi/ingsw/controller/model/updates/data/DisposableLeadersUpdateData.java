@@ -10,7 +10,7 @@ public class DisposableLeadersUpdateData implements UpdateData {
     
     List<LeadCard> leaders;
 
-    public DisposableLeadersUpdateData(ArrayList<LeadCard> leaders) {
+    public DisposableLeadersUpdateData(List<LeadCard> leaders) {
         this.leaders = leaders;
     }
 

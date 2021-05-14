@@ -159,6 +159,8 @@ public class ModelController {
 
             //Sending to player the leaders he should choose from
             List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
+            DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
+            //modelControllerIOHandler.pushUpdate();
 
 
             //notifying player he has to choose 2 leaders
