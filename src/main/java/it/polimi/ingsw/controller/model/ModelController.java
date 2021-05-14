@@ -83,6 +83,10 @@ public class ModelController {
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
+        //Sending to him the resources he needs to put (the warehouse should be already available to him)
+        ResourcesToPutUpdateData resUP = new ResourcesToPutUpdateData(res);
+        modelControllerIOHandler.pushUpdate(Update.RESOURCES_TO_PUT, resUP);
+
         //Sending message
         modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
 
