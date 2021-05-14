@@ -8,7 +8,7 @@ public class Strongbox extends Observable {
 
     private Resources content;
 
-    public void setContent(Resources content) {
+    public synchronized void setContent(Resources content) {
         this.content = content;
         setChanged();
         notifyObservers(content);

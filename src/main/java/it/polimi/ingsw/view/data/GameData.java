@@ -9,7 +9,7 @@ public class GameData {
 
     int turn;
 
-    public CommonData getCommon() {
+    public synchronized CommonData getCommon() {
         return common;
     }
 
@@ -25,11 +25,11 @@ public class GameData {
     }
 
 
-    public void addPlayer(String name){
+    public synchronized void addPlayer(String name){
         playerTable.put(name, new PlayerData());
     }
 
-    public PlayerData getPlayerData(String name){
+    public synchronized PlayerData getPlayerData(String name){
         return playerTable.get(name);
     }
 

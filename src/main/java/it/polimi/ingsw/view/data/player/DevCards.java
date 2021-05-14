@@ -9,7 +9,7 @@ public class DevCards extends Observable {
 
     private DevCard[] devCards;
 
-    public void setDevCards(DevCard[] devCards) {
+    public synchronized void setDevCards(DevCard[] devCards) {
         this.devCards = devCards;
         setChanged();
         notifyObservers(devCards);

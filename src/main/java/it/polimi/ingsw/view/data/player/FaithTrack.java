@@ -6,13 +6,13 @@ public class FaithTrack extends Observable {
     private int faith;
     private boolean[] reportsAttended;
 
-    public void setFaith(int faith) {
+    public synchronized void setFaith(int faith) {
         this.faith = faith;
         setChanged();
         notifyObservers(faith);
     }
 
-    public void setReportsAttended(boolean[] reportsAttended) {
+    public synchronized void setReportsAttended(boolean[] reportsAttended) {
         this.reportsAttended = reportsAttended;
         setChanged();
         notifyObservers(reportsAttended);

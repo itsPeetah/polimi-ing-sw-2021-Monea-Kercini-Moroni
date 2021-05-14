@@ -2,10 +2,13 @@ package it.polimi.ingsw.view.data;
 
 import it.polimi.ingsw.view.data.player.*;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class PlayerData {
 
     private String nickname;
-    private int VP;
+    private AtomicInteger VP;
 
     private DevCards devCards;
     private FaithTrack faithTrack;
@@ -13,23 +16,23 @@ public class PlayerData {
     private Warehouse warehouse;
     private Strongbox strongbox;
 
-    public DevCards getDevCards() {
+    public synchronized DevCards getDevCards() {
         return devCards;
     }
 
-    public FaithTrack getFaithTrack() {
+    public synchronized FaithTrack getFaithTrack() {
         return faithTrack;
     }
 
-    public PlayerLeaders getPlayerLeaders() {
+    public synchronized PlayerLeaders getPlayerLeaders() {
         return playerLeaders;
     }
 
-    public Warehouse getWarehouse() {
+    public synchronized Warehouse getWarehouse() {
         return warehouse;
     }
 
-    public Strongbox getStrongbox() {
+    public synchronized Strongbox getStrongbox() {
         return strongbox;
     }
 
@@ -41,15 +44,16 @@ public class PlayerData {
         strongbox = new Strongbox();
     }
 
-    public String getNickname() {
+    public synchronized String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
+    public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
     public void setVP(int VP) {
-        this.VP = VP;
+        int oldVP = this.VP.get();
+        while(!this.VP.compareAndSet(oldVP, VP)) setVP(VP);
     }
 }

@@ -9,13 +9,13 @@ public class PlayerLeaders extends Observable {
     private LeadCard[] leaders;
     private CardState[] states;
 
-    public void setLeaders(LeadCard[] leaders) {
+    public synchronized void setLeaders(LeadCard[] leaders) {
         this.leaders = leaders;
         setChanged();
         notifyObservers(leaders);
     }
 
-    public void setStates(CardState[] states) {
+    public synchronized void setStates(CardState[] states) {
         this.states = states;
         setChanged();
         notifyObservers(states);

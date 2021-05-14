@@ -8,13 +8,13 @@ public class Lorenzo extends Observable {
     private int blackCross;
     private SoloActionTokens lastToken;
 
-    public void setBlackCross(int blackCross) {
+    public synchronized void setBlackCross(int blackCross) {
         this.blackCross = blackCross;
         setChanged();
         notifyObservers(blackCross);
     }
 
-    public void setLastToken(SoloActionTokens lastToken) {
+    public synchronized void setLastToken(SoloActionTokens lastToken) {
         this.lastToken = lastToken;
         setChanged();
         notifyObservers(lastToken);
