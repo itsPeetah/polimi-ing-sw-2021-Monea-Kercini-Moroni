@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.data;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class GameData {
 

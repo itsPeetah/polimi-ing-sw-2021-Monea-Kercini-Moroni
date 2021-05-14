@@ -19,7 +19,6 @@ public class GameController {
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
 
-    private int turn = 0;
 
     /**
      * Constructor for a MP game controller.
@@ -158,7 +157,7 @@ public class GameController {
                 break;
 
             case START_TURN:
-                turn++;
+                gameData.turnIncrement();
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
                 break;
