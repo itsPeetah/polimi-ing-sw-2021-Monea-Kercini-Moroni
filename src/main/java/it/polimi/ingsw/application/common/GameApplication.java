@@ -1,11 +1,17 @@
 package it.polimi.ingsw.application.common;
 
 import it.polimi.ingsw.application.gui.GUIApplication;
+import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.data.GameData;
+import javafx.collections.ObservableList;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameApplication {
     private static final String DEFAULT_SP_NICKNAME = "Player";
@@ -30,6 +36,9 @@ public class GameApplication {
     private GameClient networkClient;
     private GameController gameController;
 
+    // Lobby
+    private final List<String> roomPlayers;
+
     // Remove?
     /*protected GameApplicationIOHandler ioHandler;*/
 
@@ -50,6 +59,8 @@ public class GameApplication {
         this.userId = null;
         this.userNickname = null;
         this.roomName = null;
+
+        this.roomPlayers = new ArrayList<>();
 
         instance = this;
     }
@@ -122,6 +133,21 @@ public class GameApplication {
         this.roomName = roomName;
     }
 
+    public synchronized void setRoomPlayers(String stringOfPlayers) {
+        List<String> newList = Arrays.asList(stringOfPlayers.split(" ").clone());
+        List<String> newPlayers = newList.stream().filter(x -> !this.roomPlayers.contains(x)).collect(Collectors.toList());
+        if(outputMode == GameApplicationMode.GUI) {
+            GUIMPRoom.observablePlayersList.addAll(newPlayers);
+        }
+        this.roomPlayers.addAll(newPlayers);
+        System.out.println(roomPlayers.toString());
+
+    }
+
+    public synchronized List<String> getRoomPlayers() {
+        return roomPlayers;
+    }
+
     // Output
     public void out(String output){
 
@@ -165,6 +191,7 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startSPGame() {
+        setApplicationState(GameApplicationState.INGAME);
         gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
     }
 
@@ -172,6 +199,7 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startMPGame() {
+        setApplicationState(GameApplicationState.INGAME);
         gameController = new GameController(new GameData());
     }
 }
