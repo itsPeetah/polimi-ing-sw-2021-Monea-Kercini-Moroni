@@ -153,7 +153,6 @@ public class GameController {
                 //Super rare case
                 //Triggered when player has 2 leaders with replace white ability activated and yet chooses another
                 // resource to replace white
-
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.PICK_RESOURCES);
                 break;
@@ -167,7 +166,6 @@ public class GameController {
             case NOT_ENOUGH_RESOURCES:
                 //This is triggered whether by trying to produce without having the necessary input or not enough to
                 // buy a dev card
-
                 //game stays at the same state (turn choice)
                 GameApplication.getInstance().out(messageContent);
                 break;
@@ -205,11 +203,13 @@ public class GameController {
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
                 break;
+
             case LOSER:
                 //This player is a loser
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.ENDGAME);
                 break;
+
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
@@ -230,7 +230,6 @@ public class GameController {
                     //The player is still playing his turn
                 }
                 break;
-
         }
     }
 
