@@ -9,11 +9,11 @@ public class DisposableLeadersUpdateData implements UpdateData {
     
     ArrayList<LeadCard> leaders;
 
-    public ArrayList<LeadCard> getLeaders() {
-        return leaders;
+    public DisposableLeadersUpdateData(ArrayList<LeadCard> leaders) {
+        this.leaders = leaders;
     }
 
-    public void setLeaders(ArrayList<LeadCard> leaders) {
-        this.leaders = leaders;
+    public ArrayList<LeadCard> getLeaders() {
+        return leaders;
     }
 }
