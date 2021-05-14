@@ -18,6 +18,7 @@ public class GameController {
     private final GameData gameData;
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
+    private boolean gameStarted = false;
 
 
     /**
@@ -135,7 +136,9 @@ public class GameController {
 
             case GAME_HAS_STARTED:
                 GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.SETUP);
+                gameStarted = true;
+                //Player must wait for his turn
+                moveToState(GameState.IDLE);
                 break;
 
             case CHOOSE_LEADERS:
@@ -145,7 +148,7 @@ public class GameController {
 
             case CHOOSE_RESOURCE:
                 GameApplication.getInstance().out(messageContent);
-                //Game state is left the same (whether setup or turn)
+                moveToState(GameState.PICK_RESOURCES);
                 break;
 
             case INCORRECT_REPLACEMENT:
@@ -186,15 +189,7 @@ public class GameController {
                 //This might be triggered in different scenarios
                 //Player MUST have his warehouse organized before going on
 
-                switch (currentState){
-
-                    //If player was in setup state -> after organizing his warehouse he can't do nothing else
-                    case SETUP:
-                        moveToState(GameState.ORGANIZE_WAREHOUSE_S);
-                        break;
-                    default:
-                        moveToState(GameState.ORGANIZE_WAREHOUSE);
-                }
+                moveToState(GameState.ORGANIZE_WAREHOUSE);
                 break;
 
             case WINNER:
@@ -217,16 +212,14 @@ public class GameController {
 
             case OK:
                 //This is the most tricky case
-                //The next state that comes after the ok depends on our current state
+                //The next state that comes after the ok depends on which game phase we are
 
-                if(currentState==GameState.ORGANIZE_WAREHOUSE_S){
-                    moveToState(GameState.IDLE);
-                }else if(currentState==GameState.ORGANIZE_WAREHOUSE){
+                if(gameStarted){
+                    //This means that the player is doing an action at his turn so he is still playing his turn
                     moveToState(GameState.TURN_CHOICE);
-                    //This was the current state theoretically
                 }else{
-                    //The server controller is just confirming a action the player has done during his turn
-                    //The player is still playing his turn
+                    //Player was requested an action and he performed it correctly
+                    moveToState(GameState.IDLE);
                 }
                 break;
         }
