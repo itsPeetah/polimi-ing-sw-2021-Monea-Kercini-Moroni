@@ -151,7 +151,6 @@ public class ModelController {
         //shuffle player order
         //game.shufflePlayers();
 
-
         //Updating the view with the current Market Tray and DevCard market
         //This might influence player choice on the leader and extra resources
         updateResourceMarket();
@@ -179,7 +178,6 @@ public class ModelController {
                 Resources extra2;
                 extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
-
             }
 
             //After each players choice update the view
@@ -207,13 +205,12 @@ public class ModelController {
 
         //System.out.println("Game has started!");
 
+        gamePhase = GamePhase.TURN;
+
         //Notifying players tha game has started
         for(Player p : game.getPlayers()){
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
         }
-
-
-        gamePhase = GamePhase.TURN;
 
         boolean lastRound = false;
 
