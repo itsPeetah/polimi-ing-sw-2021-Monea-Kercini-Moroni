@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class ModelController {
@@ -155,6 +156,10 @@ public class ModelController {
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
+
+            //Sending to player the leaders he should choose from
+            List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
+
 
             //notifying player he has to choose 2 leaders
             modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
