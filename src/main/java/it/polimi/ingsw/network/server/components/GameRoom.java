@@ -71,7 +71,7 @@ public class GameRoom {
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).sendSystemMessage(packet.toJson());
+            users.get(player).send(packet);
         }
     }
 
