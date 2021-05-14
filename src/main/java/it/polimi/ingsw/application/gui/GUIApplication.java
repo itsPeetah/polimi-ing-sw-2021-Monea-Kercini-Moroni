@@ -18,7 +18,7 @@ public class GUIApplication extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
-        setScene(GUIMainMenu.getScene());
+        GUIScene.MAIN_MENU.load();
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> stage.close());
         stage.show();
@@ -35,7 +35,7 @@ public class GUIApplication extends Application {
     public static void showDialog(String message) {
         Platform.runLater(() -> {
             if(oldDialog != null) {
-                oldDialog.close();
+                //oldDialog.close();
             }
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.getDialogPane().getButtonTypes().add(ButtonType.OK);

@@ -1,11 +1,16 @@
 package it.polimi.ingsw.network.server.components;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.NetworkPacketType;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.StringJoiner;
 
 /**
  * Framework class for a game room.
@@ -44,11 +49,16 @@ public class GameRoom {
      * @throws GameRoomException if the nickname is already taken.
      */
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
+        // TODO controllare che non ci sia una partita in corso (FAI ECCEZIONE RESILIENZA O RICONNESSIONE MAMMA TI CHIAMO TRA UN ATTIMO CIAO)
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
             users.put(nickname, user);
             user.assignRoom(roomId, nickname);
         }
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        for(String k: users.keySet())stringJoiner.add(k);
+        String messageContent = GameLobbyMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
+        broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
     }
 
     // TODO if in game prevent from succeeding
@@ -88,6 +98,8 @@ public class GameRoom {
      * @return
      */
     public boolean startGame() {
+        // TODO non fare partire con solo un giocatore!!!!
+        // TODO controllare che non ci sia gia una partita in corso
         // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
         // add players
@@ -95,12 +107,15 @@ public class GameRoom {
             modelController.addPlayer(player);
         }
         // randomize order
+
         modelController.getGame().shufflePlayers();
+        // Send start
+        String startMessage = GameLobbyMessage.START_ROOM.addBody("CIAO PIE");
+        broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
         // todo check ownership
-        // todo shuffle players
-        modelController.setupGame();
+
         return true;
     }
 }

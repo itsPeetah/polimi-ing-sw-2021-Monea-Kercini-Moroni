@@ -16,9 +16,6 @@ public class MaestriRinascimentoGUI {
         // Set GUI output mode
         GameApplication.setOutputMode(GameApplicationMode.GUI);
 
-        // Connect to the server
-        gameApplication.connect("localhost", 42069);
-
         // Create the stage and start the GUI
         GUIApplication.main(args);
 

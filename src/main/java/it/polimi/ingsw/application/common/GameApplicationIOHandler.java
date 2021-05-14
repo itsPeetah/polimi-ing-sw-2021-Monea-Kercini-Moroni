@@ -6,6 +6,10 @@ import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GameApplicationIOHandler {
     protected final static Gson gson = new Gson();
@@ -41,6 +45,11 @@ public class GameApplicationIOHandler {
         if (ConnectionMessage.QUIT.check(messageFields[0])) {
             GameApplication.getInstance().setApplicationState(GameApplicationState.STOPPED);
             return -1;
+        } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
+            GameApplication.getInstance().startMPGame();
+        } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
+            System.out.println(messageFields[1]);
+            GameApplication.getInstance().setRoomPlayers(messageFields[1]);
         } else {
             if(ConnectionMessage.OK.check(messageFields[0])){
                 if(messageFields.length > 1) handleSystemOK(messageFields[1]);

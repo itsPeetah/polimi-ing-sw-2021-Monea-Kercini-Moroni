@@ -6,7 +6,9 @@ package it.polimi.ingsw.network.common.sysmsg;
 public enum GameLobbyMessage implements ISystemMessage {
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ"),
-    LEAVE_ROOM("ROOML");
+    LEAVE_ROOM("ROOML"),
+    START_ROOM("ROOMS"),
+    PLAYERS_IN_ROOM("ROOMP");
 
     private final String messageCode;
 
@@ -26,7 +28,8 @@ public enum GameLobbyMessage implements ISystemMessage {
     }
 
     public boolean check(String message){
-        return messageCode.equals(message);
+        String[] fields = message.split(" ");
+        return messageCode.equals(fields[0]);
     }
 
     public boolean check(String arguments, String message){
