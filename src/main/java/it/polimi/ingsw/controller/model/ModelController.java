@@ -82,6 +82,9 @@ public class ModelController {
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
+        //Sending message
+        modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
+
         modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
@@ -149,12 +152,6 @@ public class ModelController {
         updateResourceMarket();
         updateDevCardMarket();
 
-        //Notifying players tha game has started
-        for(Player p : game.getPlayers()){
-            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
-        }
-
-
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
@@ -209,6 +206,12 @@ public class ModelController {
     private void startGame(){
 
         //System.out.println("Game has started!");
+
+        //Notifying players tha game has started
+        for(Player p : game.getPlayers()){
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
+        }
+
 
         gamePhase = GamePhase.TURN;
 
