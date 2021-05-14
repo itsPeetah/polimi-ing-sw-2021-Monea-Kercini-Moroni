@@ -158,15 +158,17 @@ public class ModelController {
         for (int i = 0; i< game.getPlayers().length; i++){
 
             //Sending to player the leaders he should choose from
-            List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
-            DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
-            //modelControllerIOHandler.pushUpdate();
 
+            //Getting 4 leaders (already shuffled)
+            List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
+            //Sending update
+            DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
+            modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
 
             //notifying player he has to choose 2 leaders
             modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
 
-            //The player has been offered 4 leader cards on the model side and is choosing 2
+            //The player has been offered 4 leader and is choosing 2
             modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
             Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
