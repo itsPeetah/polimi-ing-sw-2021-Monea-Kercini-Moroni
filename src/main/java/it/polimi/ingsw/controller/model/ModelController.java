@@ -162,20 +162,7 @@ public class ModelController {
         for (int i = 0; i< game.getPlayers().length; i++){
 
             //Sending to player the leaders he should choose from
-
-            //Getting 4 leaders (already shuffled)
-            List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
-            //Sending update
-            DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
-            modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
-
-            //notifying player he has to choose 2 leaders
-            modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
-
-            //The player has been offered 4 leader and is choosing 2
-            modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
-            game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+            dealLeadersToPlayer(leadCards, i);
 
 
             if (i>=1){ //second player gets an extra resource
@@ -794,6 +781,30 @@ public class ModelController {
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+    }
+
+
+    /**
+     * Method takes care of sending a player 4 random leaders and getting his response on the 2 leaders he has choosen
+     * @param leadCards all of the 16 leader cards
+     * @param i the index that represents players position/order (0, 1, 2, 3)
+     */
+
+    private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
+
+        //Getting 4 leaders (already shuffled)
+        List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
+        //Sending update
+        DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
+        modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
+
+        //notifying player he has to choose 2 leaders
+        modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
+
+        //The player has been offered 4 leader and is choosing 2
+        modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+        Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
+        game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
     }
 
 
