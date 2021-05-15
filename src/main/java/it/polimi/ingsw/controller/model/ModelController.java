@@ -486,6 +486,7 @@ public class ModelController {
         //First ask the player to choose all input choices
 
         Resources input = new Resources();
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.SELECT_INPUT);
 
         //Calculate total costs
         Resources tot_cost = new Resources();
@@ -518,6 +519,9 @@ public class ModelController {
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+            //ask player to choose output
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.SELECT_OUTPUT);
 
             //Adding output
             for(Production production : chosenProduction) {

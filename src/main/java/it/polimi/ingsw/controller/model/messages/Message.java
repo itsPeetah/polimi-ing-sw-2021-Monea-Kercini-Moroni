@@ -16,8 +16,8 @@ public enum Message {
     WINNER("VICTORY!"),
     LOSER("WASTED! You were no match for Lorenzo's magnificence!"),
     LOSER_MULTIPLAYER("WASTED!"),
-    SELECT_INPUT("Choose the resources you want to use as input."),
-    SELECT_OUTPUT("Choose the resources you want to use as output.");
+    SELECT_INPUT("Getting the resources needed for your production."),
+    SELECT_OUTPUT("Producing the new resources.");
 
     private final String message;
 
