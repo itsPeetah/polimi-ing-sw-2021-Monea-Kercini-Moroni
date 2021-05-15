@@ -208,6 +208,9 @@ public class GameController {
                 //This is the most tricky case
                 //The next state that comes after the ok depends on which game phase we are
 
+
+                GameApplication.getInstance().out(messageContent); //This will probably be removed but might help testing
+
                 if(gameStarted){
                     //This means that the player is doing an action at his turn so he is still playing his turn
                     moveToState(GameState.TURN_CHOICE);
@@ -216,6 +219,15 @@ public class GameController {
                     moveToState(GameState.IDLE);
                 }
                 break;
+
+            case SELECT_INPUT:
+            case SELECT_OUTPUT:
+                //No need for changing game state here
+                //These messages are just for helping player understand what is he choosing for when he is producing
+                GameApplication.getInstance().out(messageContent);
+                break;
+
+
         }
     }
 
