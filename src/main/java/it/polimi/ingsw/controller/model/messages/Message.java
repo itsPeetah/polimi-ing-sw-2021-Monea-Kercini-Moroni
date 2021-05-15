@@ -15,7 +15,9 @@ public enum Message {
     WAREHOUSE_UNORGANIZED("Please organize your warehouse."),
     WINNER("VICTORY!"),
     LOSER("WASTED! You were no match for Lorenzo's magnificence!"),
-    LOSER_MULTIPLAYER("WASTED!");
+    LOSER_MULTIPLAYER("WASTED!"),
+    SELECT_INPUT("Choose the resources you want to use as input."),
+    SELECT_OUTPUT("Choose the resources you want to use as output.");
 
     private final String message;
 
