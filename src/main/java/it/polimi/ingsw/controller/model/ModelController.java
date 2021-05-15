@@ -782,7 +782,7 @@ public class ModelController {
 
 
     /**
-     * Method takes care of sending a player 4 random leaders and getting his response on the 2 leaders he has choosen
+     * Method takes care of sending a player 4 random leaders and getting his response on the 2 leaders he has chosen
      * @param leadCards all of the 16 leader cards
      * @param i the index that represents players position/order (0, 1, 2, 3)
      */
