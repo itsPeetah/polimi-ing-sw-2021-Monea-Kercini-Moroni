@@ -8,28 +8,40 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainMenu">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(/images/florence_1.jpg); -fx-background-size: cover; -fx-background-position: left">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onPlayClick" prefHeight="47.0" prefWidth="200.0" text="Play">
+            <Button mnemonicParsing="false" onAction="#onPlayClick" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Play">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <font>
-                  <Font name="Century Gothic" size="24.0" />
+                  <Font name="Medici Text" size="35.0" />
                </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Options">
+            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Options">
                <font>
-                  <Font name="Century Gothic" size="24.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Credits">
+                  <Font name="Medici Text" size="35.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Credits">
                <font>
-                  <Font name="Century Gothic" size="24.0" />
-               </font></Button>
+                  <Font name="Medici Text" size="35.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Button>
          </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
    </center>
    <cursor>
