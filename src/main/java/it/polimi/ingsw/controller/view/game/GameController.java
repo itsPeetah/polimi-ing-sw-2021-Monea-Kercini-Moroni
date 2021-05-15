@@ -177,18 +177,10 @@ public class GameController {
 
             case NOT_ENOUGH_RESOURCES:
                 //This is triggered whether by trying to produce without having the necessary input or not enough to
-                // buy a dev card
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
             case ILLEGAL_CARD_PLACE:
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
+                // when buying a devCard
             case REQUIREMENTS_NOT_MET:
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
+                // when activating a leader
             case ALREADY_USED_PRIMARY_ACTION:
                 //game stays at the same state (turn choice)
                 GameApplication.getInstance().out(messageContent);
@@ -204,16 +196,8 @@ public class GameController {
 
             case WINNER:
                 //This player is the winner
-                GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.ENDGAME);
-                break;
-
             case LOSER:
                 //This player is a loser
-                GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.ENDGAME);
-                break;
-
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
