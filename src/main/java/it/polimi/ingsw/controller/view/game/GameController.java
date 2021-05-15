@@ -121,6 +121,16 @@ public class GameController {
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());
                 break;
+
+            case LEADERS_TO_CHOOSE_FROM:
+                DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
+                gameData.getMomentary().getLeaders().setLeaders(lUP.getLeaders());
+                break;
+
+            case RESOURCES_TO_PUT:
+                ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
+                gameData.getMomentary().getRes().setRes(rUP.getRes());
+                break;
         }
     }
 
