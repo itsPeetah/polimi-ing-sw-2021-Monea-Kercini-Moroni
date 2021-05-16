@@ -6,8 +6,8 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 
 public class CLIStartup extends CLIScene {
 
-    public CLIStartup(String title) {
-        super(title);
+    public CLIStartup() {
+        super();
     }
 
     @Override

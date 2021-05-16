@@ -5,8 +5,8 @@ import it.polimi.ingsw.application.cli.util.ANSIColor;
 
 public class CLIStop extends CLIScene {
 
-    public CLIStop(String title) {
-        super(title);
+    public CLIStop() {
+        super();
     }
 
     @Override

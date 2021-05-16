@@ -6,8 +6,8 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 
 public class CLITitle extends CLIScene {
 
-    public CLITitle(String title) {
-        super(title);
+    public CLITitle() {
+        super();
     }
 
     @Override

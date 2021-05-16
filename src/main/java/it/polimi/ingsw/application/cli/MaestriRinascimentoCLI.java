@@ -10,12 +10,12 @@ public class MaestriRinascimentoCLI {
 
     public static boolean appRunning;
 
-    public static final CLIStartup startupScene = new CLIStartup("Maestri del Rinascimento - Connessione in corso");
-    public static final CLITitle titleScene = new CLITitle("Maestri del Rinascimento - Home");
-    public static final CLILobby lobbyScene = new CLILobby("Maestri del Rinascimento - Lobby");
-    public static final CLIRoom roomScene = new CLIRoom("Maestri del Rinascimento - Pre-Partita");
-    public static final CLIGame gameScene = new CLIGame("Maestri del Rinascimento - In Gioco");
-    public static final CLIStop stoppedScene = new CLIStop("Maestri del Rinascimento - Fine");
+    public static final CLIStartup startupScene = new CLIStartup();
+    public static final CLITitle titleScene = new CLITitle();
+    public static final CLILobby lobbyScene = new CLILobby();
+    public static final CLIRoom roomScene = new CLIRoom();
+    public static final CLIGame gameScene = new CLIGame();
+    public static final CLIStop stoppedScene = new CLIStop();
 
     public static void main(String[] args){
 

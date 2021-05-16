@@ -13,8 +13,8 @@ public class CLILobby extends CLIScene {
 
     private String nickname, roomName;
 
-    public CLILobby(String title) {
-        super(title);
+    public CLILobby() {
+        super();
         nickname = GameApplication.getInstance().getUserNickname();
         roomName = GameApplication.getInstance().getRoomName();
 
