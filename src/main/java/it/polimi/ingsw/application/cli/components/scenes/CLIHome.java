@@ -1,7 +1,5 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
-import it.polimi.ingsw.application.cli.components.CLICommands;
-import it.polimi.ingsw.application.cli.components.CLICommandException;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 
