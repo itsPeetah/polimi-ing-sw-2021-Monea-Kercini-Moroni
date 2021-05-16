@@ -23,6 +23,7 @@ public enum GUIScene {
         try {
             Parent loadedSceneView = new FXMLLoader(getClass().getResource(fxmlPath)).load();
             Scene loadedScene = new Scene(loadedSceneView);
+            //loadedScene.getStylesheets().add(getClass().getResource("fonts.css").toExternalForm());
             GUIApplication.setScene(loadedScene);
         } catch (IOException e) {
             e.printStackTrace();
