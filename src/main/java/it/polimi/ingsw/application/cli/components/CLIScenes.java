@@ -3,7 +3,7 @@ package it.polimi.ingsw.application.cli.components;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.GameApplication;
 
-public enum CLIScenario {
+public enum CLIScenes {
 
 
     TITLE(new CLITitle(), "Masters of Renaissance - Welcome"),
@@ -18,7 +18,7 @@ public enum CLIScenario {
     private final CLIScene scene;
 
 
-    private CLIScenario(CLIScene scene, String title){
+    private CLIScenes(CLIScene scene, String title){
         this.scene = scene;
         this.title = title;
     }

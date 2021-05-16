@@ -35,14 +35,12 @@ public class CLIHome extends CLIScene {
 
     @Override
     public void getInput() {
-        String[] commandFields = input.nextLine().split(" ");
-
-
+        String command = input.nextLine().split(" ")[0];
         try {
-            switch (commandFields[0]) {
-                case "sp":
+            switch (command) {
+               /* case "sp":
                     CLICommand.selectGameMode.execute(new String[]{"singleplayer"});
-                    break;
+                    break;*/
                 case "mp":
                     CLICommand.selectGameMode.execute(new String[]{"multiplayer"});
                     break;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.application.cli;
 
-import it.polimi.ingsw.application.cli.components.CLIScenario;
+import it.polimi.ingsw.application.cli.components.CLIScenes;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.*;
@@ -13,7 +13,7 @@ public class MaestriRinascimentoCLI {
     public static boolean appRunning;
 
     public static final CLIHome startupScene = new CLIHome();
-    public static final CLITitle titleScene = (CLITitle)CLIScenario.TITLE.getScene();
+    public static final CLITitle titleScene = (CLITitle) CLIScenes.TITLE.getScene();
     public static final CLILobby lobbyScene = new CLILobby();
     public static final CLIRoom roomScene = new CLIRoom();
     public static final CLIGame gameScene = new CLIGame();
@@ -24,7 +24,7 @@ public class MaestriRinascimentoCLI {
         /*startupScene.show();
         gameApplication.connect("localhost", 42069);*/
 
-        CLIScene currentScene = CLIScenario.TITLE.getScene();
+        CLIScene currentScene = CLIScenes.TITLE.getScene();
         GameApplicationState currentState = gameApplication.getApplicationState();
         GameApplicationState previousState = currentState;
 
@@ -35,7 +35,7 @@ public class MaestriRinascimentoCLI {
             currentState = gameApplication.getApplicationState();
 
             if(currentState != previousState) {
-                currentScene = CLIScenario.getCurrent();
+                currentScene = CLIScenes.getCurrent();
                 currentScene.show();
             }
 
