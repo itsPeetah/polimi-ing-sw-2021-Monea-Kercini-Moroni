@@ -6,8 +6,8 @@ import it.polimi.ingsw.application.common.GameApplication;
 
 public class CLIRoom extends CLIScene {
 
-    public CLIRoom(String title) {
-        super(title);
+    public CLIRoom() {
+        super();
     }
 
     @Override

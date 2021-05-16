@@ -6,20 +6,22 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 
 public class CLITitle extends CLIScene {
 
-    public CLITitle(String title) {
-        super(title);
+    public CLITitle() {
+        super();
     }
 
     @Override
     public void show() {
         print("========= Masters of Renaissance =========");
-        print("CLI Version");
+        print("             - CLI Version -");
         print("==========================================");
+        print(" ");
+        print("Type \"help\" at any point to visualize available commands.");
+        print("Press [ENTER] to continue.");
     }
     @Override
     public void getInput() {
-        print("Press [ENTER] to continue.");
         input.nextLine();
-        GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+        GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
 }
