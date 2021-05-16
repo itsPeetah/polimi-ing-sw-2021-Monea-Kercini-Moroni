@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.singleplayer.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class ModelController {
@@ -82,6 +83,13 @@ public class ModelController {
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
 
+        //Sending to him the resources he needs to put (the warehouse should be already available to him)
+        ResourcesToPutUpdateData resUP = new ResourcesToPutUpdateData(res);
+        modelControllerIOHandler.pushUpdate(Update.RESOURCES_TO_PUT, resUP);
+
+        //Sending message
+        modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
+
         modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
@@ -143,29 +151,17 @@ public class ModelController {
         //shuffle player order
         //game.shufflePlayers();
 
-
         //Updating the view with the current Market Tray and DevCard market
         //This might influence player choice on the leader and extra resources
         updateResourceMarket();
         updateDevCardMarket();
 
-        //Notifying players tha game has started
-        for(Player p : game.getPlayers()){
-            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
-        }
-
-
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
 
-            //notifying player he has to choose 2 leaders
-            modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
-
-            //The player has been offered 4 leader cards on the model side and is choosing 2
-            modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-            Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
-            game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+            //Sending to player the leaders he should choose from
+            dealLeadersToPlayer(leadCards, i);
 
 
             if (i>=1){ //second player gets an extra resource
@@ -182,7 +178,6 @@ public class ModelController {
                 Resources extra2;
                 extra2 = askPlayerToChooseResource(game.getPlayers()[i]);
                 game.getPlayers()[i].getBoard().getWarehouse().copy(askPlayerToPutResources(game.getPlayers()[i], extra2, game.getPlayers()[i].getBoard().getWarehouse()));
-
             }
 
             //After each players choice update the view
@@ -211,6 +206,11 @@ public class ModelController {
         //System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
+
+        //Notifying players tha game has started
+        for(Player p : game.getPlayers()){
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
+        }
 
         boolean lastRound = false;
 
@@ -486,6 +486,7 @@ public class ModelController {
         //First ask the player to choose all input choices
 
         Resources input = new Resources();
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.SELECT_INPUT);
 
         //Calculate total costs
         Resources tot_cost = new Resources();
@@ -518,6 +519,9 @@ public class ModelController {
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+            //ask player to choose output
+            modelControllerIOHandler.sendMessage(player.getNickname(), Message.SELECT_OUTPUT);
 
             //Adding output
             for(Production production : chosenProduction) {
@@ -778,6 +782,30 @@ public class ModelController {
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
+    }
+
+
+    /**
+     * Method takes care of sending a player 4 random leaders and getting his response on the 2 leaders he has chosen
+     * @param leadCards all of the 16 leader cards
+     * @param i the index that represents players position/order (0, 1, 2, 3)
+     */
+
+    private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
+
+        //Getting 4 leaders (already shuffled)
+        List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
+        //Sending update
+        DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
+        modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
+
+        //notifying player he has to choose 2 leaders
+        modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
+
+        //The player has been offered 4 leader and is choosing 2
+        modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
+        Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
+        game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
     }
 
 

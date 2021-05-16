@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.single.Lorenzo;
 
 public class CommonData {
+
     private DevCardMarket dcm;
     private MarketTray mt;
 

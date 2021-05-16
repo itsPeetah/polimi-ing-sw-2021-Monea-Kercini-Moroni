@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.view.game;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.ModelController;
+import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
@@ -11,16 +12,14 @@ import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
 import it.polimi.ingsw.view.data.GameData;
-import it.polimi.ingsw.view.scenes.GameScene;
 
 public class GameController {
 
     private final GameData gameData;
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
-    private GameScene currentScene;
+    private boolean gameStarted = false;
 
-    private int turn = 0;
 
     /**
      * Constructor for a MP game controller.
@@ -122,6 +121,16 @@ public class GameController {
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());
                 break;
+
+            case LEADERS_TO_CHOOSE_FROM:
+                DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
+                gameData.getMomentary().getLeaders().setLeaders(lUP.getLeaders());
+                break;
+
+            case RESOURCES_TO_PUT:
+                ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
+                gameData.getMomentary().getRes().setRes(rUP.getRes());
+                break;
         }
     }
 
@@ -137,7 +146,9 @@ public class GameController {
 
             case GAME_HAS_STARTED:
                 GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.SETUP);
+                gameStarted = true;
+                //Player must wait for his turn
+                moveToState(GameState.IDLE);
                 break;
 
             case CHOOSE_LEADERS:
@@ -147,39 +158,29 @@ public class GameController {
 
             case CHOOSE_RESOURCE:
                 GameApplication.getInstance().out(messageContent);
-                //Game state is left the same (whether setup or turn)
+                moveToState(GameState.PICK_RESOURCES);
                 break;
 
             case INCORRECT_REPLACEMENT:
                 //Super rare case
                 //Triggered when player has 2 leaders with replace white ability activated and yet chooses another
                 // resource to replace white
-
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.PICK_RESOURCES);
                 break;
 
             case START_TURN:
-                turn++;
+                gameData.turnIncrement();
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.TURN_CHOICE);
                 break;
 
             case NOT_ENOUGH_RESOURCES:
                 //This is triggered whether by trying to produce without having the necessary input or not enough to
-                // buy a dev card
-
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
             case ILLEGAL_CARD_PLACE:
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
+                // when buying a devCard
             case REQUIREMENTS_NOT_MET:
-                //game stays at the same state (turn choice)
-                GameApplication.getInstance().out(messageContent);
-                break;
+                // when activating a leader
             case ALREADY_USED_PRIMARY_ACTION:
                 //game stays at the same state (turn choice)
                 GameApplication.getInstance().out(messageContent);
@@ -190,27 +191,13 @@ public class GameController {
                 //This might be triggered in different scenarios
                 //Player MUST have his warehouse organized before going on
 
-                switch (currentState){
-
-                    //If player was in setup state -> after organizing his warehouse he can't do nothing else
-                    case SETUP:
-                        moveToState(GameState.ORGANIZE_WAREHOUSE_S);
-                        break;
-                    default:
-                        moveToState(GameState.ORGANIZE_WAREHOUSE);
-                }
+                moveToState(GameState.ORGANIZE_WAREHOUSE);
                 break;
 
             case WINNER:
                 //This player is the winner
-                GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.ENDGAME);
-                break;
             case LOSER:
                 //This player is a loser
-                GameApplication.getInstance().out(messageContent);
-                moveToState(GameState.ENDGAME);
-                break;
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
@@ -219,18 +206,27 @@ public class GameController {
 
             case OK:
                 //This is the most tricky case
-                //The next state that comes after the ok depends on our current state
+                //The next state that comes after the ok depends on which game phase we are
 
-                if(currentState==GameState.ORGANIZE_WAREHOUSE_S){
-                    moveToState(GameState.IDLE);
-                }else if(currentState==GameState.ORGANIZE_WAREHOUSE){
+
+                GameApplication.getInstance().out(messageContent); //This will probably be removed but might help testing
+
+                if(gameStarted){
+                    //This means that the player is doing an action at his turn so he is still playing his turn
                     moveToState(GameState.TURN_CHOICE);
-                    //This was the current state theoretically
                 }else{
-                    //The server controller is just confirming a action the player has done during his turn
-                    //The player is still playing his turn
+                    //Player was requested an action and he performed it correctly
+                    moveToState(GameState.IDLE);
                 }
                 break;
+
+            case SELECT_INPUT:
+            case SELECT_OUTPUT:
+                //No need for changing game state here
+                //These messages are just for helping player understand what is he choosing for when he is producing
+                GameApplication.getInstance().out(messageContent);
+                break;
+
 
         }
     }
@@ -240,7 +236,11 @@ public class GameController {
      * This class will push the action to the server, or handle the problem if need be.
      */
     public void reactToAction(ActionPacket actionPacket) {
-        //Action action = actionPacket.getAction();
+
+        //If the action is end turn the state should be changed
+        if(actionPacket.getAction()== Action.END_TURN){
+            moveToState(GameState.IDLE);
+        }
 
         // Push the action to the model controller
         gameControllerIOHandler.pushAction(actionPacket);
@@ -250,7 +250,6 @@ public class GameController {
     protected void moveToState(GameState nextState) {
         currentState = nextState;
     }
-    protected void moveToScene(GameScene nextScene) { currentScene = nextScene;}
 
     public GameControllerIOHandler getGameControllerIOHandler() {
         return gameControllerIOHandler;
