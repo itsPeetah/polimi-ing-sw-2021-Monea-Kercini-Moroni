@@ -9,8 +9,6 @@ public class CLIHome extends CLIScene {
 
     public CLIHome() {
         super();
-        allowedCommands.add("sp");
-        allowedCommands.add("mp");
     }
 
     @Override
@@ -18,11 +16,11 @@ public class CLIHome extends CLIScene {
         print("========= Masters of Renaissance =========");
         print(" ");
         print("Game modes:");
-        print("[ " + ANSIColor.CYAN + "SINGLE PLAYER" + ANSIColor.RESET + " ]");
-        print("[ " + ANSIColor.CYAN + "MULTIPLAYER" + ANSIColor.RESET + " ]");
+        print("[" + ANSIColor.CYAN + "SINGLE PLAYER" + ANSIColor.RESET + "]");
+        print("[" + ANSIColor.CYAN + "MULTIPLAYER" + ANSIColor.RESET + "]");
         print("More options:");
-        print("[ "+ ANSIColor.CYAN +"SETTINGS"+ ANSIColor.RESET +" ]");
-        print("[ "+ ANSIColor.CYAN +"CREDITS"+ ANSIColor.RESET +" ]");
+        print("["+ ANSIColor.CYAN +"SETTINGS"+ ANSIColor.RESET +"]");
+        print("["+ ANSIColor.CYAN +"CREDITS"+ ANSIColor.RESET +"]");
         print("==========================================");
     }
 
@@ -39,25 +37,25 @@ public class CLIHome extends CLIScene {
     public void getInput() {
         String[] commandFields = input.nextLine().split(" ");
 
-        if(!allowedCommands.contains(commandFields[0]))
-            error("Command not supported or implemented yet.");
-        else{
-            try {
-                switch (commandFields[0]) {
-                    case "sp":
-                        CLICommand.selectGameMode.execute(new String[]{"singleplayer"});
-                        break;
-                    case "mp":
-                        CLICommand.selectGameMode.execute(new String[]{"multiplayer"});
-                        break;
-                    case "help":
-                        help();
-                        break;
-                }
-            } catch (CLICommandException ex){
-                error(ex.getMessage());
+
+        try {
+            switch (commandFields[0]) {
+                case "sp":
+                    CLICommand.selectGameMode.execute(new String[]{"singleplayer"});
+                    break;
+                case "mp":
+                    CLICommand.selectGameMode.execute(new String[]{"multiplayer"});
+                    break;
+                case "help":
+                    help();
+                    break;
+                default:
+                    error("Command not supported or implemented yet.");
             }
+        } catch (CLICommandException ex) {
+            error(ex.getMessage());
         }
+
 
     }
 }

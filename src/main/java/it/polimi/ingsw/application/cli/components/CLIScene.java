@@ -8,12 +8,9 @@ import java.util.Scanner;
 public class CLIScene {
 
     protected final Scanner input;
-    protected final HashSet<String> allowedCommands;
 
     public CLIScene(){
         this.input = new Scanner(System.in);
-        this.allowedCommands = new HashSet<String>();
-        allowedCommands.add("help");
     }
 
     public void update(){
