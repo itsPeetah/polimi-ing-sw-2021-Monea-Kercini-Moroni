@@ -63,6 +63,7 @@ public class CLILobby extends CLIScene {
                 else {
                     nickname = fields[1];
                     print("Set the nickname to " + nickname);
+                    show();
                 }
                 break;
             case "room":
@@ -70,11 +71,12 @@ public class CLILobby extends CLIScene {
                 else {
                     roomName = fields[1];
                     print("Set the room to " + roomName);
+                    show();
                 }
                 break;
             case "create":
                 if (nickname == null || roomName == null)
-                    print("Error: choose a nickname and a room name first. Retry.");
+                    error("Choose a nickname and a room name first. Retry.");
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);
@@ -83,7 +85,7 @@ public class CLILobby extends CLIScene {
                 break;
             case "join":
                 if (nickname == null || roomName == null)
-                    print("Error: choose a nickname and a room name first. Retry.");
+                    error("Choose a nickname and a room name first. Retry.");
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);

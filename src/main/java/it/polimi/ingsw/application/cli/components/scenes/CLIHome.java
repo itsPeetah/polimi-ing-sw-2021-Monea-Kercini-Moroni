@@ -2,6 +2,8 @@ package it.polimi.ingsw.application.cli.components.scenes;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationState;
 
 public class CLIHome extends CLIScene {
 
@@ -50,10 +52,19 @@ public class CLIHome extends CLIScene {
     }
 
     private void selectSinglePlayerMode(){
-
+        print(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
     }
 
     private void selectMultiplayerMode(){
+        print(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
+        // TODO Move data somewhere else
+        GameApplication.getInstance().connect("localhost", 42069);
+        if(GameApplication.getInstance().isOnNetwork()){
+            GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+        } else{
+            show();
+            error("Could not connect to the server...");
+        }
     }
 }

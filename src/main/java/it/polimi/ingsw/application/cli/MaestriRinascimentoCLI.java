@@ -44,32 +44,6 @@ public class MaestriRinascimentoCLI {
             } else
                 done = true;
 
-            /*switch (currentState){
-                case STARTED:
-                    titleScene.show();
-                    titleScene.getInput();
-                    break;
-                case LOBBY:
-                    lobbyScene.show();
-                    lobbyScene.getInput();
-                    break;
-                case PREGAME:
-                    roomScene.show();
-                    roomScene.getInput();
-                    break;
-                case INGAME:
-                    gameScene.show();
-                    gameScene.getInput();
-                    break;
-                case STOPPED:
-                    stoppedScene.show();
-                    done = true;
-                    break;
-                default:
-                    // Do nothing...
-                    break;
-            }
-*/
             previousState = currentState;
         }
     }
