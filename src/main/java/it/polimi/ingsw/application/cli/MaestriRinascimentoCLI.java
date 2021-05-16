@@ -1,5 +1,7 @@
 package it.polimi.ingsw.application.cli;
 
+import it.polimi.ingsw.application.cli.components.CLIScenario;
+import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.*;
 
@@ -10,8 +12,8 @@ public class MaestriRinascimentoCLI {
 
     public static boolean appRunning;
 
-    public static final CLIStartup startupScene = new CLIStartup();
-    public static final CLITitle titleScene = new CLITitle();
+    public static final CLIHome startupScene = new CLIHome();
+    public static final CLITitle titleScene = (CLITitle)CLIScenario.TITLE.getScene();
     public static final CLILobby lobbyScene = new CLILobby();
     public static final CLIRoom roomScene = new CLIRoom();
     public static final CLIGame gameScene = new CLIGame();
@@ -19,15 +21,30 @@ public class MaestriRinascimentoCLI {
 
     public static void main(String[] args){
 
-        startupScene.show();
+        /*startupScene.show();
+        gameApplication.connect("localhost", 42069);*/
 
-        gameApplication.connect("localhost", 42069);
+        CLIScene currentScene = CLIScenario.TITLE.getScene();
+        GameApplicationState currentState = gameApplication.getApplicationState();
+        GameApplicationState previousState = currentState;
+
+        currentScene.show();
 
         boolean done = false;
         while(!done){
+            currentState = gameApplication.getApplicationState();
 
-            GameApplicationState state = gameApplication.getApplicationState();
-            switch (state){
+            if(currentState != previousState) {
+                currentScene = CLIScenario.getCurrent();
+                currentScene.show();
+            }
+
+            if(currentState != GameApplicationState.STOPPED){
+                currentScene.getInput();
+            } else
+                done = true;
+
+            /*switch (currentState){
                 case STARTED:
                     titleScene.show();
                     titleScene.getInput();
@@ -52,7 +69,8 @@ public class MaestriRinascimentoCLI {
                     // Do nothing...
                     break;
             }
+*/
+            previousState = currentState;
         }
-
     }
 }
