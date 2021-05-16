@@ -38,10 +38,10 @@ public class CLIHome extends CLIScene {
         String command = input.nextLine().split(" ")[0];
         switch (command) {
             case "sp":
-                CLICommands.selectSinglePlayerMode();
+                selectSinglePlayerMode();
                 break;
             case "mp":
-                CLICommands.selectMultiplayerMode();
+                selectMultiplayerMode();
                 break;
             case "help":
                 help();
@@ -49,5 +49,13 @@ public class CLIHome extends CLIScene {
             default:
                 error("Command not supported or implemented yet.");
         }
+    }
+
+    private void selectSinglePlayerMode(){
+
+    }
+
+    private void selectMultiplayerMode(){
+
     }
 }
