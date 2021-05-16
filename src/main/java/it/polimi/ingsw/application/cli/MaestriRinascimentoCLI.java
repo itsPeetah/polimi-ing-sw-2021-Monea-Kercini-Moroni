@@ -36,6 +36,7 @@ public class MaestriRinascimentoCLI {
 
             if(currentState != previousState) {
                 currentScene = CLIScenes.getCurrent();
+                currentScene.error("State changed");
                 currentScene.show();
             }
 

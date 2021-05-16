@@ -62,16 +62,16 @@ public class CLILobby extends CLIScene {
                 if (fields.length < 2) print("Error: missing arguments. Retry.");
                 else {
                     nickname = fields[1];
-                    print("Set the nickname to " + nickname);
                     show();
+                    print("Set the nickname to " + nickname);
                 }
                 break;
             case "room":
                 if (fields.length < 2) print("Error: missing arguments. Retry.");
                 else {
                     roomName = fields[1];
-                    print("Set the room to " + roomName);
                     show();
+                    print("Set the room to " + roomName);
                 }
                 break;
             case "create":
