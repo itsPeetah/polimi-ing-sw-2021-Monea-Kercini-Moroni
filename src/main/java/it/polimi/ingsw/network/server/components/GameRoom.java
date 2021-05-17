@@ -24,6 +24,8 @@ public class GameRoom {
     private final ModelControllerIOHandler modelControllerIOHandler;
     private ModelController modelController;
 
+    // TODO Add PINGING functionalities
+
     /**
      * Class constructor.
      */

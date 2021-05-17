@@ -14,6 +14,8 @@ import java.util.List;
 public class GameApplicationIOHandler {
     protected final static Gson gson = new Gson();
 
+    // TODO Add Thread Pool for elaborating commands
+
     private static GameApplicationIOHandler instance;
     public static GameApplicationIOHandler getInstance(){
         if(instance == null) instance = new GameApplicationIOHandler();
