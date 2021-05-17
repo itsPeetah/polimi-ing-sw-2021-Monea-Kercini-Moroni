@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -10,7 +11,7 @@
    <center>
       <VBox alignment="TOP_CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onPlayClick" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Play">
+            <Button mnemonicParsing="false" onAction="#onPlayClick" prefHeight="47.0" prefWidth="200.0" stylesheets="@../fonts/fonts.css" text="Play" >
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -20,21 +21,39 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Glow level="0.74" />
+               </effect>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Options">
+            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" stylesheets="@../fonts/fonts.css" text="Options">
                <font>
                   <Font name="Old English Text MT" size="32.0" />
                </font>
                <VBox.margin>
                   <Insets />
-               </VBox.margin></Button>
-            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" style="-fx-background-color: trasparent;" text="Credits">
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Glow level="0.74" />
+               </effect></Button>
+            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" stylesheets="@../fonts/fonts.css" text="Credits">
                <font>
                   <Font name="Old English Text MT" size="32.0" />
                </font>
                <VBox.margin>
                   <Insets />
-               </VBox.margin></Button>
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Glow level="0.74" />
+               </effect></Button>
          </children>
          <opaqueInsets>
             <Insets />
@@ -45,13 +64,16 @@
       </VBox>
    </center>
    <cursor>
-      <Cursor fx:constant="HAND" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
    <top>
       <TextField alignment="CENTER" prefHeight="226.0" prefWidth="1280.0" style="-fx-background-color: trasparent;" styleClass="\\fonts\fonts.css" text="Masters Of Rennaisance" BorderPane.alignment="CENTER">
          <font>
             <Font name="Old English Text MT" size="96.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </TextField>
    </top>
 </BorderPane>
