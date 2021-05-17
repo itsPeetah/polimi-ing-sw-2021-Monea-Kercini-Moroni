@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.cli.components.CLIScenes;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.*;
+import it.polimi.ingsw.model.game.Game;
 
 public class MaestriRinascimentoCLI {
 
@@ -34,10 +35,14 @@ public class MaestriRinascimentoCLI {
         while(!done){
             currentState = gameApplication.getApplicationState();
 
+            // Change the scene
             if(currentState != previousState) {
                 currentScene = CLIScenes.getCurrent();
-                currentScene.error("State changed");
                 currentScene.show();
+            }
+
+            if(currentState == GameApplicationState.INGAME){
+                currentScene.update();
             }
 
             if(currentState != GameApplicationState.STOPPED){
