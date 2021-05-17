@@ -38,6 +38,10 @@ public class MaestriRinascimentoCLI {
             // Change the scene
             if(currentState != previousState) {
                 currentScene = CLIScenes.getCurrent();
+
+                if(currentState == GameApplicationState.INGAME)
+                    ((CLIGame)CLIScenes.GAME.getScene()).init();
+
                 currentScene.show();
             }
 
