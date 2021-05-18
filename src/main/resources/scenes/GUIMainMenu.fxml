@@ -15,9 +15,6 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-               <font>
-                  <Font name="Old English Text MT" size="32.0" />
-               </font>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -29,9 +26,6 @@
                </effect>
             </Button>
             <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" stylesheets="@../styles/MainMenu.css" text="Options">
-               <font>
-                  <Font name="Old English Text MT" size="32.0" />
-               </font>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -45,9 +39,6 @@
                   <Insets />
                </opaqueInsets></Button>
             <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" stylesheets="@../styles/MainMenu.css" text="Credits">
-               <font>
-                  <Font name="Old English Text MT" size="32.0" />
-               </font>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
