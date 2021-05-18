@@ -40,7 +40,10 @@
                </cursor>
                <effect>
                   <Glow level="0.74" />
-               </effect></Button>
+               </effect>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></Button>
             <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" stylesheets="@../styles/MainMenu.css" text="Credits">
                <font>
                   <Font name="Old English Text MT" size="32.0" />
@@ -53,7 +56,10 @@
                </cursor>
                <effect>
                   <Glow level="0.74" />
-               </effect></Button>
+               </effect>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></Button>
          </children>
          <opaqueInsets>
             <Insets />
@@ -67,6 +73,9 @@
       <Cursor fx:constant="DEFAULT" />
    </cursor>
    <top>
-      <Label text="Masters Of Renaissance" BorderPane.alignment="CENTER" stylesheets="@../styles/MainMenu.css"/>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="202.0" prefWidth="1280.0" stylesheets="@../styles/MainMenu.css" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="96.0" />
+         </font></Label>
    </top>
 </BorderPane>
