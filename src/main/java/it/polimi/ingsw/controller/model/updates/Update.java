@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.model.updates;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.updates.data.*;
+import it.polimi.ingsw.util.JSONUtility;
 
 import java.lang.reflect.Type;
 
@@ -19,8 +20,6 @@ public enum Update {
     LEADERS_TO_CHOOSE_FROM(DisposableLeadersUpdateData.class),
     RESOURCES_TO_PUT(ResourcesToPutUpdateData.class);
 
-    private static final Gson gson = new Gson();
-
     private final Class<?> classOfData;
 
     Update(Class<?> classOfData) {
@@ -32,7 +31,7 @@ public enum Update {
      * @return json formatted string representing an UpdateData object.
      */
     public String parseData(UpdateData data) {
-        return gson.toJson(data, classOfData);
+        return JSONUtility.toJson(data, classOfData);
     }
 
     /**
@@ -40,6 +39,6 @@ public enum Update {
      * @return object of the correct subclass of UpdateData.
      */
     public <T extends UpdateData> T getUpdateData(String updateDataString) {
-        return gson.fromJson(updateDataString, (Type)classOfData);
+        return JSONUtility.fromJson(updateDataString, (Type)classOfData);
     }
 }

@@ -8,5 +8,6 @@ public enum GameApplicationState {
     LEAVING_ROOM,
     PREGAME,
     INGAME,
+    WAITING,
     STOPPED;
 }

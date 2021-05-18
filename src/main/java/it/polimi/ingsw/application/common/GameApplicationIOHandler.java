@@ -1,18 +1,19 @@
 package it.polimi.ingsw.application.common;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.social.SocialPacket;
+import it.polimi.ingsw.network.common.social.SocialPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-
-import java.util.Arrays;
-import java.util.List;
+import it.polimi.ingsw.util.JSONUtility;
 
 public class GameApplicationIOHandler {
-    protected final static Gson gson = new Gson();
+
+    // TODO Add Thread Pool for elaborating commands
 
     private static GameApplicationIOHandler instance;
     public static GameApplicationIOHandler getInstance(){
@@ -24,18 +25,24 @@ public class GameApplicationIOHandler {
     }
 
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
-        MessagePacket messagePacket = gson.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
+        MessagePacket messagePacket = JSONUtility.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyMessage(messagePacket);
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
-        UpdatePacket updatePacket = gson.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
+        UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
     public void pushAction(ActionPacket actionPacket) {
         NetworkPacket networkPacket = NetworkPacket.buildActionPacket(actionPacket);
         GameApplication.getInstance().sendNetworkPacket(networkPacket);
+    }
+
+    public void pushChatMessage(String content) {
+        GameApplication gameApplication = GameApplication.getInstance();
+        NetworkPacket networkPacket = NetworkPacket.buildChatPacket(content, gameApplication.getUserNickname());
+        gameApplication.sendNetworkPacket(networkPacket);
     }
 
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
@@ -62,6 +69,19 @@ public class GameApplicationIOHandler {
         }
 
         return 0;
+    }
+
+    public void handleSocialMessage(NetworkPacket networkPacket) {
+        SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
+        GameApplication gameApplication = GameApplication.getInstance();
+        switch(socialPacket.getType()) {
+            case CHAT:
+                gameApplication.outChat(socialPacket.getFrom(), socialPacket.getBody());
+                break;
+            case WHISPER:
+                gameApplication.outWhisper(socialPacket.getFrom(), socialPacket.getBody());
+                break;
+        }
     }
 
     public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){

@@ -80,7 +80,7 @@ public class GUIMPSelection implements Initializable {
             if(result.get() == ButtonType.OK) {
                 GameApplication.getInstance().connect("localhost", 42069);
                 if (GameApplication.getInstance().isOnNetwork()) {
-                    GUIScene.MP_SELECTION.load();
+                    break;
                 }
                 else {
                     Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
@@ -90,7 +90,8 @@ public class GUIMPSelection implements Initializable {
                     connectionErrorAlert.showAndWait();
                 }
             } else {
-                GUIScene.GAME_MODE_SELECTION.load();
+                Platform.runLater(GUIScene.GAME_MODE_SELECTION::load);
+                break;
             }
         }
     }

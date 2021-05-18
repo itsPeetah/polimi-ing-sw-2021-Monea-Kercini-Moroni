@@ -13,8 +13,8 @@ public class CLILobby extends CLIScene {
 
     private String nickname, roomName;
 
-    public CLILobby(String title) {
-        super(title);
+    public CLILobby() {
+        super();
         nickname = GameApplication.getInstance().getUserNickname();
         roomName = GameApplication.getInstance().getRoomName();
 
@@ -62,6 +62,7 @@ public class CLILobby extends CLIScene {
                 if (fields.length < 2) print("Error: missing arguments. Retry.");
                 else {
                     nickname = fields[1];
+                    show();
                     print("Set the nickname to " + nickname);
                 }
                 break;
@@ -69,12 +70,13 @@ public class CLILobby extends CLIScene {
                 if (fields.length < 2) print("Error: missing arguments. Retry.");
                 else {
                     roomName = fields[1];
+                    show();
                     print("Set the room to " + roomName);
                 }
                 break;
             case "create":
                 if (nickname == null || roomName == null)
-                    print("Error: choose a nickname and a room name first. Retry.");
+                    error("Choose a nickname and a room name first. Retry.");
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);
@@ -83,7 +85,7 @@ public class CLILobby extends CLIScene {
                 break;
             case "join":
                 if (nickname == null || roomName == null)
-                    print("Error: choose a nickname and a room name first. Retry.");
+                    error("Choose a nickname and a room name first. Retry.");
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);

@@ -4,13 +4,15 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.common.social.SocialPacket;
+import it.polimi.ingsw.network.common.social.SocialPacketType;
+import it.polimi.ingsw.util.JSONUtility;
 
 /**
  * Generic packet to be sent across the network
  */
 public class NetworkPacket {
-
-    private static final Gson gson = new Gson();
+    public final static String SEPARATOR = "§";
 
     private NetworkPacketType packetType;
     private String payload;
@@ -49,14 +51,14 @@ public class NetworkPacket {
      * @param text the json text representing the packet.
      */
     public static NetworkPacket fromString(String text){
-        return gson.fromJson(text, NetworkPacket.class);
+        return JSONUtility.fromJson(text, NetworkPacket.class);
     }
 
     /**
      * Convert the packet to json.
      */
     public String toJson(){
-        return gson.toJson(this, NetworkPacket.class);
+        return JSONUtility.toJson(this, NetworkPacket.class);
     }
 
     /**
@@ -87,7 +89,7 @@ public class NetworkPacket {
      * @param messagePacket Packet to be wrapped in the network packet.
      */
     public static NetworkPacket buildMessagePacket(MessagePacket messagePacket) {
-        String payload = gson.toJson(messagePacket, MessagePacket.class);
+        String payload = JSONUtility.toJson(messagePacket, MessagePacket.class);
         return new NetworkPacket(NetworkPacketType.MESSAGE, payload);
     }
 
@@ -96,7 +98,7 @@ public class NetworkPacket {
      * @param updatePacket Packet to be wrapped in the network packet.
      */
     public static NetworkPacket buildUpdatePacket(UpdatePacket updatePacket) {
-        String payload = gson.toJson(updatePacket, UpdatePacket.class);
+        String payload = JSONUtility.toJson(updatePacket, UpdatePacket.class);
         return new NetworkPacket(NetworkPacketType.UPDATE, payload);
     }
 
@@ -105,7 +107,23 @@ public class NetworkPacket {
      * @param actionPacket Packet to be wrapped in the network packet.
      */
     public static NetworkPacket buildActionPacket(ActionPacket actionPacket) {
-        String payload = gson.toJson(actionPacket, ActionPacket.class);
+        String payload = JSONUtility.toJson(actionPacket, ActionPacket.class);
         return new NetworkPacket(NetworkPacketType.ACTION, payload);
+    }
+
+    /**
+     * Build a whisper network packet.
+     */
+    public static NetworkPacket buildWhisperPacket(String content, String from, String to) {
+        String payload = to + SEPARATOR + from + SEPARATOR + content;
+        return new NetworkPacket(NetworkPacketType.SOCIAL, payload);
+    }
+
+    /**
+     * Build a chat network packet.
+     */
+    public static NetworkPacket buildChatPacket(String content, String from) {
+        SocialPacket socialPacket = new SocialPacket(from, content);
+        return new NetworkPacket(NetworkPacketType.SOCIAL, JSONUtility.toJson(socialPacket, SocialPacket.class));
     }
 }
