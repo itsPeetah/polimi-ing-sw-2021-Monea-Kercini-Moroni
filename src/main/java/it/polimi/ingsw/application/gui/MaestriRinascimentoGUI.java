@@ -17,6 +17,7 @@ public class MaestriRinascimentoGUI {
         GameApplication.setOutputMode(GameApplicationMode.GUI);
 
         // Create the stage and start the GUI
+        /*new Thread(() -> GUIApplication.main(args)).start();*/
         GUIApplication.main(args);
 
     }

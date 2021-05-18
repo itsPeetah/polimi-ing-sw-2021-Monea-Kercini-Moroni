@@ -1,6 +1,5 @@
 package it.polimi.ingsw.application.common;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
@@ -8,9 +7,6 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.util.JSONUtility;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GameApplicationIOHandler {
 
