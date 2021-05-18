@@ -16,6 +16,7 @@
     -fx-text-fill: white;
 }
 
-.text-field{
+.label{
     -fx-font-family: "Medici Text";
+    -fx-font-size: 82;
 }
