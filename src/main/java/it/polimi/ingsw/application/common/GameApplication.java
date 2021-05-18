@@ -138,6 +138,7 @@ public class GameApplication {
         List<String> newPlayers = newList.stream().filter(x -> !this.roomPlayers.contains(x)).collect(Collectors.toList());
         if(outputMode == GameApplicationMode.GUI) {
             GUIMPRoom.observablePlayersList.addAll(newPlayers);
+            GUIMPRoom.observablePlayersList.sort((String::compareTo));
         }
         this.roomPlayers.addAll(newPlayers);
         System.out.println(roomPlayers.toString());

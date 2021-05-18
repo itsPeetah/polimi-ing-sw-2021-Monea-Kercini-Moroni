@@ -5,7 +5,6 @@ import it.polimi.ingsw.application.common.GameApplication;
 
 public enum CLIScenes {
 
-
     TITLE(new CLITitle(), "Masters of Renaissance - Welcome"),
     HOME(new CLIHome(), "Masters of Renaissance - Home"),
     STOP(new CLIStop(), "Masters of Renaissance - Thank you for playing"),

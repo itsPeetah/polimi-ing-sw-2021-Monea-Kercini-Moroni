@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class GameRoom {
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
     private ModelController modelController;
+
+    // TODO Add PINGING functionalities
 
     /**
      * Class constructor.
@@ -40,6 +43,10 @@ public class GameRoom {
      */
     public String getId(){
         return roomId;
+    }
+
+    public boolean gameInProgress(){
+        return modelController != null;
     }
 
     /**
@@ -98,8 +105,13 @@ public class GameRoom {
      * @return
      */
     public boolean startGame() {
-        // TODO non fare partire con solo un giocatore!!!!
-        // TODO controllare che non ci sia gia una partita in corso
+        // TODO (X) non fare partire con solo un giocatore!
+        /*if(users.size() < 2)
+            broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, ConnectionMessage.ERR.addBody("Can't start a multiplayer game by yourself!")));*/
+
+        // TODO (X) controllare che non ci sia gia una partita in corso
+        // if(gameInProgress) return;
+
         // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
         // add players
@@ -107,7 +119,6 @@ public class GameRoom {
             modelController.addPlayer(player);
         }
         // randomize order
-
         modelController.getGame().shufflePlayers();
         // Send start
         String startMessage = GameLobbyMessage.START_ROOM.addBody("CIAO PIE");

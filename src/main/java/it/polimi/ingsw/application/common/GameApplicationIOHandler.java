@@ -1,18 +1,16 @@
 package it.polimi.ingsw.application.common;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-
-import java.util.Arrays;
-import java.util.List;
+import it.polimi.ingsw.util.JSONUtility;
 
 public class GameApplicationIOHandler {
-    protected final static Gson gson = new Gson();
+
+    // TODO Add Thread Pool for elaborating commands
 
     private static GameApplicationIOHandler instance;
     public static GameApplicationIOHandler getInstance(){
@@ -24,12 +22,12 @@ public class GameApplicationIOHandler {
     }
 
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
-        MessagePacket messagePacket = gson.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
+        MessagePacket messagePacket = JSONUtility.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyMessage(messagePacket);
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
-        UpdatePacket updatePacket = gson.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
+        UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
