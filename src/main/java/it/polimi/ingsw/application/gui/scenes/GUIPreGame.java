@@ -31,7 +31,8 @@ public class GUIPreGame implements Initializable {
     @FXML
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
-    public void setOfferedLeaders(ArrayList<LeadCard> leaders) {
+    public void updateOfferedLeaders(ArrayList<LeadCard> leaders) {
+
         //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
     }
 }
