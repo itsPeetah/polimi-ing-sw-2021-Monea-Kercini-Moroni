@@ -1,28 +1,21 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import com.sun.javafx.collections.ObservableListWrapper;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUIMPRoom implements Initializable {
