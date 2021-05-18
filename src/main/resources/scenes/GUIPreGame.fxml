@@ -14,7 +14,7 @@
          <children>
             <HBox prefHeight="245.0" prefWidth="1278.0">
                <children>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="image1" accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
