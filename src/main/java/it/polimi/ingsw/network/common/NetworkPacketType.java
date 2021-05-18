@@ -8,5 +8,6 @@ public enum NetworkPacketType {
     DEBUG,
     MESSAGE,
     ACTION,
-    UPDATE;
+    UPDATE,
+    SOCIAL
 }

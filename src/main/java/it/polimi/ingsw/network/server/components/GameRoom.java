@@ -6,8 +6,10 @@ import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
+import it.polimi.ingsw.network.common.social.SocialPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.util.JSONUtility;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -128,5 +130,18 @@ public class GameRoom {
         // todo check ownership
 
         return true;
+    }
+
+    public void handleSocialPacket(NetworkPacket networkPacket) {
+        SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
+        switch(socialPacket.getType()) {
+            case CHAT:
+                System.out.println("Sending CHAT message");
+                broadcast(networkPacket);
+                break;
+            case WHISPER:
+                sendTo(socialPacket.getTo(), networkPacket);
+                break;
+        }
     }
 }

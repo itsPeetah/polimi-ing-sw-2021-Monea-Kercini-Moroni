@@ -39,6 +39,9 @@ public class ServerSideClientListener {
                 case ACTION:
                     handleActionPacket(np);
                     break;
+                case SOCIAL:
+                    handleSocialPacket(np);
+                    break;
             }
         }
 
@@ -80,5 +83,10 @@ public class ServerSideClientListener {
 
     private void handleActionPacket(NetworkPacket packet){
         user.getRoom().notify(packet);
+    }
+
+    private void handleSocialPacket(NetworkPacket packet){
+        System.out.println("Received SocialMessage");
+        user.getRoom().handleSocialPacket(packet);
     }
 }

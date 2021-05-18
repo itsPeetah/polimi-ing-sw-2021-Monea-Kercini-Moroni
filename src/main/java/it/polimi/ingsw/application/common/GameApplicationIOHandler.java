@@ -3,7 +3,10 @@ package it.polimi.ingsw.application.common;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.social.SocialPacket;
+import it.polimi.ingsw.network.common.social.SocialPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.util.JSONUtility;
@@ -36,6 +39,12 @@ public class GameApplicationIOHandler {
         GameApplication.getInstance().sendNetworkPacket(networkPacket);
     }
 
+    public void pushChatMessage(String content) {
+        GameApplication gameApplication = GameApplication.getInstance();
+        NetworkPacket networkPacket = NetworkPacket.buildChatPacket(content, gameApplication.getUserNickname());
+        gameApplication.sendNetworkPacket(networkPacket);
+    }
+
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
@@ -60,6 +69,19 @@ public class GameApplicationIOHandler {
         }
 
         return 0;
+    }
+
+    public void handleSocialMessage(NetworkPacket networkPacket) {
+        SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
+        GameApplication gameApplication = GameApplication.getInstance();
+        switch(socialPacket.getType()) {
+            case CHAT:
+                gameApplication.outChat(socialPacket.getFrom(), socialPacket.getBody());
+                break;
+            case WHISPER:
+                gameApplication.outWhisper(socialPacket.getFrom(), socialPacket.getBody());
+                break;
+        }
     }
 
     public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){

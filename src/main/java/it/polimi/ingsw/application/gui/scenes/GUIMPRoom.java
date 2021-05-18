@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.network.common.NetworkPacket;
@@ -13,8 +14,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.io.File;
 import java.net.URL;
@@ -23,12 +27,19 @@ import java.util.ResourceBundle;
 
 public class GUIMPRoom implements Initializable {
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
+    public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
 
     @FXML
     private ImageView imageView;
 
     @FXML
     private ListView<String> playersListView;
+
+    @FXML
+    private TextField textField;
+
+    @FXML
+    private ListView<String> chatListView;
 
     @FXML
     private void onStartClick() {
@@ -48,8 +59,14 @@ public class GUIMPRoom implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playersListView.setItems(observablePlayersList);
-        File file = new File("src/main/resources/images/MPRoomImage.jpg");
-        Image image = new Image(file.toURI().toString());
-        imageView.setImage(image);
+        chatListView.setItems(observableChatList);
+    }
+
+    public void sendMessage(KeyEvent keyEvent) {
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            String message = textField.getText();
+            textField.clear();
+            if(message != null && message.length() > 0) GameApplicationIOHandler.getInstance().pushChatMessage(message);
+        }
     }
 }
