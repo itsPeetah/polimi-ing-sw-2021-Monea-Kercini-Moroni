@@ -1,9 +1,28 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.application.gui.GUIScene;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * Initial scene when game starts
  * Player will be offered 4 leaders and he should choose 2
  */
 
-public class GUIPreGame {
+public class GUIPreGame implements Initializable {
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    @FXML
+    private void onPlayClick(ActionEvent actionEvent) {
+        GUIScene.GAME_MODE_SELECTION.load();
+    }
+
+
 }
+

@@ -10,7 +10,8 @@ public enum GUIScene {
     MAIN_MENU("GUIMainMenu.fxml"),
     GAME_MODE_SELECTION("GUIGameModeSelection.fxml"),
     MP_SELECTION("GUIMPSelection.fxml"),
-    MP_ROOM("GUIMPRoom.fxml");
+    MP_ROOM("GUIMPRoom.fxml"),
+    PRE_GAME("GUIPreGame.fxml");
 
     private static final String FXML_DIRECTORY = "/scenes/";
     private final String fxmlPath;
