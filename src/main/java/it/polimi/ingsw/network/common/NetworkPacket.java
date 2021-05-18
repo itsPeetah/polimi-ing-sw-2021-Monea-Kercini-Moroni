@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.common.social.SocialPacket;
+import it.polimi.ingsw.network.common.social.SocialPacketType;
 import it.polimi.ingsw.util.JSONUtility;
 
 /**
  * Generic packet to be sent across the network
  */
 public class NetworkPacket {
+    public final static String SEPARATOR = "§";
 
     private NetworkPacketType packetType;
     private String payload;
@@ -106,5 +109,21 @@ public class NetworkPacket {
     public static NetworkPacket buildActionPacket(ActionPacket actionPacket) {
         String payload = JSONUtility.toJson(actionPacket, ActionPacket.class);
         return new NetworkPacket(NetworkPacketType.ACTION, payload);
+    }
+
+    /**
+     * Build a whisper network packet.
+     */
+    public static NetworkPacket buildWhisperPacket(String content, String from, String to) {
+        String payload = to + SEPARATOR + from + SEPARATOR + content;
+        return new NetworkPacket(NetworkPacketType.SOCIAL, payload);
+    }
+
+    /**
+     * Build a chat network packet.
+     */
+    public static NetworkPacket buildChatPacket(String content, String from) {
+        SocialPacket socialPacket = new SocialPacket(from, content);
+        return new NetworkPacket(NetworkPacketType.SOCIAL, JSONUtility.toJson(socialPacket, SocialPacket.class));
     }
 }

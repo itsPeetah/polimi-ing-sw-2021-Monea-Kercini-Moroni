@@ -40,6 +40,9 @@ public class ClientSideServerListener {
                     GameApplicationIOHandler.getInstance().notifyUpdate(np);
                     System.out.println("Received UPDATE");
                     break;
+                case SOCIAL:
+                    GameApplicationIOHandler.getInstance().handleSocialMessage(np);
+                    break;
             }
         }
     }

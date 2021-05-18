@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
 import it.polimi.ingsw.controller.view.game.GameController;
@@ -151,14 +152,29 @@ public class GameApplication {
 
     // Output
     public void out(String output){
-
         if(outputMode == GameApplicationMode.CLI){
             // TODO move to its own class
             System.out.println(output);
         } else {
             GUIApplication.showDialog(output);
         }
+    }
 
+    public void outChat(String from, String body) {
+        if(outputMode == GameApplicationMode.CLI){
+            // TODO move to its own class
+            System.out.println(ANSIColor.CYAN + from + ANSIColor.RESET + " said: " + body);
+        } else {
+            GUIMPRoom.observableChatList.add(from + ": " + body);
+        }
+    }
+
+    public void outWhisper(String from, String body) {
+        if(outputMode == GameApplicationMode.CLI){
+            System.out.println(ANSIColor.PURPLE + from + ANSIColor.RESET + " whispered: " + body);
+        } else {
+            GUIMPRoom.observableChatList.add(from + " whispered: " + body);
+        }
     }
 
 

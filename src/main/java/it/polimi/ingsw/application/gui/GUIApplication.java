@@ -3,6 +3,8 @@ package it.polimi.ingsw.application.gui;
 import it.polimi.ingsw.application.gui.scenes.GUIMainMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,6 +15,7 @@ import javafx.stage.WindowEvent;
 public class GUIApplication extends Application {
     private static Stage primaryStage;
     private static Alert oldDialog;
+    public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -45,6 +48,5 @@ public class GUIApplication extends Application {
             alert.show();
             oldDialog = alert;
         });
-
     }
 }
