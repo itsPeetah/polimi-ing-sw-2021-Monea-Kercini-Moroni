@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIGameModeSelection">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIGameModeSelection">
     <center>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="20.0" stylesheets="@../styles/MainMenu.css" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" text="Single Player">
+                <Button mnemonicParsing="false" prefHeight="68.0" prefWidth="274.0" text="Single Player">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>

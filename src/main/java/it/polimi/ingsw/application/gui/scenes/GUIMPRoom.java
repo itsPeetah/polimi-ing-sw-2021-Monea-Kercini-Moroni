@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUIMPRoom implements Initializable {
+
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
     public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
 
