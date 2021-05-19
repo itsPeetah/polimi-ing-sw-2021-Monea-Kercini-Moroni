@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +22,7 @@ import static it.polimi.ingsw.model.cards.CardManager.getImage;
  * Player will be offered 4 leaders and he should choose 2
  */
 
-public class GUIPreGame implements Initializable, CommonDataObserver {
+public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToChooseFromObserver {
 
     public ImageView dev01;
     public ImageView dev02;
@@ -35,6 +36,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
     public ImageView dev10;
     public ImageView dev20;
     public ImageView dev30;
+
+    public ImageView lead1;
+    public ImageView lead2;
+    public ImageView lead3;
+    public ImageView lead4;
 
     private ImageView[][] devCards = new ImageView[4][3];
 
@@ -92,6 +98,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
         //setting observer
         GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().setObserver(this);
         GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().setObserver(this);
+        GameApplication.getInstance().getGameController().getGameData().getMomentary().getLeaders().setObserver(this);
 
         //generating materials needed for the marble spheres
         Materials materials = new Materials();
@@ -158,15 +165,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
                     marbles[j][i].setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getAvailable()[j][i].getMarbleColor()));
                 }
             }
-
-
-
             });
-
-
     }
-
-
 
 
     @Override
@@ -179,9 +179,17 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
                 }
             }
         });
-
     }
 
 
+    @Override
+    public void onLeadersToChooseFromChange() {
+        //devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
+
+        lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getMomentary().getLeaders().getLeaders().get(0).getCardId()));
+        lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getMomentary().getLeaders().getLeaders().get(1).getCardId()));
+        lead3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getMomentary().getLeaders().getLeaders().get(2).getCardId()));
+        lead4.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getMomentary().getLeaders().getLeaders().get(3).getCardId()));
+    }
 }
 
