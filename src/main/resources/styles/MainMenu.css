@@ -6,7 +6,7 @@
 }*/
 
 .button{
-    -fx-font-family: 'Medici Text';
+    -fx-font-family: 'Blackadder ITC';
     -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-size: 32;
@@ -17,6 +17,6 @@
 }
 
 .label{
-    -fx-font-family: 'Medici Text';
+    -fx-font-family: 'Blackadder ITC';
     -fx-font-size: 112;
 }
