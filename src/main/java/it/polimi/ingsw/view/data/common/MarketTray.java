@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.data.common;
 
 import it.polimi.ingsw.application.common.observer.MarketTrayObserver;
 import it.polimi.ingsw.model.game.ResourceMarble;
+import it.polimi.ingsw.model.general.ResourceType;
+
 import java.util.Observable;
 
 import static it.polimi.ingsw.application.gui.scenes.GUIPreGame.updateGUIMarketTrayWaiting;
@@ -24,20 +26,20 @@ public class MarketTray {
     public synchronized void setAvailable(ResourceMarble[][] available) {
         this.available = available;
         System.out.println("AAAAAAAAAAAAAAAAA AVAILABLE");
-        marketTrayObserver.onMarketTrayChange();
+        //marketTrayObserver.onMarketTrayChange();
         System.out.println("AAAAAAAAAAAAAAAAA AFTER AVAILABLE");
     }
 
     public synchronized void setWaiting(ResourceMarble[] waiting) {
         this.waiting = waiting;
         System.out.println("AAAAAAAAAAAAAAAAA WAITING");
-        marketTrayObserver.onMarketTrayChange();
+        //marketTrayObserver.onMarketTrayChange();
     }
 
     public MarketTray(){
         available = new ResourceMarble[3][4];
         waiting = new ResourceMarble[1];
-        waiting[0] = 
+        waiting[0] = new ResourceMarble(ResourceType.COINS, 1);
     }
 
     public void setObserver(MarketTrayObserver marketTrayObserver) {
