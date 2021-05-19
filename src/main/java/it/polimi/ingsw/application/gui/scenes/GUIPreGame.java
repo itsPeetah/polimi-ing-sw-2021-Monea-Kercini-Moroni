@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -21,26 +22,16 @@ public class GUIPreGame implements Initializable {
 
     @FXML
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
-    private Image image1;
+
+    @FXML
+    private ImageView image1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //setImageTest();
-        Image j = new Image("file:Binder1.pdf_Page_01.jpg");
-
-        /**
-         {
-         try {
-         j = new Image(new FileInputStream("../../../../resources/images/cards/Binder1.pdf_Page_01.jpg"));
-         } catch (FileNotFoundException e) {
-         e.printStackTrace();
-         }
-         }
-         */
-
-        ImageView image1 = new ImageView(j);
-
-
+        File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
+        Image i = new Image(file.toURI().toString());
+        image1.setImage(i);
     }
 
     /**
@@ -51,18 +42,12 @@ public class GUIPreGame implements Initializable {
     }
     */
 
-
-
-
-
     public void updateOfferedLeaders(ArrayList<LeadCard> leaders) {
 
         //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
     }
 
     public void setImageTest(){
-
-//Image image = new Image(new FileInputStream("url for the image));
 
         Image i = null;
         try {
