@@ -110,6 +110,10 @@ public class GameApplication {
         return gameController.getGameControllerIOHandler();
     }
 
+    public GameController getGameController() {
+        return gameController;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -208,15 +212,15 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startSPGame() {
-        setApplicationState(GameApplicationState.INGAME);
         gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
+        setApplicationState(GameApplicationState.INGAME);
     }
 
     /**
      * Start a MP game.
      */
     public void startMPGame() {
-        setApplicationState(GameApplicationState.INGAME);
         gameController = new GameController(new GameData());
+        setApplicationState(GameApplicationState.INGAME);
     }
 }
