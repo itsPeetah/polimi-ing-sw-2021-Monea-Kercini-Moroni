@@ -1,5 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.application.gui.Materials;
+import it.polimi.ingsw.application.gui.MaterialsEnum;
 import it.polimi.ingsw.model.cards.LeadCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +13,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 
 /**
  * Initial scene when game starts
@@ -31,6 +35,10 @@ public class GUIPreGame implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        Materials materials = new Materials();
+
+        marble.setMaterial(getMaterial(MaterialsEnum.BLUE));
 
         offeredLeaders.add(image1);
         setImageTest();

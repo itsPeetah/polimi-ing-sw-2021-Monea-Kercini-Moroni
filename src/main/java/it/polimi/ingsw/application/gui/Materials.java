@@ -1,37 +1,40 @@
 package it.polimi.ingsw.application.gui;
 
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 
-public enum Materials {
-    RED,
-    BLUE,
-    PURPLE,
-    YELLOW,
-    GRAY,
-    WHITE;
+public class Materials {
 
-    final PhongMaterial red = new PhongMaterial();
-    final PhongMaterial blue = new PhongMaterial();
-    final PhongMaterial yellow = new PhongMaterial();
-    final PhongMaterial white = new PhongMaterial();
-    final PhongMaterial gray = new PhongMaterial();
-    final PhongMaterial purple = new PhongMaterial();
+    final static PhongMaterial red = new PhongMaterial();
+    final static PhongMaterial blue = new PhongMaterial();
+    final static PhongMaterial yellow = new PhongMaterial();
+    final static PhongMaterial white = new PhongMaterial();
+    final static PhongMaterial gray = new PhongMaterial();
+    final static PhongMaterial purple = new PhongMaterial();
 
     /**
      * Constructor
      */
+    public Materials(){
 
-    Materials(){
-        red.setDiffuseColor(Color.RED);
         blue.setDiffuseColor(Color.BLUE);
         yellow.setDiffuseColor(Color.YELLOW);
         white.setDiffuseColor(Color.WHITE);
         gray.setDiffuseColor(Color.GRAY);
         purple.setDiffuseColor(Color.PURPLE);
+        red.setDiffuseColor(Color.RED);
+
+        //The color the spheres will shine
+
+        blue.setSpecularColor(Color.WHITE);
+        yellow.setSpecularColor(Color.WHITE);
+        white.setSpecularColor(Color.WHITE);
+        gray.setSpecularColor(Color.WHITE);
+        purple.setSpecularColor(Color.WHITE);
+        red.setSpecularColor(Color.WHITE);
     }
 
-    public PhongMaterial Materials(Materials m){
+    public static PhongMaterial getMaterial(MaterialsEnum m){
 
         switch (m){
 
@@ -54,7 +57,7 @@ public enum Materials {
                 return yellow;
 
         }
-
+        //In case no material is found
         return null;
 
     }
