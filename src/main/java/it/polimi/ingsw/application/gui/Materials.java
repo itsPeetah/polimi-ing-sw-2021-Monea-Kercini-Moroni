@@ -17,12 +17,12 @@ public class Materials {
      */
     public Materials(){
 
-        blue.setDiffuseColor(Color.BLUE);
-        yellow.setDiffuseColor(Color.YELLOW);
+        blue.setDiffuseColor(Color.DEEPSKYBLUE);
+        yellow.setDiffuseColor(Color.GOLD);
         white.setDiffuseColor(Color.WHITE);
         gray.setDiffuseColor(Color.GRAY);
-        purple.setDiffuseColor(Color.PURPLE);
-        red.setDiffuseColor(Color.RED);
+        purple.setDiffuseColor(Color.SLATEBLUE);
+        red.setDiffuseColor(Color.FIREBRICK);
 
         //The color the spheres will shine
 
