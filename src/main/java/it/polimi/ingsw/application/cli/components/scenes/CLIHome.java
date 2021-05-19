@@ -25,7 +25,7 @@ public class CLIHome extends CLIScene {
     }
 
     @Override
-    protected void help() {
+    public void help() {
         print("Use \"sp\" to start a single player game.");
         print("Use \"mp\" to enter the multiplayer lobby.");
         print("Use \"options\" to see the game options.");

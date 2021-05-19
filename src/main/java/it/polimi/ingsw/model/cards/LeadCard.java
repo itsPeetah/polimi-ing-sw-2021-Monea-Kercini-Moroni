@@ -24,6 +24,10 @@ public class LeadCard extends Card {
         return ability;
     }
 
+    public LeadCardRequirements getRequirements(){
+        return requirements;
+    }
+
     /**
      * Check if a player can afford the leader card.
      */
