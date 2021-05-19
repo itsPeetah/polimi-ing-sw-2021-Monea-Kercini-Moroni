@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;

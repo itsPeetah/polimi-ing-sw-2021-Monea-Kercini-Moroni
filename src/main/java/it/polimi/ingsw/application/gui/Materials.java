@@ -11,12 +11,16 @@ public enum Materials {
     GRAY,
     WHITE;
 
-
     final PhongMaterial red = new PhongMaterial();
     final PhongMaterial blue = new PhongMaterial();
     final PhongMaterial yellow = new PhongMaterial();
     final PhongMaterial white = new PhongMaterial();
     final PhongMaterial gray = new PhongMaterial();
+    final PhongMaterial purple = new PhongMaterial();
+
+    /**
+     * Constructor
+     */
 
     Materials(){
         red.setDiffuseColor(Color.RED);
@@ -24,6 +28,35 @@ public enum Materials {
         yellow.setDiffuseColor(Color.YELLOW);
         white.setDiffuseColor(Color.WHITE);
         gray.setDiffuseColor(Color.GRAY);
+        purple.setDiffuseColor(Color.PURPLE);
+    }
+
+    public PhongMaterial Materials(Materials m){
+
+        switch (m){
+
+            case RED:
+                return red;
+
+            case BLUE:
+                return blue;
+
+            case GRAY:
+                return gray;
+
+            case WHITE:
+                return white;
+
+            case PURPLE:
+                return purple;
+
+            case YELLOW:
+                return yellow;
+
+        }
+
+        return null;
+
     }
 
 }
