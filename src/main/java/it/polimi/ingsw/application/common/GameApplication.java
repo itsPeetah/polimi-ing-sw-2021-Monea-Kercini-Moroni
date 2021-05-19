@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.data.GameData;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 import java.util.*;
@@ -169,7 +170,7 @@ public class GameApplication {
             // TODO move to its own class
             System.out.println(ANSIColor.CYAN + from + ANSIColor.RESET + " said: " + body);
         } else {
-            GUIMPRoom.observableChatList.add(from + ": " + body);
+            Platform.runLater(() -> GUIMPRoom.observableChatList.add(from + ": " + body));
         }
     }
 
@@ -177,7 +178,7 @@ public class GameApplication {
         if(outputMode == GameApplicationMode.CLI){
             System.out.println(ANSIColor.PURPLE + from + ANSIColor.RESET + " whispered: " + body);
         } else {
-            GUIMPRoom.observableChatList.add(from + " whispered: " + body);
+            Platform.runLater(() -> GUIMPRoom.observableChatList.add(from + " whispered: " + body));
         }
     }
 

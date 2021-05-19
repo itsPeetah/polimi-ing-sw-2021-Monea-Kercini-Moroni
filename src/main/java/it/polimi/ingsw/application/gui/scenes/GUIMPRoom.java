@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,9 @@ public class GUIMPRoom implements Initializable {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
     public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
+
+    @FXML
+    public Label room_name;
 
     @FXML
     private ImageView imageView;
@@ -57,6 +61,7 @@ public class GUIMPRoom implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playersListView.setItems(observablePlayersList);
         chatListView.setItems(observableChatList);
+        room_name.setText(GameApplication.getInstance().getRoomName());
     }
 
     public void sendMessage(KeyEvent keyEvent) {
