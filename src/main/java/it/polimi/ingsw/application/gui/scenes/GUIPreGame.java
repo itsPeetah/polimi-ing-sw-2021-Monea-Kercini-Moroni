@@ -2,16 +2,11 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.gui.Materials;
-import it.polimi.ingsw.application.gui.MaterialsEnum;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.game.ResourceMarble;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
-
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
