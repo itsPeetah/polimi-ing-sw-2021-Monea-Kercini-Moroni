@@ -2,28 +2,34 @@ package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.playerleaders.CardState;
+import it.polimi.ingsw.view.observer.player.PlayerLeadersObserver;
 
-import java.util.Observable;
+public class PlayerLeaders {
+    /* OBSERVER */
+    PlayerLeadersObserver playerLeadersObserver;
 
-public class PlayerLeaders extends Observable {
     private LeadCard[] leaders;
     private CardState[] states;
 
     public synchronized void setLeaders(LeadCard[] leaders) {
         this.leaders = leaders;
-        setChanged();
-        notifyObservers(leaders);
+        if(playerLeadersObserver != null) playerLeadersObserver.onLeadersChange();
     }
 
     public synchronized void setStates(CardState[] states) {
         this.states = states;
-        setChanged();
-        notifyObservers(states);
+        if(playerLeadersObserver != null) playerLeadersObserver.onLeadersStatesChange();
     }
 
     public PlayerLeaders() {
         this.leaders = new LeadCard[2];
         this.states = new CardState[2];
+    }
+
+    public void setObserver(PlayerLeadersObserver playerLeadersObserver) {
+        this.playerLeadersObserver = playerLeadersObserver;
+        playerLeadersObserver.onLeadersChange();
+        playerLeadersObserver.onLeadersStatesChange();
     }
 
 }
