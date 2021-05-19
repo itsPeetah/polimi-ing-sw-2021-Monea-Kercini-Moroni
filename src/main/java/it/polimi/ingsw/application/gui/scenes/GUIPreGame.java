@@ -59,36 +59,20 @@ public class GUIPreGame implements Initializable, MarketTrayObserver {
         //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
     }
 
-    /**
-
-    public void setImageTest(){
-
-        File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
-        Image i = new Image(file.toURI().toString());
-
-
-
-     */
-
-    public void updateGUIMarketTrayAvailable(){
-
-    }
-
-    public static void updateGUIMarketTrayWaiting(){
-        System.out.println(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
-        //marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
-
-    }
 
     @Override
     public void onMarketTrayChange() {
         Platform.runLater(() -> {
-            updateGUIMarketTrayWaiting();
+            marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
             System.out.println("onMarketTrayChange triggered");
         });
 
     }
+    /*
+    @Override
+    public void onDevCardMarketChange() {
 
+    }*/
 
 
 }

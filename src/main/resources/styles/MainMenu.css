@@ -1,12 +1,12 @@
 
-@font-face {
+/*@font-face {
 
     font-family: 'Medici Text';
     src: url("../fonts/MediciText.ttf");
-}
+}*/
 
 .button{
-    -fx-font-family: "Medici Text";
+    -fx-font-family: 'Medici Text';
     -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-size: 32;
@@ -17,6 +17,6 @@
 }
 
 .label{
-    -fx-font-family: "Medici Text";
+    -fx-font-family: 'Medici Text';
     -fx-font-size: 112;
 }
