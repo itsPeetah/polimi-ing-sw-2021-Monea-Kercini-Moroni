@@ -95,7 +95,7 @@ public abstract class ModelControllerIOHandler {
     private void notify(ActionPacket actionPacket) {
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.fromJsonToData(actionPacket.getData());
-        
+
         synchronized(lock) {
 
             // If the action is among the expected ones and the performing player is also the expected one, save the data and notify the controller.
