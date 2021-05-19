@@ -77,7 +77,13 @@ public class GameController {
             case RESOURCE_MARKET:
                 ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
                 gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
-                gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
+                try {
+                    gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("Set waiting called");
                 break;
 
             case DEVCARD_MARKET:
