@@ -20,6 +20,10 @@ public class LeadersToChooseFrom extends Observable {
         this.leaders = new ArrayList<>();
     }
 
+    public List<LeadCard> getLeaders() {
+        return leaders;
+    }
+
     @Override
     public String toString() {
 
@@ -29,7 +33,7 @@ public class LeadersToChooseFrom extends Observable {
         LeadCard lc;
         for(int i = 0; i < leaders.size(); i++){
             lc = leaders.get(i);
-            sb.append("#" + i + ": " + lc.getCardId() + "\n");
+            sb.append("#" + (i+1) + ": " + lc.getCardId() + "\n");
             sb.append("Victory Points: " + lc.getVictoryPoints() + "\n");
             sb.append("Ability: " + lc.getAbility().toString() + "\n");
             sb.append("Requirements: " + lc.getRequirements().toString() + "\n");
