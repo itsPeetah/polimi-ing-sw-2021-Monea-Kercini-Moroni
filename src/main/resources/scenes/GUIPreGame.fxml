@@ -57,22 +57,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Sphere id="marble20" radius="29.0" GridPane.rowIndex="2">
+                  <Sphere  fx:id="marble20" radius="29.0" GridPane.rowIndex="2">
                      <rotationAxis>
                         <Point3D />
                      </rotationAxis>
                   </Sphere>
-                  <Sphere id="marble01" radius="29.0" GridPane.columnIndex="1" />
-                  <Sphere id="marble01" radius="29.0" GridPane.rowIndex="1" />
-                  <Sphere id="marble11" radius="29.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Sphere id="marble21" radius="29.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Sphere id="marble02" radius="29.0" GridPane.columnIndex="2" />
-                  <Sphere id="marble21" radius="29.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Sphere id="marble22" radius="29.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Sphere id="marble03" radius="29.0" GridPane.columnIndex="3" />
-                  <Sphere id="marble13" radius="29.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Sphere id="marble23" radius="29.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Sphere id="marble00" radius="29.0" />
+                  <Sphere fx:id="marble01" radius="29.0" GridPane.columnIndex="1" />
+                  <Sphere fx:id="marble10" radius="29.0" GridPane.rowIndex="1" />
+                  <Sphere fx:id="marble11" radius="29.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Sphere fx:id="marble21" radius="29.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Sphere fx:id="marble02" radius="29.0" GridPane.columnIndex="2" />
+                  <Sphere fx:id="marble12" radius="29.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Sphere fx:id="marble22" radius="29.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Sphere fx:id="marble03" radius="29.0" GridPane.columnIndex="3" />
+                  <Sphere fx:id="marble13" radius="29.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Sphere fx:id="marble23" radius="29.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Sphere fx:id="marble00" radius="29.0" />
                </children>
             </GridPane>
             <ImageView fitHeight="669.0" fitWidth="550.0" layoutX="1366.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">

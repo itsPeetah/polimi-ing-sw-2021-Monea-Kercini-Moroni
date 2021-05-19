@@ -24,23 +24,77 @@ public class GUIPreGame implements Initializable, MarketTrayObserver {
 
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
+    private Sphere[][] marbles = new Sphere[3][4];
+
 
 
     @FXML
     private ImageView image1 = new ImageView();
 
+    //The marble waiting
     @FXML
     private Sphere marble = new Sphere(29);
 
+    //the other marbles
+    @FXML
+    private Sphere marble00 = new Sphere(29);
+
+    @FXML
+    private Sphere marble01 = new Sphere(29);
+
+    @FXML
+    private Sphere marble02 = new Sphere(29);
+
+    @FXML
+    private Sphere marble03 = new Sphere(29);
+
+    @FXML
+    private Sphere marble10 = new Sphere(29);
+
+    @FXML
+    private Sphere marble11 = new Sphere(29);
+
+    @FXML
+    private Sphere marble12 = new Sphere(29);
+
+    @FXML
+    private Sphere marble13 = new Sphere(29);
+
+    @FXML
+    private Sphere marble20 = new Sphere(29);
+
+    @FXML
+    private Sphere marble21 = new Sphere(29);
+
+    @FXML
+    private Sphere marble22 = new Sphere(29);
+
+    @FXML
+    private Sphere marble23 = new Sphere(29);
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //setting observer
         GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().setObserver(this);
 
+        //generating materials needed for the marble spheres
         Materials materials = new Materials();
 
-        //marble.setMaterial(getMaterial(MaterialsEnum.BLUE));
+        marbles[0][0] = marble00;
+        marbles[0][1] = marble01;
+        marbles[0][2] = marble02;
+        marbles[0][3] = marble03;
+        marbles[1][0] = marble10;
+        marbles[1][1] = marble11;
+        marbles[1][2] = marble12;
+        marbles[1][3] = marble13;
+        marbles[2][0] = marble20;
+        marbles[2][1] = marble21;
+        marbles[2][2] = marble22;
+        marbles[2][3] = marble23;
 
-        offeredLeaders.add(image1);
+        //offeredLeaders.add(image1);
         //setImageTest();
 
         //marble.setMaterial(getMaterial(MaterialsEnum.PURPLE));
@@ -63,8 +117,15 @@ public class GUIPreGame implements Initializable, MarketTrayObserver {
     @Override
     public void onMarketTrayChange() {
         Platform.runLater(() -> {
+
             marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
-            System.out.println("onMarketTrayChange triggered");
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 3; j++) {
+                    marbles[j][i].setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getAvailable()[j][i].getMarbleColor()));
+                }
+            }
+
         });
 
     }
