@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
+import static it.polimi.ingsw.model.cards.CardManager.getImage;
 
 /**
  * Initial scene when game starts
@@ -22,21 +23,33 @@ import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 
 public class GUIPreGame implements Initializable, CommonDataObserver {
 
+    public ImageView dev01;
+    public ImageView dev02;
+    public ImageView dev12;
+    public ImageView dev11;
+    public ImageView dev32;
+    public ImageView dev22;
+    public ImageView dev21;
+    public ImageView dev31;
+    public ImageView dev00;
+    public ImageView dev10;
+    public ImageView dev20;
+    public ImageView dev30;
+
+    private ImageView[][] devCards = new ImageView[4][3];
+
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
     private Sphere[][] marbles = new Sphere[3][4];
 
-
-
-    @FXML
     private ImageView image1 = new ImageView();
 
-    //The marble waiting
     @FXML
+    //The marble waiting
     private Sphere marble = new Sphere(29);
 
-    //the other marbles
     @FXML
+    //the other marbles
     private Sphere marble00 = new Sphere(29);
 
     @FXML
@@ -72,15 +85,18 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
     @FXML
     private Sphere marble23 = new Sphere(29);
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //setting observer
         GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().setObserver(this);
+        GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().setObserver(this);
 
         //generating materials needed for the marble spheres
         Materials materials = new Materials();
 
+        //Connecting all marbles to matrix for simplicity
         marbles[0][0] = marble00;
         marbles[0][1] = marble01;
         marbles[0][2] = marble02;
@@ -93,6 +109,22 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
         marbles[2][1] = marble21;
         marbles[2][2] = marble22;
         marbles[2][3] = marble23;
+
+        //Connecting all dev cards to matrix
+
+        devCards[0][0] = dev00;
+        devCards[0][1] = dev01;
+        devCards[0][2] = dev02;
+        devCards[1][0] = dev10;
+        devCards[1][1] = dev11;
+        devCards[1][2] = dev12;
+        devCards[2][0] = dev20;
+        devCards[2][1] = dev21;
+        devCards[2][2] = dev22;
+        devCards[3][0] = dev30;
+        devCards[3][1] = dev31;
+        devCards[3][2] = dev32;
+
 
         //offeredLeaders.add(image1);
         //setImageTest();
@@ -116,6 +148,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
     @Override
     public void onMarketTrayChange() {
+
         Platform.runLater(() -> {
 
             marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
@@ -126,13 +159,26 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
                 }
             }
 
-        });
+
+
+            });
+
 
     }
 
 
+
+
     @Override
     public void onDevCardMarketChange() {
+        Platform.runLater(() -> {
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 3; j++) {
+                    devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
+                }
+            }
+        });
 
     }
 

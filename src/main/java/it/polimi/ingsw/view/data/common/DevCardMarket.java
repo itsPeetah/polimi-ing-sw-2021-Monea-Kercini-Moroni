@@ -9,6 +9,10 @@ public class DevCardMarket {
 
     private DevCard availableCards[][];
 
+    public DevCard[][] getAvailableCards() {
+        return availableCards;
+    }
+
     public synchronized void setAvailableCards(DevCard[][] availableCards) {
         this.availableCards = availableCards;
         if(devCardMarketObserver != null) devCardMarketObserver.onDevCardMarketChange();
