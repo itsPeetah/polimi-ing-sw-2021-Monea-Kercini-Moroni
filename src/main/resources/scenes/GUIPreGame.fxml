@@ -17,7 +17,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="600.0">
          <children>
-            <GridPane layoutX="1.0" layoutY="-2.0" prefHeight="466.0" prefWidth="564.0">
+            <GridPane layoutX="1.0" layoutY="-2.0" prefHeight="704.0" prefWidth="826.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -44,7 +44,7 @@
                   <ImageView fitHeight="150.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <GridPane layoutX="899.0" layoutY="65.0" prefHeight="204.0" prefWidth="238.0">
+            <GridPane layoutX="1508.0" layoutY="142.0" prefHeight="229.0" prefWidth="268.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -75,38 +75,38 @@
                   <Sphere radius="29.0" />
                </children>
             </GridPane>
-            <ImageView fitHeight="460.0" fitWidth="360.0" layoutX="837.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="669.0" fitWidth="550.0" layoutX="1366.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/other/plancia%20portabiglie.png" />
                </image>
             </ImageView>
-            <Sphere layoutX="1231.0" layoutY="47.0" radius="29.0" />
+            <Sphere layoutX="1479.0" layoutY="128.0" radius="29.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <HBox prefHeight="245.0" prefWidth="1278.0">
+            <HBox prefHeight="365.0" prefWidth="1916.0">
                <children>
-                  <ImageView fx:id="image1" accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="image1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="220.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="225.0" prefWidth="603.0" text="Ready" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="345.0" prefWidth="564.0" text="Ready" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
