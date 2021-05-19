@@ -28,7 +28,7 @@ public class MarketTray extends Observable {
         this.waiting = waiting;
         setChanged();
         notifyObservers(waiting);
-        updateGUIMarketTrayWaiting();
+        //updateGUIMarketTrayWaiting();
     }
 
     public MarketTray(){
