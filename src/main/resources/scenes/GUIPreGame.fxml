@@ -17,7 +17,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="600.0">
          <children>
-            <GridPane layoutX="27.0" layoutY="-2.0" prefHeight="704.0" prefWidth="800.0">
+            <GridPane layoutX="27.0" layoutY="-2.0" prefHeight="704.0" prefWidth="839.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -30,18 +30,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fx:id="dev01" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                  <ImageView fx:id="dev02" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="dev12" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                  <ImageView fx:id="dev11" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ImageView fx:id="dev32" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                  <ImageView fx:id="dev22" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                  <ImageView fx:id="dev21" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <ImageView fx:id="dev31" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <ImageView fx:id="dev00" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                  <ImageView fx:id="dev10" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <ImageView fx:id="dev20" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <ImageView fx:id="dev30" fitHeight="220.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <ImageView fx:id="dev01" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="dev02" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="dev12" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="dev11" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="dev32" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                  <ImageView fx:id="dev22" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                  <ImageView fx:id="dev21" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ImageView fx:id="dev31" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ImageView fx:id="dev00" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="dev10" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="dev20" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ImageView fx:id="dev30" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <GridPane layoutX="1508.0" layoutY="142.0" prefHeight="229.0" prefWidth="268.0">
@@ -86,22 +86,22 @@
          <children>
             <HBox prefHeight="365.0" prefWidth="1916.0">
                <children>
-                  <ImageView fx:id="image1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead2" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead3" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead4" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
