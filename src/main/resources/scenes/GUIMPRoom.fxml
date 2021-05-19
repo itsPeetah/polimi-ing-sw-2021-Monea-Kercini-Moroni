@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane style="-fx-background-image: url(/images/florence_1.jpg); -fx-background-size: cover; -fx-background-position: left " maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-image: url(/images/florence_1.jpg); -fx-background-size: cover; -fx-background-position: left " xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="405.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <left>
+                  <Label text="Room" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="10.0" />
+                     </BorderPane.margin></Label>
+               </left>
+               <center>
+                  <Label fx:id="room_name" prefWidth="75.0" text="ROOM_NAME" textFill="#b53939" BorderPane.alignment="CENTER_LEFT">
+                     <BorderPane.margin>
+                        <Insets left="30.0" />
+                     </BorderPane.margin></Label>
+               </center>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </BorderPane>
             <Label text="Players">
                <font>
                   <Font name="Century Gothic" size="12.0" />
@@ -17,7 +35,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="playersListView" prefHeight="471.0" prefWidth="373.0">
+            <ListView fx:id="playersListView" prefHeight="1092.0" prefWidth="400.0">
                <VBox.margin>
                   <Insets left="5.0" />
                </VBox.margin></ListView>
@@ -35,7 +53,10 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <ListView fx:id="chatListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="chatListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor></ListView>
          </center>
          <bottom>
             <TextField fx:id="textField" onKeyPressed="#sendMessage" BorderPane.alignment="CENTER" />
