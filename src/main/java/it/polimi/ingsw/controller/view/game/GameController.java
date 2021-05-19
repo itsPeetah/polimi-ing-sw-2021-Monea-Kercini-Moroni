@@ -56,6 +56,14 @@ public class GameController {
         this.currentState = GameState.IDLE;
     }
 
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public GameState getCurrentState() {
+        return currentState;
+    }
+
     /**
      * Method that reacts to an update by sending it to the view "model"
      * @param update

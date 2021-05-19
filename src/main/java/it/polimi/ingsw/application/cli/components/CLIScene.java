@@ -25,7 +25,7 @@ public class CLIScene {
         // Override...
     }
 
-    protected void help(){
+    public void help(){
         print("The help view is not implemented for this scene.");
     }
 

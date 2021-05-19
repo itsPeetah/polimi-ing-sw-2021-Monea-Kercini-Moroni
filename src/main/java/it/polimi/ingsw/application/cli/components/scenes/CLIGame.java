@@ -4,40 +4,95 @@ import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.game.*;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.view.game.GameController;
+import it.polimi.ingsw.controller.view.game.GameState;
+import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 
 public class CLIGame extends CLIScene {
 
-    private CLIBoard board = new CLIBoard();
-    private CLIDevCardMarket devCardMarket = new CLIDevCardMarket();
-    private CLIFaithTrack faithTrack = new CLIFaithTrack();
-    private CLILeadChoice leadChoice = new CLILeadChoice();
-    private CLIResourceChoice resourceChoice = new CLIResourceChoice();
-    private CLIResourceMarket resourceMarket = new CLIResourceMarket();
+    private ICLIGameSubScene board = new CLIBoard();
+    /*private CLIDevCardMarket devCardMarket = new CLIDevCardMarket();
+    private CLIFaithTrack faithTrack = new CLIFaithTrack();*/
+    private ICLIGameSubScene leadChoice = new CLILeadChoice();
+    private ICLIGameSubScene resourceChoice = new CLIResourceChoice();
+    /*private CLIResourceMarket resourceMarket = new CLIResourceMarket();*/
+    private ICLIGameSubScene warehouseOrganizing = new CLIWarehouseOrganizing();
 
     private GameController gameController;
-    // TODO Add current and previous state
+    private GameControllerIOHandler gameControllerIO;
+
+    private ICLIGameSubScene currentView;
+
+    private GameState currentGameState, previousGameState;
 
     public CLIGame() {
         super();
     }
 
     public void init(){
-        // TODO Set game controller
+        this.gameController = GameApplication.getInstance().getGameController();
+        this.gameControllerIO = GameApplication.getInstance().getGameControllerIO();
+        currentGameState = gameController.getCurrentState();
+        previousGameState = GameState.UNKNOWN;
     }
 
     @Override
     public void update() {
-        // TODO Update
+
+        currentGameState = gameController.getCurrentState();
+
+        if(currentGameState != previousGameState){
+            currentView = selectCurrentView(currentGameState);
+            show();
+        }
+
+        previousGameState = currentGameState;
     }
 
     @Override
     public void show() {
-        print("========= Masters of Renaissance - In Game =========");
+        print("+--------------------------------------------------+");
+        print("|         Masters of Renaissance - In Game         |");
+        print("+--------------------------------------------------+");
+        print("");
 
-        print("");print("");print("");
+        if(currentView == null){
+            print("");print("Please wait...");print("");
+        } else {
+            currentView.update(gameController.getGameData());
+            currentView.show();
+        }
 
-        print("====================================================");
+        /*print("====================================================");*/
     }
 
+    @Override
+    public void help() {
+        if(currentView != null) currentView.help();
+        else super.help();
+    }
 
+    @Override
+    public void getInput() {
+        if(currentView != null) currentView.getInput();
+        else {
+            String cmd = input.nextLine();
+            switch(cmd){
+                case "help": help(); break;
+                default: error("Unsupported command."); break;
+            }
+        }
+    }
+
+    private ICLIGameSubScene selectCurrentView(GameState currentState){
+        switch (currentState){
+            case CHOOSE_LEADERS:
+                return leadChoice;
+            case PICK_RESOURCES:
+                return resourceChoice;
+            case ORGANIZE_WAREHOUSE:
+                return warehouseOrganizing;
+            default:
+                return board;
+        }
+    }
 }

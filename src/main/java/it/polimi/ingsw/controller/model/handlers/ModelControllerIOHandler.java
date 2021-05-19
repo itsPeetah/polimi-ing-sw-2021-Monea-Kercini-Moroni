@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.util.JSONUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +84,7 @@ public abstract class ModelControllerIOHandler {
      * @param actionNetworkPacket message from a player
      */
     public void notify(NetworkPacket actionNetworkPacket) {
-        Gson gson = new Gson();
-        ActionPacket actionPacket = gson.fromJson(actionNetworkPacket.getPayload(), ActionPacket.class);
+        ActionPacket actionPacket = JSONUtility.fromJson(actionNetworkPacket.getPayload(), ActionPacket.class);
         notify(actionPacket);
     }
 
@@ -95,6 +95,7 @@ public abstract class ModelControllerIOHandler {
     private void notify(ActionPacket actionPacket) {
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.fromJsonToData(actionPacket.getData());
+
         synchronized(lock) {
 
             // If the action is among the expected ones and the performing player is also the expected one, save the data and notify the controller.
