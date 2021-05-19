@@ -3,6 +3,7 @@ package it.polimi.ingsw.application.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -24,7 +25,6 @@ public enum GUIScene {
         try {
             Parent loadedSceneView = new FXMLLoader(getClass().getResource(fxmlPath)).load();
             Scene loadedScene = new Scene(loadedSceneView);
-            //loadedScene.getStylesheets().add(getClass().getResource("MainMenu.css").toExternalForm());
             GUIApplication.setScene(loadedScene);
         } catch (IOException e) {
             e.printStackTrace();
