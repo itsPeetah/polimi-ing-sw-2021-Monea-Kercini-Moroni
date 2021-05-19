@@ -1,8 +1,10 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.application.gui.MaterialsEnum;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.game.ResourceMarble;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -38,10 +40,12 @@ public class GUIPreGame implements Initializable {
 
         Materials materials = new Materials();
 
-        marble.setMaterial(getMaterial(MaterialsEnum.BLUE));
+        //marble.setMaterial(getMaterial(MaterialsEnum.BLUE));
 
         offeredLeaders.add(image1);
-        setImageTest();
+        //setImageTest();
+
+        //marble.setMaterial(getMaterial(MaterialsEnum.PURPLE));
     }
 
     /**
@@ -57,12 +61,25 @@ public class GUIPreGame implements Initializable {
         //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
     }
 
+    /**
+
     public void setImageTest(){
 
         File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
         Image i = new Image(file.toURI().toString());
 
-        offeredLeaders.get(0).setImage(i);
+
+
+     */
+
+    public void updateGUIMarketTrayAvailable(){
+
+    }
+
+    public static void updateGUIMarketTrayWaiting(){
+        System.out.println(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
+        //marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
+
     }
 }
 

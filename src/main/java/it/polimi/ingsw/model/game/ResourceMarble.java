@@ -39,7 +39,7 @@ public class ResourceMarble{
 
     /**
      *
-     * @return the color of the Marble depending on it's resource
+     * @return the color of the Marble depending on it's resource as Materials Enum
      */
     public MaterialsEnum getMarbleColor(){
 
