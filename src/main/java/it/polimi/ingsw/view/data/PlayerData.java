@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.data;
 
+import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 import it.polimi.ingsw.view.data.player.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,6 +16,11 @@ public class PlayerData {
     private PlayerLeaders playerLeaders;
     private Warehouse warehouse;
     private Strongbox strongbox;
+    private LeadersToChooseFrom leadersToChooseFrom;
+
+    public synchronized LeadersToChooseFrom getLeadersToChooseFrom() {
+        return leadersToChooseFrom;
+    }
 
     public synchronized DevCards getDevCards() {
         return devCards;
@@ -42,6 +48,7 @@ public class PlayerData {
         faithTrack = new FaithTrack();
         warehouse = new Warehouse();
         strongbox = new Strongbox();
+        leadersToChooseFrom = new LeadersToChooseFrom();
     }
 
     public synchronized String getNickname() {
