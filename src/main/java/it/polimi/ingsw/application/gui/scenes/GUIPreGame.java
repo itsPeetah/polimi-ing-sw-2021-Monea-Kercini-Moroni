@@ -91,6 +91,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
         //setting observer
         GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().setObserver(this);
+        GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().setObserver(this);
 
         //generating materials needed for the marble spheres
         Materials materials = new Materials();
@@ -147,6 +148,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
     @Override
     public void onMarketTrayChange() {
+
         Platform.runLater(() -> {
 
             marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
@@ -160,6 +162,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
 
             });
+
 
     }
 
