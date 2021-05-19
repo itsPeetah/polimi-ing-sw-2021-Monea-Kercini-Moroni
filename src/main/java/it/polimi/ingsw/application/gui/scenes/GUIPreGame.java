@@ -26,51 +26,36 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
     private Sphere[][] marbles = new Sphere[3][4];
 
-
-
-    @FXML
     private ImageView image1 = new ImageView();
 
     //The marble waiting
-    @FXML
     private Sphere marble = new Sphere(29);
 
     //the other marbles
-    @FXML
     private Sphere marble00 = new Sphere(29);
 
-    @FXML
     private Sphere marble01 = new Sphere(29);
 
-    @FXML
     private Sphere marble02 = new Sphere(29);
 
-    @FXML
     private Sphere marble03 = new Sphere(29);
 
-    @FXML
     private Sphere marble10 = new Sphere(29);
 
-    @FXML
     private Sphere marble11 = new Sphere(29);
 
-    @FXML
     private Sphere marble12 = new Sphere(29);
 
-    @FXML
     private Sphere marble13 = new Sphere(29);
 
-    @FXML
     private Sphere marble20 = new Sphere(29);
 
-    @FXML
     private Sphere marble21 = new Sphere(29);
 
-    @FXML
     private Sphere marble22 = new Sphere(29);
 
-    @FXML
     private Sphere marble23 = new Sphere(29);
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -133,6 +118,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver {
 
     @Override
     public void onDevCardMarketChange() {
+        Platform.runLater(() -> {
+
+
+
+        });
 
     }
 
