@@ -138,7 +138,7 @@ public class GameController {
 
             case LEADERS_TO_CHOOSE_FROM:
                 DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
-                gameData.getMomentary().getLeaders().setLeaders(lUP.getLeaders());
+                gameData.getPlayerData(lUP.getP()).getLeadersToChooseFrom().setLeaders(lUP.getLeaders());
                 break;
 
             case RESOURCES_TO_PUT:

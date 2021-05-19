@@ -137,6 +137,11 @@ public class ModelController {
 
         gamePhase = GamePhase.START;
 
+        //Notifying players tha game has started
+        for(Player p : game.getPlayers()){
+            modelControllerIOHandler.sendMessage(p.getNickname(), Message.SETTING_UP_GAME);
+        }
+
         //If there is only one player set the game as single player
         if(game.getPlayers().length==1){
             setSinglePlayer(true);
@@ -150,6 +155,16 @@ public class ModelController {
 
         //shuffle player order
         //game.shufflePlayers();
+
+        for (int i = 0; i< game.getPlayers().length; i++) {
+
+            //Getting 4 leaders (already shuffled)
+            List<LeadCard> leadersToChooseFrom = leadCards.subList(i * 4, i * 4 + 4);
+
+            //Sending update
+            DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom, game.getPlayers()[i].getNickname());
+            modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
+        }
 
         //Updating the view with the current Market Tray and DevCard market
         //This might influence player choice on the leader and extra resources
@@ -793,11 +808,7 @@ public class ModelController {
 
     private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
 
-        //Getting 4 leaders (already shuffled)
-        List<LeadCard> leadersToChooseFrom = leadCards.subList(i*4, i*4+4);
-        //Sending update
-        DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom);
-        modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
+
 
         //notifying player he has to choose 2 leaders
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
