@@ -74,9 +74,9 @@ public class GUIPreGame implements Initializable, MarketTrayObserver {
 
     }
 
-    public static void updateGUIMarketTrayWaiting(){
+    public  void updateGUIMarketTrayWaiting(){
         System.out.println(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
-        //marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
+        marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
 
     }
 

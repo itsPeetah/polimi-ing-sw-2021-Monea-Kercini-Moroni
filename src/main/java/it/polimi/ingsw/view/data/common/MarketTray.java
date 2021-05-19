@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.general.ResourceType;
 
 import java.util.Observable;
 
-import static it.polimi.ingsw.application.gui.scenes.GUIPreGame.updateGUIMarketTrayWaiting;
 
 public class MarketTray {
     /* OBSERVER */
