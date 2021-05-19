@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.application.gui.Materials;
+import it.polimi.ingsw.application.gui.MaterialsEnum;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 
@@ -33,5 +35,36 @@ public class ResourceMarble{
      */
     public Resources getValue() {
         return value;
+    }
+
+    /**
+     *
+     * @return the color of the Marble depending on it's resource
+     */
+    public MaterialsEnum getMarbleColor(){
+
+        for (ResourceType t: ResourceType.values()){
+
+            //If resource has that value, it is that corresponding color
+
+            if (this.getValue().getAmountOf(t)>0){
+
+                switch (t){
+                    case FAITH:
+                        return MaterialsEnum.RED;
+                    case SHIELDS:
+                        return MaterialsEnum.BLUE;
+                    case COINS:
+                        return MaterialsEnum.YELLOW;
+                    case STONES:
+                        return MaterialsEnum.GRAY;
+                    case SERVANTS:
+                        return MaterialsEnum.PURPLE;
+
+                }
+            }
+        }
+        //If no resource was there it means it was a white marble
+        return MaterialsEnum.WHITE;
     }
 }
