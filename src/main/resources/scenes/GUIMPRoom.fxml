@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="405.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Players">
                <font>
@@ -17,7 +17,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="playersListView">
+            <ListView fx:id="playersListView" prefHeight="471.0" prefWidth="373.0">
                <VBox.margin>
                   <Insets left="5.0" />
                </VBox.margin></ListView>
