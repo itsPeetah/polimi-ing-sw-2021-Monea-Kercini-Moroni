@@ -20,4 +20,21 @@ public class LeadersToChooseFrom extends Observable {
         this.leaders = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        /*System.out.println(leaders.size());*/
+
+        LeadCard lc;
+        for(int i = 0; i < leaders.size(); i++){
+            lc = leaders.get(i);
+            sb.append("#" + i + ": " + lc.getCardId() + "\n");
+            sb.append("Victory Points: " + lc.getVictoryPoints() + "\n");
+            sb.append("Ability: " + lc.getAbility().toString() + "\n");
+            sb.append("Requirements: " + lc.getRequirements().toString() + "\n");
+        }
+
+        return sb.toString();
+    }
 }
