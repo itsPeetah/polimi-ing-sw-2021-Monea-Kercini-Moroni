@@ -1,18 +1,13 @@
 package it.polimi.ingsw.application.gui;
 
-import it.polimi.ingsw.application.gui.scenes.GUIMainMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.File;
 

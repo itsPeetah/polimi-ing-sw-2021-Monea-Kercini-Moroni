@@ -50,11 +50,9 @@ public class GameController {
         // Generate SP GC IO handler
         this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
 
-        System.out.println("PRE SETUP GAME");
         // Now that the handlers are connected, start the game on a new thread
         new Thread(modelController::setupGame).start();
 
-        System.out.println("POST SETUP GAME");
         this.currentState = GameState.IDLE;
     }
 

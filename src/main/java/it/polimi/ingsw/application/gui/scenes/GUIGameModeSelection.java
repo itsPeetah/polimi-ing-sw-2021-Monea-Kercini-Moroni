@@ -6,9 +6,6 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 
-
-import java.io.IOException;
-
 public class GUIGameModeSelection {
 
     @FXML
@@ -23,7 +20,6 @@ public class GUIGameModeSelection {
             while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println(newState);
-            System.out.println("SP thread ended");
             Platform.runLater(GUIScene.PRE_GAME::load);
         }).start();
     }
