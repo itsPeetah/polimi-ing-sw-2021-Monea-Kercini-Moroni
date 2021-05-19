@@ -27,18 +27,17 @@ public class LeadersToChooseFrom extends Observable {
     @Override
     public String toString() {
 
-        StringBuilder sb = new StringBuilder();
-        /*System.out.println(leaders.size());*/
+        String result = "";
 
         LeadCard lc;
         for(int i = 0; i < leaders.size(); i++){
             lc = leaders.get(i);
-            sb.append("#" + (i+1) + ": " + lc.getCardId() + "\n");
-            sb.append("Victory Points: " + lc.getVictoryPoints() + "\n");
-            sb.append("Ability: " + lc.getAbility().toString() + "\n");
-            sb.append("Requirements: " + lc.getRequirements().toString() + "\n");
+            result += ("#" + (i+1) + ": " + lc.getCardId() + "\n");
+            result += ("Victory Points: " + lc.getVictoryPoints() + "\n");
+            result += ("Ability: " + lc.getAbility().toString() + "\n");
+            result += ("Requirements: " + lc.getRequirements().toString() + "\n");
         }
 
-        return sb.toString();
+        return result;
     }
 }
