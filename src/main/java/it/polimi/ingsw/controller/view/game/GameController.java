@@ -38,6 +38,8 @@ public class GameController {
      */
     public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
+        gameData.addPlayer(playerNickname);
+        System.out.println("Holee");
 
         // Generate SP Model IO handler
         SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
@@ -137,6 +139,7 @@ public class GameController {
                 break;
 
             case LEADERS_TO_CHOOSE_FROM:
+                System.out.println("Mi e venuto uqe lz ");
                 DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(lUP.getP()).getLeadersToChooseFrom().setLeaders(lUP.getLeaders());
                 break;

@@ -15,6 +15,7 @@ public class LeadersToChooseFrom {
     public synchronized void setLeaders(List<LeadCard> leaders){
         this.leaders = leaders;
         if(leadersToChooseFromObserver != null) leadersToChooseFromObserver.onLeadersToChooseFromChange();
+        System.out.println("Ho setato leader");
     }
 
     public LeadersToChooseFrom() {

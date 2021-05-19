@@ -137,10 +137,14 @@ public class ModelController {
 
         gamePhase = GamePhase.START;
 
+        /*
+
         //Notifying players tha game has started
         for(Player p : game.getPlayers()){
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.SETTING_UP_GAME);
         }
+
+         */
 
         //If there is only one player set the game as single player
         if(game.getPlayers().length==1){
@@ -170,6 +174,8 @@ public class ModelController {
         //This might influence player choice on the leader and extra resources
         updateResourceMarket();
         updateDevCardMarket();
+
+        System.out.println("dfsdojfalkjdfioejal");
 
         //Getting player Leader choices and Extra resources depending on player order
 
