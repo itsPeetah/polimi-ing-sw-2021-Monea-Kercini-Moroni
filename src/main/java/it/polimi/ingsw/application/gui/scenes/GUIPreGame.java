@@ -28,15 +28,8 @@ public class GUIPreGame implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
-
         offeredLeaders.add(image1);
-
-
-
         setImageTest();
-
-
     }
 
     /**
@@ -58,7 +51,6 @@ public class GUIPreGame implements Initializable {
         Image i = new Image(file.toURI().toString());
 
         offeredLeaders.get(0).setImage(i);
-
     }
 }
 
