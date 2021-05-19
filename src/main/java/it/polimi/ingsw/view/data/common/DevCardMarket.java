@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.data.common;
 
 import it.polimi.ingsw.model.cards.DevCard;
+
 import java.util.Observable;
 
 public class DevCardMarket extends Observable {

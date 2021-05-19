@@ -1,16 +1,17 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import it.polimi.ingsw.model.cards.CardManager;
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.File;
+import javafx.scene.shape.Sphere;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 
 /**
  * Initial scene when game starts
@@ -21,14 +22,25 @@ public class GUIPreGame implements Initializable {
 
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
+
+
     @FXML
-    private ImageView image1;
+    private ImageView image1 = new ImageView();
+
+    @FXML
+    private Sphere marble = new Sphere(29);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        Materials materials = new Materials();
+
+        //marble.setMaterial(getMaterial(MaterialsEnum.BLUE));
+
         offeredLeaders.add(image1);
-        setImageTest();
+        //setImageTest();
+
+        //marble.setMaterial(getMaterial(MaterialsEnum.PURPLE));
     }
 
     /**
@@ -44,12 +56,25 @@ public class GUIPreGame implements Initializable {
         //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
     }
 
+    /**
+
     public void setImageTest(){
 
         File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
         Image i = new Image(file.toURI().toString());
 
-        offeredLeaders.get(0).setImage(CardManager.getImage("lead_13"));
+
+
+     */
+
+    public void updateGUIMarketTrayAvailable(){
+
+    }
+
+    public static void updateGUIMarketTrayWaiting(){
+        System.out.println(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
+        //marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
+
     }
 }
 
