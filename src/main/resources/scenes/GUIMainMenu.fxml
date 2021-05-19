@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-image: url(/images/florence_1.jpg); -fx-background-size: cover; -fx-background-position: left " stylesheets="@../styles/MainMenu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainMenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-image: url(/images/florence_2.jpg); -fx-background-size: cover; -fx-background-position: left " stylesheets="@../styles/MainMenu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainMenu">
    <center>
-      <VBox alignment="CENTER" >
+      <VBox alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onPlayClick" prefHeight="47.0" prefWidth="200.0" stylesheets="@../styles/MainMenu.css" text="Play">
                <opaqueInsets>
@@ -64,9 +64,12 @@
       <Cursor fx:constant="DEFAULT" />
    </cursor>
    <top>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="202.0" prefWidth="1280.0" stylesheets="@../styles/MainMenu.css" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="202.0" stylesheets="@../styles/MainMenu.css" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font size="96.0" />
-         </font></Label>
+         </font>
+         <BorderPane.margin>
+            <Insets left="80.0" top="80.0" />
+         </BorderPane.margin></Label>
    </top>
 </BorderPane>

@@ -8,15 +8,22 @@
 .button{
     -fx-font-family: 'Blackadder ITC';
     -fx-background-color: transparent;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 32;
 }
 
 .button:hover{
-    -fx-text-fill: white;
+    -fx-text-fill: #000000;
 }
 
 .label{
     -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
     -fx-font-size: 112;
+}
+
+#pane{
+    -fx-background-image: url(/images/florence_2.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left
 }
