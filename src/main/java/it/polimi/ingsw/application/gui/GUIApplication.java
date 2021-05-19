@@ -38,7 +38,7 @@ public class GUIApplication extends Application {
     public static void showDialog(String message) {
         Platform.runLater(() -> {
             if(oldDialog != null) {
-                //oldDialog.close();
+                oldDialog.close();
             }
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
