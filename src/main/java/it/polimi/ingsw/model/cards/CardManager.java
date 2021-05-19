@@ -20,10 +20,11 @@ public class CardManager {
     public static final int LEAD_CARDS_SIZE = 16;
 
     /* JAVA FX CONSTANTS */
-    public static final String MAP_CARDS_IMAGES_PATH = "src/main/resources/cardsimages.json";
+    public static final String MAP_DEV_CARDS_IMAGES_PATH = "src/main/resources/cardsimages.json";
     public static final String DEV_CARDS_IMAGES_PATH = "src/main/resources/images/cards/devcards/";
     public static final String LEAD_CARDS_IMAGES_PATH = "src/main/resources/images/cards/leadcards/";
-    private static HashMap<String, Image> devCardsImages;
+    private static final HashMap<String, Image> devCardsImages = new HashMap<>();
+    private static final HashMap<String, Image> leadCardsImages = new HashMap<>();
 
     /**
      * @return List containing all the dev cards in the JSON file.
@@ -78,52 +79,57 @@ public class CardManager {
             e.printStackTrace();
         }
 
-        // Read and return the cards
         return leadCardList;
     }
 
     /**
      * Load the map that maps each dev card (by its ID) to the correspondent image.
      */
-    private static HashMap<String, Image> loadDevCardsImages() {
-        HashMap<String, Image> imageHashMap = new HashMap<>();
+    private static void loadDevCardsImages() {
 
-        // Initialize GSON
-        Gson gson = new Gson();
+        ArrayList<DevCard> devCardList = loadDevCardsFromJson();
 
-        // Initialize reader
-        JsonReader jsonFile;
+        for(DevCard devCard: devCardList) {
+            String devCardImagePath = CardManager.DEV_CARDS_IMAGES_PATH + devCard.getColor().toString().toLowerCase() + "/" + devCard.getCardId() + ".png";
+            File file = new File(devCardImagePath);
+            Image devCardImage = new Image(file.toURI().toString());
 
-        try {
-            // Read image paths file
-            jsonFile = new JsonReader(new FileReader(MAP_CARDS_IMAGES_PATH));
-            HashMap<String, String> pathMap = gson.fromJson(jsonFile, new TypeToken<HashMap<String, String>>() {}.getType());
-
-            // For each card ID
-            for(String cardID: pathMap.keySet()) {
-                // Get the path of the image
-                String cardImagePath = pathMap.get(cardID);
-                System.out.println(cardImagePath);
-                // Load the image
-                File file = new File(cardImagePath);
-                Image i = new Image(file.toURI().toString());
-
-                // Put the image in the map
-                imageHashMap.put(cardID, i);
-            }
-
-            return imageHashMap;
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
+            devCardsImages.put(devCard.getCardId(), devCardImage);
         }
+
     }
 
     /**
-     * Get the map that maps each dev card (by its ID) to the correspondent image.
+     * Load the map that maps each lead card (by its ID) to the correspondent image.
      */
-    public static HashMap<String, Image> getDevCardsImages() {
-        if(devCardsImages == null) devCardsImages = loadDevCardsImages();
-        return devCardsImages;
+    private static void loadLeadCardsImages() {
+
+        ArrayList<LeadCard> leadCardsList = loadLeadCardsFromJson();
+
+        for(LeadCard leadCard: leadCardsList) {
+            String devCardImagePath = CardManager.LEAD_CARDS_IMAGES_PATH + leadCard.getCardId() + ".png";
+            File file = new File(devCardImagePath);
+            Image leadCardImage = new Image(file.toURI().toString());
+
+            leadCardsImages.put(leadCard.getCardId(), leadCardImage);
+        }
+
+    }
+
+    /**
+     * Get image corresponding to a certain card.
+     * @param cardID id of the card.
+     * @return JavaFX <code>Image</code> of the card.
+     */
+    public static Image getImage(String cardID) {
+        // If maps are empty, load them
+        if(devCardsImages.isEmpty() || leadCardsImages.isEmpty()) {
+            loadDevCardsImages();
+            loadLeadCardsImages();
+        }
+        // Get the image
+        Image image = devCardsImages.get(cardID);
+        if(image == null) image = leadCardsImages.get(cardID);
+        return image;
     }
 }

@@ -22,7 +22,7 @@ public class GUIPreGame implements Initializable {
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
     @FXML
-    private ImageView image1 = new ImageView();
+    private ImageView image1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,7 +49,7 @@ public class GUIPreGame implements Initializable {
         File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
         Image i = new Image(file.toURI().toString());
 
-        offeredLeaders.get(0).setImage(i);
+        offeredLeaders.get(0).setImage(CardManager.getImage("lead_13"));
     }
 }
 
