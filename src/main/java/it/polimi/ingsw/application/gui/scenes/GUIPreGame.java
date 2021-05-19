@@ -1,7 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.observer.MarketTrayObserver;
+import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
 import javafx.application.Platform;
@@ -20,7 +20,7 @@ import static it.polimi.ingsw.application.gui.Materials.getMaterial;
  * Player will be offered 4 leaders and he should choose 2
  */
 
-public class GUIPreGame implements Initializable, MarketTrayObserver {
+public class GUIPreGame implements Initializable, CommonDataObserver {
 
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
@@ -68,11 +68,12 @@ public class GUIPreGame implements Initializable, MarketTrayObserver {
         });
 
     }
-    /*
+
+
     @Override
     public void onDevCardMarketChange() {
 
-    }*/
+    }
 
 
 }

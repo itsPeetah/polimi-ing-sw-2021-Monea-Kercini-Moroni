@@ -1,20 +1,26 @@
 package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.view.observer.player.StrongboxObserver;
 
-import java.util.Observable;
-
-public class Strongbox extends Observable {
+public class Strongbox {
+    /* OBSERVER */
+    StrongboxObserver strongboxObserver;
 
     private Resources content;
 
     public synchronized void setContent(Resources content) {
         this.content = content;
-        setChanged();
-        notifyObservers(content);
+        if(strongboxObserver != null) strongboxObserver.onStrongboxChange();
     }
 
     public Strongbox() {
         this.content = new Resources();
     }
+
+    public void setObserver(StrongboxObserver strongboxObserver) {
+        this.strongboxObserver = strongboxObserver;
+        strongboxObserver.onStrongboxChange();
+    }
+
 }

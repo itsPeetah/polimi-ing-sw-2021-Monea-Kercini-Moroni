@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.data.common;
 
-import it.polimi.ingsw.application.common.observer.MarketTrayObserver;
+import it.polimi.ingsw.view.observer.common.MarketTrayObserver;
 import it.polimi.ingsw.model.game.ResourceMarble;
 
 

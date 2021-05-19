@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.data.momentary;
 
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.view.observer.momentary.ResourceToPutObserver;
 
-import java.util.Observable;
+public class ResourcesToPut {
+    /* OBSERVER */
+    ResourceToPutObserver resourceToPutObserver;
 
-public class ResourcesToPut extends Observable {
     private Resources res;
 
     public ResourcesToPut() {
@@ -13,7 +15,11 @@ public class ResourcesToPut extends Observable {
 
     public synchronized void setRes(Resources res) {
         this.res = res;
-        setChanged();
-        notifyObservers(res);
+        if(resourceToPutObserver != null) resourceToPutObserver.onResourceToPutChange();
+    }
+
+    public void setObserver(ResourceToPutObserver resourceToPutObserver) {
+        this.resourceToPutObserver = resourceToPutObserver;
+        resourceToPutObserver.onResourceToPutChange();
     }
 }

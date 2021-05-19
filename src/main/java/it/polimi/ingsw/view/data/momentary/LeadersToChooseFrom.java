@@ -1,19 +1,20 @@
 package it.polimi.ingsw.view.data.momentary;
 
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-public class LeadersToChooseFrom extends Observable {
+public class LeadersToChooseFrom {
+    /* OBSERVER */
+    LeadersToChooseFromObserver leadersToChooseFromObserver;
 
     private List<LeadCard> leaders;
 
     public synchronized void setLeaders(List<LeadCard> leaders){
         this.leaders = leaders;
-        setChanged();
-        notifyObservers(leaders);
+        if(leadersToChooseFromObserver != null) leadersToChooseFromObserver.onLeadersToChooseFromChange();
     }
 
     public LeadersToChooseFrom() {
@@ -39,5 +40,10 @@ public class LeadersToChooseFrom extends Observable {
         }
 
         return result;
+    }
+
+    public void setObserver(LeadersToChooseFromObserver leadersToChooseFromObserver) {
+        this.leadersToChooseFromObserver = leadersToChooseFromObserver;
+        leadersToChooseFromObserver.onLeadersToChooseFromChange();
     }
 }

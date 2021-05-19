@@ -1,4 +1,4 @@
-package it.polimi.ingsw.application.common.observer;
+package it.polimi.ingsw.view.observer.common;
 
 public interface MarketTrayObserver {
 
