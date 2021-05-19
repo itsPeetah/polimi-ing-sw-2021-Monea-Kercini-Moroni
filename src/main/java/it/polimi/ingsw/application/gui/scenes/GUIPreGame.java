@@ -5,10 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Sphere;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -22,8 +23,13 @@ public class GUIPreGame implements Initializable {
 
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
+
+
     @FXML
     private ImageView image1 = new ImageView();
+
+    @FXML
+    private Sphere marble = new Sphere(29);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

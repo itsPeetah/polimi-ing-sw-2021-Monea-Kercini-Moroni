@@ -80,7 +80,7 @@
                   <Image url="@../images/other/plancia%20portabiglie.png" />
                </image>
             </ImageView>
-            <Sphere layoutX="1479.0" layoutY="128.0" radius="29.0" />
+            <Sphere fx:id="marble" layoutX="1479.0" layoutY="128.0" radius="29.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
