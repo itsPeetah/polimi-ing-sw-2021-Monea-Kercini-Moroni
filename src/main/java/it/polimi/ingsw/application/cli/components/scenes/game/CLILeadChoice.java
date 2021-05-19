@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -54,6 +55,7 @@ public class CLILeadChoice extends CLIScene implements ICLIGameSubScene {
 
         Choose2LeadersActionData actionData = new Choose2LeadersActionData();
         actionData.setLeaders(chosen);
+        actionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(actionData, Choose2LeadersActionData.class));
         GameApplicationIOHandler.getInstance().pushAction(ap);
