@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,8 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
