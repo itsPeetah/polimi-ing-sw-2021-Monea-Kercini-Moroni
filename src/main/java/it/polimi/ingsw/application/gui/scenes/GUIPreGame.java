@@ -20,18 +20,23 @@ import java.util.ResourceBundle;
 
 public class GUIPreGame implements Initializable {
 
-    @FXML
     private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
 
     @FXML
-    private ImageView image1;
+    private ImageView image1 = new ImageView();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //setImageTest();
-        File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
-        Image i = new Image(file.toURI().toString());
-        image1.setImage(i);
+
+        //ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
+
+        offeredLeaders.add(image1);
+
+
+
+        setImageTest();
+
+
     }
 
     /**
@@ -49,15 +54,11 @@ public class GUIPreGame implements Initializable {
 
     public void setImageTest(){
 
-        Image i = null;
-        try {
-            i = new Image(new FileInputStream("../../../../resources/images/cards/Binder1.pdf_Page_01.jpg"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        File file = new File("src/main/resources/images/cards/Binder1.pdf_Page_01.jpg");
+        Image i = new Image(file.toURI().toString());
+
         offeredLeaders.get(0).setImage(i);
 
-        //image1 = offeredLeaders.get(0);
     }
 }
 
