@@ -29,9 +29,6 @@ public class GUIMPRoom implements Initializable {
     public Label room_name;
 
     @FXML
-    private ImageView imageView;
-
-    @FXML
     private ListView<String> playersListView;
 
     @FXML

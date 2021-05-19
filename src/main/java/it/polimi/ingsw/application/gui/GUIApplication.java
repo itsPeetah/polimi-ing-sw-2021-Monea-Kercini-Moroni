@@ -15,7 +15,6 @@ import javafx.stage.WindowEvent;
 public class GUIApplication extends Application {
     private static Stage primaryStage;
     private static Alert oldDialog;
-    public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -38,7 +37,7 @@ public class GUIApplication extends Application {
     public static void showDialog(String message) {
         Platform.runLater(() -> {
             if(oldDialog != null) {
-                //oldDialog.close();
+                oldDialog.close();
             }
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
