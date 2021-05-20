@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-image: url(/images/florence_1.jpg); -fx-background-size: cover; -fx-background-position: left " xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MPRoom.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="789.0" prefWidth="405.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -57,7 +57,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <ListView fx:id="chatListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ListView fx:id="chatListView" opacity="1" style="-fx-background-color: transparent" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor></ListView>
