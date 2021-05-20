@@ -39,7 +39,7 @@ public class GameController {
     public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
-        System.out.println("Holee");
+        System.out.println("Holee" + playerNickname);
 
         // Generate SP Model IO handler
         SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
