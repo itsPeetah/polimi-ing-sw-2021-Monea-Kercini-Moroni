@@ -175,7 +175,6 @@ public class ModelController {
         updateResourceMarket();
         updateDevCardMarket();
 
-        System.out.println("dfsdojfalkjdfioejal");
 
         //Getting player Leader choices and Extra resources depending on player order
 
@@ -823,6 +822,10 @@ public class ModelController {
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
         Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
         game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+
+        //send ok to the view controller
+        modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.OK);
+
     }
 
 

@@ -4,11 +4,11 @@
     -fx-text-fill: white;
     -fx-font-size: 32;
     -fx-pref-height: -1;
-    -fx-pref-width: 300;
+    -fx-pref-width: -1;
 }
 
 .button:hover{
-    -fx-pref-width: 300;
+    -fx-pref-width: -1;
     -fx-cursor: hand;
     -fx-text-fill: black;
     -fx-background-color: rgba(255, 255, 255, 0.6);
@@ -17,13 +17,13 @@
 .label{
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: black;
-    -fx-font-size: 112;
+    -fx-font-size: 32;
     -fx-effect: dropshadow(gaussian, black, 5, 0, 0, 0);
 }
 
-VBox{
+HBox{
     -fx-pref-height: -1;
-    -fx-pref-width: 300;
+    -fx-pref-width: -1;
     -fx-background-color: rgba(0, 0, 0, 0.4);
     -fx-border-color:
             linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
@@ -32,8 +32,16 @@ VBox{
             5 0 0 0;
 }
 
+.text-field{
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-font-family: 'High Tower Text';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+    -fx-text-alignment: center;
+}
+
 .root{
-    -fx-background-image: url(/images/florence_2.jpg);
+    -fx-background-image: url(/images/florence_3.jpg);
     -fx-background-size: cover;
     -fx-background-position: left;
     -fx-cursor: default;

@@ -39,7 +39,7 @@ public class GameController {
     public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
-        System.out.println("Holee");
+        System.out.println("Holee" + playerNickname);
 
         // Generate SP Model IO handler
         SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
@@ -228,7 +228,7 @@ public class GameController {
 
                 GameApplication.getInstance().out(messageContent); //This will probably be removed but might help testing
 
-                if(gameStarted){
+                if(gameStarted) {
                     //This means that the player is doing an action at his turn so he is still playing his turn
                     moveToState(GameState.TURN_CHOICE);
                 }else{

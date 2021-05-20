@@ -2,7 +2,9 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
+import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
@@ -33,6 +35,11 @@ public class GUIMPSelection implements Initializable {
         performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
+    }
+
+    @FXML
+    public void onBackButton(ActionEvent actionEvent) {
+        GUIScene.GAME_MODE_SELECTION.load();
     }
 
     private static void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
