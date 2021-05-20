@@ -1,6 +1,12 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionData;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.view.game.GameState;
+import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -8,6 +14,7 @@ import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
@@ -45,6 +52,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     public ImageView lead2;
     public ImageView lead3;
     public ImageView lead4;
+    public Button button;
 
     private ImageView[][] devCards = new ImageView[4][3];
 
@@ -146,6 +154,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         devCards[3][1] = dev31;
         devCards[3][2] = dev32;
 
+        // Make button inactive
+        button.setDisable(true);
 
         //offeredLeaders.add(image1);
         //setImageTest();
@@ -210,15 +220,19 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     boolean[] leadersSelected = new boolean[4];
 
     private boolean twoSelected(){
+        System.out.println(GameApplication.getInstance().getGameController().getCurrentState());
+        if(GameApplication.getInstance().getGameController().getCurrentState() == GameState.IDLE) return false;
         int selected = 0;
         for (int i = 0; i < 4; i++) {
-            if(leadersSelected[i]==true){
+            if(leadersSelected[i]){
                 selected++;
             }
         }
         if(selected==2){
+            button.setDisable(false);
             return true;
         }else{
+            button.setDisable(true);
             return false;
         }
     }
@@ -246,6 +260,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[1] = true;
             lead2.setEffect(glow);
         }
+        twoSelected();
     }
 
     @FXML
@@ -258,6 +273,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[2] = true;
             lead3.setEffect(glow);
         }
+        twoSelected();
     }
 
     @FXML
@@ -270,11 +286,27 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[3] = true;
             lead4.setEffect(glow);
         }
+        twoSelected();
     }
 
     @FXML
     public void ready(){
+        button.setDisable(true);
+        int cont = 0;
+        LeadCard[] actionLeaders = new LeadCard[2];
+        for(int i = 0; i < 4; i++) {
+            if(leadersSelected[i]) {
+                LeadCard addedLeader = GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(i);
+                actionLeaders[cont] = addedLeader;
+                cont++;
+            }
+        }
+        Choose2LeadersActionData choose2LeadersActionData = new Choose2LeadersActionData();
+        choose2LeadersActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        choose2LeadersActionData.setLeaders(actionLeaders);
 
+        ActionPacket actionPacket = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(choose2LeadersActionData, Choose2LeadersActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
 }
