@@ -1,9 +1,10 @@
 package it.polimi.ingsw.application.gui;
 
+import it.polimi.ingsw.application.common.listeners.MessageListener;
+import it.polimi.ingsw.application.common.listeners.PacketListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -14,8 +15,12 @@ public enum GUIScene {
     MP_ROOM("GUIMPRoom.fxml"),
     PRE_GAME("GUIPreGame.fxml");
 
+    /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
     private final String fxmlPath;
+
+    /* ACTIVE SCENE */
+    private static PacketListener activeScene;
 
     GUIScene(String fxmlPath) {
         this.fxmlPath = FXML_DIRECTORY + fxmlPath;
@@ -40,5 +45,13 @@ public enum GUIScene {
             e.printStackTrace();
         }
         return loadedScene;
+    }
+
+    public static PacketListener getActiveScene() {
+        return activeScene;
+    }
+
+    public static void setPacketListener(PacketListener activeScene) {
+        GUIScene.activeScene = activeScene;
     }
 }

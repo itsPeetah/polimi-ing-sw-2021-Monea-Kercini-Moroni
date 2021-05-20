@@ -1,12 +1,11 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.social.SocialPacket;
-import it.polimi.ingsw.network.common.social.SocialPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.util.JSONUtility;
@@ -27,6 +26,7 @@ public class GameApplicationIOHandler {
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
         MessagePacket messagePacket = JSONUtility.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyMessage(messagePacket);
+        if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onMessage(messagePacket.getMessage());
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
@@ -67,7 +67,6 @@ public class GameApplicationIOHandler {
             }
 
         }
-
         return 0;
     }
 
