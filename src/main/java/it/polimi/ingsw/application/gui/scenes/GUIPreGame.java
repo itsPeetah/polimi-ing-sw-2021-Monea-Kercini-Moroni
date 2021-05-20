@@ -210,24 +210,72 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     boolean[] leadersSelected = new boolean[4];
 
     private boolean twoSelected(){
-        int selected;
+        int selected = 0;
         for (int i = 0; i < 4; i++) {
-
+            if(leadersSelected[i]==true){
+                selected++;
+            }
+        }
+        if(selected==2){
+            return true;
+        }else{
+            return false;
         }
     }
 
 
     @FXML
     public void lead1Click(){
-        boolean twoSelected =Stream.of(leadersSelected).filter(x -> x==true)
-        if(leadersSelected[0] && ){
+        if(leadersSelected[0]){
             leadersSelected[0] = false;
             lead1.setEffect(null);
 
-        }else{
+        }else if (!twoSelected()){
             leadersSelected[0] = true;
             lead1.setEffect(glow);
         }
     }
+
+    @FXML
+    public void lead2Click(){
+        if(leadersSelected[1]){
+            leadersSelected[1] = false;
+            lead2.setEffect(null);
+
+        }else if (!twoSelected()){
+            leadersSelected[1] = true;
+            lead2.setEffect(glow);
+        }
+    }
+
+    @FXML
+    public void lead3Click(){
+        if(leadersSelected[2]){
+            leadersSelected[2] = false;
+            lead3.setEffect(null);
+
+        }else if (!twoSelected()){
+            leadersSelected[2] = true;
+            lead3.setEffect(glow);
+        }
+    }
+
+    @FXML
+    public void lead4Click(){
+        if(leadersSelected[3]){
+            leadersSelected[3] = false;
+            lead4.setEffect(null);
+
+        }else if (!twoSelected()){
+            leadersSelected[3] = true;
+            lead4.setEffect(glow);
+        }
+    }
+
+    @FXML
+    public void ready(){
+
+    }
+
 }
 
