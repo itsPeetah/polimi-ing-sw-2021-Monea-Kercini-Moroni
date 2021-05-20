@@ -217,6 +217,7 @@ public class GameApplication {
      */
     public void startSPGame() {
         gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
+        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
     }
 
@@ -225,6 +226,7 @@ public class GameApplication {
      */
     public void startMPGame() {
         gameController = new GameController(new GameData());
+        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
     }
 }
