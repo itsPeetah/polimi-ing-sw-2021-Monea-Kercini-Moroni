@@ -13,12 +13,12 @@
 .list-cell:filled:selected,
 .list-cell:even,
 .list-cell:odd {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
 .list-cell{
-    -fx-font-size: 32;
-    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 25;
+    -fx-font-family: "High Tower Text";
     -fx-text-fill: white;
 }
 
@@ -33,5 +33,13 @@
 }
 
 .slider{
-    -fx-opacity: 0;
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.text-field{
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-font-family: 'High Tower Text';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+    -fx-text-alignment: center;
 }

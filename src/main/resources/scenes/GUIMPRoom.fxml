@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -47,8 +48,14 @@
             </Label>
             <ListView fx:id="playersListView" prefHeight="690.0" prefWidth="469.0">
                <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin></ListView>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <effect>
+                  <Glow level="1.0" />
+               </effect></ListView>
             <Button mnemonicParsing="false" onAction="#onStartClick" prefHeight="112.0" prefWidth="298.0" text="Start" textAlignment="CENTER">
                <font>
                   <Font name="Old English Text MT" size="65.0" />
@@ -64,7 +71,7 @@
       </VBox>
    </left>
    <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="1080.0" prefWidth="673.0" BorderPane.alignment="CENTER">
          <center>
             <ListView fx:id="chatListView" opacity="1" prefHeight="989.0" prefWidth="1301.0" style="-fx-background-color: transparent" BorderPane.alignment="CENTER">
                <cursor>
@@ -75,7 +82,7 @@
                </BorderPane.margin></ListView>
          </center>
          <bottom>
-            <TextField fx:id="textField" onKeyPressed="#sendMessage" prefHeight="41.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="textField" alignment="CENTER" onKeyPressed="#sendMessage" prefHeight="41.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -86,6 +93,9 @@
                   <Font name="Bradley Hand ITC" size="20.0" />
                </font></TextField>
          </bottom>
+         <BorderPane.margin>
+            <Insets left="800.0" />
+         </BorderPane.margin>
       </BorderPane>
    </center>
 </BorderPane>
