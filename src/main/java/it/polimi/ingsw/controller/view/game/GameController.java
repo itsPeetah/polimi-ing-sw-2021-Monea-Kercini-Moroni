@@ -228,7 +228,7 @@ public class GameController {
 
                 GameApplication.getInstance().out(messageContent); //This will probably be removed but might help testing
 
-                if(gameStarted){
+                if(gameStarted) {
                     //This means that the player is doing an action at his turn so he is still playing his turn
                     moveToState(GameState.TURN_CHOICE);
                 }else{
