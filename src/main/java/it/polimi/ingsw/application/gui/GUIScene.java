@@ -30,4 +30,15 @@ public enum GUIScene {
             e.printStackTrace();
         }
     }
+
+    public Scene produceScene() {
+        Scene loadedScene = null;
+        try {
+            Parent loadedSceneView = new FXMLLoader(getClass().getResource(fxmlPath)).load();
+            loadedScene = new Scene(loadedSceneView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return loadedScene;
+    }
 }

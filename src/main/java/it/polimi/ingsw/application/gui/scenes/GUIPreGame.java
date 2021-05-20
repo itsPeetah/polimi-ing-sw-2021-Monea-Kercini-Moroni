@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -14,10 +15,14 @@ import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -292,21 +297,45 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @FXML
     public void ready(){
         button.setDisable(true);
-        int cont = 0;
-        LeadCard[] actionLeaders = new LeadCard[2];
-        for(int i = 0; i < 4; i++) {
-            if(leadersSelected[i]) {
-                LeadCard addedLeader = GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(i);
-                actionLeaders[cont] = addedLeader;
-                cont++;
+        new Thread(() -> {
+            int cont = 0;
+            LeadCard[] actionLeaders = new LeadCard[2];
+            for(int i = 0; i < 4; i++) {
+                if(leadersSelected[i]) {
+                    LeadCard addedLeader = GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(i);
+                    actionLeaders[cont] = addedLeader;
+                    cont++;
+                }
             }
-        }
-        Choose2LeadersActionData choose2LeadersActionData = new Choose2LeadersActionData();
-        choose2LeadersActionData.setPlayer(GameApplication.getInstance().getUserNickname());
-        choose2LeadersActionData.setLeaders(actionLeaders);
+            Choose2LeadersActionData choose2LeadersActionData = new Choose2LeadersActionData();
+            choose2LeadersActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+            choose2LeadersActionData.setLeaders(actionLeaders);
 
-        ActionPacket actionPacket = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(choose2LeadersActionData, Choose2LeadersActionData.class));
-        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+            ActionPacket actionPacket = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(choose2LeadersActionData, Choose2LeadersActionData.class));
+            GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+            while(GameApplication.getInstance().getGameController().getCurrentState() == GameState.CHOOSE_LEADERS) {}
+            // TODO move here to game scene
+            Thread waitForPickResourcesThread = new Thread(() -> {
+                while(GameApplication.getInstance().getGameController().getCurrentState() != GameState.PICK_RESOURCES) {}
+                Platform.runLater(() -> {
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initStyle(StageStyle.UNIFIED);
+                    stage.setTitle("Choose the resources");
+                    // TODO produce choose resources scene
+                    stage.setScene(GUIScene.MAIN_MENU.produceScene());
+                    stage.show();
+                });
+            });
+            waitForPickResourcesThread.start();
+            try {
+                waitForPickResourcesThread.join(5000);
+            } catch (InterruptedException e) {
+                waitForPickResourcesThread.interrupt();
+            }
+        }).start();
+
+
     }
 
 }
