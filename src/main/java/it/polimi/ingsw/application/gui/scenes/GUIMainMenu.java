@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.gui.GUIScene;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,5 +18,10 @@ public class GUIMainMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    @FXML
+    public void onExitClick(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
