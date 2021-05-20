@@ -24,7 +24,10 @@ public class GUIApplication extends Application {
         File file = new File(ICON_PATH);
         Image iconImage = new Image(file.toURI().toString());
         stage.getIcons().add(iconImage);
-        stage.setOnCloseRequest(windowEvent -> Platform.exit());
+        stage.setOnCloseRequest(windowEvent -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.show();
     }
 
