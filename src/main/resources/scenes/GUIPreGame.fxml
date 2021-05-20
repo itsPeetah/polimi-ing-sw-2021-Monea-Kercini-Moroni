@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Sphere?>
 
-<SplitPane dividerPositions="0.6532663316582915" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
+<SplitPane dividerPositions="0.6532663316582915" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="600.0">
          <children>
@@ -86,7 +86,7 @@
          <children>
             <HBox prefHeight="365.0" prefWidth="1916.0">
                <children>
-                  <ImageView fx:id="lead1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>

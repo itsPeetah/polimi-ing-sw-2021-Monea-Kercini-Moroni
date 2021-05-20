@@ -8,11 +8,15 @@ import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -92,6 +96,15 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     private Sphere marble23 = new Sphere(29);
 
 
+    //Instantiating the Glow class
+    Glow glow = new Glow();
+
+
+
+    //generating materials needed for the marble spheres
+    Materials materials = new Materials();
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -101,8 +114,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         System.out.println(GameApplication.getInstance().getUserNickname());
         GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
 
-        //generating materials needed for the marble spheres
-        Materials materials = new Materials();
+        //setting level of the glow effect
+        glow.setLevel(0.5);
 
         //Connecting all marbles to matrix for simplicity
         marbles[0][0] = marble00;
@@ -192,7 +205,29 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(1).getCardId()));
         lead3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(2).getCardId()));
         lead4.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(3).getCardId()));
+    }
 
+    boolean[] leadersSelected = new boolean[4];
+
+    private boolean twoSelected(){
+        int selected;
+        for (int i = 0; i < 4; i++) {
+
+        }
+    }
+
+
+    @FXML
+    public void lead1Click(){
+        boolean twoSelected =Stream.of(leadersSelected).filter(x -> x==true)
+        if(leadersSelected[0] && ){
+            leadersSelected[0] = false;
+            lead1.setEffect(null);
+
+        }else{
+            leadersSelected[0] = true;
+            lead1.setEffect(glow);
+        }
     }
 }
 
