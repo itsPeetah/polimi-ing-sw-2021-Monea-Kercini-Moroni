@@ -12,20 +12,26 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MPRoom.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPRoom">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="789.0" prefWidth="405.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="524.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <left>
-                  <Label text="Room" BorderPane.alignment="CENTER">
+                  <Label prefHeight="50.0" prefWidth="80.0" text="Room" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets left="10.0" />
-                     </BorderPane.margin></Label>
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="Blackadder ITC" size="37.0" />
+                     </font></Label>
                </left>
                <center>
-                  <Label fx:id="room_name" prefWidth="75.0" text="ROOM_NAME" textFill="#b53939" BorderPane.alignment="CENTER_LEFT">
+                  <Label fx:id="room_name" prefHeight="63.0" prefWidth="405.0" text="ROOM_NAME" textFill="WHITE" BorderPane.alignment="CENTER_LEFT">
                      <BorderPane.margin>
                         <Insets left="30.0" />
-                     </BorderPane.margin></Label>
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="Blackadder ITC" size="37.0" />
+                     </font></Label>
                </center>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -33,23 +39,26 @@
             </BorderPane>
             <Label text="Players">
                <font>
-                  <Font name="Century Gothic" size="12.0" />
+                  <Font name="Blackadder ITC" size="52.0" />
                </font>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="playersListView" prefHeight="753.0" prefWidth="400.0">
+            <ListView fx:id="playersListView" prefHeight="690.0" prefWidth="469.0">
                <VBox.margin>
                   <Insets left="5.0" />
                </VBox.margin></ListView>
-            <Button mnemonicParsing="false" onAction="#onStartClick" prefHeight="112.0" prefWidth="298.0" text="Start">
+            <Button mnemonicParsing="false" onAction="#onStartClick" prefHeight="112.0" prefWidth="298.0" text="Start" textAlignment="CENTER">
                <font>
-                  <Font name="Century Gothic" size="18.0" />
+                  <Font name="Old English Text MT" size="65.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
+               <opaqueInsets>
+                  <Insets bottom="50.0" />
+               </opaqueInsets>
             </Button>
          </children>
       </VBox>
@@ -57,13 +66,25 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <ListView fx:id="chatListView" opacity="1" style="-fx-background-color: transparent" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ListView fx:id="chatListView" opacity="1" prefHeight="989.0" prefWidth="1301.0" style="-fx-background-color: transparent" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
-               </cursor></ListView>
+               </cursor>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </BorderPane.margin></ListView>
          </center>
          <bottom>
-            <TextField fx:id="textField" onKeyPressed="#sendMessage" BorderPane.alignment="CENTER" />
+            <TextField fx:id="textField" onKeyPressed="#sendMessage" prefHeight="41.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="Bradley Hand ITC" size="20.0" />
+               </font></TextField>
          </bottom>
       </BorderPane>
    </center>

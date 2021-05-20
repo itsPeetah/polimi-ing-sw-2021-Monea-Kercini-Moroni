@@ -15,3 +15,23 @@
 .list-cell:odd {
     -fx-background-color: transparent;
 }
+
+.list-cell{
+    -fx-font-size: 32;
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-text-fill: white;
+}
+
+.button{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.button:hover{
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+}
+
+.slider{
+    -fx-opacity: 0;
+}
