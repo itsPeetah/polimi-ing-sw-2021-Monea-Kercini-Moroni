@@ -35,6 +35,11 @@ public class GUIMPSelection implements Initializable {
         GameApplication.getInstance().setUserNickname(userTextField.getText());
     }
 
+    @FXML
+    public void onBackButton(ActionEvent actionEvent) {
+        GUIScene.GAME_MODE_SELECTION.load();
+    }
+
     private static void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
         new Thread(() -> {
             GameApplication.getInstance().setUserNickname(username);
@@ -82,4 +87,6 @@ public class GUIMPSelection implements Initializable {
             }
         }
     }
+
+
 }
