@@ -38,6 +38,8 @@ public class GameController {
      */
     public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
+        gameData.addPlayer(playerNickname);
+        System.out.println("Holee");
 
         // Generate SP Model IO handler
         SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
@@ -50,8 +52,8 @@ public class GameController {
         // Generate SP GC IO handler
         this.gameControllerIOHandler = new SPGameControllerIOHandler(this, spModelControllerIOHandler);
 
-        // Now that the handlers are connected, start the game
-        modelController.setupGame();
+        // Now that the handlers are connected, start the game on a new thread
+        new Thread(modelController::setupGame).start();
 
         this.currentState = GameState.IDLE;
     }
@@ -77,7 +79,13 @@ public class GameController {
             case RESOURCE_MARKET:
                 ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
                 gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
-                gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
+                try {
+                    gameData.getCommon().getMarketTray().setWaiting(res.getMT().getWaiting());
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("Set waiting called");
                 break;
 
             case DEVCARD_MARKET:
@@ -131,8 +139,9 @@ public class GameController {
                 break;
 
             case LEADERS_TO_CHOOSE_FROM:
+                System.out.println("Mi e venuto uqe lz ");
                 DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
-                gameData.getMomentary().getLeaders().setLeaders(lUP.getLeaders());
+                gameData.getPlayerData(lUP.getP()).getLeadersToChooseFrom().setLeaders(lUP.getLeaders());
                 break;
 
             case RESOURCES_TO_PUT:

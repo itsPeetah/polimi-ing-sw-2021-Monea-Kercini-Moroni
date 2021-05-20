@@ -1,22 +1,28 @@
 package it.polimi.ingsw.view.data.single;
 
 import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
+import it.polimi.ingsw.view.observer.single.LorenzoObserver;
 
-import java.util.Observable;
+public class Lorenzo {
+    /* OBSERVER */
+    LorenzoObserver lorenzoObserver;
 
-public class Lorenzo extends Observable {
     private int blackCross;
     private SoloActionTokens lastToken;
 
     public synchronized void setBlackCross(int blackCross) {
         this.blackCross = blackCross;
-        setChanged();
-        notifyObservers(blackCross);
+        if(lorenzoObserver != null) lorenzoObserver.onBlackCrossChange();
     }
 
     public synchronized void setLastToken(SoloActionTokens lastToken) {
         this.lastToken = lastToken;
-        setChanged();
-        notifyObservers(lastToken);
+        if(lorenzoObserver != null) lorenzoObserver.onLastTokenChange();
+    }
+
+    public void setObserver(LorenzoObserver lorenzoObserver) {
+        this.lorenzoObserver = lorenzoObserver;
+        lorenzoObserver.onLastTokenChange();
+        lorenzoObserver.onBlackCrossChange();
     }
 }

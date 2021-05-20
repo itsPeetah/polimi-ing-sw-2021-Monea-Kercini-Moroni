@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.cards.DevCard;
-import java.util.Observable;
+import it.polimi.ingsw.view.observer.player.DevCardsObserver;
 
-public class DevCards extends Observable {
+public class DevCards {
+    /* OBSERVER */
+    DevCardsObserver devCardsObserver;
 
     //keeping only the necessary 3 cards that are in view
 
@@ -11,11 +13,15 @@ public class DevCards extends Observable {
 
     public synchronized void setDevCards(DevCard[] devCards) {
         this.devCards = devCards;
-        setChanged();
-        notifyObservers(devCards);
+        if(devCardsObserver != null) devCardsObserver.onDevCardsChange();
     }
 
     public DevCards() {
         this.devCards = new DevCard[3];
+    }
+
+    public void setObserver(DevCardsObserver devCardsObserver) {
+        this.devCardsObserver = devCardsObserver;
+        devCardsObserver.onDevCardsChange();
     }
 }

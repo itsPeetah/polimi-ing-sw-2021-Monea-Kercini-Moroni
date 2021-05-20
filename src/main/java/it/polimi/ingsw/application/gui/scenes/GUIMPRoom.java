@@ -7,6 +7,7 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,9 +30,6 @@ public class GUIMPRoom implements Initializable {
     public Label room_name;
 
     @FXML
-    private ImageView imageView;
-
-    @FXML
     private ListView<String> playersListView;
 
     @FXML
@@ -47,14 +45,11 @@ public class GUIMPRoom implements Initializable {
         GameApplication.getInstance().sendNetworkPacket(np);
         // Send start packet
         new Thread(() -> {
-            GameApplication.getInstance().startMPGame();
             while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
 
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println(newState);
         }).start();
-
-        GUIScene.PRE_GAME.load();
     }
 
     @Override
@@ -62,6 +57,7 @@ public class GUIMPRoom implements Initializable {
         playersListView.setItems(observablePlayersList);
         chatListView.setItems(observableChatList);
         room_name.setText(GameApplication.getInstance().getRoomName());
+        listenForGameStart();
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -70,5 +66,12 @@ public class GUIMPRoom implements Initializable {
             textField.clear();
             if(message != null && message.length() > 0) GameApplicationIOHandler.getInstance().pushChatMessage(message);
         }
+    }
+
+    private void listenForGameStart() {
+        new Thread(() -> {
+            while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
+            Platform.runLater(GUIScene.PRE_GAME::load);
+        }).start();
     }
 }

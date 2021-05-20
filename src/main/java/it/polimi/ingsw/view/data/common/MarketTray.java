@@ -1,11 +1,12 @@
 package it.polimi.ingsw.view.data.common;
 
+import it.polimi.ingsw.view.observer.common.MarketTrayObserver;
 import it.polimi.ingsw.model.game.ResourceMarble;
-import java.util.Observable;
 
-import static it.polimi.ingsw.application.gui.scenes.GUIPreGame.updateGUIMarketTrayWaiting;
 
-public class MarketTray extends Observable {
+public class MarketTray {
+    /* OBSERVER */
+    MarketTrayObserver marketTrayObserver;
 
     private ResourceMarble[][] available;
     private ResourceMarble[] waiting;
@@ -20,19 +21,21 @@ public class MarketTray extends Observable {
 
     public synchronized void setAvailable(ResourceMarble[][] available) {
         this.available = available;
-        setChanged();
-        notifyObservers(available);
+        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
     }
 
     public synchronized void setWaiting(ResourceMarble[] waiting) {
         this.waiting = waiting;
-        setChanged();
-        notifyObservers(waiting);
-        updateGUIMarketTrayWaiting();
+        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
     }
 
     public MarketTray(){
         available = new ResourceMarble[3][4];
         waiting = new ResourceMarble[1];
+    }
+
+    public void setObserver(MarketTrayObserver marketTrayObserver) {
+        this.marketTrayObserver = marketTrayObserver;
+        marketTrayObserver.onMarketTrayChange();
     }
 }

@@ -1,26 +1,32 @@
 package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.view.observer.player.WarehouseObserver;
 
-import java.util.Observable;
+public class Warehouse {
+    /* OBSERVER */
+    WarehouseObserver warehouseObserver;
 
-public class Warehouse extends Observable {
     private Resources content[];
     private Resources extra;
 
     public synchronized void setContent(Resources[] content) {
         this.content = content;
-        setChanged();
-        notifyObservers(content);
+        if(warehouseObserver != null) warehouseObserver.onWarehouseContentChange();
     }
 
     public synchronized void setExtra(Resources extra) {
         this.extra = extra;
-        setChanged();
-        notifyObservers(extra);
+        if(warehouseObserver != null) warehouseObserver.onWarehouseExtraChange();
     }
 
     public Warehouse() {
         this.content = new Resources[3];
+    }
+
+    public void setObserver(WarehouseObserver warehouseObserver) {
+        this.warehouseObserver = warehouseObserver;
+        warehouseObserver.onWarehouseContentChange();
+        warehouseObserver.onWarehouseExtraChange();
     }
 }

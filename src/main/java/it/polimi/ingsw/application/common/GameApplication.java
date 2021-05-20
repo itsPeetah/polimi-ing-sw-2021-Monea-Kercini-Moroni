@@ -143,8 +143,10 @@ public class GameApplication {
         List<String> newList = Arrays.asList(stringOfPlayers.split(" ").clone());
         List<String> newPlayers = newList.stream().filter(x -> !this.roomPlayers.contains(x)).collect(Collectors.toList());
         if(outputMode == GameApplicationMode.GUI) {
-            GUIMPRoom.observablePlayersList.addAll(newPlayers);
-            GUIMPRoom.observablePlayersList.sort((String::compareTo));
+            Platform.runLater(() -> {
+                GUIMPRoom.observablePlayersList.addAll(newPlayers);
+                GUIMPRoom.observablePlayersList.sort((String::compareTo));
+            });
         }
         this.roomPlayers.addAll(newPlayers);
         System.out.println(roomPlayers.toString());
@@ -162,6 +164,7 @@ public class GameApplication {
             System.out.println(output);
         } else {
             GUIApplication.showDialog(output);
+            System.out.println(output);
         }
     }
 
@@ -214,6 +217,7 @@ public class GameApplication {
      */
     public void startSPGame() {
         gameController = new GameController(new GameData(), userNickname == null ? DEFAULT_SP_NICKNAME : userNickname);
+        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
     }
 
@@ -222,6 +226,7 @@ public class GameApplication {
      */
     public void startMPGame() {
         gameController = new GameController(new GameData());
+        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
     }
 }

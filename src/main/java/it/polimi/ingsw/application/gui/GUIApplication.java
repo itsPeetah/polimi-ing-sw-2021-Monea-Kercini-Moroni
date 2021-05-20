@@ -1,29 +1,37 @@
 package it.polimi.ingsw.application.gui;
 
-import it.polimi.ingsw.application.gui.scenes.GUIMainMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
+import java.io.File;
 
 public class GUIApplication extends Application {
     private static Stage primaryStage;
     private static Alert oldDialog;
-    public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
+    private static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
 
     @Override
     public void start(Stage stage) throws Exception {
+        // TODO SOLVE FONT PROBLEM
+        /*
+        System.out.println(getClass().getResource("/fonts/MediciText.ttf"));
+        System.out.println(getClass().getResource("/fonts/MediciText.ttf").toExternalForm());*/
+        Font mediciFont = Font.loadFont(getClass().getClassLoader().getResourceAsStream("/fonts/MediciText.ttf"), 10);
+        System.out.println("Medici font: " + mediciFont);
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         GUIScene.MAIN_MENU.load();
         stage.setResizable(false);
-        stage.setOnCloseRequest(windowEvent -> stage.close());
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
+        stage.setOnCloseRequest(windowEvent -> Platform.exit());
         stage.show();
     }
 
