@@ -91,22 +91,22 @@
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="lead2" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead2" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="lead3" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead3" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead3Click" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="lead4" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="lead4" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead4Click" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="345.0" prefWidth="564.0" text="Ready" textAlignment="CENTER">
+                  <Button fx:id="button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ready" prefHeight="345.0" prefWidth="564.0" text="Ready" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
                      </HBox.margin>
