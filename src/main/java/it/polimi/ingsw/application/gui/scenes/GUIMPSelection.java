@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class GUIMPSelection implements Initializable, PacketListener {
+public class GUIMPSelection implements PacketListener {
     public Button joinButt;
     public Button createButt;
     public Button backButt;
@@ -59,38 +59,17 @@ public class GUIMPSelection implements Initializable, PacketListener {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Connect // TODO REMOVE next line
-        //GameApplication.getInstance().connect("localhost", 42069);
-        // When no connection
-        System.out.println("connected: " + GameApplication.getInstance().isOnNetwork());
-        Alert connectionAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        connectionAlert.setTitle("Connection is down");
-        connectionAlert.setContentText("You are not connected to the server.\nTo start a MP game, you need to be connected.\nDo you want to move to the settings to connect to a server?");
-        connectionAlert.setHeaderText(null);
-
-        Optional<ButtonType> result = connectionAlert.showAndWait();
-        if(result.get() == ButtonType.OK) {
-            Platform.runLater(GUIScene.CONN_SETTINGS::load);
-        } else {
-            Platform.runLater(GUIScene.GAME_MODE_SELECTION::load);
-        }
-    }
-
-    @Override
     public void onMessage(Message message) {
 
     }
 
     @Override
     public void onSystemMessage(String message) {
+        setButtonsDisabled(false);
         GameApplicationState newState = GameApplication.getInstance().getApplicationState();
         System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
         if (newState == GameApplicationState.PREGAME) {
-            Platform.runLater(() -> {
-                GUIScene.MP_ROOM.load();
-                setButtonsDisabled(false);
-            });
+            Platform.runLater(GUIScene.MP_ROOM::load);
         }
     }
 
