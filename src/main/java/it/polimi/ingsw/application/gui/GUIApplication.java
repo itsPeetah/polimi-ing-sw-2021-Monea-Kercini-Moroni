@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -18,12 +17,6 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // TODO SOLVE FONT PROBLEM
-        /*
-        System.out.println(getClass().getResource("/fonts/MediciText.ttf"));
-        System.out.println(getClass().getResource("/fonts/MediciText.ttf").toExternalForm());*/
-        Font mediciFont = Font.loadFont(getClass().getClassLoader().getResourceAsStream("/fonts/MediciText.ttf"), 10);
-        System.out.println("Medici font: " + mediciFont);
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         GUIScene.MAIN_MENU.load();
@@ -31,7 +24,10 @@ public class GUIApplication extends Application {
         File file = new File(ICON_PATH);
         Image iconImage = new Image(file.toURI().toString());
         stage.getIcons().add(iconImage);
-        stage.setOnCloseRequest(windowEvent -> Platform.exit());
+        stage.setOnCloseRequest(windowEvent -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.show();
     }
 

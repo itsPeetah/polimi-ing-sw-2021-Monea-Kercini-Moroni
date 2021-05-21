@@ -1,12 +1,15 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.Action;
-import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.util.JSONUtility;
+import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -18,12 +21,13 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -33,7 +37,7 @@ import static it.polimi.ingsw.model.cards.CardManager.getImage;
  * Player will be offered 4 leaders and he should choose 2
  */
 
-public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToChooseFromObserver {
+public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToChooseFromObserver, PacketListener {
 
     public ImageView dev01;
     public ImageView dev02;
@@ -115,12 +119,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        //setting observer
-        GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().setObserver(this);
-        GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().setObserver(this);
-        System.out.println(GameApplication.getInstance().getUserNickname());
-        GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
+        // Set listeners
+        setListeners();
 
         //setting level of the glow effect
         glow.setLevel(0.5);
@@ -156,24 +156,14 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
         // Make button inactive
         button.setDisable(true);
-
-        //offeredLeaders.add(image1);
-        //setImageTest();
-
-        //marble.setMaterial(getMaterial(MaterialsEnum.PURPLE));
     }
 
-    /**
-
-    @FXML
-    private void onPlayClick(ActionEvent actionEvent) {
-        GUIScene.GAME_MODE_SELECTION.load();
-    }
-    */
-
-    public void updateOfferedLeaders(ArrayList<LeadCard> leaders) {
-
-        //this.offeredLeaders.get(0).setImage(leaders.get(0).getImage);
+    private void setListeners() {
+        GameData gameData = GameApplication.getInstance().getGameController().getGameData();
+        gameData.getCommon().getMarketTray().setObserver(this);
+        gameData.getCommon().getDevCardMarket().setObserver(this);
+        gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
+        GUIScene.setPacketListener(this);
     }
 
 
@@ -208,16 +198,21 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onLeadersToChooseFromChange() {
+        //devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
 
-        lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
-        lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(1).getCardId()));
-        lead3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(2).getCardId()));
-        lead4.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(3).getCardId()));
+        System.out.println(GameApplication.getInstance().getUserNickname());
+
+        Platform.runLater(() -> {
+            lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
+            lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(1).getCardId()));
+            lead3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(2).getCardId()));
+            lead4.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(3).getCardId()));
+        });
     }
 
     boolean[] leadersSelected = new boolean[4];
 
-    private boolean twoSelected(){
+    private boolean isReadyClickable(){
         System.out.println(GameApplication.getInstance().getGameController().getCurrentState());
         if(GameApplication.getInstance().getGameController().getCurrentState() == GameState.IDLE) return false;
         int selected = 0;
@@ -242,10 +237,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[0] = false;
             lead1.setEffect(null);
 
-        }else if (!twoSelected()){
+        } else if (!isReadyClickable()){
             leadersSelected[0] = true;
             lead1.setEffect(glow);
         }
+        isReadyClickable();
     }
 
     @FXML
@@ -254,11 +250,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[1] = false;
             lead2.setEffect(null);
 
-        }else if (!twoSelected()){
+        } else if (!isReadyClickable()){
             leadersSelected[1] = true;
             lead2.setEffect(glow);
         }
-        twoSelected();
+        isReadyClickable();
     }
 
     @FXML
@@ -267,11 +263,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[2] = false;
             lead3.setEffect(null);
 
-        }else if (!twoSelected()){
+        } else if (!isReadyClickable()){
             leadersSelected[2] = true;
             lead3.setEffect(glow);
         }
-        twoSelected();
+        isReadyClickable();
     }
 
     @FXML
@@ -280,11 +276,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             leadersSelected[3] = false;
             lead4.setEffect(null);
 
-        }else if (!twoSelected()){
+        } else if (!isReadyClickable()){
             leadersSelected[3] = true;
             lead4.setEffect(glow);
         }
-        twoSelected();
+        isReadyClickable();
     }
 
     @FXML
@@ -307,5 +303,40 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    @Override
+    public void onMessage(Message message) {
+        System.out.println("GUIPreGame: " + message + " arrived");
+        Platform.runLater(() -> {
+            switch (message) {
+                case CHOOSE_LEADERS:
+                    setChooseLeadersUI();
+                    break;
+                case CHOOSE_RESOURCE:
+                    setChooseResourceUI();
+                    break;
+                case OK:
+                    setGameScene();
+                    break;
+            }
+        });
+    }
+
+    private void setChooseResourceUI() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initStyle(StageStyle.UNIFIED);
+        stage.setTitle("Choose the resources");
+        // TODO produce choose resources scene
+        stage.setScene(GUIScene.MAIN_MENU.produceScene());
+        stage.show();
+    }
+
+    private void setChooseLeadersUI() {
+        isReadyClickable();
+    }
+
+    private void setGameScene() {
+        // TODO implement loading of new game scene
+    }
 }
 
