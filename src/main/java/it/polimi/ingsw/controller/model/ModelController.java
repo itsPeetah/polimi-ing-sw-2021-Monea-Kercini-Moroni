@@ -692,6 +692,8 @@ public class ModelController {
                 while(!done) {
 
                     //asking the player to choose one of the two resources he can to substitute white
+                    //notifying player he has to choose a resource
+                    modelControllerIOHandler.sendMessage(player.getNickname(), Message.CHOOSE_REPLACEMENT);
 
                     //Maybe this line will need to be switched off in the real game, but it is necessary for testing
                     modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());

@@ -74,11 +74,18 @@ public class GUIChooseResource implements Initializable, PacketListener {
 
         System.out.println("fouri if");
 
+        System.out.println(message.toString());
+
         if(message==Message.OK){
             System.out.println("Dentro if");
             Stage s = (Stage) coin.getScene().getWindow();
             s.close();
         }
+
+    }
+
+    @Override
+    public void onSystemMessage(String message) {
 
     }
 }

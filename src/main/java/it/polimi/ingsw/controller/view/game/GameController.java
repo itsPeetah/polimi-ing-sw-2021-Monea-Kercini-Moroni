@@ -174,6 +174,7 @@ public class GameController {
                 break;
 
             case CHOOSE_RESOURCE:
+            case CHOOSE_REPLACEMENT:
                 GameApplication.getInstance().out(messageContent);
                 moveToState(GameState.PICK_RESOURCES);
                 break;
