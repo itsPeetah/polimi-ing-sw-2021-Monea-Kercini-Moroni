@@ -13,7 +13,7 @@
 .list-cell:filled:selected,
 .list-cell:even,
 .list-cell:odd {
-    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-background-color: rgba(0, 0, 0, 0.6);
 }
 
 .list-cell{
@@ -23,8 +23,12 @@
 }
 
 .button{
+    -fx-font-family: 'Blackadder ITC';
     -fx-background-color: transparent;
     -fx-text-fill: white;
+    -fx-font-size: 32;
+    -fx-pref-height: -1;
+    -fx-pref-width: 300;
 }
 
 .button:hover{
@@ -33,13 +37,13 @@
 }
 
 .slider{
-    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
 .text-field{
-    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-color: rgba(0, 0, 0, 0.6;
     -fx-font-family: 'High Tower Text';
     -fx-text-fill: white;
     -fx-font-size: 25;
-    -fx-text-alignment: center;
+    -fx-text-alignment: left;
 }
