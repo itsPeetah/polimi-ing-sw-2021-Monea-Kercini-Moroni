@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.common;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIApplication;
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
@@ -203,8 +204,10 @@ public class GameApplication {
         networkClient = new GameClient(hostName, portNumber);
         if(!networkClient.start())
             networkClient = null;
-        else
+        else {
             isRunning = true;
+            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
+        }
     }
 
     public void sendNetworkPacket(NetworkPacket packet) {

@@ -163,7 +163,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
-        GUIScene.setPacketListener(this);
     }
 
 
@@ -337,6 +336,11 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     private void setGameScene() {
         // TODO implement loading of new game scene
+    }
+
+    @Override
+    public void onSystemMessage(String message) {
+        // TODO do we need to handle system messages here?
     }
 }
 
