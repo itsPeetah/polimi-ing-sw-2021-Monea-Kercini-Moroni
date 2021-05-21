@@ -41,6 +41,9 @@ public class GUIChooseResource implements Initializable, PacketListener {
 
         ActionPacket actionPacket = new ActionPacket(Action.CHOOSE_RESOURCE, JSONUtility.toJson(chooseResourceActionData, ChooseResourceActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+        Stage s = (Stage) coin.getScene().getWindow();
+        s.close();
     }
 
 
@@ -71,16 +74,6 @@ public class GUIChooseResource implements Initializable, PacketListener {
 
     @Override
     public void onMessage(Message message) {
-
-        System.out.println("fouri if");
-
-        System.out.println(message.toString());
-
-        if(message==Message.OK){
-            System.out.println("Dentro if");
-            Stage s = (Stage) coin.getScene().getWindow();
-            s.close();
-        }
 
     }
 
