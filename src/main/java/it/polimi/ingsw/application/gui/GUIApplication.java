@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.gui;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        new Thread(() -> GameApplication.getInstance().connect("localhost", 42069)).start();
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         GUIScene.MAIN_MENU.load();
