@@ -1,4 +1,12 @@
 .text-area{
     -fx-font-size: 30;
     -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.root{
+    -fx-background-image: url(/images/market.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
 }

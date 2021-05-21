@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,58 +10,46 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ChooseResource.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIChooseResource">
    <children>
-      <SplitPane dividerPositions="0.635678391959799" layoutX="-2.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="7.0" prefHeight="239.0" prefWidth="589.0" text="Please pick a resource of your choice." textAlignment="CENTER">
-                     <font>
-                        <Font name="Blackadder ITC" size="35.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <HBox layoutX="19.0" layoutY="1.0" prefHeight="109.0" prefWidth="560.0">
-                     <children>
-                        <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#coinClick" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../images/resources/coin.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#servantClick" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../images/resources/servant.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#shieldClick" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../images/resources/shield.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#stoneClick" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../images/resources/stone.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="239.0" prefWidth="589.0" text="Please pick a resource of your choice." textAlignment="CENTER">
+         <font>
+            <Font name="Blackadder ITC" size="35.0" />
+         </font>
+      </Label>
+      <HBox layoutX="20.0" layoutY="239.0" prefHeight="109.0" prefWidth="560.0">
+         <children>
+            <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#coinClick" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#servantClick" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#shieldClick" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#stoneClick" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
