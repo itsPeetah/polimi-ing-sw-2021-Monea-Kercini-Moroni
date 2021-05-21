@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.listeners.MessageListener;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.scenes.GUISettings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +14,9 @@ public enum GUIScene {
     GAME_MODE_SELECTION("GUIGameModeSelection.fxml"),
     MP_SELECTION("GUIMPSelection.fxml"),
     MP_ROOM("GUIMPRoom.fxml"),
-    PRE_GAME("GUIPreGame.fxml");
+    PRE_GAME("GUIPreGame.fxml"),
+    SETTINGS("GUISettings.fxml"),
+    CONN_SETTINGS("GUIConnSettings.fxml");
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";

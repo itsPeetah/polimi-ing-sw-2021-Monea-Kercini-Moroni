@@ -24,4 +24,8 @@ public class GUIMainMenu implements Initializable {
     public void onExitClick(ActionEvent actionEvent) {
         Platform.exit();
     }
+
+    public void onSettingsClick(ActionEvent actionEvent) {
+        GUIScene.SETTINGS.load();
+    }
 }

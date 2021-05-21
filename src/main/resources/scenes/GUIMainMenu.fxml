@@ -9,7 +9,7 @@
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onPlayClick" text="Play" />
-            <Button mnemonicParsing="false" text="Options" />
+            <Button mnemonicParsing="false" onAction="#onSettingsClick" text="Settings" />
             <Button mnemonicParsing="false" text="Credits" />
             <Button mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
          </children>
