@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ChooseResource.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIChooseResource">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ChooseResource.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIChooseResource">
    <children>
       <SplitPane dividerPositions="0.635678391959799" layoutX="-2.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
         <items>
@@ -27,7 +27,7 @@
                <children>
                   <HBox layoutX="19.0" layoutY="1.0" prefHeight="109.0" prefWidth="560.0">
                      <children>
-                        <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#coinClick" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </HBox.margin>
@@ -35,7 +35,7 @@
                               <Image url="@../images/resources/coin.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#servantClick" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </HBox.margin>
@@ -43,7 +43,7 @@
                               <Image url="@../images/resources/servant.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#shieldClick" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </HBox.margin>
@@ -51,7 +51,7 @@
                               <Image url="@../images/resources/shield.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#stoneClick" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </HBox.margin>

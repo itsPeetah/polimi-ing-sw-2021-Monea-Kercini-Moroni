@@ -324,10 +324,9 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     private void setChooseResourceUI() {
         Stage stage = new Stage();
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initStyle(StageStyle.UNIFIED);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Choose the resources");
-        // TODO produce choose resources scene
-        stage.setScene(GUIScene.MAIN_MENU.produceScene());
+        stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
         stage.show();
     }
 
