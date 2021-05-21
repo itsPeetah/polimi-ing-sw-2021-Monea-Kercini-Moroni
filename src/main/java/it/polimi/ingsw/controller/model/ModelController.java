@@ -205,10 +205,14 @@ public class ModelController {
             updateFaithPoints();
         }
 
+        /**
+
         //If single player game instantiate Lorenzo, the opponent
         if(singlePlayer){
             Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
         }
+
+         */
 
         startGame();
     }
