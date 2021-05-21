@@ -8,14 +8,14 @@ public class Warehouse {
     WarehouseObserver warehouseObserver;
 
     private Resources content[];
-    private Resources extra;
+    private Resources extra[];
 
     public synchronized void setContent(Resources[] content) {
         this.content = content;
         if(warehouseObserver != null) warehouseObserver.onWarehouseContentChange();
     }
 
-    public synchronized void setExtra(Resources extra) {
+    public synchronized void setExtra(Resources extra[]) {
         this.extra = extra;
         if(warehouseObserver != null) warehouseObserver.onWarehouseExtraChange();
     }
