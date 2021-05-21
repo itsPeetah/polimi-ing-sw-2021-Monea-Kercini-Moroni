@@ -17,24 +17,27 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class GUIMPSelection implements Initializable {
+public class GUIMPSelection implements Initializable, PacketListener {
+    public Button joinButt;
+    public Button createButt;
+    public Button backButt;
     @FXML private TextField userTextField;
     @FXML private TextField roomTextField;
 
     @FXML
     private void onCreateClick(ActionEvent actionEvent) {
         System.out.println("create pressed ");
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM);
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
+        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM);
     }
 
     @FXML
     private void onJoinClick(ActionEvent actionEvent) {
         System.out.println("join pressed ");
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
+        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
     }
 
     @FXML
@@ -42,7 +45,8 @@ public class GUIMPSelection implements Initializable {
         GUIScene.GAME_MODE_SELECTION.load();
     }
 
-    private static void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
+    private void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
+        setButtonsDisabled(true);
         new Thread(() -> {
             GameApplication.getInstance().setUserNickname(username);
             GameApplication.getInstance().setRoomName(room);
@@ -51,42 +55,48 @@ public class GUIMPSelection implements Initializable {
             NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
             GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
             GameApplication.getInstance().sendNetworkPacket(np);
-            while (GameApplication.getInstance().getApplicationState() == GameApplicationState.CONNECTING_TO_ROOM) {}
-            GameApplicationState newState = GameApplication.getInstance().getApplicationState();
-            if (newState == GameApplicationState.PREGAME) {
-                Platform.runLater(GUIScene.MP_ROOM::load);
-            }}).start();
+        }).start();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Connect
+        // Connect // TODO REMOVE next line
         GameApplication.getInstance().connect("localhost", 42069);
         // When no connection
         System.out.println("connected: " + GameApplication.getInstance().isOnNetwork());
-        while(!GameApplication.getInstance().isOnNetwork()) {
-            Alert connectionAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            connectionAlert.setTitle("Connection is down");
-            connectionAlert.setContentText("You are not connected to the server.\nTo start a MP game, you need to be connected.\nDo you want to retry to open a connection?");
-            connectionAlert.setHeaderText(null);
+        Alert connectionAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        connectionAlert.setTitle("Connection is down");
+        connectionAlert.setContentText("You are not connected to the server.\nTo start a MP game, you need to be connected.\nDo you want to move to the settings to connect to a server?");
+        connectionAlert.setHeaderText(null);
 
-            Optional<ButtonType> result = connectionAlert.showAndWait();
-            if(result.get() == ButtonType.OK) {
-                GameApplication.getInstance().connect("localhost", 42069);
-                if (GameApplication.getInstance().isOnNetwork()) {
-                    break;
-                }
-                else {
-                    Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
-                    connectionErrorAlert.setTitle("Connection error");
-                    connectionErrorAlert.setHeaderText(null);
-                    connectionErrorAlert.setContentText("Ooops,\nit is not possible to open a connection with the server!\nTry again.");
-                    connectionErrorAlert.showAndWait();
-                }
-            } else {
-                Platform.runLater(GUIScene.GAME_MODE_SELECTION::load);
-                break;
-            }
+        Optional<ButtonType> result = connectionAlert.showAndWait();
+        if(result.get() == ButtonType.OK) {
+            Platform.runLater(GUIScene.CONN_SETTINGS::load);
+        } else {
+            Platform.runLater(GUIScene.GAME_MODE_SELECTION::load);
         }
+    }
+
+    @Override
+    public void onMessage(Message message) {
+
+    }
+
+    @Override
+    public void onSystemMessage(String message) {
+        GameApplicationState newState = GameApplication.getInstance().getApplicationState();
+
+        if (newState == GameApplicationState.PREGAME) {
+            Platform.runLater(() -> {
+                GUIScene.MP_ROOM.load();
+                setButtonsDisabled(false);
+            });
+        }
+    }
+
+    private void setButtonsDisabled(boolean disabled) {
+        joinButt.setDisable(disabled);
+        createButt.setDisable(disabled);
+        backButt.setDisable(disabled);
     }
 }

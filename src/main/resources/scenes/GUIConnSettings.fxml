@@ -30,8 +30,8 @@
                     </GridPane.margin></Label>
                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#onConnectClick" text="Connect"/>
-                        <Button mnemonicParsing="false" onAction="#onBackButton" text="Back" />
+                        <Button fx:id="connButton" mnemonicParsing="false" onAction="#onConnectClick" text="Connect"/>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
                     </children>
                 </HBox>
             </children>

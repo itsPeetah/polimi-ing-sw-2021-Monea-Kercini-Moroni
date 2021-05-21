@@ -67,6 +67,7 @@ public class GameApplicationIOHandler {
             }
 
         }
+        if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
         return 0;
     }
 
