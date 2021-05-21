@@ -3,7 +3,9 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
+import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
@@ -12,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -21,13 +24,15 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIMPRoom implements Initializable {
+public class GUIMPRoom implements Initializable, PacketListener {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
     public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
 
     @FXML
     public Label room_name;
+
+    public Button startButt;
 
     @FXML
     private ListView<String> playersListView;
@@ -40,16 +45,11 @@ public class GUIMPRoom implements Initializable {
 
     @FXML
     private void onStartClick() {
+        setButtonsDisabled(false);
         String messageContent = GameLobbyMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
-        // Send start packet
-        new Thread(() -> {
-            while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
 
-            GameApplicationState newState = GameApplication.getInstance().getApplicationState();
-            System.out.println(newState);
-        }).start();
     }
 
     @Override
@@ -57,7 +57,6 @@ public class GUIMPRoom implements Initializable {
         playersListView.setItems(observablePlayersList);
         chatListView.setItems(observableChatList);
         room_name.setText(GameApplication.getInstance().getRoomName());
-        listenForGameStart();
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -68,10 +67,23 @@ public class GUIMPRoom implements Initializable {
         }
     }
 
-    private void listenForGameStart() {
-        new Thread(() -> {
-            while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
-            Platform.runLater(GUIScene.PRE_GAME::load);
-        }).start();
+    @Override
+    public void onMessage(Message message) {
+
+    }
+
+    @Override
+    public void onSystemMessage(String message) {
+        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
+        switch(gameApplicationState) {
+            case INGAME:
+                setButtonsDisabled(false);
+                Platform.runLater(GUIScene.PRE_GAME::load);
+                break;
+        }
+    }
+
+    private void setButtonsDisabled(boolean disabled) {
+        startButt.setDisable(disabled);
     }
 }
