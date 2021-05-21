@@ -76,7 +76,7 @@
    <center>
       <BorderPane prefHeight="1080.0" prefWidth="673.0" BorderPane.alignment="CENTER">
          <center>
-            <ListView fx:id="chatListView" opacity="1" prefHeight="989.0" prefWidth="1301.0" style="-fx-background-color: transparent" BorderPane.alignment="CENTER">
+            <ListView fx:id="chatListView" prefHeight="989.0" prefWidth="1301.0" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
