@@ -30,17 +30,17 @@
                </GridPane.margin></Label>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onJoinClick" text="Join">
+                  <Button fx:id="joinButt" mnemonicParsing="false" onAction="#onJoinClick" text="Join">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onCreateClick" text="Create">
+                  <Button fx:id="createButt" mnemonicParsing="false" onAction="#onCreateClick" text="Create">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onBackButton" text="Back" />
+                  <Button fx:id="backButt" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
                </children>
             </HBox>
          </children>

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.application.gui;
 
-import it.polimi.ingsw.application.common.listeners.MessageListener;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
-import it.polimi.ingsw.application.gui.scenes.GUISettings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,13 +14,15 @@ public enum GUIScene {
     MP_ROOM("GUIMPRoom.fxml", false),
     PRE_GAME("GUIPreGame.fxml", false),
     SETTINGS("GUISettings.fxml", true),
-    CONN_SETTINGS("GUIConnSettings.fxml", true);
+    CONN_SETTINGS("GUIConnSettings.fxml", true),
+    CHOOSE_RESOURCE("GUIChooseResource.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
     private final String fxmlPath;
 
     /* SCENE ATTRIBUTES */
+    private FXMLLoader fxmlLoader = null;
     private Scene scene = null;
 
     /* ACTIVE SCENE */
@@ -37,7 +37,8 @@ public enum GUIScene {
         this.fxmlPath = FXML_DIRECTORY + fxmlPath;
         if(!loadOnStarting) return;
         try {
-            Parent sceneParent = new FXMLLoader(getClass().getResource(this.fxmlPath)).load();
+            fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
+            Parent sceneParent = fxmlLoader.load();
             scene = new Scene(sceneParent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,14 +46,16 @@ public enum GUIScene {
     }
 
     public void load() {
-        if(scene == null) {
+        if(fxmlLoader == null) {
             try {
-                Parent sceneParent = new FXMLLoader(getClass().getResource(this.fxmlPath)).load();
+                fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
+                Parent sceneParent = fxmlLoader.load();
                 scene = new Scene(sceneParent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        if(fxmlLoader.getController() instanceof PacketListener) activeScene = fxmlLoader.getController();
         GUIApplication.setScene(scene);
     }
 
