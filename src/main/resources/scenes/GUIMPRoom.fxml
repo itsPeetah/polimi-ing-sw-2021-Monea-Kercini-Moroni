@@ -43,7 +43,7 @@
                <VBox.margin>
                   <Insets left="5.0" />
                </VBox.margin></ListView>
-            <Button mnemonicParsing="false" onAction="#onStartClick" prefHeight="112.0" prefWidth="298.0" text="Start">
+            <Button fx:id="startButt" mnemonicParsing="false" onAction="#onStartClick" prefHeight="112.0" prefWidth="298.0" text="Start">
                <font>
                   <Font name="Century Gothic" size="18.0" />
                </font>

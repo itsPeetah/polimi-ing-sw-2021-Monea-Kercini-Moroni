@@ -61,7 +61,7 @@ public class GUIMPSelection implements Initializable, PacketListener {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Connect // TODO REMOVE next line
-        GameApplication.getInstance().connect("localhost", 42069);
+        //GameApplication.getInstance().connect("localhost", 42069);
         // When no connection
         System.out.println("connected: " + GameApplication.getInstance().isOnNetwork());
         Alert connectionAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -85,7 +85,7 @@ public class GUIMPSelection implements Initializable, PacketListener {
     @Override
     public void onSystemMessage(String message) {
         GameApplicationState newState = GameApplication.getInstance().getApplicationState();
-
+        System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
         if (newState == GameApplicationState.PREGAME) {
             Platform.runLater(() -> {
                 GUIScene.MP_ROOM.load();
