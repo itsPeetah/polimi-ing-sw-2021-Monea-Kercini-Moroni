@@ -146,10 +146,14 @@ public class ModelController {
 
          */
 
+        /**
+
         //If there is only one player set the game as single player
         if(game.getPlayers().length==1){
             setSinglePlayer(true);
         }
+
+         */
 
         //Initialize leader cards
         ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
@@ -205,14 +209,13 @@ public class ModelController {
             updateFaithPoints();
         }
 
-        /**
+
 
         //If single player game instantiate Lorenzo, the opponent
         if(singlePlayer){
             Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
         }
 
-         */
 
         startGame();
     }

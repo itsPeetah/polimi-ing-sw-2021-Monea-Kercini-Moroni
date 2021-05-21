@@ -146,8 +146,10 @@ public class Warehouse{
         content[0] = new Resources();
         content[1] = new Resources();
         content[2] = new Resources();
+        this.leaderExtraUsed= new Resources[2];
         this.leaderExtraUsed[0] = new Resources();
         this.leaderExtraUsed[1] = new Resources();
+        this.leadersExtra = new LeadCard[2];
     }
 
     public void copy(Warehouse w){

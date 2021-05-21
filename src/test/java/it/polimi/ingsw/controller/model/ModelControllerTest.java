@@ -543,6 +543,9 @@ class ModelControllerTest {
         gm.addPlayer("Player 1");
         Player p = gm.getGame().getPlayers()[0];
 
+        //Setting game to single player
+        gm.setSinglePlayer(true);
+
         //Starting the game
         new Thread(() -> {
             gm.setupGame();
