@@ -150,6 +150,7 @@ public class Warehouse{
         this.leaderExtraUsed[0] = new Resources();
         this.leaderExtraUsed[1] = new Resources();
         this.leadersExtra = new LeadCard[2];
+
     }
 
     public void copy(Warehouse w){
@@ -232,9 +233,20 @@ public class Warehouse{
 
             //for each leader the extra space he gives should be equal or bigger than the resources put there
 
-            if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
-                return false;
+            if(leadersExtra[i]!=null){
+
+                if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
+                    return false;
+                }
+
+            }else{
+                //If the leader is null but the player has put resources there
+                if (leaderExtraUsed[i].getTotalAmount()>0){
+                    return false;
+                }
             }
+
+
         }
         return true;
     }
