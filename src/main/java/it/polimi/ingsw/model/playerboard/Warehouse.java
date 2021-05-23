@@ -171,7 +171,8 @@ public class Warehouse{
             && content[2].getTotalAmount()<=1
             && areDifferentTypes(content[0], content[1])
             && areDifferentTypes(content[1], content[2])
-            && areDifferentTypes(content[0], content[2])){
+            && areDifferentTypes(content[0], content[2])
+            && areLeadersOrganized()){
             return true;
         }else{
             return false;
