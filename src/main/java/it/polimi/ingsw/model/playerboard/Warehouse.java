@@ -8,7 +8,7 @@ public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
 
-    private LeadCard[] leadersExtra; // 2+2 extra (2 same type for each leader card bonus that might have been played) with floor reference 3
+    private LeadCard[] leadersExtra;
     private Resources[] leaderExtraUsed;
 
     private int leadersUsed = 0;
@@ -219,6 +219,23 @@ public class Warehouse{
         }else{
             return true;
         }
+    }
+
+    /**
+     * Method that checks if the resources put in leader extra available are correctly corresponding to the leaders
+     * @return true if leaders extra spaces are used correctly
+     */
+    private boolean areLeadersOrganized(){
+
+        for (int i = 0; i < leadersExtra.length; i++) {
+
+            //for each leader the extra space he gives should be equal or bigger than the resources put there
+
+            if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
 
