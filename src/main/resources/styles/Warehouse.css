@@ -1,4 +1,25 @@
-.text-area{
-    -fx-font-size: 30;
-    -fx-text-alignment: center;
+.label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
+    -fx-font-size: 40;
+}
+
+.button{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 32;
+    -fx-pref-height: -1;
+    -fx-pref-width: -1;
+}
+
+.button:hover{
+    -fx-pref-width: -1;
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.warehouseCell:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
 }
