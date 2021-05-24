@@ -40,7 +40,7 @@ public class ModelController {
         // Initialize game (with default settings)
         game = GameFactory.CreateGame();
         gamePhase = GamePhase.PREGAME;
-        
+
         // Set communication handler
         this.modelControllerIOHandler = modelControllerIOHandler;
     }
@@ -135,6 +135,7 @@ public class ModelController {
      */
     public void setupGame(){
 
+
         gamePhase = GamePhase.START;
 
         /*
@@ -148,10 +149,10 @@ public class ModelController {
 
         /**
 
-        //If there is only one player set the game as single player
-        if(game.getPlayers().length==1){
-            setSinglePlayer(true);
-        }
+         //If there is only one player set the game as single player
+         if(game.getPlayers().length==1){
+         setSinglePlayer(true);
+         }
 
          */
 
@@ -183,6 +184,8 @@ public class ModelController {
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
+
+
 
             //Sending to player the leaders he should choose from
             dealLeadersToPlayer(leadCards, i);
@@ -832,6 +835,10 @@ public class ModelController {
         Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
         game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
 
+        //Update Leaders
+        updateLeaders(game.getPlayers()[i]);
+
+
         //send ok to the view controller
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.OK);
 
@@ -867,6 +874,7 @@ public class ModelController {
     }
 
     private void updateResourceMarket(){
+
 
         ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
         modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);

@@ -76,6 +76,7 @@ public class GameController {
         switch (update){
 
             case RESOURCE_MARKET:
+
                 ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
                 gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
                 try {
@@ -91,11 +92,13 @@ public class GameController {
                 break;
 
             case PRODUCTION_POWERS:
+                //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;
 
             case LEADERS:
+                //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setStates(pl.getPlayerLeaders().getCardStates());
