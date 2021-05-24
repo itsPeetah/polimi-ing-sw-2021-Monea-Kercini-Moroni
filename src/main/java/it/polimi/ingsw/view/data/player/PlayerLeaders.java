@@ -11,7 +11,16 @@ public class PlayerLeaders {
     private LeadCard[] leaders;
     private CardState[] states;
 
+    public LeadCard[] getLeaders() {
+        return leaders;
+    }
+
+    public CardState[] getStates() {
+        return states;
+    }
+
     public synchronized void setLeaders(LeadCard[] leaders) {
+
         this.leaders = leaders;
         if(playerLeadersObserver != null) playerLeadersObserver.onLeadersChange();
     }

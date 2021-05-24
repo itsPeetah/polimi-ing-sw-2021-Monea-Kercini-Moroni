@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Sphere?>
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainGame">
+   <children>
+
+       <GridPane layoutX="1038.0" layoutY="14.0" prefHeight="588.0" prefWidth="868.0">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+           <children>
+               <ImageView fx:id="dev01" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev02" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="dev12" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               <ImageView fx:id="dev11" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev32" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+               <ImageView fx:id="dev22" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+               <ImageView fx:id="dev21" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev31" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev00" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev10" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev20" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev30" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+           </children>
+       </GridPane>
+
+       <GridPane layoutX="1129.0" layoutY="718.0" prefHeight="141.0" prefWidth="178.0">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+           <children>
+               <Sphere fx:id="marble20" radius="21.0" GridPane.rowIndex="2">
+                   <rotationAxis>
+                       <Point3D />
+                   </rotationAxis>
+               </Sphere>
+               <Sphere fx:id="marble01" radius="21.0" GridPane.columnIndex="1" />
+               <Sphere fx:id="marble10" radius="21.0" GridPane.rowIndex="1" />
+               <Sphere fx:id="marble11" radius="21.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <Sphere fx:id="marble21" radius="21.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <Sphere fx:id="marble02" radius="21.0" GridPane.columnIndex="2" />
+               <Sphere fx:id="marble12" radius="21.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               <Sphere fx:id="marble22" radius="21.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               <Sphere fx:id="marble03" radius="21.0" GridPane.columnIndex="3" />
+               <Sphere fx:id="marble13" radius="21.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               <Sphere fx:id="marble23" radius="21.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               <Sphere fx:id="marble00" radius="21.0" />
+           </children>
+       </GridPane>
+
+       <Sphere fx:id="marble" layoutX="1116.0" layoutY="705.0" radius="21.0" />
+
+      <ImageView fitHeight="722.0" fitWidth="976.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/other/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lead1" fitHeight="358.0" fitWidth="232.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/leadcards/lead_2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lead2" fitHeight="358.0" fitWidth="234.0" layoutX="404.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/cards/leadcards/lead_4.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="456.0" fitWidth="362.0" layoutX="1030.0" layoutY="623.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/other/plancia%20portabiglie.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="1615.0" layoutY="819.0" mnemonicParsing="false" prefHeight="255.0" prefWidth="298.0" text="Button" />
+      <Label layoutX="1616.0" layoutY="622.0" prefHeight="191.0" prefWidth="297.0" text="Testing" />
+   </children>
+</AnchorPane>

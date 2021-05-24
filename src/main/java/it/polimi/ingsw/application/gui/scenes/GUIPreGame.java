@@ -17,6 +17,7 @@ import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIScene.MAIN_GAME;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 
@@ -69,41 +71,29 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @FXML
     //The marble waiting
     private Sphere marble = new Sphere(29);
-
     @FXML
     //the other marbles
     private Sphere marble00 = new Sphere(29);
-
     @FXML
     private Sphere marble01 = new Sphere(29);
-
     @FXML
     private Sphere marble02 = new Sphere(29);
-
     @FXML
     private Sphere marble03 = new Sphere(29);
-
     @FXML
     private Sphere marble10 = new Sphere(29);
-
     @FXML
     private Sphere marble11 = new Sphere(29);
-
     @FXML
     private Sphere marble12 = new Sphere(29);
-
     @FXML
     private Sphere marble13 = new Sphere(29);
-
     @FXML
     private Sphere marble20 = new Sphere(29);
-
     @FXML
     private Sphere marble21 = new Sphere(29);
-
     @FXML
     private Sphere marble22 = new Sphere(29);
-
     @FXML
     private Sphere marble23 = new Sphere(29);
 
@@ -120,6 +110,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set listeners
+
         setListeners();
 
         //setting level of the glow effect
@@ -158,12 +149,16 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         button.setDisable(true);
     }
 
+
+
     private void setListeners() {
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
     }
+
+
 
 
     @Override
@@ -197,9 +192,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onLeadersToChooseFromChange() {
-        //devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
-
-        System.out.println(GameApplication.getInstance().getUserNickname());
 
         Platform.runLater(() -> {
             lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
@@ -313,7 +305,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
                     break;
-                case OK:
+                case GAME_HAS_STARTED:
                     setGameScene();
                     break;
             }
@@ -334,7 +326,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        // TODO implement loading of new game scene
+        System.out.println("I'm here");
+        Platform.runLater(MAIN_GAME::load);
     }
 
     @Override

@@ -59,8 +59,54 @@ class WarehouseTest {
     }
 
     @Test
-    void expandWithLeader() {
-        //The method is really easy and takes too much to initialize the test
+    void areLeadersOrganized() {
+
+        Warehouse wh = new Warehouse();
+        Resources res1 = new Resources();
+        res1.add(ResourceType.SERVANTS, 1);
+
+        //Leader 5 gives two extra warehouse stone space
+        wh.expandWithLeader(CardManager.loadLeadCardsFromJson().get(4));
+
+        //warehouse should be organized at the beginning
+        assertTrue((wh).isOrganized());
+
+        //floor 3 is the correct but resource no
+        wh.deposit(res1, 3);
+
+        //so the warehouse is not organized
+        assertTrue(!(wh).isOrganized());
+
+        //removing the servant
+        wh.withdraw(res1);
+
+
+        //creating correct type of res
+        Resources res2 = new Resources();
+        res2.add(ResourceType.STONES, 1);
+
+        //repeating the procedure
+        wh.deposit(res2, 3);
+        assertTrue((wh).isOrganized());
+
+        //if we add it to the wrong place
+        wh.deposit(res2, 4);
+        assertTrue(!(wh).isOrganized());
+
+
+
+        //cleaning the warehouse
+        wh.withdraw(res2);
+        wh.withdraw(res2);
+
+
+
+        //putting two stone at the correct place
+        wh.deposit(res2, 3);
+        wh.deposit(res2, 3);
+
+        //last check
+        assertTrue((wh).isOrganized());
     }
 
     @Test

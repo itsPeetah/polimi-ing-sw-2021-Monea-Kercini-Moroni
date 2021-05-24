@@ -8,8 +8,10 @@ public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
 
-    private Resources leaderExtraAvailable; // 2+2 extra (2 same type for each leader card bonus that might have been played) with floor reference 3
-    private Resources leaderExtraUsed;
+    private LeadCard[] leadersExtra;
+    private Resources[] leaderExtraUsed;
+
+    private int leadersUsed = 0;
 
 
     public Resources[] getContent() {
@@ -20,21 +22,22 @@ public class Warehouse{
      *
      * @return the resources deposited on the leaderExtraCards
      */
-    public Resources getLeaderExtraUsed() {
+    public Resources[] getLeaderExtraUsed() {
         return leaderExtraUsed;
     }
 
     /**
      * Deposit the resources at the floor gotten as integer input
      * @param resources
-     * @param floor
+     * @param floor 0/1/2 warehouse, 3/4 leaders
      */
 
     public void deposit(Resources resources, int floor){
         if (floor<3){
             content[floor].add(resources);
-        }else
-            leaderExtraUsed.add(resources); //this is else in case we change our mind to make leader resources in 2 floors in GUI
+        }else{
+            leaderExtraUsed[floor-3].add(resources);
+        }
     }
 
     /**
@@ -75,22 +78,26 @@ public class Warehouse{
                 }
             }
 
-            //Same procedure for the extra resources from leader
-            if (leaderExtraUsed.getAmountOf(tipo) >= curr_res) {
+            for (int i = 0; i < 2; i++) { //Search all two leader floors
 
-                try { leaderExtraUsed.remove(tipo, curr_res);
+            //Same procedure for the extra resources from leader
+                if (leaderExtraUsed[i].getAmountOf(tipo) >= curr_res) {
+
+                try { leaderExtraUsed[i].remove(tipo, curr_res);
                 } catch (Exception e) {
                     e.printStackTrace(); }
 
                     withdrawed.add(tipo, curr_res);
                     curr_res = 0;
                 } else {
-                    curr_res -= leaderExtraUsed.getAmountOf(tipo);
-                    withdrawed.add(tipo, leaderExtraUsed.getAmountOf(tipo));
+                    curr_res -= leaderExtraUsed[i].getAmountOf(tipo);
+                    withdrawed.add(tipo, leaderExtraUsed[i].getAmountOf(tipo));
 
-                    try {  leaderExtraUsed.remove(tipo, leaderExtraUsed.getAmountOf(tipo));
+                    try {  leaderExtraUsed[i].remove(tipo, leaderExtraUsed[i].getAmountOf(tipo));
                     } catch (Exception e) {
                         e.printStackTrace(); }
+            }
+
             }
 
 
@@ -104,7 +111,8 @@ public class Warehouse{
      */
 
     public void expandWithLeader(LeadCard leader){
-        leaderExtraAvailable.add(leader.getAbility().getExtraWarehouseSpace());
+        leadersExtra[leadersUsed] = leader;
+        leadersUsed++;
     }
 
     /**
@@ -113,7 +121,7 @@ public class Warehouse{
      */
 
     public int getResourceAmountWarehouse(){
-        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraUsed.getTotalAmount());
+        return (content[0].getTotalAmount()+ content[1].getTotalAmount()+ content[2].getTotalAmount() + leaderExtraUsed[0].getTotalAmount() + leaderExtraUsed[1].getTotalAmount());
     }
 
     /**
@@ -128,7 +136,8 @@ public class Warehouse{
                 available.add(content[i]);
             }
         }
-        available.add(leaderExtraUsed);
+        available.add(leaderExtraUsed[0]);
+        available.add(leaderExtraUsed[1]);
         return available;
     }
 
@@ -137,14 +146,18 @@ public class Warehouse{
         content[0] = new Resources();
         content[1] = new Resources();
         content[2] = new Resources();
-        this.leaderExtraAvailable = new Resources();
-        this.leaderExtraUsed = new Resources();
+        this.leaderExtraUsed= new Resources[2];
+        this.leaderExtraUsed[0] = new Resources();
+        this.leaderExtraUsed[1] = new Resources();
+        this.leadersExtra = new LeadCard[2];
+
     }
 
     public void copy(Warehouse w){
         this.content = w.content;
-        this.leaderExtraAvailable = w.leaderExtraAvailable;
+        this.leadersUsed = w.leadersUsed;
         this.leaderExtraUsed = w.leaderExtraUsed;
+        this.leadersExtra = this.leadersExtra;
     }
 
     /**
@@ -159,7 +172,8 @@ public class Warehouse{
             && content[2].getTotalAmount()<=1
             && areDifferentTypes(content[0], content[1])
             && areDifferentTypes(content[1], content[2])
-            && areDifferentTypes(content[0], content[2])){
+            && areDifferentTypes(content[0], content[2])
+            && areLeadersOrganized()){
             return true;
         }else{
             return false;
@@ -207,6 +221,34 @@ public class Warehouse{
         }else{
             return true;
         }
+    }
+
+    /**
+     * Method that checks if the resources put in leader extra available are correctly corresponding to the leaders
+     * @return true if leaders extra spaces are used correctly
+     */
+    private boolean areLeadersOrganized(){
+
+        for (int i = 0; i < leadersExtra.length; i++) {
+
+            //for each leader the extra space he gives should be equal or bigger than the resources put there
+
+            if(leadersExtra[i]!=null){
+
+                if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
+                    return false;
+                }
+
+            }else{
+                //If the leader is null but the player has put resources there
+                if (leaderExtraUsed[i].getTotalAmount()>0){
+                    return false;
+                }
+            }
+
+
+        }
+        return true;
     }
 
 

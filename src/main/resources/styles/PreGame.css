@@ -1,0 +1,22 @@
+.root{
+    -fx-background-image: url(/images/florence_5.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
+}
+
+HBox{
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.button{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 96;
+}
+
+.button:hover{
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+}
