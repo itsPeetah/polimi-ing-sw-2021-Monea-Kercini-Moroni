@@ -69,41 +69,29 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @FXML
     //The marble waiting
     private Sphere marble = new Sphere(29);
-
     @FXML
     //the other marbles
     private Sphere marble00 = new Sphere(29);
-
     @FXML
     private Sphere marble01 = new Sphere(29);
-
     @FXML
     private Sphere marble02 = new Sphere(29);
-
     @FXML
     private Sphere marble03 = new Sphere(29);
-
     @FXML
     private Sphere marble10 = new Sphere(29);
-
     @FXML
     private Sphere marble11 = new Sphere(29);
-
     @FXML
     private Sphere marble12 = new Sphere(29);
-
     @FXML
     private Sphere marble13 = new Sphere(29);
-
     @FXML
     private Sphere marble20 = new Sphere(29);
-
     @FXML
     private Sphere marble21 = new Sphere(29);
-
     @FXML
     private Sphere marble22 = new Sphere(29);
-
     @FXML
     private Sphere marble23 = new Sphere(29);
 
@@ -120,6 +108,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set listeners
+
         setListeners();
 
         //setting level of the glow effect
@@ -158,12 +147,16 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         button.setDisable(true);
     }
 
+
+
     private void setListeners() {
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
     }
+
+
 
 
     @Override
