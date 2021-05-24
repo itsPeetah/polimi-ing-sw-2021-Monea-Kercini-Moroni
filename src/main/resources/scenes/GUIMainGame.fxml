@@ -81,12 +81,12 @@
             <Image url="@../images/other/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="358.0" fitWidth="232.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="lead1" fitHeight="358.0" fitWidth="232.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cards/leadcards/lead_2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="358.0" fitWidth="234.0" layoutX="404.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="lead2" fitHeight="358.0" fitWidth="234.0" layoutX="404.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cards/leadcards/lead_4.png" />
          </image>

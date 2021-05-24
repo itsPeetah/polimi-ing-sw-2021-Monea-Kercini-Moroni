@@ -6,6 +6,7 @@ import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
+import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 
-public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener {
+public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver {
 
     public ImageView dev01;
     public ImageView dev02;
@@ -32,6 +33,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView dev10;
     public ImageView dev20;
     public ImageView dev30;
+
+    public ImageView lead1;
+    public ImageView lead2;
 
     private ImageView[][] devCards = new ImageView[4][3];
 
@@ -148,6 +152,42 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
+        gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().setObserver(this);
     }
 
+    @Override
+    public void onFaithChange() {
+
+    }
+
+    @Override
+    public void onReportsAttendedChange() {
+
+    }
+
+    @Override
+    public void onLeadersChange() {
+
+
+    }
+
+    @Override
+    public void onLeadersStatesChange() {
+
+    }
+
+    @Override
+    public void onStrongboxChange() {
+
+    }
+
+    @Override
+    public void onWarehouseContentChange() {
+
+    }
+
+    @Override
+    public void onWarehouseExtraChange() {
+
+    }
 }

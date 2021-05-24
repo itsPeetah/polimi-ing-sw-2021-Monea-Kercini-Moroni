@@ -192,9 +192,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onLeadersToChooseFromChange() {
-        //devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
-
-        System.out.println(GameApplication.getInstance().getUserNickname());
 
         Platform.runLater(() -> {
             lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
