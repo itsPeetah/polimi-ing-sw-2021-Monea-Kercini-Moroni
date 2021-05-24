@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
 
@@ -145,6 +146,15 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         devCards[3][0] = dev30;
         devCards[3][1] = dev31;
         devCards[3][2] = dev32;
+
+        //Instantiating the ColorAdjust class
+        ColorAdjust colorAdjust = new ColorAdjust();
+        //Setting the saturation value
+        colorAdjust.setSaturation(-0.5);
+
+        //Applying coloradjust effect to the leader nodes
+        lead1.setEffect(colorAdjust);
+        lead2.setEffect(colorAdjust);
 
     }
 
