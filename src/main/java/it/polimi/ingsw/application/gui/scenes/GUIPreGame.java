@@ -17,6 +17,7 @@ import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIScene.MAIN_GAME;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 
@@ -306,7 +308,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
                     break;
-                case OK:
+                case GAME_HAS_STARTED:
                     setGameScene();
                     break;
             }
@@ -327,7 +329,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        // TODO implement loading of new game scene
+        System.out.println("I'm here");
+        Platform.runLater(MAIN_GAME::load);
     }
 
     @Override
