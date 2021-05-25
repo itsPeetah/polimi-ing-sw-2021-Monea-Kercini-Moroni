@@ -42,12 +42,9 @@ public class GUIConnSettings implements Initializable, PacketListener {
         address = addressTextField.getText();
         String portString = portTextField.getText().equals("") ? "0" : portTextField.getText();
         port = Integer.parseInt(portString);
-        // Start the connection on a new thread
-        new Thread(() -> GameApplication.getInstance().connect(address, port)).start();
-        loadingFlask.setVisible(true);
-        Timer timer = new Timer();
 
         // Setup animation
+        Timer timer = new Timer();
         RotateTransition flaskAnimation = new RotateTransition(Duration.millis(TIMEOUT_TIME), loadingFlask);
         flaskAnimation.setByAngle(1080);
         flaskAnimation.setInterpolator(Interpolator.LINEAR);
@@ -66,6 +63,11 @@ public class GUIConnSettings implements Initializable, PacketListener {
 
         // Start animation
         flaskAnimation.play();
+        loadingFlask.setVisible(true);
+
+        // Start the connection on a new thread
+        new Thread(() -> GameApplication.getInstance().connect(address, port)).start();
+
     }
 
     @Override
@@ -88,6 +90,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
     @Override
     public void onSystemMessage(String message) {
         if(GameApplication.getInstance().isOnNetwork()) {
+            System.out.println(GameApplication.getInstance().isOnNetwork());
             Platform.runLater(() -> {
                 loadingFlask.setVisible(false);
                 disableButtons(false);

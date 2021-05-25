@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.view.game.handlers;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
@@ -22,6 +23,9 @@ public abstract class GameControllerIOHandler {
 
     public void notifyMessage(MessagePacket messagePacket) {
         pool.submit(() -> gameController.reactToMessage(messagePacket.getMessage()));
+        pool.submit(() -> {
+            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onMessage(messagePacket.getMessage());
+        });
     }
 
     public void notifyAction(ActionPacket actionPacket) {

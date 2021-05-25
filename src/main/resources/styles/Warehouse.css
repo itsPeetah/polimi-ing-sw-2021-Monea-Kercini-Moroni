@@ -1,0 +1,54 @@
+.label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
+    -fx-font-size: 50;
+}
+
+.button{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 32;
+    -fx-pref-height: -1;
+    -fx-pref-width: -1;
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.button:hover{
+    -fx-pref-width: -1;
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.warehouseCell {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.warehouseCell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.root {
+    -fx-background-image: url(/images/florence_5.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
+}
+
+.buttonsBox {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.resourcesCounts {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 40;
+}
+
+.split-pane-divider {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+    -fx-cursor: default;
+}

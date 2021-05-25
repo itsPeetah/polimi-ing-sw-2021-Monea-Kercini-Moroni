@@ -16,7 +16,8 @@ public enum GUIScene {
     MAIN_GAME("GUIMainGame.fxml", false),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
-    CHOOSE_RESOURCE("GUIChooseResource.fxml", false);
+    CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
+    WAREHOUSE("GUIWarehouse.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
