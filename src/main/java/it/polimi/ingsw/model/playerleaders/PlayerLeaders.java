@@ -72,9 +72,11 @@ public class PlayerLeaders {
      * @throws PlayerLeadersException
      */
     public void playCard(LeadCard leadCard) throws PlayerLeadersException {
-        int leadIndex = Arrays.asList(cards).indexOf(leadCard);
-        if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
-        else playCard(leadIndex);
+        Optional<LeadCard> searchedCard = Arrays.stream(cards).filter(leadCardList -> leadCardList.getCardId().equals(leadCard.getCardId())).findFirst();
+        if(searchedCard.isPresent()) {
+            int cardIndex = Arrays.asList(cards).indexOf(searchedCard.get());
+            playCard(cardIndex);
+        } else throw new PlayerLeadersException("Leader Card is not present.");
     }
 
     /**
