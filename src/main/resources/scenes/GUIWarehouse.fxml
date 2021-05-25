@@ -5,114 +5,110 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="900.0" stylesheets="@../styles/Warehouse.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIWarehouse">
-    <children>
-        <SplitPane dividerPositions="0.635678391959799" layoutX="-2.0" layoutY="-2.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-                <AnchorPane SplitPane.resizableWithParent="false">
+<SplitPane dividerPositions="0.635678391959799" orientation="VERTICAL" prefHeight="800.0" prefWidth="900.0" stylesheets="@../styles/Warehouse.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIWarehouse">
+    <items>
+        <AnchorPane SplitPane.resizableWithParent="false">
+            <children>
+          <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="101.0">
+             <children>
+                <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
+                   <children>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im00" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm00Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                   </children>
+                </HBox>
+                <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
+                   <children>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im10" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm10Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im11" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm11Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                   </children>
+                </HBox>
+                <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
+                   <children>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im20" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm20Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im21" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm21Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
+                         <children>
+                            <ImageView fx:id="im22" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm22Click" pickOnBounds="true" preserveRatio="true" />
+                         </children>
+                      </HBox>
+                   </children>
+                </HBox>
+             </children>
+          </VBox>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="7.0" maxHeight="-Infinity" minHeight="-Infinity" text="Please, arrange your warehouse" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font name="Blackadder ITC" size="35.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" styleClass="buttonsBox" SplitPane.resizableWithParent="false">
+            <children>
+                <HBox alignment="CENTER" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <children>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="101.0">
-                     <children>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
-                           <children>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im00" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm00Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
-                           <children>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im10" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm10Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im11" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm11Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="30.0">
-                           <children>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im20" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm20Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im21" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm21Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" styleClass="warehouseCell">
-                                 <children>
-                                    <ImageView fx:id="im22" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#onIm22Click" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="7.0" maxHeight="-Infinity" minHeight="-Infinity" text="Please, arrange your warehouse" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                            <font>
-                                <Font name="Blackadder ITC" size="35.0" />
-                            </font>
-                        </Label>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                   <children>
+                              <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#coinClick" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../images/resources/coin.png" />
+                                  </image>
+                              </ImageView>
+                      <Label fx:id="coinsCount" styleClass="resourcesCounts" text="Label" />
+                   </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                   <children>
+                              <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#servantClick" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../images/resources/servant.png" />
+                                  </image>
+                              </ImageView>
+                      <Label fx:id="servantsCount" styleClass="resourcesCounts" text="Label" />
+                   </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                   <children>
+                              <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#shieldClick" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../images/resources/shield.png" />
+                                  </image>
+                              </ImageView>
+                      <Label fx:id="shieldsCount" styleClass="resourcesCounts" text="Label" />
+                   </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                   <children>
+                              <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#stoneClick" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../images/resources/stone.png" />
+                                  </image>
+                              </ImageView>
+                      <Label fx:id="stonesCount" styleClass="resourcesCounts" text="Label" />
+                   </children>
+                </VBox>
                     </children>
-                </AnchorPane>
-                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" SplitPane.resizableWithParent="false">
-                    <children>
-                        <HBox alignment="CENTER" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                            <children>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                                      <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#coinClick" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                              <Image url="@../images/resources/coin.png" />
-                                          </image>
-                                      </ImageView>
-                              <Label fx:id="coinsCount" text="Label" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                                      <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#servantClick" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                              <Image url="@../images/resources/servant.png" />
-                                          </image>
-                                      </ImageView>
-                              <Label fx:id="servantsCount" text="Label" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                                      <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#shieldClick" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                              <Image url="@../images/resources/shield.png" />
-                                          </image>
-                                      </ImageView>
-                              <Label fx:id="shieldsCount" text="Label" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                                      <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#stoneClick" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                              <Image url="@../images/resources/stone.png" />
-                                          </image>
-                                      </ImageView>
-                              <Label fx:id="stonesCount" text="Label" />
-                           </children>
-                        </VBox>
-                            </children>
-                        </HBox>
-                    </children>
-                </AnchorPane>
-            </items>
-        </SplitPane>
-    </children>
-</AnchorPane>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>
