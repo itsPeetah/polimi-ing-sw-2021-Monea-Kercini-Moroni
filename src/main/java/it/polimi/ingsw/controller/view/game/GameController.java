@@ -120,6 +120,8 @@ public class GameController {
                 break;
 
             case FAITH:
+
+                System.out.println("FAITH UPDATE RECIEVED");
                 FaithUpdateData fp = update.getUpdateData(updateDataString);
 
                 for (int i = 0; i < fp.getPlayers().length; i++) {

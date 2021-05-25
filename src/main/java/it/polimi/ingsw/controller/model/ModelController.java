@@ -610,6 +610,7 @@ public class ModelController {
 
         //update
         updateLeaders(player);
+        updateFaithPoints();
 
         //I suppose no message is needed here since the leader is for sure discarded, so the game just goes on
     }

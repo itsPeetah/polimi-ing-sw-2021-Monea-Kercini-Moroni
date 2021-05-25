@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -151,5 +152,134 @@
             </Button>
          </children>
       </VBox>
+      <Pane layoutY="382.0" prefHeight="219.0" prefWidth="976.0">
+         <children>
+            <ImageView fx:id="c0" fitHeight="40.0" fitWidth="40.0" layoutX="39.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c01" fitHeight="40.0" fitWidth="40.0" layoutX="86.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c02" fitHeight="40.0" fitWidth="40.0" layoutX="135.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c03" fitHeight="40.0" fitWidth="40.0" layoutX="135.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c04" fitHeight="40.0" fitWidth="40.0" layoutX="135.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c05" fitHeight="40.0" fitWidth="40.0" layoutX="183.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c06" fitHeight="40.0" fitWidth="40.0" layoutX="231.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c07" fitHeight="40.0" fitWidth="40.0" layoutX="278.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c08" fitHeight="40.0" fitWidth="40.0" layoutX="325.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c09" fitHeight="40.0" fitWidth="40.0" layoutX="375.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c10" fitHeight="40.0" fitWidth="40.0" layoutX="374.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c11" fitHeight="40.0" fitWidth="40.0" layoutX="373.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c12" fitHeight="40.0" fitWidth="40.0" layoutX="422.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c20" fitHeight="40.0" fitWidth="40.0" layoutX="709.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c13" fitHeight="40.0" fitWidth="40.0" layoutX="470.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c14" fitHeight="40.0" fitWidth="40.0" layoutX="518.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c15" fitHeight="40.0" fitWidth="40.0" layoutX="565.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c16" fitHeight="40.0" fitWidth="40.0" layoutX="613.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c17" fitHeight="40.0" fitWidth="40.0" layoutX="614.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c18" fitHeight="40.0" fitWidth="40.0" layoutX="614.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c19" fitHeight="40.0" fitWidth="40.0" layoutX="662.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c21" fitHeight="40.0" fitWidth="40.0" layoutX="756.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c22" fitHeight="40.0" fitWidth="40.0" layoutX="803.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c23" fitHeight="40.0" fitWidth="40.0" layoutX="851.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c24" fitHeight="40.0" fitWidth="40.0" layoutX="900.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
