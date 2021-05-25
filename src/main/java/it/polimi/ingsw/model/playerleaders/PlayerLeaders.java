@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.LeadCard;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class PlayerLeaders {
 
@@ -95,9 +96,11 @@ public class PlayerLeaders {
      * @throws PlayerLeadersException
      */
     public void discardCard(LeadCard leadCard) throws PlayerLeadersException {
-        int leadIndex = Arrays.asList(cards).indexOf(leadCard);
-        if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
-        else discardCard(leadIndex);
+        Optional<LeadCard> searchedCard = Arrays.stream(cards).filter(leadCardList -> leadCardList.getCardId().equals(leadCard.getCardId())).findFirst();
+        if(searchedCard.isPresent()) {
+            int cardIndex = Arrays.asList(cards).indexOf(searchedCard.get());
+            discardCard(cardIndex);
+        } else throw new PlayerLeadersException("Leader Card is not present.");
     }
 
 
