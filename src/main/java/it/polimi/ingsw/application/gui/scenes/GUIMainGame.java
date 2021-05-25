@@ -3,11 +3,19 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.Materials;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
+import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.model.playerleaders.CardState;
+import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.effect.ColorAdjust;
@@ -41,6 +49,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     private ImageView[][] devCards = new ImageView[4][3];
 
     private Sphere[][] marbles = new Sphere[3][4];
+
+    private Action choice;
 
     @FXML
     //The marble waiting
@@ -184,6 +194,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onLeadersStatesChange() {
 
+        System.out.println("Leader state changed");
+
+        System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]);
+
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]== CardState.DISCARDED){
+            System.out.println("Leader 1 e in state discarded");
+            lead1.setImage(null);
+        }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
+            lead2.setImage(null);
+        }
+
     }
 
     @Override
@@ -199,5 +221,50 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onWarehouseExtraChange() {
 
+    }
+
+    @FXML
+    public void discardLeader(){
+        choice = Action.DISCARD_LEADER;
+    }
+
+    @FXML
+    public void lead1Click(){
+        if(choice == Action.DISCARD_LEADER){
+            System.out.println("Player a deciso di scartare 1");
+            discardLeader(0);
+
+        }
+    }
+
+    @FXML
+    public void lead2Click(){
+        if(choice == Action.DISCARD_LEADER){
+            System.out.println("Player a deciso di scartare 2");
+            discardLeader(1);
+
+        }
+    }
+
+    /**
+     * Method for discarding leader
+     * @param i 0 lead 1, 1 lead2
+     */
+
+    public void discardLeader(int i){
+
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.DISCARD_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+    }
+
+
+    public void playLeader(ActionEvent actionEvent) {
+    }
+
+    public void reorganizeWarehouse(ActionEvent actionEvent) {
     }
 }

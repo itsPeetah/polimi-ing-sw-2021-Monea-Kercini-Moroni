@@ -95,6 +95,7 @@ public class PlayerLeaders {
      * @throws PlayerLeadersException
      */
     public void discardCard(LeadCard leadCard) throws PlayerLeadersException {
+
         int leadIndex = Arrays.asList(cards).indexOf(leadCard);
         if(leadIndex == -1) throw new PlayerLeadersException("Leader Card is not present.") ;
         else discardCard(leadIndex);

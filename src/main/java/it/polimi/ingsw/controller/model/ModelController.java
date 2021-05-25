@@ -606,6 +606,8 @@ public class ModelController {
 
         chosenLeader.discard(player);
 
+        System.out.println("Chosen leader discard e' stato attivato");
+
         //update
         updateLeaders(player);
 
@@ -812,6 +814,8 @@ public class ModelController {
 
         //communicationHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
+
+        System.out.println("Metodo dentro discardLeader addesso faccio dLup");
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
     }

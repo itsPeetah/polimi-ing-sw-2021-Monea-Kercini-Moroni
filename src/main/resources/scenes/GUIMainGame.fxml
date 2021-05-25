@@ -87,12 +87,12 @@
             <Image url="@../images/other/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="lead1" fitHeight="358.0" fitWidth="232.0" layoutX="318.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="lead1" fitHeight="358.0" fitWidth="232.0" layoutX="318.0" layoutY="12.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cards/leadcards/lead_2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="lead2" fitHeight="358.0" fitWidth="234.0" layoutX="617.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="lead2" fitHeight="358.0" fitWidth="234.0" layoutX="617.0" layoutY="11.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/cards/leadcards/lead_4.png" />
          </image>
@@ -134,17 +134,17 @@
       </VBox>
       <VBox layoutX="2.0" layoutY="2.0" prefHeight="370.0" prefWidth="258.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Play Leader">
+            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="210.0" text="Play Leader">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Discard Leader">
+            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="210.0" text="Discard Leader">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Reorganize Warehouse">
+            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="210.0" text="Reorganize Warehouse">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
