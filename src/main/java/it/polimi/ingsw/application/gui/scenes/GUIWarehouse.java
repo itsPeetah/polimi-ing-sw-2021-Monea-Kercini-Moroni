@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.general.ResourceType;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -14,8 +15,9 @@ public class GUIWarehouse implements Initializable {
     public Label servantsCount;
     public Label shieldsCount;
     public Label stonesCount;
+    public ImageView lead1;
+    public ImageView lead2;
     private ResourceType selectedResource;
-    private final HashMap<ResourceType, Label> remainingResources = new HashMap<>();
 
     // Resources available
 
@@ -32,7 +34,8 @@ public class GUIWarehouse implements Initializable {
     private final List<ImageView> thirdRow = new ArrayList<>();
     private final List<List<ImageView>> rows = new ArrayList<>();
     private final List<ResourceType> rowsResourceTypes = new ArrayList<>();
-
+    private final HashMap<ResourceType, Label> remainingResources = new HashMap<>();
+    private final List<ImageView> leaders = new ArrayList<>();
 
 
     public void coinClick(MouseEvent mouseEvent) {
@@ -66,8 +69,14 @@ public class GUIWarehouse implements Initializable {
         remainingResources.put(ResourceType.STONES, stonesCount);
         remainingResources.put(ResourceType.SHIELDS, shieldsCount);
 
+        leaders.addAll(Arrays.asList(lead1, lead2));
+
         // todo mettere vere quantità
         remainingResources.forEach((resourceType, label) -> label.setText(Integer.toString(2)));
+        // todo mettere veri leader
+        leaders.get(0).setImage(CardManager.getImage(CardManager.loadLeadCardsFromJson().get(0).getCardId()));
+        leaders.get(1).setImage(CardManager.getImage(CardManager.loadLeadCardsFromJson().get(1).getCardId()));
+
     }
 
     public void onIm00Click(MouseEvent mouseEvent) {
