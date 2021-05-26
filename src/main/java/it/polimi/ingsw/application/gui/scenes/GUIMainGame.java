@@ -12,6 +12,10 @@ import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.cards.CardManager;
+import it.polimi.ingsw.model.cards.LeadCard;
+import it.polimi.ingsw.model.general.ResourceType;
+import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
@@ -25,10 +29,14 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
@@ -53,6 +61,14 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     public ImageView lead1;
     public ImageView lead2;
+
+    // WAREHOUSE
+    public ImageView im00;
+    public ImageView im10;
+    public ImageView im11;
+    public ImageView im20;
+    public ImageView im21;
+    public ImageView im22;
 
     //faith track
 
@@ -123,6 +139,11 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     Materials materials = new Materials();
     Image cross;
 
+    private final List<ImageView> firstRow = new ArrayList<>();
+    private final List<ImageView> secondRow = new ArrayList<>();
+    private final List<ImageView> thirdRow = new ArrayList<>();
+    private final List<List<ImageView>> rows = new ArrayList<>();
+
     @Override
     public void onMessage(Message message) {
         System.out.println("GUIMainGame: \"" + message + "\" arrived");
@@ -175,7 +196,11 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Warehouse
+        firstRow.add(im00);
+        secondRow.addAll(Arrays.asList(im10, im11));
+        thirdRow.addAll(Arrays.asList(im20, im21, im22));
+        rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
 
 
         //Connecting all marbles to matrix for simplicity
@@ -253,11 +278,13 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     private void setListeners() {
+        String nickname = GameApplication.getInstance().getUserNickname();
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
-        gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().setObserver(this);
-        gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().setObserver(this);
+        gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
+        gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
+        gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
     }
 
     @Override
@@ -304,11 +331,40 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseContentChange() {
+        System.out.println("GUIMainGame.onWarehouseContentChange");
+        String nickname = GameApplication.getInstance().getUserNickname();
+        Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
+        Platform.runLater(() -> {
+            for(int i = 0; i < 3; i++) {
+                Resources rowResources = warehouse[i];
+                if(rowResources != null) {
+                    System.out.println("GUIMainGame.onWarehouseContentChange. For - row size = " + rowResources.getTotalAmount());
+                    fillRow(rowResources, rows.get(i));
+                }
+            }
+        });
+    }
 
+    private void fillRow(Resources resources, List<ImageView> row) {
+        ResourceType resourceType = getResourceType(resources);
+        if(resourceType != null) {
+            int resCount = resources.getAmountOf(resourceType);
+            row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
+            System.out.println("GUIMainGame.fillRow with res " + resourceType + " with count " + resCount);
+        }
+    }
+
+    private ResourceType getResourceType(Resources resources) {
+        for(ResourceType resourceType: ResourceType.values()) {
+            int resCount = resources.getAmountOf(resourceType);
+            if(resCount > 0) return resourceType;
+        }
+        return null;
     }
 
     @Override
     public void onWarehouseExtraChange() {
+        // todo add warehouse extra
 
     }
 
