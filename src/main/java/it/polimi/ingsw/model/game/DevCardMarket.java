@@ -91,13 +91,17 @@ public class DevCardMarket {
 
     public boolean buyCard(DevCard card) throws DevCardMarketException {
 
+        System.out.println("Card im trying to buy in dcm: " + card.getCardId());
+
         //Search for the card the player has chosen to remove
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 3; i++) {
                 //The cards available for purchase are the top ones
-                if (card.equals(availableCards[j][i].get(availableCards[j][i].size()-1))) {
+                System.out.println(availableCards[j][i].get(availableCards[j][i].size()-1).getCardId());
+                if (card.getCardId().equals(availableCards[j][i].get(availableCards[j][i].size()-1).getCardId())) {
                     //Remove found card
                     availableCards[j][i].remove(availableCards[j][i].size()-1);
+                    System.out.println("Dcm ho comprato la carta giustamente");
                     return true;
                 }
             }

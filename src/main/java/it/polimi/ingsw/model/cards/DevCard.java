@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.*;
 
+import javax.sql.rowset.serial.SQLOutputImpl;
+
 public class DevCard extends Card {
     private Level level;
     private Color color;
@@ -55,8 +57,19 @@ public class DevCard extends Card {
     public Boolean affordable(Player player) {
         // Set the cost after the possible discount
         Resources costAfterDiscount = new Resources();
+
         costAfterDiscount.add(cost);
-        cost.removeWithoutException(player.getBoard().getDiscount());
+
+        costAfterDiscount.removeWithoutException(player.getBoard().getDiscount());
+
+        /* TODO REMOVE COMMENTS
+        for(ResourceType resourceType: ResourceType.values()) {
+            System.out.println("DevCard.affordable. costAfterDiscount amount of "+ resourceType + " = " + costAfterDiscount.getAmountOf(resourceType));
+        }
+        System.out.println("DevCard.affordable. availableResources tot = " + player.getBoard().getResourcesAvailable().getAmountOf(ResourceType.COINS));
+
+
+        System.out.println("MY ID in devcard " + this.getCardId());*/
 
         // Check if the player can afford the card
         return player.getBoard().getResourcesAvailable().isGreaterThan(costAfterDiscount);

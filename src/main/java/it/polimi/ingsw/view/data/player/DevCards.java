@@ -16,6 +16,10 @@ public class DevCards {
         if(devCardsObserver != null) devCardsObserver.onDevCardsChange();
     }
 
+    public DevCard[] getDevCards() {
+        return devCards;
+    }
+
     public DevCards() {
         this.devCards = new DevCard[3];
     }
