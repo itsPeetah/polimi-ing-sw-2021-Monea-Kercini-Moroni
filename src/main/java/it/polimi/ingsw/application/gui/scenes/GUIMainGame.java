@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -384,5 +385,42 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         }
 
+    }
+
+
+    public void devClick01(MouseEvent mouseEvent) {
+    }
+
+    public void devClick02(MouseEvent mouseEvent) {
+    }
+
+    public void devClick12(MouseEvent mouseEvent) {
+    }
+
+    public void devClick11(MouseEvent mouseEvent) {
+    }
+
+    public void devClick32(MouseEvent mouseEvent) {
+    }
+
+    public void devClick22(MouseEvent mouseEvent) {
+    }
+
+    public void devClick21(MouseEvent mouseEvent) {
+    }
+
+    public void devClick31(MouseEvent mouseEvent) {
+    }
+
+    public void devClick00(MouseEvent mouseEvent) {
+    }
+
+    public void devClick10(MouseEvent mouseEvent) {
+    }
+
+    public void devClick20(MouseEvent mouseEvent) {
+    }
+
+    public void devClick30(MouseEvent mouseEvent) {
     }
 }

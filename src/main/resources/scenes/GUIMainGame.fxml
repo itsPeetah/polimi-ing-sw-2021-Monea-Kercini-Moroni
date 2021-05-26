@@ -34,18 +34,18 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
            <children>
-               <ImageView fx:id="dev01" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-               <ImageView fx:id="dev02" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-               <ImageView fx:id="dev12" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-               <ImageView fx:id="dev11" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               <ImageView fx:id="dev32" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-               <ImageView fx:id="dev22" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-               <ImageView fx:id="dev21" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-               <ImageView fx:id="dev31" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-               <ImageView fx:id="dev00" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-               <ImageView fx:id="dev10" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-               <ImageView fx:id="dev20" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-               <ImageView fx:id="dev30" fitHeight="190.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev01" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick01" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev02" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick02" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="dev12" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick12" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+               <ImageView fx:id="dev11" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick11" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev32" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick32" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+               <ImageView fx:id="dev22" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick22" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+               <ImageView fx:id="dev21" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick21" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev31" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick31" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               <ImageView fx:id="dev00" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick00" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev10" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick10" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev20" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick20" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               <ImageView fx:id="dev30" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick30" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
            </children>
        </GridPane>
 
