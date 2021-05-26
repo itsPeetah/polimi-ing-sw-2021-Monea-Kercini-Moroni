@@ -285,6 +285,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
+        gameData.getPlayerData(nickname).getDevCards().setObserver(this);
     }
 
     @Override
@@ -531,5 +532,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+    }
+
+    @Override
+    public void onDevCardsChange() {
+
     }
 }
