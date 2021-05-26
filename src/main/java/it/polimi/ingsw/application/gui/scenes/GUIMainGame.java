@@ -346,15 +346,39 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void acquireX0(ActionEvent actionEvent) {
         acquireResPos(false, 0);
     }
+    public void acquireX1(ActionEvent actionEvent) {
+        acquireResPos(false, 1);
+    }
+    public void acquireX2(ActionEvent actionEvent) {
+        acquireResPos(false, 2);
+    }
+    public void acquireX3(ActionEvent actionEvent) {
+        acquireResPos(false, 3);
+    }
+
+    public void acquireY0(ActionEvent actionEvent) {
+        acquireResPos(true, 2);
+    }
+    public void acquireY1(ActionEvent actionEvent) {
+        acquireResPos(true, 1);
+    }
+    public void acquireY2(ActionEvent actionEvent) {
+        acquireResPos(true, 0);
+    }
+
 
 
 
     public void acquireResPos(boolean row, int index){
-        ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
-        resourceMarketActionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
-        ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
-        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+        if(choice == Action.RESOURCE_MARKET){
+
+            ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
+            resourceMarketActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+            ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
+            GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+        }
 
     }
 }

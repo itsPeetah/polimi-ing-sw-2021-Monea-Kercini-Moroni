@@ -282,11 +282,11 @@
          </children>
       </Pane>
       <Button layoutX="1137.0" layoutY="889.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
-      <Button layoutX="1175.0" layoutY="889.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
-      <Button layoutX="1218.0" layoutY="889.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
-      <Button layoutX="1259.0" layoutY="889.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
-      <Button fx:id="y0" layoutX="1340.0" layoutY="797.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y1" layoutX="1340.0" layoutY="757.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y2" layoutX="1340.0" layoutY="715.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button layoutX="1175.0" layoutY="889.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
+      <Button layoutX="1218.0" layoutY="889.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
+      <Button layoutX="1259.0" layoutY="889.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
+      <Button fx:id="y0" layoutX="1340.0" layoutY="797.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y1" layoutX="1340.0" layoutY="757.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y2" layoutX="1340.0" layoutY="715.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
    </children>
 </AnchorPane>
