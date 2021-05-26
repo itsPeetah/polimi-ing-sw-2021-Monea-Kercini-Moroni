@@ -33,6 +33,8 @@ public class GUIConnSettings implements Initializable, PacketListener {
     public TextField addressTextField;
     public TextField portTextField;
 
+    private TimerTask timeoutTask;
+
     public void onBackButton(ActionEvent actionEvent) {
         GUIScene.SETTINGS.load();
     }
@@ -50,16 +52,17 @@ public class GUIConnSettings implements Initializable, PacketListener {
         flaskAnimation.setInterpolator(Interpolator.LINEAR);
         flaskAnimation.setCycleCount(Animation.INDEFINITE);
 
-        TimerTask stopAnimation = new TimerTask() {
+        timeoutTask = new TimerTask() {
             @Override
             public void run() {
+                if(GameApplication.getInstance().isOnNetwork()) return;
                 GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
                 flaskAnimation.stop();
                 loadingFlask.setVisible(false);
                 disableButtons(false);
             }
         };
-        timer.schedule(stopAnimation, TIMEOUT_TIME);
+        timer.schedule(timeoutTask, TIMEOUT_TIME);
 
         // Start animation
         flaskAnimation.play();
@@ -92,6 +95,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
         if(GameApplication.getInstance().isOnNetwork()) {
             System.out.println(GameApplication.getInstance().isOnNetwork());
             Platform.runLater(() -> {
+                timeoutTask.cancel();
                 loadingFlask.setVisible(false);
                 disableButtons(false);
                 GUIScene.MAIN_MENU.load();

@@ -24,7 +24,10 @@ public abstract class GameControllerIOHandler {
     public void notifyMessage(MessagePacket messagePacket) {
         pool.submit(() -> gameController.reactToMessage(messagePacket.getMessage()));
         pool.submit(() -> {
-            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onMessage(messagePacket.getMessage());
+            System.out.println("GameControllerIOHandler.notifyMessage: before notify active scene");
+            if(GUIScene.getActiveScene() != null) {
+                GUIScene.getActiveScene().onMessage(messagePacket.getMessage());
+            } else System.out.println("GameControllerIOHandler.notifyMessage: no active scene");
         });
     }
 

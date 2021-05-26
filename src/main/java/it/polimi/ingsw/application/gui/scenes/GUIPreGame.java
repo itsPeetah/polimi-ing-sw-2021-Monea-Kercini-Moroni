@@ -15,6 +15,7 @@ import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -296,7 +297,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIPreGame: " + message + " arrived");
+        System.out.println("GUIPreGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
             switch (message) {
                 case CHOOSE_LEADERS:
@@ -308,14 +309,30 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case GAME_HAS_STARTED:
                     setGameScene();
                     break;
+                case WAREHOUSE_UNORGANIZED:
+                    setOrganizeWarehouseUI();
+                    break;
             }
         });
     }
 
+    private void setOrganizeWarehouseUI() {
+        Stage stage = new Stage();
+        stage.initOwner(button.getScene().getWindow());
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setResizable(false);
+        stage.setOnCloseRequest(Event::consume);
+        stage.setTitle("Reorganize your warehouse");
+        stage.setScene(GUIScene.WAREHOUSE.produceScene());
+        stage.show();
+    }
+
     private void setChooseResourceUI() {
         Stage stage = new Stage();
+        stage.initOwner(button.getScene().getWindow());
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
+        stage.setOnCloseRequest(Event::consume);
         stage.setTitle("Choose the resources");
         stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
         stage.show();

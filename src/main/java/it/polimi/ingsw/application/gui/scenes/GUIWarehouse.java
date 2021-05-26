@@ -1,11 +1,16 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.model.general.ResourceType;
+import it.polimi.ingsw.model.general.Resources;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
@@ -51,6 +56,42 @@ public class GUIWarehouse implements Initializable {
 
     private ResourceType selectedResource;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        glow = new Glow();
+        glow.setLevel(0.8);
+
+        coinClick(null);
+
+        resources.addAll(Arrays.asList(coin, shield, servant, stone));
+
+        firstRow.add(im00);
+        secondRow.addAll(Arrays.asList(im10, im11));
+        thirdRow.addAll(Arrays.asList(im20, im21, im22));
+        rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
+        rowsResourceTypes.addAll(Arrays.asList(null, null, null));
+
+        remainingResources.put(ResourceType.COINS, coinsCount);
+        remainingResources.put(ResourceType.SERVANTS, servantsCount);
+        remainingResources.put(ResourceType.STONES, stonesCount);
+        remainingResources.put(ResourceType.SHIELDS, shieldsCount);
+
+        leaders.addAll(Arrays.asList(lead1, lead2));
+
+        leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
+
+        fillWarehouse();
+        fillRemainingResources();
+        fillLeaders();
+    }
+
+    public void onConfirmClick(ActionEvent actionEvent) {
+        // TODO send packet
+
+        Stage s = (Stage) coin.getScene().getWindow();
+        s.close();
+    }
+
 
     public void coinClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.COINS;
@@ -82,42 +123,6 @@ public class GUIWarehouse implements Initializable {
             resources.forEach(image -> image.setEffect(null));
             stone.setEffect(glow);
         }
-    }
-
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        glow = new Glow();
-        glow.setLevel(0.8);
-
-        coinClick(null);
-
-        resources.addAll(Arrays.asList(coin, shield, servant, stone));
-
-        firstRow.add(im00);
-        secondRow.addAll(Arrays.asList(im10, im11));
-        thirdRow.addAll(Arrays.asList(im20, im21, im22));
-        rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
-        rowsResourceTypes.addAll(Arrays.asList(null, null, null));
-
-        remainingResources.put(ResourceType.COINS, coinsCount);
-        remainingResources.put(ResourceType.SERVANTS, servantsCount);
-        remainingResources.put(ResourceType.STONES, stonesCount);
-        remainingResources.put(ResourceType.SHIELDS, shieldsCount);
-
-        leaders.addAll(Arrays.asList(lead1, lead2));
-
-        leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
-
-        // todo mettere vere quantità
-        remainingResources.forEach((resourceType, label) -> label.setText(Integer.toString(2)));
-        leadersResources.get(0).get(0).setImage(ResourceType.COINS.getImage());
-        leadersResources.get(0).get(1).setImage(ResourceType.COINS.getImage());
-        leadersResources.get(1).get(0).setImage(ResourceType.COINS.getImage());
-        leadersResources.get(1).get(1).setImage(ResourceType.COINS.getImage());
-        // todo mettere giusti tipi di risorse dei leader
-        leadersResourceTypes.addAll(Arrays.asList(ResourceType.COINS, ResourceType.COINS));
     }
 
     public void onIm00Click(MouseEvent mouseEvent) {
@@ -213,5 +218,54 @@ public class GUIWarehouse implements Initializable {
         remainingLabel.setText(Integer.toString(Integer.parseInt(remainingLabel.getText()) + increment));
     }
 
+    private void fillWarehouse() {
+        String nickname = GameApplication.getInstance().getUserNickname();
+        new Thread(() -> {
+            Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
+            Platform.runLater(() -> {
+                for(int i = 0; i < 3; i++) {
+                    Resources rowResources = warehouse[i];
+                    if(rowResources != null) fillRow(rowResources, rows.get(i));
+                }
+            });
+        }).start();
+    }
 
+    private void fillRow(Resources resources, List<ImageView> row) {
+        ResourceType resourceType = getResourceType(resources);
+        if(resourceType != null) {
+            int resCount = resources.getAmountOf(resourceType);
+            row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
+            rowsResourceTypes.set(rows.indexOf(row), resourceType);
+        }
+    }
+
+    private ResourceType getResourceType(Resources resources) {
+        for(ResourceType resourceType: ResourceType.values()) {
+            int resCount = resources.getAmountOf(resourceType);
+            if(resCount > 0) return resourceType;
+        }
+        return null;
+    }
+
+    private void fillRemainingResources() {
+        new Thread(() -> {
+            Resources resourcesToPut = GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut().getRes();
+            Platform.runLater(() -> {
+                remainingResources.forEach((resourceType, label) -> label.setText(Integer.toString(0)));
+                for(ResourceType resourceType: ResourceType.values()) {
+                    int resCount = resourcesToPut.getAmountOf(resourceType);
+                    System.out.println("GUIWarehouse.fillRemainingResources. " + resourceType.toString() + " = " + resCount);
+                    if(resCount > 0) {
+                        updateLabel(remainingResources.get(resourceType), resCount);
+                    }
+                }
+            });
+        }).start();
+    }
+
+    private void fillLeaders() {
+        // todo mettere giusti tipi di risorse dei leader
+        leadersResourceTypes.addAll(Arrays.asList(ResourceType.COINS, ResourceType.COINS));
+    }
 }

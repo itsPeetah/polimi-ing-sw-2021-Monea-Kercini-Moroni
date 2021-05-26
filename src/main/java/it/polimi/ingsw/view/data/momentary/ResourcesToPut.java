@@ -18,6 +18,10 @@ public class ResourcesToPut {
         if(resourceToPutObserver != null) resourceToPutObserver.onResourceToPutChange();
     }
 
+    public synchronized Resources getRes() {
+        return res;
+    }
+
     public void setObserver(ResourceToPutObserver resourceToPutObserver) {
         this.resourceToPutObserver = resourceToPutObserver;
         resourceToPutObserver.onResourceToPutChange();
