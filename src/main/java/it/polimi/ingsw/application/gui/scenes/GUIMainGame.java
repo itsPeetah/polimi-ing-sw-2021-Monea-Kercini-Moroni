@@ -6,8 +6,12 @@ import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
+import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
+import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
@@ -44,6 +48,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView dev10;
     public ImageView dev20;
     public ImageView dev30;
+
+    private DevCard chosenDev;
 
     public ImageView lead1;
     public ImageView lead2;
@@ -389,6 +395,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
 
     public void devClick01(MouseEvent mouseEvent) {
+        System.out.println("Ho scelto il dev Card giusto");
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][1];
     }
 
     public void devClick02(MouseEvent mouseEvent) {
@@ -422,5 +430,39 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void devClick30(MouseEvent mouseEvent) {
+    }
+
+    public void buyDevCard(ActionEvent actionEvent) {
+        choice = Action.DEV_CARD;
+    }
+
+    private void devCardSend(DevCard devCard, int space) {
+
+        DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
+        devCardActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.DEV_CARD, JSONUtility.toJson(devCardActionData, DevCardActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+    }
+
+    public void prodClick1(MouseEvent mouseEvent) {
+        System.out.println("Ho scelto la produzione");
+        if(choice==Action.DEV_CARD && chosenDev!=null){
+            devCardSend(chosenDev, 0);
+        }
+    }
+
+    public void prodClick2(MouseEvent mouseEvent) {
+    }
+
+    public void prodClick3(MouseEvent mouseEvent) {
+    }
+
+    public void bigButton(ActionEvent actionEvent) {
+        NoneActionData noneActionData = new NoneActionData();
+        noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 }

@@ -103,7 +103,7 @@
             <Image url="@../images/other/plancia%20portabiglie.png" />
          </image>
       </ImageView>
-      <Button fx:id="big" layoutX="1626.0" layoutY="795.0" mnemonicParsing="false" prefHeight="260.0" prefWidth="260.0" text="Play" textAlignment="CENTER">
+      <Button fx:id="big" layoutX="1626.0" layoutY="795.0" mnemonicParsing="false" onAction="#bigButton" prefHeight="260.0" prefWidth="260.0" text="End Turn" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect></Button>
@@ -121,7 +121,7 @@
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Buy Development Card">
+            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="210.0" text="Buy Development Card">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
@@ -288,5 +288,8 @@
       <Button fx:id="y0" layoutX="1340.0" layoutY="797.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y1" layoutX="1340.0" layoutY="757.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y2" layoutX="1340.0" layoutY="715.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="379.0" layoutY="750.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="570.0" layoutY="750.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="761.0" layoutY="750.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
