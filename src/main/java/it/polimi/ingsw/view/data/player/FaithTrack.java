@@ -9,7 +9,17 @@ public class FaithTrack {
     private int faith;
     private boolean[] reportsAttended;
 
+    public int getFaith() {
+        return faith;
+    }
+
+    public boolean[] getReportsAttended() {
+        return reportsAttended;
+    }
+
     public synchronized void setFaith(int faith) {
+
+        System.out.println("QUESTO VIENE CHIAMATOOOO");
         this.faith = faith;
         if(faithTrackObserver != null) faithTrackObserver.onFaithChange();
     }

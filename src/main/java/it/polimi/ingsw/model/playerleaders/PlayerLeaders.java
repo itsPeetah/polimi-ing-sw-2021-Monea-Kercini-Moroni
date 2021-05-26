@@ -86,6 +86,7 @@ public class PlayerLeaders {
      */
     public void discardCard(int index) throws PlayerLeadersException{
         if(cardStates[index] == CardState.INHAND) {
+            System.out.println("PlayerLeaders sta facendo discard");
             cardStates[index] = CardState.DISCARDED;
         }else{
             throw new PlayerLeadersException("Leader Card is already played or discarded.");
