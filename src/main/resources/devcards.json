@@ -52,9 +52,7 @@
       "color":"BLUE",
       "cost":{
          "amounts":{
-            "COINS":1,
-            "SERVANTS":1,
-            "STONES":1
+            "COINS":3
          }
       },
       "production":{

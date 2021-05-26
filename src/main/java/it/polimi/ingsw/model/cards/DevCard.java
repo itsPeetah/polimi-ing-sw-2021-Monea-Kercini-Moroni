@@ -62,14 +62,14 @@ public class DevCard extends Card {
 
         costAfterDiscount.removeWithoutException(player.getBoard().getDiscount());
 
-
+        /* TODO REMOVE COMMENTS
         for(ResourceType resourceType: ResourceType.values()) {
             System.out.println("DevCard.affordable. costAfterDiscount amount of "+ resourceType + " = " + costAfterDiscount.getAmountOf(resourceType));
         }
         System.out.println("DevCard.affordable. availableResources tot = " + player.getBoard().getResourcesAvailable().getAmountOf(ResourceType.COINS));
 
 
-        System.out.println("MY ID in devcard " + this.getCardId());
+        System.out.println("MY ID in devcard " + this.getCardId());*/
 
         // Check if the player can afford the card
         return player.getBoard().getResourcesAvailable().isGreaterThan(costAfterDiscount);
