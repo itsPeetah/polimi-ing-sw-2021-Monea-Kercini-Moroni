@@ -273,6 +273,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         faithTrack[23] =  c23;
         faithTrack[24] =  c24;
 
+        ImageView prod1 = new ImageView();
+        ImageView prod2 = new ImageView();
+        ImageView prod3 = new ImageView();
+
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
 
