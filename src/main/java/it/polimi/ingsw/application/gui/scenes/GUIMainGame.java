@@ -5,9 +5,7 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
-import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
@@ -246,11 +244,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onFaithChange() {
-        System.out.println("SONO QUAAAAAAA");
-
-        //faithTrack[0] = c0;
-
-        //System.out.println(faithTrack[0]);
 
         for (int i = 0; i < faithTrack.length; i++) {
             //System.out.println("Lopi loop");
