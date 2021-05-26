@@ -163,9 +163,6 @@ public class GameApplication {
         if(outputMode == GameApplicationMode.CLI){
             // TODO move to its own class
             System.out.println(output);
-        } else {
-            GUIApplication.showDialog(output);
-            System.out.println(output);
         }
     }
 

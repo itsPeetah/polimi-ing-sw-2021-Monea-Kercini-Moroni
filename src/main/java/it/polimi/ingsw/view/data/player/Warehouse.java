@@ -15,9 +15,17 @@ public class Warehouse {
         if(warehouseObserver != null) warehouseObserver.onWarehouseContentChange();
     }
 
+    public synchronized Resources[] getContent() {
+        return content;
+    }
+
     public synchronized void setExtra(Resources extra[]) {
         this.extra = extra;
         if(warehouseObserver != null) warehouseObserver.onWarehouseExtraChange();
+    }
+
+    public synchronized Resources[] getExtra() {
+        return extra;
     }
 
     public Warehouse() {

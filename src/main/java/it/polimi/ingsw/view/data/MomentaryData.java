@@ -19,7 +19,7 @@ public class MomentaryData {
         return leaders;
     }
 
-    public ResourcesToPut getRes() {
+    public ResourcesToPut getResourcesToPut() {
         return res;
     }
 

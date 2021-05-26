@@ -6,15 +6,15 @@
 
 .button{
     -fx-font-family: 'Blackadder ITC';
+    -fx-background-color: rgba(0, 0, 0, 0.8);
     -fx-text-fill: white;
-    -fx-font-size: 32;
+    -fx-font-size: 50;
     -fx-pref-height: -1;
-    -fx-pref-width: -1;
-    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-pref-width: 300;
 }
 
 .button:hover{
-    -fx-pref-width: -1;
+    -fx-pref-width: 300;
     -fx-cursor: hand;
     -fx-text-fill: black;
     -fx-background-color: rgba(255, 255, 255, 0.6);

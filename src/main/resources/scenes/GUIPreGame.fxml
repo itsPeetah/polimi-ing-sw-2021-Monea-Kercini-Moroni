@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.650278293135436" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" scaleShape="false" stylesheets="@../styles/PreGame.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
+<SplitPane dividerPositions="0.650278293135436" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" scaleShape="false" stylesheets="@../styles/PreGame.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="600.0">
          <children>

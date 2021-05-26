@@ -147,7 +147,7 @@ public class GameController {
 
             case RESOURCES_TO_PUT:
                 ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
-                gameData.getMomentary().getRes().setRes(rUP.getRes());
+                gameData.getMomentary().getResourcesToPut().setRes(rUP.getRes());
                 break;
         }
     }
