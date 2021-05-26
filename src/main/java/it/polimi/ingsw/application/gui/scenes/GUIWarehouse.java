@@ -1,8 +1,16 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
+import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.model.cards.CardManager;
+import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
+import it.polimi.ingsw.model.playerboard.Warehouse;
+import it.polimi.ingsw.util.JSONUtility;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -10,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -25,6 +34,8 @@ public class GUIWarehouse implements Initializable {
     public Label servantsCount;
     public Label shieldsCount;
     public Label stonesCount;
+    public HBox lead1HBox;
+    public HBox lead2HBox;
     private Glow glow;
 
     // LEADERS
@@ -53,6 +64,7 @@ public class GUIWarehouse implements Initializable {
     private final List<ImageView> leaders = new ArrayList<>();
     private final List<List<ImageView>> leadersResources = new ArrayList<>();
     private final List<ResourceType> leadersResourceTypes = new ArrayList<>();
+    private final List<HBox> leadersHBox = new ArrayList<>();
 
     private ResourceType selectedResource;
 
@@ -79,6 +91,9 @@ public class GUIWarehouse implements Initializable {
         leaders.addAll(Arrays.asList(lead1, lead2));
 
         leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
+        leadersResourceTypes.addAll(Arrays.asList(null, null));
+
+        leadersHBox.addAll(Arrays.asList(lead1HBox, lead2HBox));
 
         fillWarehouse();
         fillRemainingResources();
@@ -86,7 +101,35 @@ public class GUIWarehouse implements Initializable {
     }
 
     public void onConfirmClick(ActionEvent actionEvent) {
-        // TODO send packet
+        String nickname = GameApplication.getInstance().getUserNickname();
+        PutResourcesActionData putResourcesActionData = new PutResourcesActionData();
+        putResourcesActionData.setPlayer(nickname);
+        Warehouse sentWarehouse = new Warehouse();
+        // Create warehouse to send
+        for(int i=0; i<3; i++) {
+            Resources floorResources = new Resources();
+            int resCount = (int)rows.get(2-i).stream().filter(imageView -> imageView.getImage() != null).count();
+            ResourceType resType = rowsResourceTypes.get(2-i);
+            if(resCount > 0) {
+                floorResources.add(resType, resCount);
+            }
+            sentWarehouse.deposit(floorResources,i);
+        }
+        // Create leader extra to send
+        for(int i=0; i<2; i++) {
+            Resources extraResources = new Resources();
+            int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
+            ResourceType resType = leadersResourceTypes.get(i);
+            if(resCount > 0) {
+                extraResources.add(resType, resCount);
+            }
+            sentWarehouse.deposit(extraResources,i);
+        }
+        putResourcesActionData.setWh(sentWarehouse);
+
+        // Send packet
+        ActionPacket actionPacket = new ActionPacket(Action.PUT_RESOURCES, JSONUtility.toJson(putResourcesActionData, PutResourcesActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
         Stage s = (Stage) coin.getScene().getWindow();
         s.close();
@@ -265,7 +308,40 @@ public class GUIWarehouse implements Initializable {
     }
 
     private void fillLeaders() {
-        // todo mettere giusti tipi di risorse dei leader
-        leadersResourceTypes.addAll(Arrays.asList(ResourceType.COINS, ResourceType.COINS));
+        String nickname = GameApplication.getInstance().getUserNickname();
+        new Thread(() -> {
+            int count = 0;
+            LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+            Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
+            Platform.runLater(() -> {
+                for(int i = 0; i < leadersData.length; i++) {
+                    LeadCard leader = leadersData[i];
+                    if(leader != null) {
+                        ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
+                        // If the leader has an extra space
+                        if(leaderResourceType != null) {
+                            // Get the current amount of extra
+                            int extraAmount = extra[i].getAmountOf(leaderResourceType);
+                            // Update the leader image
+                            leaders.get(count).setImage(CardManager.getImage(leader.getCardId()));
+                            // Update the leader resources
+                            for(int j = 0; j < extraAmount; j++) {
+                                leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
+                            }
+                            // Update the leader resource type
+                            leadersResourceTypes.set(count, leaderResourceType);
+                        }
+                    }
+                }
+                for(int i = count; i < 2; i++) {
+                    System.out.println("GUIWarehouse.fillLeaders: canceling leader box");
+                    leaders.get(i).setImage(null);
+                    HBox leaderHBox = leadersHBox.get(i);
+                    leaderHBox.setVisible(false);
+                    leaderHBox.setDisable(true);
+
+                }
+            });
+        }).start();
     }
 }
