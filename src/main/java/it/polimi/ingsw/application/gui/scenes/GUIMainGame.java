@@ -478,39 +478,49 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void devClick02(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][2];
+
     }
 
     public void devClick12(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][2];
     }
 
     public void devClick11(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][1];
     }
 
     public void devClick32(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][2];
     }
 
     public void devClick22(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][2];
     }
 
     public void devClick21(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][1];
     }
 
     public void devClick31(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][1];
     }
 
     public void devClick00(MouseEvent mouseEvent) {
-        System.out.println("Ho scelto il dev Card giusto");
         chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][0];
 
     }
 
     public void devClick10(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][0];
     }
 
     public void devClick20(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][0];
     }
 
     public void devClick30(MouseEvent mouseEvent) {
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][0];
     }
 
     public void buyDevCard(ActionEvent actionEvent) {
@@ -536,9 +546,15 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void prodClick2(MouseEvent mouseEvent) {
+        if(choice==Action.DEV_CARD && chosenDev!=null){
+            devCardSend(chosenDev, 1);
+        }
     }
 
     public void prodClick3(MouseEvent mouseEvent) {
+        if(choice==Action.DEV_CARD && chosenDev!=null){
+            devCardSend(chosenDev, 2);
+        }
     }
 
     public void bigButton(ActionEvent actionEvent) {

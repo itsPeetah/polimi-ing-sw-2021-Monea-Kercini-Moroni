@@ -92,8 +92,9 @@ public class GameController {
                 break;
 
             case PRODUCTION_POWERS:
-                //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
+                System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
+                System.out.println(pp.getProductionPowers().getOwnedDevCards().get(0).getCardId());
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;
 
@@ -106,7 +107,6 @@ public class GameController {
 
             case WAREHOUSE:
                 WarehouseUpdateData wh = update.getUpdateData(updateDataString);
-                System.out.println("L'update che viene ha dentro un warehouse con " + wh.getWarehouse().getResourceAmountWarehouse());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());
@@ -123,7 +123,6 @@ public class GameController {
 
             case FAITH:
 
-                System.out.println("FAITH UPDATE RECIEVED");
                 FaithUpdateData fp = update.getUpdateData(updateDataString);
 
                 for (int i = 0; i < fp.getPlayers().length; i++) {

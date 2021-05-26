@@ -907,12 +907,13 @@ public class ModelController {
 
         DevCardMarketUpdateData devUp = new DevCardMarketUpdateData(game.getDevCardMarket());
         modelControllerIOHandler.pushUpdate(Update.DEVCARD_MARKET, devUp);
-
-        System.out.println("Model controller dev card market, card at 00 " + game.getDevCardMarket().getVisibleCards()[0][0].getCardId());
-        System.out.println("Model controller dev card market, card avail at 00 " + game.getDevCardMarket().getAvailableCards().get(0).getCardId());
     }
 
     private void updateProductionPowers(Player player){
+
+        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getOwnedDevCards().get(0));
+        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getVisibleDevCards());
+
 
         ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);

@@ -52,7 +52,7 @@ public class ProductionPowers {
 
         ArrayList<DevCard> AvailableCards = new ArrayList<DevCard>();
 
-        for (int i = 0; i < cardPile.length; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (cardPile[i][j] != null) {
                     AvailableCards.add(cardPile[i][j]);
@@ -72,13 +72,16 @@ public class ProductionPowers {
 
         DevCard[] visible = new DevCard[3];
 
-        for (int i = 0; i < cardPile.length; i++) {
+        for (int i = 0; i < 3; i++) {
+            visible[i] = cardPile[i][0];
+
             for (int j = 0; j < 3; j++) {
 
                 //if the slot is empty and it's not the first slot, get the previous slot (the card on top)
 
-                if (cardPile[i][j] == null && i!=0) {
-                    visible[j] = cardPile[i-1][j];
+                if (cardPile[i][j] == null && j!=0) {
+                    visible[i] = cardPile[i][j-1];
+                    break;
                 }
             }
         }
