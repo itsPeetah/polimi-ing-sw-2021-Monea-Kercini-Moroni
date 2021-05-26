@@ -513,6 +513,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     private void devCardSend(DevCard devCard, int space) {
 
+        System.out.println(devCard.getCardId());
+
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
         devCardActionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
@@ -522,7 +524,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void prodClick1(MouseEvent mouseEvent) {
-        System.out.println("Ho scelto la produzione");
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, 0);
         }
