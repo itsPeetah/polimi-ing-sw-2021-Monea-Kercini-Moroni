@@ -57,6 +57,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView dev20;
     public ImageView dev30;
 
+    public ImageView prod1;
+    public ImageView prod2;
+    public ImageView prod3;
+
     private DevCard chosenDev;
 
     public ImageView lead1;
@@ -285,6 +289,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
+        gameData.getPlayerData(nickname).getDevCards().setObserver(this);
     }
 
     @Override
@@ -465,7 +470,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
 
     public void devClick01(MouseEvent mouseEvent) {
-        System.out.println("Ho scelto il dev Card giusto");
         chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][1];
     }
 
@@ -491,6 +495,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void devClick00(MouseEvent mouseEvent) {
+        System.out.println("Ho scelto il dev Card giusto");
+        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][0];
+
     }
 
     public void devClick10(MouseEvent mouseEvent) {
@@ -508,6 +515,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     private void devCardSend(DevCard devCard, int space) {
 
+        System.out.println(devCard.getCardId());
+
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
         devCardActionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
@@ -517,7 +526,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void prodClick1(MouseEvent mouseEvent) {
-        System.out.println("Ho scelto la produzione");
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, 0);
         }
@@ -534,5 +542,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+    }
+
+    @Override
+    public void onDevCardsChange() {
+
+        Platform.runLater(() -> {
+
+            prod1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[0].getCardId()));
+            prod2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[1].getCardId()));
+            prod3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[2].getCardId()));
+
+        });
+
     }
 }

@@ -55,8 +55,12 @@ public class DevCard extends Card {
     public Boolean affordable(Player player) {
         // Set the cost after the possible discount
         Resources costAfterDiscount = new Resources();
+
         costAfterDiscount.add(cost);
+
         cost.removeWithoutException(player.getBoard().getDiscount());
+
+        System.out.println("MY ID in devcard " + this.getCardId());
 
         // Check if the player can afford the card
         return player.getBoard().getResourcesAvailable().isGreaterThan(costAfterDiscount);
