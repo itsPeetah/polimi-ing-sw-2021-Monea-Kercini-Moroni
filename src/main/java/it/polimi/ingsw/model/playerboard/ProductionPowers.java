@@ -71,7 +71,6 @@ public class ProductionPowers {
     public DevCard[] getVisibleDevCards(){
 
         DevCard[] visible = new DevCard[3];
-
         for (int i = 0; i < 3; i++) {
             visible[i] = cardPile[i][0];
 
