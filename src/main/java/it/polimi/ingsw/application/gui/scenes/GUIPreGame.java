@@ -317,14 +317,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setOrganizeWarehouseUI() {
-        Stage stage = new Stage();
-        stage.initOwner(button.getScene().getWindow());
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
-        stage.setTitle("Reorganize your warehouse");
-        stage.setScene(GUIScene.WAREHOUSE.produceScene());
-        stage.show();
+        GUIUtility.launchOrganizeWarehouseWindow(button.getScene().getWindow());
     }
 
     private void setChooseResourceUI() {
