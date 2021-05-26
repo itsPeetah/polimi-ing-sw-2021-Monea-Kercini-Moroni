@@ -32,7 +32,7 @@ public class MPModelControllerIOHandler extends ModelControllerIOHandler {
         try {
             gameRoom.sendTo(player, networkPacket);
         } catch (Exception e) {
-            System.out.println("ModelControllerIOHandler error: no packet was sent");
+            System.out.println("ModelControllerIOHandler: no packet was sent");
         }
     }
 
@@ -43,7 +43,7 @@ public class MPModelControllerIOHandler extends ModelControllerIOHandler {
         try {
             gameRoom.broadcast(networkPacket);
         } catch (Exception e) {
-            System.out.println("ModelControllerIOHandler error: no packet was sent");
+            System.out.println("ModelControllerIOHandler: no packet was sent");
         }
     }
 }
