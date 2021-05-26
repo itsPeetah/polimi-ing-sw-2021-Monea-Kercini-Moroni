@@ -909,6 +909,7 @@ public class ModelController {
         modelControllerIOHandler.pushUpdate(Update.DEVCARD_MARKET, devUp);
 
         System.out.println("Model controller dev card market, card at 00 " + game.getDevCardMarket().getVisibleCards()[0][0].getCardId());
+        System.out.println("Model controller dev card market, card avail at 00 " + game.getDevCardMarket().getAvailableCards().get(0).getCardId());
     }
 
     private void updateProductionPowers(Player player){

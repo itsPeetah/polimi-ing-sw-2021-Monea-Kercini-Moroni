@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.*;
 
+import javax.sql.rowset.serial.SQLOutputImpl;
+
 public class DevCard extends Card {
     private Level level;
     private Color color;
