@@ -351,6 +351,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         if(resourceType != null) {
             int resCount = resources.getAmountOf(resourceType);
             row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
+            row.stream().skip(resCount).forEach(imageView -> imageView.setImage(null));
             System.out.println("GUIMainGame.fillRow with res " + resourceType + " with count " + resCount);
         }
     }
