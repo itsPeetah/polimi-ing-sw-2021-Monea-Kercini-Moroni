@@ -177,7 +177,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
-                    devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
+                    DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
+                    if(topCard == null) devCards[i][j].setImage(null);
+                    else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
             }
         });

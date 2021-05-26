@@ -73,7 +73,7 @@ public class ProductionPowers {
         DevCard[] visible = new DevCard[3];
         for (int i = 0; i < 3; i++) {
             visible[i] = cardPile[i][0];
-            
+
             for (int j = 0; j < 3; j++) {
 
                 //if the slot is empty and it's not the first slot, get the previous slot (the card on top)
