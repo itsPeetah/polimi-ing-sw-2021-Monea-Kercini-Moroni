@@ -224,7 +224,9 @@ public class Warehouse{
         }
 
         //If adding the two resources together only one type of resource than they were the same type of resource
-        if (isSingleType(r1.add(r2))){
+        Resources r3 = new Resources();
+        r3.add(r1).add(r2);
+        if (isSingleType(r3)){
             return false;
         }else{
             return true;

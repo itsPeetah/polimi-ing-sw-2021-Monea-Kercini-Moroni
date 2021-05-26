@@ -93,12 +93,19 @@ public class ModelController {
         modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
+        System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
 
         //Checking if player hasn't hacked the game
-        if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
+        Resources tot = new Resources();
+        tot.add(wh.getResourcesAvailable());
+        tot.add(res);
+
+        if (tot.isGreaterThan(updatedWarehouse.getResourcesAvailable())){
+
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
+                System.out.println("WAREHOUSE UNORGANIZED");
                 //notify player of his mistake
                 modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;
@@ -106,7 +113,11 @@ public class ModelController {
 
             //If player has less resources than he should have give other players extra faith point
 
+            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
+
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
+
+
 
             for (int i = 0; i< game.getPlayers().length; i++){
                 //add to all players except the one who is playing
@@ -115,16 +126,24 @@ public class ModelController {
                 }
             }
 
+            p.getBoard().getWarehouse().copy(updatedWarehouse);
+
+            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
+
+
             //update
             updateWarehouse(p);
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
+
+
             return updatedWarehouse;
 
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
+            System.out.println("PLAYER HAS HACKED THE GAME");
             return wh;
         }
     }
@@ -879,7 +898,6 @@ public class ModelController {
     }
 
     private void updateResourceMarket(){
-
 
         ResourceMarketUpdateData resUp = new ResourceMarketUpdateData(game.getResourceMarket());
         modelControllerIOHandler.pushUpdate(Update.RESOURCE_MARKET, resUp);

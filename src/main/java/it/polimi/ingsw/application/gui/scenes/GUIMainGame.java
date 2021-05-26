@@ -339,7 +339,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 Resources rowResources = warehouse[i];
                 if(rowResources != null) {
                     System.out.println("GUIMainGame.onWarehouseContentChange. For - row size = " + rowResources.getTotalAmount());
-                    fillRow(rowResources, rows.get(i));
+                    fillRow(rowResources, rows.get(2-i));
                 }
             }
         });

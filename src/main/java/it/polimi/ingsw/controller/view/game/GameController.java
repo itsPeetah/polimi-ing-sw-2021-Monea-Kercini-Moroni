@@ -105,8 +105,8 @@ public class GameController {
                 break;
 
             case WAREHOUSE:
-                System.out.println("GameController.reactToUpdate: WAREHOUSE");
                 WarehouseUpdateData wh = update.getUpdateData(updateDataString);
+                System.out.println("L'update che viene ha dentro un warehouse con " + wh.getWarehouse().getResourceAmountWarehouse());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());

@@ -268,7 +268,7 @@ public class GUIWarehouse implements Initializable {
             Platform.runLater(() -> {
                 for(int i = 0; i < 3; i++) {
                     Resources rowResources = warehouse[i];
-                    if(rowResources != null) fillRow(rowResources, rows.get(i));
+                    if(rowResources != null) fillRow(rowResources, rows.get(2-i));
                 }
             });
         }).start();
