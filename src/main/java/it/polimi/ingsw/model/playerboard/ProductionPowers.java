@@ -80,6 +80,7 @@ public class ProductionPowers {
                 //if the slot is empty and it's not the first slot, get the previous slot (the card on top)
 
                 if (cardPile[i][j] == null && j!=0) {
+                    System.out.println("LA");
                     visible[i] = cardPile[i][j-1];
                     break;
                 }
