@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.server.GameServer;
 public class MaestriRinascimentoServer {
 
     private static final String defaultHostName = "localhost";
-    private static final int defaultPortNumber = 42069;
+    private static final int defaultPortNumber = 50000;
 
     private static String hostName;
     private static int portNumber;

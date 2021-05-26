@@ -18,7 +18,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        new Thread(() -> GameApplication.getInstance().connect("localhost", 42069)).start();
+        new Thread(() -> GameApplication.getInstance().connect("localhost", 50000)).start();
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         GUIScene.MAIN_MENU.load();

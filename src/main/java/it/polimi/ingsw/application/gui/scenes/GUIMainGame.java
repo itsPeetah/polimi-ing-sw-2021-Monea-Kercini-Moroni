@@ -148,6 +148,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     private final List<ImageView> thirdRow = new ArrayList<>();
     private final List<List<ImageView>> rows = new ArrayList<>();
 
+    private final List<ImageView> ownDevs = new ArrayList<>();
+
     @Override
     public void onMessage(Message message) {
         System.out.println("GUIMainGame: \"" + message + "\" arrived");
@@ -206,6 +208,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         thirdRow.addAll(Arrays.asList(im20, im21, im22));
         rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
 
+
+        // Own devs
+        ownDevs.addAll(Arrays.asList(prod1, prod2, prod3));
 
         //Connecting all marbles to matrix for simplicity
         marbles[0][0] = marble00;
@@ -550,13 +555,14 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onDevCardsChange() {
-
         Platform.runLater(() -> {
-
-            prod1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[0].getCardId()));
-            prod2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[1].getCardId()));
-            prod3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards()[2].getCardId()));
-
+            String nickname = GameApplication.getInstance().getUserNickname();
+            for(int i = 0; i < 3; i++) {
+                DevCard visibleCard = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[i];
+                if(visibleCard != null) {
+                    ownDevs.get(i).setImage(getImage(visibleCard.getCardId()));
+                }
+            }
         });
 
     }
