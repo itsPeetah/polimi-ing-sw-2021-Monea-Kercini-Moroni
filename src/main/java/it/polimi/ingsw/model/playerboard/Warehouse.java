@@ -27,6 +27,14 @@ public class Warehouse{
     }
 
     /**
+     * leaders that are activated and give extra resources
+     * @return
+     */
+    public LeadCard[] getLeadersExtra() {
+        return leadersExtra;
+    }
+
+    /**
      * Deposit the resources at the floor gotten as integer input
      * @param resources
      * @param floor 0/1/2 warehouse, 3/4 leaders
