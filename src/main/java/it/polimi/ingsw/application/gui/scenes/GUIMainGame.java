@@ -6,6 +6,7 @@ import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
+import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
@@ -200,7 +201,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         //Connecting faith images to list
         faithTrack[0] =  c0;
-        System.out.println("Fatto");
         faithTrack[1] =  c01;
         faithTrack[2] =  c02;
         faithTrack[3] =  c03;
@@ -268,12 +268,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onLeadersStatesChange() {
 
-        System.out.println("Leader state changed");
-
         System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]);
 
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]== CardState.DISCARDED){
-            System.out.println("Leader 1 e in state discarded");
             lead1.setImage(null);
         }
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
@@ -340,5 +337,24 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
+    }
+
+    public void acquireResources(ActionEvent actionEvent) {
+        choice = Action.RESOURCE_MARKET;
+    }
+
+    public void acquireX0(ActionEvent actionEvent) {
+        acquireResPos(false, 0);
+    }
+
+
+
+    public void acquireResPos(boolean row, int index){
+        ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
+        resourceMarketActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
     }
 }

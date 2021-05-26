@@ -293,6 +293,7 @@ public class ModelController {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
+
             modelControllerIOHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
             modelControllerIOHandler.addExpectedAction(Action.DEV_CARD);
             modelControllerIOHandler.addExpectedAction(Action.PRODUCE);
@@ -300,6 +301,7 @@ public class ModelController {
             modelControllerIOHandler.addExpectedAction(Action.DISCARD_LEADER);
             modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
             modelControllerIOHandler.addExpectedAction(Action.END_TURN);
+
 
             switch (modelControllerIOHandler.getResponseAction()) {
 
@@ -448,13 +450,15 @@ public class ModelController {
         //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
         res = checkWhite(player, res);
 
-        //Ask player to put the gotten resources in his warehouse.
-        player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
-
         //Send update of all stuff that has been updated
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
         updateFaithPoints();
+
+        //Ask player to put the gotten resources in his warehouse.
+        player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
+
+
 
         return true;
     }
