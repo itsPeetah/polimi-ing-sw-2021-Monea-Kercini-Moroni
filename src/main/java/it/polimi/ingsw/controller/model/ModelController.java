@@ -512,7 +512,7 @@ public class ModelController {
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
             }catch (Exception e){
-                e.printStackTrace();
+                System.out.println("ModelController.devCardMarketUpdate: buy card not possible");
             }
 
             //Update
