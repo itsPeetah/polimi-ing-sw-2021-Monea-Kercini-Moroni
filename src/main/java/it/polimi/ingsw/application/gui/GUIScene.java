@@ -13,9 +13,11 @@ public enum GUIScene {
     MP_SELECTION("GUIMPSelection.fxml", false),
     MP_ROOM("GUIMPRoom.fxml", false),
     PRE_GAME("GUIPreGame.fxml", false),
+    MAIN_GAME("GUIMainGame.fxml", false),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
-    CHOOSE_RESOURCE("GUIChooseResource.fxml", false);
+    CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
+    WAREHOUSE("GUIWarehouse.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -55,7 +57,10 @@ public enum GUIScene {
                 e.printStackTrace();
             }
         }
-        if(fxmlLoader.getController() instanceof PacketListener) activeScene = fxmlLoader.getController();
+        if(fxmlLoader.getController() instanceof PacketListener) {
+            activeScene = fxmlLoader.getController();
+            System.out.println("GUIScene.load: changed active scene");
+        }
         GUIApplication.setScene(scene);
     }
 
@@ -71,6 +76,7 @@ public enum GUIScene {
     }
 
     public static PacketListener getActiveScene() {
+        System.out.println("GUIScene.getActiveScene. Active scene: " + activeScene);
         return activeScene;
     }
 

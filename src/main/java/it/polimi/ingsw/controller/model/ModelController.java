@@ -40,7 +40,7 @@ public class ModelController {
         // Initialize game (with default settings)
         game = GameFactory.CreateGame();
         gamePhase = GamePhase.PREGAME;
-        
+
         // Set communication handler
         this.modelControllerIOHandler = modelControllerIOHandler;
     }
@@ -93,12 +93,19 @@ public class ModelController {
         modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
+        System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
 
         //Checking if player hasn't hacked the game
-        if( (wh.getResourcesAvailable().add(res)).isGreaterThan(updatedWarehouse.getResourcesAvailable()) ){
+        Resources tot = new Resources();
+        tot.add(wh.getResourcesAvailable());
+        tot.add(res);
+
+        if (tot.isGreaterThan(updatedWarehouse.getResourcesAvailable())){
+
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
+                System.out.println("WAREHOUSE UNORGANIZED");
                 //notify player of his mistake
                 modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;
@@ -106,7 +113,11 @@ public class ModelController {
 
             //If player has less resources than he should have give other players extra faith point
 
+            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
+
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
+
+
 
             for (int i = 0; i< game.getPlayers().length; i++){
                 //add to all players except the one who is playing
@@ -115,16 +126,24 @@ public class ModelController {
                 }
             }
 
+            p.getBoard().getWarehouse().copy(updatedWarehouse);
+
+            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
+
+
             //update
             updateWarehouse(p);
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
+
+
             return updatedWarehouse;
 
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
+            System.out.println("PLAYER HAS HACKED THE GAME");
             return wh;
         }
     }
@@ -134,6 +153,7 @@ public class ModelController {
      * Setting up new game after all the players have joined
      */
     public void setupGame(){
+
 
         gamePhase = GamePhase.START;
 
@@ -148,10 +168,10 @@ public class ModelController {
 
         /**
 
-        //If there is only one player set the game as single player
-        if(game.getPlayers().length==1){
-            setSinglePlayer(true);
-        }
+         //If there is only one player set the game as single player
+         if(game.getPlayers().length==1){
+         setSinglePlayer(true);
+         }
 
          */
 
@@ -183,6 +203,8 @@ public class ModelController {
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
+
+
 
             //Sending to player the leaders he should choose from
             dealLeadersToPlayer(leadCards, i);
@@ -290,6 +312,7 @@ public class ModelController {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
+
             modelControllerIOHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
             modelControllerIOHandler.addExpectedAction(Action.DEV_CARD);
             modelControllerIOHandler.addExpectedAction(Action.PRODUCE);
@@ -297,6 +320,7 @@ public class ModelController {
             modelControllerIOHandler.addExpectedAction(Action.DISCARD_LEADER);
             modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
             modelControllerIOHandler.addExpectedAction(Action.END_TURN);
+
 
             switch (modelControllerIOHandler.getResponseAction()) {
 
@@ -445,13 +469,15 @@ public class ModelController {
         //Count how many blank replacements we have (in the majority of the cases it will be 0 and almost never 2)
         res = checkWhite(player, res);
 
-        //Ask player to put the gotten resources in his warehouse.
-        player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
-
         //Send update of all stuff that has been updated
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
         updateFaithPoints();
+
+        //Ask player to put the gotten resources in his warehouse.
+        player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
+
+
 
         return true;
     }
@@ -605,6 +631,7 @@ public class ModelController {
 
         //update
         updateLeaders(player);
+        updateFaithPoints();
 
         //I suppose no message is needed here since the leader is for sure discarded, so the game just goes on
     }
@@ -831,6 +858,10 @@ public class ModelController {
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
         Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
         game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+
+        //Update Leaders
+        updateLeaders(game.getPlayers()[i]);
+
 
         //send ok to the view controller
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.OK);

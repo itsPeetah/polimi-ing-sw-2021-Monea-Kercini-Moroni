@@ -8,7 +8,7 @@ public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
 
-    private LeadCard[] leadersExtra; // 2+2 extra (2 same type for each leader card bonus that might have been played) with floor reference 3
+    private LeadCard[] leadersExtra;
     private Resources[] leaderExtraUsed;
 
     private int leadersUsed = 0;
@@ -24,6 +24,14 @@ public class Warehouse{
      */
     public Resources[] getLeaderExtraUsed() {
         return leaderExtraUsed;
+    }
+
+    /**
+     * leaders that are activated and give extra resources
+     * @return
+     */
+    public LeadCard[] getLeadersExtra() {
+        return leadersExtra;
     }
 
     /**
@@ -150,6 +158,7 @@ public class Warehouse{
         this.leaderExtraUsed[0] = new Resources();
         this.leaderExtraUsed[1] = new Resources();
         this.leadersExtra = new LeadCard[2];
+
     }
 
     public void copy(Warehouse w){
@@ -171,7 +180,8 @@ public class Warehouse{
             && content[2].getTotalAmount()<=1
             && areDifferentTypes(content[0], content[1])
             && areDifferentTypes(content[1], content[2])
-            && areDifferentTypes(content[0], content[2])){
+            && areDifferentTypes(content[0], content[2])
+            && areLeadersOrganized()){
             return true;
         }else{
             return false;
@@ -214,11 +224,41 @@ public class Warehouse{
         }
 
         //If adding the two resources together only one type of resource than they were the same type of resource
-        if (isSingleType(r1.add(r2))){
+        Resources r3 = new Resources();
+        r3.add(r1).add(r2);
+        if (isSingleType(r3)){
             return false;
         }else{
             return true;
         }
+    }
+
+    /**
+     * Method that checks if the resources put in leader extra available are correctly corresponding to the leaders
+     * @return true if leaders extra spaces are used correctly
+     */
+    private boolean areLeadersOrganized(){
+
+        for (int i = 0; i < leadersExtra.length; i++) {
+
+            //for each leader the extra space he gives should be equal or bigger than the resources put there
+
+            if(leadersExtra[i]!=null){
+
+                if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
+                    return false;
+                }
+
+            }else{
+                //If the leader is null but the player has put resources there
+                if (leaderExtraUsed[i].getTotalAmount()>0){
+                    return false;
+                }
+            }
+
+
+        }
+        return true;
     }
 
 

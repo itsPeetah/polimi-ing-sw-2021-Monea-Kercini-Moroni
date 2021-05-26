@@ -1,0 +1,27 @@
+.root{
+    -fx-background-image: url(/images/florence_3.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
+}
+
+
+#big{
+    -fx-font-family: 'Old English Text MT';
+    -fx-text-fill: white;
+    -fx-background-image: url(/images/coin.png);
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+    -fx-font-size: 42;
+}
+
+#big:hover{
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+}
+
+#x0, #x1, #x2, #x3, #y0, #y1, #y2{
+    -fx-text-fill: transparent;
+    -fx-background-color: transparent;
+}

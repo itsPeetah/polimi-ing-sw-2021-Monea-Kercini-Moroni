@@ -93,6 +93,10 @@ public abstract class ModelControllerIOHandler {
      * @param actionPacket message from a player
      */
     private void notify(ActionPacket actionPacket) {
+
+        System.out.println("---------------");
+        System.out.println(actionPacket);
+
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.fromJsonToData(actionPacket.getData());
 

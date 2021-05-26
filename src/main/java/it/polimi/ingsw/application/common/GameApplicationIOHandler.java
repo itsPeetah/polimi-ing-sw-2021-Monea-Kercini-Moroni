@@ -26,7 +26,6 @@ public class GameApplicationIOHandler {
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
         MessagePacket messagePacket = JSONUtility.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyMessage(messagePacket);
-        if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onMessage(messagePacket.getMessage());
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {

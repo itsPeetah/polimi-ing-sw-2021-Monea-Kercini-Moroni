@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIChooseResource implements Initializable, PacketListener {
+public class GUIChooseResource {
 
     public ImageView coin;
     public ImageView servant;
@@ -26,13 +26,6 @@ public class GUIChooseResource implements Initializable, PacketListener {
     public ImageView stone;
 
     private Resources res = new Resources();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        GUIScene.setPacketListener(this);
-
-    }
 
     private void sendResource(Resources res){
         ChooseResourceActionData chooseResourceActionData = new ChooseResourceActionData();
@@ -56,29 +49,19 @@ public class GUIChooseResource implements Initializable, PacketListener {
 
     @FXML
     public void servantClick(){
-        res.add(ResourceType.COINS, 1);
+        res.add(ResourceType.SERVANTS, 1);
         sendResource(res);
     }
 
     @FXML
     public void shieldClick(){
-        res.add(ResourceType.COINS, 1);
+        res.add(ResourceType.SHIELDS, 1);
         sendResource(res);
     }
 
     @FXML
     public void stoneClick(){
-        res.add(ResourceType.COINS, 1);
+        res.add(ResourceType.STONES, 1);
         sendResource(res);
-    }
-
-    @Override
-    public void onMessage(Message message) {
-
-    }
-
-    @Override
-    public void onSystemMessage(String message) {
-
     }
 }

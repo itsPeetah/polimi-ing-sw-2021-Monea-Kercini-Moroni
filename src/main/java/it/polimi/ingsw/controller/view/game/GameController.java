@@ -39,7 +39,6 @@ public class GameController {
     public GameController(GameData gameData, String playerNickname) {
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
-        System.out.println("Holee" + playerNickname);
 
         // Generate SP Model IO handler
         SPModelControllerIOHandler spModelControllerIOHandler = new SPModelControllerIOHandler(this);
@@ -77,6 +76,7 @@ public class GameController {
         switch (update){
 
             case RESOURCE_MARKET:
+
                 ResourceMarketUpdateData res = update.getUpdateData(updateDataString);
                 gameData.getCommon().getMarketTray().setAvailable(res.getMT().getAvailable());
                 try {
@@ -84,8 +84,6 @@ public class GameController {
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
-
-                System.out.println("Set waiting called");
                 break;
 
             case DEVCARD_MARKET:
@@ -94,11 +92,13 @@ public class GameController {
                 break;
 
             case PRODUCTION_POWERS:
+                //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;
 
             case LEADERS:
+                //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setStates(pl.getPlayerLeaders().getCardStates());
@@ -106,8 +106,10 @@ public class GameController {
 
             case WAREHOUSE:
                 WarehouseUpdateData wh = update.getUpdateData(updateDataString);
+                System.out.println("L'update che viene ha dentro un warehouse con " + wh.getWarehouse().getResourceAmountWarehouse());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
+                gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());
                 break;
 
             case VP:
@@ -120,6 +122,8 @@ public class GameController {
                 break;
 
             case FAITH:
+
+                System.out.println("FAITH UPDATE RECIEVED");
                 FaithUpdateData fp = update.getUpdateData(updateDataString);
 
                 for (int i = 0; i < fp.getPlayers().length; i++) {
@@ -139,14 +143,13 @@ public class GameController {
                 break;
 
             case LEADERS_TO_CHOOSE_FROM:
-                System.out.println("Mi e venuto uqe lz ");
                 DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(lUP.getP()).getLeadersToChooseFrom().setLeaders(lUP.getLeaders());
                 break;
 
             case RESOURCES_TO_PUT:
                 ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
-                gameData.getMomentary().getRes().setRes(rUP.getRes());
+                gameData.getMomentary().getResourcesToPut().setRes(rUP.getRes());
                 break;
         }
     }

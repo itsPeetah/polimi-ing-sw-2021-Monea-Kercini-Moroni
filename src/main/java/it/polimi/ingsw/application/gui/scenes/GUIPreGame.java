@@ -15,8 +15,10 @@ import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -29,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIScene.MAIN_GAME;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 
@@ -69,41 +72,29 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @FXML
     //The marble waiting
     private Sphere marble = new Sphere(29);
-
     @FXML
     //the other marbles
     private Sphere marble00 = new Sphere(29);
-
     @FXML
     private Sphere marble01 = new Sphere(29);
-
     @FXML
     private Sphere marble02 = new Sphere(29);
-
     @FXML
     private Sphere marble03 = new Sphere(29);
-
     @FXML
     private Sphere marble10 = new Sphere(29);
-
     @FXML
     private Sphere marble11 = new Sphere(29);
-
     @FXML
     private Sphere marble12 = new Sphere(29);
-
     @FXML
     private Sphere marble13 = new Sphere(29);
-
     @FXML
     private Sphere marble20 = new Sphere(29);
-
     @FXML
     private Sphere marble21 = new Sphere(29);
-
     @FXML
     private Sphere marble22 = new Sphere(29);
-
     @FXML
     private Sphere marble23 = new Sphere(29);
 
@@ -120,6 +111,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set listeners
+
         setListeners();
 
         //setting level of the glow effect
@@ -158,12 +150,16 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         button.setDisable(true);
     }
 
+
+
     private void setListeners() {
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
     }
+
+
 
 
     @Override
@@ -197,9 +193,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onLeadersToChooseFromChange() {
-        //devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
-
-        System.out.println(GameApplication.getInstance().getUserNickname());
 
         Platform.runLater(() -> {
             lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
@@ -304,7 +297,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIPreGame: " + message + " arrived");
+        System.out.println("GUIPreGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
             switch (message) {
                 case CHOOSE_LEADERS:
@@ -313,17 +306,26 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
                     break;
-                case OK:
+                case GAME_HAS_STARTED:
                     setGameScene();
+                    break;
+                case WAREHOUSE_UNORGANIZED:
+                    setOrganizeWarehouseUI();
                     break;
             }
         });
     }
 
+    private void setOrganizeWarehouseUI() {
+        GUIUtility.launchOrganizeWarehouseWindow(button.getScene().getWindow());
+    }
+
     private void setChooseResourceUI() {
         Stage stage = new Stage();
+        stage.initOwner(button.getScene().getWindow());
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
+        stage.setOnCloseRequest(Event::consume);
         stage.setTitle("Choose the resources");
         stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
         stage.show();
@@ -334,7 +336,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        // TODO implement loading of new game scene
+        System.out.println("I'm here");
+        Platform.runLater(MAIN_GAME::load);
     }
 
     @Override
