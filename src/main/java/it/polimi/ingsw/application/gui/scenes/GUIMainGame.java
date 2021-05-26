@@ -125,7 +125,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onMessage(Message message) {
+        System.out.println("GUIMainGame: \"" + message + "\" arrived");
+        Platform.runLater(() -> {
+            switch(message) {
+                case WAREHOUSE_UNORGANIZED:
+                    setOrganizeWarehouseUI();
+                    break;
+            }
+        });
+    }
 
+    private void setOrganizeWarehouseUI() {
+        GUIUtility.launchOrganizeWarehouseWindow(c0.getScene().getWindow());
     }
 
     @Override
