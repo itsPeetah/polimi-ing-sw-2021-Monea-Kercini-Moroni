@@ -262,9 +262,6 @@ public class GameController {
         if(actionPacket.getAction()== Action.END_TURN){
             moveToState(GameState.IDLE);
         }
-
-        // Push the action to the model controller
-        gameControllerIOHandler.pushAction(actionPacket);
     }
 
 

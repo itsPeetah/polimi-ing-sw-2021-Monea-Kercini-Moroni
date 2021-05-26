@@ -37,8 +37,11 @@ public class Resources {
         int additional_amounts = 0;
         if(other.amounts.isEmpty()) return true;
         for(ResourceType resource: ResourceType.values()) {
-            if(resource != ResourceType.CHOICE && getAmountOf(resource) < other.getAmountOf(resource)) // checking that ONLY normal resources are in a greater amount
+            if(resource != ResourceType.CHOICE && getAmountOf(resource) < other.getAmountOf(resource)) {
+                // checking that ONLY normal resources are in a greater amount
+                System.out.println("Resources.isGreaterThan: resource not present = " + resource.toString());
                 return false;
+            }
             additional_amounts += getAmountOf(resource) - other.getAmountOf(resource); // removing CHOICE amount
         }
         // if we are here normal resources are good, but we still need to check if we have enough additional resources for CHOICE
