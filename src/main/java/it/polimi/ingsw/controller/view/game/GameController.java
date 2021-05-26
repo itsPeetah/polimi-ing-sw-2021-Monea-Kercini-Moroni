@@ -108,6 +108,7 @@ public class GameController {
                 WarehouseUpdateData wh = update.getUpdateData(updateDataString);
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
+                gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());
                 break;
 
             case VP:

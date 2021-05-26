@@ -329,7 +329,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         ActionPacket actionPacket = new ActionPacket(Action.DISCARD_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-
     }
 
 
@@ -343,6 +342,11 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         choice = Action.RESOURCE_MARKET;
     }
 
+
+    /**
+     * All the buttons for acquiring resources in the market tray
+     * @param actionEvent
+     */
     public void acquireX0(ActionEvent actionEvent) {
         acquireResPos(false, 0);
     }
@@ -367,8 +371,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
 
-
-
     public void acquireResPos(boolean row, int index){
 
         if(choice == Action.RESOURCE_MARKET){
@@ -378,6 +380,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
             ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+
         }
 
     }
