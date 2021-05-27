@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import java.net.URL;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class GUIMPSelection implements PacketListener {
 
     private void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
         setButtonsDisabled(true);
+        GUIScene.showLoadingScene();
         new Thread(() -> {
             GameApplication.getInstance().setUserNickname(username);
             GameApplication.getInstance().setRoomName(room);
@@ -65,12 +67,14 @@ public class GUIMPSelection implements PacketListener {
 
     @Override
     public void onSystemMessage(String message) {
-        setButtonsDisabled(false);
-        GameApplicationState newState = GameApplication.getInstance().getApplicationState();
-        System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
-        if (newState == GameApplicationState.PREGAME) {
-            Platform.runLater(GUIScene.MP_ROOM::load);
-        }
+        Platform.runLater(() -> {
+            setButtonsDisabled(false);
+            GameApplicationState newState = GameApplication.getInstance().getApplicationState();
+            System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
+            if (newState == GameApplicationState.PREGAME) {
+                GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
+            }
+        });
     }
 
     private void setButtonsDisabled(boolean disabled) {
