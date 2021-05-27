@@ -5,12 +5,14 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.*;
+import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
+import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
+import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
+import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
@@ -231,7 +233,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         secondRow.addAll(Arrays.asList(im10, im11));
         thirdRow.addAll(Arrays.asList(im20, im21, im22));
         rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
-
+        leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
 
         // Own devs
         ownDevs.addAll(Arrays.asList(prod1, prod2, prod3));
