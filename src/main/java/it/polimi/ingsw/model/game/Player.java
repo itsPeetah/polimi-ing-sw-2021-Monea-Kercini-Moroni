@@ -31,6 +31,14 @@ public class Player {
         this.leaders = new PlayerLeaders(2); //For the moment we leave leader max at 2, as per default in game
     }
 
+    @Override
+    public String toString() {
+        return nickname +
+                ", board=" + board +
+                ", leaders=" + leaders +
+                '}';
+    }
+
     /**
      * Nickname getter.
      */

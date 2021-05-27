@@ -28,7 +28,7 @@ public class CLIRoom extends CLIScene {
         print("Use command \"start\" to start the game.");
     }
 
-    @Override
+    /*@Override
     public void getInput() {
         String[] fields = input.nextLine().split(" ");
 
@@ -37,6 +37,26 @@ public class CLIRoom extends CLIScene {
             return;
 
         switch (fields[0]){
+            case "help":
+                help();
+                break;
+            case "start":
+                startGame();
+                break;
+            default:
+                print("The command is not supported or has not been implemented yet");
+                break;
+        }
+    }*/
+
+    @Override
+    public void execute(String command, String[] arguments) {
+
+        // Skip command if the game has started.
+        if(GameApplication.getInstance().gameExists())
+            return;
+
+        switch (command){
             case "help":
                 help();
                 break;

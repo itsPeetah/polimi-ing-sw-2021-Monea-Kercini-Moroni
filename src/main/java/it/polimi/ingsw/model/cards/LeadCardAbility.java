@@ -20,6 +20,16 @@ public class LeadCardAbility {
         this.production = production;
     }
 
+    @Override
+    public String toString() {
+        return "LeadCardAbility{" +
+                "Resource market discount: " + resourceDiscount +
+                ", Warehouse expansion slots:" + extraWarehouseSpace +
+                ", Grey marble replacement: " + (whiteMarbleReplacement == ResourceType.BLANK ? "None" : whiteMarbleReplacement.toString()) +
+                ", Production power: " + production +
+                '}';
+    }
+
     /**
      * @return discount for the market
      */
