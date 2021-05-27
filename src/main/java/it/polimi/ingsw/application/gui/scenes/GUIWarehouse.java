@@ -330,6 +330,9 @@ public class GUIWarehouse implements Initializable {
                             for(int j = 0; j < extraAmount; j++) {
                                 leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
                             }
+                            for(int j = extraAmount; j < 2; j++) {
+                                leadersResources.get(count).get(j).setImage(null);
+                            }
                             // Update the leader resource type
                             leadersResourceTypes.set(count, leaderResourceType);
                         }

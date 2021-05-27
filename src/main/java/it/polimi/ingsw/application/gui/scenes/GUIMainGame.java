@@ -412,6 +412,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                         for(int j = 0; j < extraAmount; j++) {
                             leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
                         }
+                        for(int j = extraAmount; j < 2; j++) {
+                            leadersResources.get(count).get(j).setImage(null);
+                        }
                     }
                 }
             }
