@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,6 +61,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView prod1;
     public ImageView prod2;
     public ImageView prod3;
+    public Label gameStateLabel;
 
     private DevCard chosenDev;
 
@@ -154,6 +156,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onMessage(Message message) {
         System.out.println("GUIMainGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
+            gameStateLabel.setText(message.toString());
             switch(message) {
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
@@ -178,7 +181,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
-                    if(topCard == null) devCards[i][j].setImage(null);
+                    if(topCard == null) {
+                        System.out.println("GUIMainGame.onDevCardMarketChange: " + i + ","+ j + " not present.");
+                        devCards[i][j].setImage(null);
+                    }
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
             }
