@@ -248,6 +248,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         //Setting the saturation value
         colorAdjust.setSaturation(-0.7);
 
+
         //Applying coloradjust effect to the leader nodes
         lead1.setEffect(colorAdjust);
         lead2.setEffect(colorAdjust);
@@ -336,6 +337,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
             lead2.setImage(null);
+        }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]== CardState.PLAYED){
+            lead1.setEffect(null);
+        }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.PLAYED){
+            lead2.setEffect(null);
         }
 
     }
