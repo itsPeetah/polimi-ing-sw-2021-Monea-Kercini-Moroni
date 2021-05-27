@@ -354,7 +354,8 @@ public class ModelController {
                 // resources from Market Tray)
                 case REARRANGE_WAREHOUSE:
                     //Basically we ask the player to put all resources that he has in warehouse in his warehouse
-                    player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, player.getBoard().getWarehouse().getResourcesAvailable(), player.getBoard().getWarehouse()));
+                    Resources none = new Resources();
+                    player.getBoard().getWarehouse().copy(askPlayerToPutResources(player, none, player.getBoard().getWarehouse()));
                     break;
 
                 case END_TURN:

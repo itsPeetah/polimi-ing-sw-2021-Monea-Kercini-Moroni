@@ -429,6 +429,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
+        NoneActionData noneActionData = new NoneActionData();
+        noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
     public void acquireResources(ActionEvent actionEvent) {
