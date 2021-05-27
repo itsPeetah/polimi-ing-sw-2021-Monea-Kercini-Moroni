@@ -166,8 +166,15 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
                     break;
+                case CHOOSE_RESOURCE:
+                    setChooseResourceUI();
+                    break;
             }
         });
+    }
+
+    private void setChooseResourceUI() {
+        GUIUtility.launchPickResourceWindow(c0.getScene().getWindow());
     }
 
     private void setOrganizeWarehouseUI() {

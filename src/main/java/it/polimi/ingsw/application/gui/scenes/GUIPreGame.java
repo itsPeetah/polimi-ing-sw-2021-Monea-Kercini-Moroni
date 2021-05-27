@@ -324,17 +324,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setChooseResourceUI() {
-        Stage stage = new Stage();
-        stage.initOwner(button.getScene().getWindow());
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
-        stage.setTitle("Choose the resources");
-        stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
-        stage.show();
+        GUIUtility.launchPickResourceWindow(button.getScene().getWindow());
     }
 
     private void setChooseLeadersUI() {

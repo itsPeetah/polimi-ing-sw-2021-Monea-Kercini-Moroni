@@ -27,4 +27,18 @@ public class GUIUtility {
         stage.show();
     }
 
+    public static void launchPickResourceWindow(Window owner) {
+        Stage stage = new Stage();
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setResizable(false);
+        stage.setOnCloseRequest(Event::consume);
+        stage.setTitle("Choose the resources");
+        stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
+        stage.show();
+    }
+
 }
