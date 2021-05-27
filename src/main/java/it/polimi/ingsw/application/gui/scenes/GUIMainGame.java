@@ -59,6 +59,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView prod3;
     public Label gameStateLabel;
 
+    //Strongbox
+    public Label coins;
+    public Label servants;
+    public Label stones;
+    public Label shields;
+
     private DevCard chosenDev;
 
     public ImageView lead1;
@@ -300,6 +306,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
         gameData.getPlayerData(nickname).getDevCards().setObserver(this);
+        gameData.getPlayerData(nickname).getStrongbox().setObserver(this);
     }
 
     @Override
@@ -347,6 +354,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onStrongboxChange() {
+        coins.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getStrongbox().getContent().getAmountOf(ResourceType.COINS).toString());
+        shields.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getStrongbox().getContent().getAmountOf(ResourceType.SHIELDS).toString());
+        servants.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getStrongbox().getContent().getAmountOf(ResourceType.SERVANTS).toString());
+        stones.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getStrongbox().getContent().getAmountOf(ResourceType.STONES).toString());
 
     }
 

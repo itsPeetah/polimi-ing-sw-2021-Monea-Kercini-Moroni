@@ -3,7 +3,6 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;

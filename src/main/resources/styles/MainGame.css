@@ -34,3 +34,11 @@
     -fx-border-width:
             5 0 0 0;
 }
+
+#coins, #servants, #shields, #stones {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
