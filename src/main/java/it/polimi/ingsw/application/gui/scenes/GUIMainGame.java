@@ -175,13 +175,22 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onDevCardMarketChange() {
         Platform.runLater(() -> {
 
+            System.out.println("ondevcard market change ----------------------------------------------");
+
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
+
+
+
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
+
+                    System.out.println(topCard.getCardId());
+
                     if(topCard == null) devCards[i][j].setImage(null);
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
             }
+            System.out.println("ondevcard market change ----------------------------------------------");
         });
 
     }

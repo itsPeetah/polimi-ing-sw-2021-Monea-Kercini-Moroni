@@ -290,6 +290,7 @@ public class ModelController {
                 }
                 //Sending action token to view
                 updateActionToken();
+                updateDevCardMarket();
             }
 
             game.increaseTurnCounter();
