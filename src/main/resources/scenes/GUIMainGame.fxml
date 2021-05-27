@@ -405,10 +405,10 @@
                   <Image url="@../images/resources/shield.png" />
                </image>
             </ImageView>
-            <Label fx:id="coins" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="33.0" prefHeight="30.0" prefWidth="20.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="servants" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="33.0" prefHeight="30.0" prefWidth="20.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="stones" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="94.0" prefHeight="30.0" prefWidth="20.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="94.0" prefHeight="30.0" prefWidth="20.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="coins" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="servants" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="stones" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
          </children>
       </Pane>
       <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="241.0" layoutY="862.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />

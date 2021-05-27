@@ -310,6 +310,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
 
+        productionsSelected = new ArrayList<>();
+
         //NOTE: setListeners must be set at the end so all other initializers are already executed
         setListeners();
 
@@ -673,6 +675,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             //todo show player now he is choosing productions
 
             System.out.println("Choose productions!!!!!!");
+
         }else if(choice == Action.PRODUCE){
 
             ProduceActionData produceActionData = new ProduceActionData(productionsSelected);
