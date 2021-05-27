@@ -33,9 +33,26 @@ public class CLIHome extends CLIScene {
         print("Use \"quit\" to quit the game.");
     }
 
-    @Override
+    /*@Override
     public void getInput() {
         String command = input.nextLine().split(" ")[0];
+        switch (command) {
+            case "sp":
+                selectSinglePlayerMode();
+                break;
+            case "mp":
+                selectMultiplayerMode();
+                break;
+            case "help":
+                help();
+                break;
+            default:
+                error("Command not supported or implemented yet.");
+        }
+    }*/
+
+    @Override
+    public void execute(String command, String[] arguments) {
         switch (command) {
             case "sp":
                 selectSinglePlayerMode();
@@ -59,7 +76,7 @@ public class CLIHome extends CLIScene {
         print(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
         // TODO Move data somewhere else
-        GameApplication.getInstance().connect("localhost", 42069);
+        GameApplication.getInstance().connect("localhost", 50000);
         if(GameApplication.getInstance().isOnNetwork()){
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else{

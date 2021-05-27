@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 // add leader choice logic -> actually in controller
@@ -52,6 +53,14 @@ public class MarketTray {
         for(int i = 0; i < waiting.length; i++) {
             waiting[i] = resourceMarbles.remove(0);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "MarketTray{" +
+                ", Currently available resources: " + Arrays.toString(available) +
+                ", Queued resources: " + Arrays.toString(waiting) +
+                '}';
     }
 
     // Getters ---------------------------------------------------

@@ -3,6 +3,8 @@ package it.polimi.ingsw.application.cli;
 import it.polimi.ingsw.application.cli.components.CLIScenes;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
+import it.polimi.ingsw.application.cli.threads.CLIInputReader;
+import it.polimi.ingsw.application.cli.threads.CLIOutputDisplay;
 import it.polimi.ingsw.application.common.*;
 import it.polimi.ingsw.model.game.Game;
 
@@ -25,13 +27,25 @@ public class MaestriRinascimentoCLI {
         /*startupScene.show();
         gameApplication.connect("localhost", 42069);*/
 
-        CLIScene currentScene = CLIScenes.TITLE.getScene();
+        /*CLIScene currentScene = CLIScenes.TITLE.getScene();
         GameApplicationState currentState = gameApplication.getApplicationState();
         GameApplicationState previousState = currentState;
 
-        currentScene.show();
+        currentScene.show();*/
 
-        boolean done = false;
+        CLIInputReader input = new CLIInputReader();
+        CLIOutputDisplay output = new CLIOutputDisplay();
+
+        Thread inputThread = new Thread(input); inputThread.setDaemon(true);
+        Thread outputThread = new Thread(output); outputThread.setDaemon(true);
+
+        inputThread.start();
+        outputThread.start();
+
+        while(GameApplication.getInstance().getApplicationState() != GameApplicationState.STOPPED)
+        {}
+
+        /*boolean done = false;
         while(!done){
             currentState = gameApplication.getApplicationState();
 
@@ -55,6 +69,6 @@ public class MaestriRinascimentoCLI {
                 done = true;
 
             previousState = currentState;
-        }
+        }*/
     }
 }

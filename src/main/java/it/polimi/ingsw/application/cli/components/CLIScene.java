@@ -25,6 +25,10 @@ public class CLIScene {
         // Override...
     }
 
+    public void execute(String command, String[] arguments){
+        // Override
+    }
+
     public void help(){
         print("The help view is not implemented for this scene.");
     }

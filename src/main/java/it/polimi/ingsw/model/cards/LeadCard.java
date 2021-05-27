@@ -18,6 +18,13 @@ public class LeadCard extends Card {
         this.ability = ability;
     }
 
+    @Override
+    public String toString() {
+        return "LeadCard{" +
+                "requirements=" + requirements +
+                ", ability=" + ability;
+    }
+
     /**
      * @return ability of the leader
      */

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Development card market rep class.
@@ -34,6 +35,13 @@ public class DevCardMarket {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DevCardMarket{" +
+                "availableCards=" + Arrays.toString(availableCards) +
+                '}';
     }
 
     /**

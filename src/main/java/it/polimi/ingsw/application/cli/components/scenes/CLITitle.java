@@ -19,9 +19,16 @@ public class CLITitle extends CLIScene {
         print("Type \"help\" at any point to visualize available commands.");
         print("Press [ENTER] to continue.");
     }
+    /*
     @Override
     public void getInput() {
         input.nextLine();
+        GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
+    }*/
+
+    @Override
+    public void execute(String command, String[] arguments) {
+
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
 }
