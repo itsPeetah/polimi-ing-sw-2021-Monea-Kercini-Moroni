@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
@@ -24,10 +25,11 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIChat.observableChatList;
+
 public class GUIMPRoom implements Initializable, PacketListener {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
-    public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
 
     @FXML
     public Label room_name;
@@ -63,7 +65,7 @@ public class GUIMPRoom implements Initializable, PacketListener {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = textField.getText();
             textField.clear();
-            if(message != null && message.length() > 0) GameApplicationIOHandler.getInstance().pushChatMessage(message);
+            GUIChat.sendMessage(message);
         }
     }
 
