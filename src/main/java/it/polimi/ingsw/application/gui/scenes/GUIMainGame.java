@@ -625,17 +625,32 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, 0);
         }
+
+        if(choice==Action.PRODUCE){
+            String nickname = GameApplication.getInstance().getUserNickname();
+            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[0].getProduction());
+        }
     }
 
     public void prodClick2(MouseEvent mouseEvent) {
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, 1);
         }
+
+        if(choice==Action.PRODUCE){
+            String nickname = GameApplication.getInstance().getUserNickname();
+            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[1].getProduction());
+        }
     }
 
     public void prodClick3(MouseEvent mouseEvent) {
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, 2);
+        }
+
+        if(choice==Action.PRODUCE){
+            String nickname = GameApplication.getInstance().getUserNickname();
+            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[2].getProduction());
         }
     }
 
