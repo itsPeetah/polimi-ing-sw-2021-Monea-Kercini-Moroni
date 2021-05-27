@@ -59,7 +59,7 @@ public class CLIHome extends CLIScene {
         print(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
         // TODO Move data somewhere else
-        GameApplication.getInstance().connect("localhost", 42069);
+        GameApplication.getInstance().connect("localhost", 50000);
         if(GameApplication.getInstance().isOnNetwork()){
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else{
