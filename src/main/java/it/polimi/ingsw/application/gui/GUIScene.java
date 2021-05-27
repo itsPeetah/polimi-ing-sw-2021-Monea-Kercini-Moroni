@@ -55,7 +55,6 @@ public enum GUIScene {
         }
         if(fxmlLoader.getController() instanceof PacketListener) {
             activeScene = fxmlLoader.getController();
-            System.out.println("GUIScene.load: changed active scene");
         }
         GUIApplication.setScene(scene);
     }
@@ -72,7 +71,6 @@ public enum GUIScene {
     }
 
     public static PacketListener getActiveScene() {
-        System.out.println("GUIScene.getActiveScene. Active scene: " + activeScene);
         return activeScene;
     }
 
