@@ -319,6 +319,9 @@ public class GUIWarehouse implements Initializable {
                         ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
                         // If the leader has an extra space
                         if(leaderResourceType != null) {
+                            HBox leaderHBox = leadersHBox.get(i);
+                            leaderHBox.setVisible(true);
+                            leaderHBox.setDisable(false);
                             // Get the current amount of extra
                             int extraAmount = extra[i].getAmountOf(leaderResourceType);
                             // Update the leader image

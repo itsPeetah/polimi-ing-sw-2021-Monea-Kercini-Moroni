@@ -10,7 +10,9 @@ import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
 import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
@@ -27,6 +29,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -71,6 +74,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView im20;
     public ImageView im21;
     public ImageView im22;
+
+    public ImageView lead1res1;
+    public ImageView lead1res2;
+    public ImageView lead2res1;
+    public ImageView lead2res2;
+
+    private final List<ImageView> firstRow = new ArrayList<>();
+    private final List<ImageView> secondRow = new ArrayList<>();
+    private final List<ImageView> thirdRow = new ArrayList<>();
+    private final List<List<ImageView>> rows = new ArrayList<>();
+    private final List<ImageView> ownDevs = new ArrayList<>();
+    private final List<List<ImageView>> leadersResources = new ArrayList<>();
 
     //faith track
 
@@ -141,12 +156,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     Materials materials = new Materials();
     Image cross;
 
-    private final List<ImageView> firstRow = new ArrayList<>();
-    private final List<ImageView> secondRow = new ArrayList<>();
-    private final List<ImageView> thirdRow = new ArrayList<>();
-    private final List<List<ImageView>> rows = new ArrayList<>();
 
-    private final List<ImageView> ownDevs = new ArrayList<>();
 
     @Override
     public void onMessage(Message message) {
@@ -207,7 +217,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         secondRow.addAll(Arrays.asList(im10, im11));
         thirdRow.addAll(Arrays.asList(im20, im21, im22));
         rows.addAll(Arrays.asList(firstRow, secondRow, thirdRow));
-
+        leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
 
         // Own devs
         ownDevs.addAll(Arrays.asList(prod1, prod2, prod3));
@@ -385,8 +395,30 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseExtraChange() {
-        // todo add warehouse extra
-
+        String nickname = GameApplication.getInstance().getUserNickname();
+        int count = 0;
+        LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+        Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
+        Platform.runLater(() -> {
+            for(int i = 0; i < leadersData.length; i++) {
+                LeadCard leader = leadersData[i];
+                if(leader != null) {
+                    ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
+                    // If the leader has an extra space
+                    if(leaderResourceType != null) {
+                        // Get the current amount of extra
+                        int extraAmount = extra[i].getAmountOf(leaderResourceType);
+                        // Update the leader resources
+                        for(int j = 0; j < extraAmount; j++) {
+                            leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
+                        }
+                    }
+                }
+            }
+            for(int i = count; i < 2; i++) {
+                leadersResources.get(i).forEach(imageView -> imageView.setImage(null));
+            }
+        });
     }
 
     @FXML

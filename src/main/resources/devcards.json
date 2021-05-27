@@ -965,7 +965,7 @@
       "color": "YELLOW",
       "cost": {
          "amounts": {
-            "STONES": 3,
+            "STONES": 2,
             "SHIELDS": 2
          }
       },
