@@ -326,6 +326,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
         gameData.getPlayerData(nickname).getDevCards().setObserver(this);
+        gameData.getPlayerData(nickname).getStrongbox().setObserver(this);
     }
 
     @Override
@@ -685,6 +686,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
             System.out.println("Ho mandato la scelta");
+
+            choice = Action.NONE;
         }
     }
 }
