@@ -307,7 +307,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
 
-        productionsSelected = new ArrayList<>();
+        productionsSelected = new HashSet<>();
 
         //NOTE: setListeners must be set at the end so all other initializers are already executed
         setListeners();
