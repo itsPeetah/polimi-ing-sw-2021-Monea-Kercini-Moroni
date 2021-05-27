@@ -22,7 +22,22 @@ public class LeadCardRequirements {
         this.devCardLevels = devCardLevels;
         this.resourceAmounts = resourceAmounts;
     }
-    
+
+    @Override
+    public String toString() {
+
+        String dCCs = "";
+        for (Color c : devCardColors.keySet()) dCCs += c.toString() + " x" + devCardColors.get(c).toString() + ", ";
+        String dCLs = "";
+        for (Color c : devCardLevels.keySet()) dCLs += c.toString() + " x" + devCardLevels.get(c).toString() + ", ";
+
+        return "Requirements {" +
+                "Development cards required: " + dCCs +
+                ", Development card levels required =" + dCLs +
+                ", Required resources:" + resourceAmounts.toString() +
+                '}';
+    }
+
     public Boolean check(Player player) {
         ArrayList<DevCard> playerCards = player.getBoard().getOwnedDevCards();
 

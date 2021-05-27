@@ -15,4 +15,10 @@ public class Production {
         this.input = input;
         this.output = output;
     }
+
+    @Override
+    public String toString() {
+        return  "IN: " + input.toString() +
+                ", OUT: " + output.toString();
+    }
 }

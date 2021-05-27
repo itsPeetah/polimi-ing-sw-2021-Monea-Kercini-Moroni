@@ -22,6 +22,16 @@ public class DevCard extends Card {
         this.production = production;
     }
 
+    @Override
+    public String toString() {
+        return "DevCard{" +
+                "level=" + level.toString() +
+                ", color=" + color.toString() +
+                ", cost=" + cost.toString() +
+                ", production=" + production +
+                '}';
+    }
+
     /**
      * @return level of the Dev Card
      */
