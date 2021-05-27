@@ -16,9 +16,9 @@
       </VBox>
    </center>
    <top>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER_LEFT">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="80.0" top="80.0" />
+            <Insets top="80.0" />
          </BorderPane.margin></Label>
    </top>
 </BorderPane>
