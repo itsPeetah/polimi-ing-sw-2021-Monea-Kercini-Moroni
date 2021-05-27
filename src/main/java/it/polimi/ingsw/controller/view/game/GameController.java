@@ -110,6 +110,7 @@ public class GameController {
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());
+                gameData.getPlayerData(wh.getPlayer()).getStrongbox().setContent(wh.getStrongbox().getResourcesAvailable());
                 break;
 
             case VP:
