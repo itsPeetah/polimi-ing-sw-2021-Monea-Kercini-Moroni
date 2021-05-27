@@ -38,7 +38,7 @@
 #coins, #servants, #shields, #stones {
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: white;
-    -fx-font-size: 25;
+    -fx-font-size: 20;
     -fx-alignment: center;
     -fx-text-alignment: center;
 }
