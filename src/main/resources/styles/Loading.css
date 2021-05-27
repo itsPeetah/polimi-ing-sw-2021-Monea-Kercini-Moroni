@@ -1,0 +1,20 @@
+.label{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 60;
+    -fx-effect: dropshadow(gaussian, white, 3, 0, 0, 0);
+}
+
+.root{
+    -fx-background-image: url(/images/florence_0.jpg);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
+}
+
+.container {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-size: cover;
+    -fx-background-position: left;
+    -fx-cursor: default;
+}
