@@ -180,10 +180,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
+
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
-                    if(topCard == null) {
-                        devCards[i][j].setImage(null);
-                    }
+                    if(topCard == null) devCards[i][j].setImage(null);
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
             }
@@ -252,6 +251,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         ColorAdjust colorAdjust = new ColorAdjust();
         //Setting the saturation value
         colorAdjust.setSaturation(-0.7);
+
 
         //Applying coloradjust effect to the leader nodes
         lead1.setEffect(colorAdjust);
@@ -342,6 +342,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
             lead2.setImage(null);
         }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]== CardState.PLAYED){
+            lead1.setEffect(null);
+        }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.PLAYED){
+            lead2.setEffect(null);
+        }
 
     }
 
@@ -398,6 +404,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void lead1Click(){
         if(choice == Action.DISCARD_LEADER){
             discardLeader(0);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(0);
 
         }
     }
@@ -406,6 +415,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void lead2Click(){
         if(choice == Action.DISCARD_LEADER){
             discardLeader(1);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(1);
 
         }
     }
@@ -424,11 +436,25 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    public void playLeader(int i){
+
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+    }
+
 
     public void playLeader(ActionEvent actionEvent) {
+        choice = Action.PlAY_LEADER;
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
+        NoneActionData noneActionData = new NoneActionData();
+        noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
     public void acquireResources(ActionEvent actionEvent) {
