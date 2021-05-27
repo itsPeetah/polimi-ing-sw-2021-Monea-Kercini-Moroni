@@ -298,7 +298,6 @@ public class GUIWarehouse implements Initializable {
                 remainingResources.forEach((resourceType, label) -> label.setText(Integer.toString(0)));
                 for(ResourceType resourceType: ResourceType.values()) {
                     int resCount = resourcesToPut.getAmountOf(resourceType);
-                    System.out.println("GUIWarehouse.fillRemainingResources. " + resourceType.toString() + " = " + resCount);
                     if(resCount > 0) {
                         updateLabel(remainingResources.get(resourceType), resCount);
                     }
@@ -334,7 +333,6 @@ public class GUIWarehouse implements Initializable {
                     }
                 }
                 for(int i = count; i < 2; i++) {
-                    System.out.println("GUIWarehouse.fillLeaders: canceling leader box");
                     leaders.get(i).setImage(null);
                     HBox leaderHBox = leadersHBox.get(i);
                     leaderHBox.setVisible(false);

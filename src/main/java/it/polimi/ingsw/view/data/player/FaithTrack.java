@@ -19,7 +19,6 @@ public class FaithTrack {
 
     public synchronized void setFaith(int faith) {
 
-        System.out.println("QUESTO VIENE CHIAMATOOOO");
         this.faith = faith;
         if(faithTrackObserver != null) faithTrackObserver.onFaithChange();
     }

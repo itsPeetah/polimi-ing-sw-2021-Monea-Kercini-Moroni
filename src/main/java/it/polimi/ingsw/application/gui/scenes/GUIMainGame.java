@@ -11,9 +11,6 @@ import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.cards.CardManager;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
@@ -30,7 +27,6 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -154,7 +150,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIMainGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
             gameStateLabel.setText(message.toString());
             switch(message) {

@@ -93,7 +93,6 @@ public class ModelController {
         modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
         PutResourcesActionData data = modelControllerIOHandler.getResponseData();
         Warehouse updatedWarehouse = data.getWarehouse();
-        System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
 
         //Checking if player hasn't hacked the game
         Resources tot = new Resources();
@@ -105,7 +104,7 @@ public class ModelController {
 
             //Checking if the warehouse organization is correct
             if (!updatedWarehouse.isOrganized()){
-                System.out.println("WAREHOUSE UNORGANIZED");
+
                 //notify player of his mistake
                 modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
                 return wh;

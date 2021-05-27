@@ -301,7 +301,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIPreGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
             switch (message) {
                 case CHOOSE_LEADERS:
@@ -343,7 +342,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        System.out.println("I'm here");
         Platform.runLater(MAIN_GAME::load);
     }
 
