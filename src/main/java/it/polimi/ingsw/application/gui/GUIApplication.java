@@ -18,6 +18,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        GUIScene.init();
         primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
         GUIScene.MAIN_MENU.load();
