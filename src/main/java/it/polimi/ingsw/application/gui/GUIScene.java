@@ -17,7 +17,8 @@ public enum GUIScene {
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
-    WAREHOUSE("GUIWarehouse.fxml", false);
+    WAREHOUSE("GUIWarehouse.fxml", false),
+    LOADING("GUILoading.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -30,6 +31,7 @@ public enum GUIScene {
 
     /* ACTIVE SCENE */
     private static PacketListener activeScene;
+    private static Scene nextLoadingScene;
 
     /**
      * Create a new GUIScene.
@@ -53,7 +55,6 @@ public enum GUIScene {
         }
         if(fxmlLoader.getController() instanceof PacketListener) {
             activeScene = fxmlLoader.getController();
-            System.out.println("GUIScene.load: changed active scene");
         }
         GUIApplication.setScene(scene);
     }
@@ -70,7 +71,6 @@ public enum GUIScene {
     }
 
     public static PacketListener getActiveScene() {
-        System.out.println("GUIScene.getActiveScene. Active scene: " + activeScene);
         return activeScene;
     }
 
@@ -89,6 +89,26 @@ public enum GUIScene {
                     e.printStackTrace();
                 }
             }
+            if(guiScene == LOADING) {
+                try {
+                    Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
+                    nextLoadingScene = new Scene(loadedSceneView);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+
+    public static Scene showLoadingScene() {
+        Scene loadingScene = LOADING.produceScene();
+        GUIApplication.setScene(loadingScene);
+        try {
+            Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
+            nextLoadingScene = new Scene(loadedSceneView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return loadingScene;
     }
 }

@@ -7,7 +7,7 @@
 
 
 #big{
-    -fx-font-family: 'Old English Text MT';
+    -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: white;
     -fx-background-image: url(/images/coin.png);
     -fx-background-color: transparent;
@@ -24,4 +24,13 @@
 #x0, #x1, #x2, #x3, #y0, #y1, #y2{
     -fx-text-fill: transparent;
     -fx-background-color: transparent;
+}
+
+.gameStateHBox {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-border-color:
+            linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+    -fx-border-style: solid;
+    -fx-border-width:
+            5 0 0 0;
 }

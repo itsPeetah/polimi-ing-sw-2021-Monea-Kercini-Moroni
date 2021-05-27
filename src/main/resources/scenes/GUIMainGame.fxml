@@ -98,13 +98,6 @@
          <effect>
             <DropShadow />
          </effect></Button>
-      <Label layoutX="1616.0" layoutY="622.0" prefHeight="191.0" prefWidth="297.0" text="Wait for your fucking turn" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="Blackadder ITC" size="32.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect></Label>
       <VBox layoutX="1388.0" layoutY="622.0" prefHeight="456.0" prefWidth="222.0">
          <children>
             <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="210.0" text="Aquire resources">
@@ -328,5 +321,17 @@
                </HBox>
            </children>
        </VBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="1640.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="650.0">
+         <children>
+            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Blackadder ITC" size="32.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

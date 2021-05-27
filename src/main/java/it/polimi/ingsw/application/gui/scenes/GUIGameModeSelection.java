@@ -31,6 +31,7 @@ public class GUIGameModeSelection {
 
     @FXML
     private void onSPClick() {
+        GUIScene.showLoadingScene();
         new Thread(() -> {
             GameApplication.getInstance().startSPGame();
             while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}

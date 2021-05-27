@@ -21,16 +21,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 import static it.polimi.ingsw.application.gui.GUIScene.MAIN_GAME;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -277,6 +280,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @FXML
     public void ready(){
+        GUIScene.showLoadingScene();
         button.setDisable(true);
         int cont = 0;
         LeadCard[] actionLeaders = new LeadCard[2];
@@ -297,7 +301,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIPreGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
             switch (message) {
                 case CHOOSE_LEADERS:
@@ -323,6 +326,9 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     private void setChooseResourceUI() {
         Stage stage = new Stage();
         stage.initOwner(button.getScene().getWindow());
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.setResizable(false);
         stage.setOnCloseRequest(Event::consume);
@@ -336,7 +342,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        System.out.println("I'm here");
         Platform.runLater(MAIN_GAME::load);
     }
 

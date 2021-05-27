@@ -11,9 +11,6 @@ import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.cards.CardManager;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
@@ -25,11 +22,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -60,6 +57,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView prod1;
     public ImageView prod2;
     public ImageView prod3;
+    public Label gameStateLabel;
 
     private DevCard chosenDev;
 
@@ -152,8 +150,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("GUIMainGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
+            gameStateLabel.setText(message.toString());
             switch(message) {
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
@@ -177,13 +175,13 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
+
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
                     if(topCard == null) devCards[i][j].setImage(null);
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
             }
         });
-
     }
 
     @Override
@@ -247,6 +245,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         ColorAdjust colorAdjust = new ColorAdjust();
         //Setting the saturation value
         colorAdjust.setSaturation(-0.7);
+
 
         //Applying coloradjust effect to the leader nodes
         lead1.setEffect(colorAdjust);
@@ -337,6 +336,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
             lead2.setImage(null);
         }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[0]== CardState.PLAYED){
+            lead1.setEffect(null);
+        }
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getStates()[1]== CardState.PLAYED){
+            lead2.setEffect(null);
+        }
 
     }
 
@@ -347,14 +352,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseContentChange() {
-        System.out.println("GUIMainGame.onWarehouseContentChange");
         String nickname = GameApplication.getInstance().getUserNickname();
         Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
         Platform.runLater(() -> {
             for(int i = 0; i < 3; i++) {
                 Resources rowResources = warehouse[i];
                 if(rowResources != null) {
-                    System.out.println("GUIMainGame.onWarehouseContentChange. For - row size = " + rowResources.getTotalAmount());
                     fillRow(rowResources, rows.get(2-i));
                 }
             }
@@ -367,7 +370,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             int resCount = resources.getAmountOf(resourceType);
             row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
             row.stream().skip(resCount).forEach(imageView -> imageView.setImage(null));
-            System.out.println("GUIMainGame.fillRow with res " + resourceType + " with count " + resCount);
         } else {
             row.forEach(imageView -> imageView.setImage(null));
         }
@@ -395,8 +397,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead1Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 1");
             discardLeader(0);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(0);
 
         }
     }
@@ -404,8 +408,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead2Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 2");
             discardLeader(1);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(1);
 
         }
     }
@@ -424,11 +430,25 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    public void playLeader(int i){
+
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+    }
+
 
     public void playLeader(ActionEvent actionEvent) {
+        choice = Action.PlAY_LEADER;
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
+        NoneActionData noneActionData = new NoneActionData();
+        noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
     public void acquireResources(ActionEvent actionEvent) {
