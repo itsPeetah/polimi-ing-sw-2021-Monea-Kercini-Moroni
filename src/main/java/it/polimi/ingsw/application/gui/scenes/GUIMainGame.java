@@ -182,7 +182,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 for (int j = 0; j < 3; j++) {
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
                     if(topCard == null) {
-                        System.out.println("GUIMainGame.onDevCardMarketChange: " + i + ","+ j + " not present.");
                         devCards[i][j].setImage(null);
                     }
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
@@ -353,14 +352,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseContentChange() {
-        System.out.println("GUIMainGame.onWarehouseContentChange");
         String nickname = GameApplication.getInstance().getUserNickname();
         Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
         Platform.runLater(() -> {
             for(int i = 0; i < 3; i++) {
                 Resources rowResources = warehouse[i];
                 if(rowResources != null) {
-                    System.out.println("GUIMainGame.onWarehouseContentChange. For - row size = " + rowResources.getTotalAmount());
                     fillRow(rowResources, rows.get(2-i));
                 }
             }
@@ -373,7 +370,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             int resCount = resources.getAmountOf(resourceType);
             row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
             row.stream().skip(resCount).forEach(imageView -> imageView.setImage(null));
-            System.out.println("GUIMainGame.fillRow with res " + resourceType + " with count " + resCount);
         } else {
             row.forEach(imageView -> imageView.setImage(null));
         }
@@ -401,7 +397,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead1Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 1");
             discardLeader(0);
 
         }
@@ -410,7 +405,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead2Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 2");
             discardLeader(1);
 
         }
