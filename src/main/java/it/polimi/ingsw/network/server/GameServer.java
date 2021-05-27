@@ -74,6 +74,7 @@ public class GameServer {
      */
     public void execute(){
 
+        System.out.println("Starting server @ " + address + ":" + port);
         // try initializing the server socket
         try {
             serverSocket = new ServerSocket(port);

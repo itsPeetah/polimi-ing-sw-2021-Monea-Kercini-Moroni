@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
+import it.polimi.ingsw.application.cli.MaestriRinascimentoCLI;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
@@ -76,7 +77,7 @@ public class CLIHome extends CLIScene {
         print(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
         // TODO Move data somewhere else
-        GameApplication.getInstance().connect("localhost", 50000);
+        GameApplication.getInstance().connect(MaestriRinascimentoCLI.serverHostName, MaestriRinascimentoCLI.serverPortNumber);
         if(GameApplication.getInstance().isOnNetwork()){
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else{

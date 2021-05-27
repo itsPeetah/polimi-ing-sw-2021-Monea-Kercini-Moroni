@@ -7,6 +7,7 @@ import it.polimi.ingsw.application.cli.threads.CLIInputReader;
 import it.polimi.ingsw.application.cli.threads.CLIOutputDisplay;
 import it.polimi.ingsw.application.common.*;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.network.MaestriRinascimentoServer;
 
 public class MaestriRinascimentoCLI {
 
@@ -22,16 +23,15 @@ public class MaestriRinascimentoCLI {
     public static final CLIGame gameScene = new CLIGame();
     public static final CLIStop stoppedScene = new CLIStop();
 
+    public static String serverHostName;
+    public static int serverPortNumber;
+
     public static void main(String[] args){
 
-        /*startupScene.show();
-        gameApplication.connect("localhost", 42069);*/
+        if(args.length < 2) return;
 
-        /*CLIScene currentScene = CLIScenes.TITLE.getScene();
-        GameApplicationState currentState = gameApplication.getApplicationState();
-        GameApplicationState previousState = currentState;
-
-        currentScene.show();*/
+        serverHostName = args[0];
+        serverPortNumber = Integer.parseInt(args[1]);
 
         CLIInputReader input = new CLIInputReader();
         CLIOutputDisplay output = new CLIOutputDisplay();
@@ -44,31 +44,5 @@ public class MaestriRinascimentoCLI {
 
         while(GameApplication.getInstance().getApplicationState() != GameApplicationState.STOPPED)
         {}
-
-        /*boolean done = false;
-        while(!done){
-            currentState = gameApplication.getApplicationState();
-
-            // Change the scene
-            if(currentState != previousState) {
-                currentScene = CLIScenes.getCurrent();
-
-                if(currentState == GameApplicationState.INGAME)
-                    ((CLIGame)CLIScenes.GAME.getScene()).init();
-
-                currentScene.show();
-            }
-
-            if(currentState == GameApplicationState.INGAME){
-                currentScene.update();
-            }
-
-            if(currentState != GameApplicationState.STOPPED){
-                currentScene.getInput();
-            } else
-                done = true;
-
-            previousState = currentState;
-        }*/
     }
 }
