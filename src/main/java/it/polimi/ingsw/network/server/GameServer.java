@@ -2,12 +2,12 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.components.RemoteConnectionHandler;
-import it.polimi.ingsw.network.server.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.server.components.RoomTable;
 import it.polimi.ingsw.network.server.components.UserTable;
 
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,9 +17,11 @@ import java.util.concurrent.Executors;
  */
 public class GameServer {
 
+    private static final int serverBacklog = 50;
+
     private static GameServer instance;     // singleton instance
 
-    private final String address;           // name of the server
+    private final String hostName;           // name of the server
     private final int port;                 // port of the server
     private ServerSocket serverSocket;      // server socket object
 
@@ -34,7 +36,7 @@ public class GameServer {
      * @param port The server's port number.
      */
     public GameServer(String address, int port){
-        this.address = address;
+        this.hostName = address;
         this.port = port;
 
         this.userTable = new UserTable();
@@ -74,10 +76,10 @@ public class GameServer {
      */
     public void execute(){
 
-        System.out.println("Starting server @ " + address + ":" + port);
+        System.out.println("Starting server @ " + hostName + ":" + port);
         // try initializing the server socket
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port, serverBacklog, Inet4Address.getByName(hostName));
         } catch (IOException ex){
             System.out.println(ex.getMessage());
             return;

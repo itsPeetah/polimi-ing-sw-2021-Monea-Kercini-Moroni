@@ -23,7 +23,6 @@ public class MaestriRinascimentoServer {
             setPortNumber(Integer.parseInt(args[1]));
         }
 
-
         GameServer server = new GameServer(hostName, portNumber).setAsInstance();
         server.execute();
     }
