@@ -402,8 +402,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead1Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 1");
             discardLeader(0);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(0);
 
         }
     }
@@ -411,8 +413,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @FXML
     public void lead2Click(){
         if(choice == Action.DISCARD_LEADER){
-            System.out.println("Player a deciso di scartare 2");
             discardLeader(1);
+        }
+        if(choice == Action.PlAY_LEADER){
+            playLeader(1);
 
         }
     }
@@ -431,8 +435,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    public void playLeader(int i){
+
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
+        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+    }
+
 
     public void playLeader(ActionEvent actionEvent) {
+        choice = Action.PlAY_LEADER;
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
