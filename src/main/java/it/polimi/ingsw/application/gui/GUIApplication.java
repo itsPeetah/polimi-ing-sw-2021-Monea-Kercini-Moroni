@@ -14,7 +14,7 @@ import java.io.File;
 public class GUIApplication extends Application {
     private static Stage primaryStage;
     private static Alert oldDialog;
-    private static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
+    public static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
 
     @Override
     public void start(Stage stage) throws Exception {

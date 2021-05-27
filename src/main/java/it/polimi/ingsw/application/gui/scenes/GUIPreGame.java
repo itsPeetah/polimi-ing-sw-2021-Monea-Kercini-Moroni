@@ -21,16 +21,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 import static it.polimi.ingsw.application.gui.GUIScene.MAIN_GAME;
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -324,6 +327,9 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     private void setChooseResourceUI() {
         Stage stage = new Stage();
         stage.initOwner(button.getScene().getWindow());
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.setResizable(false);
         stage.setOnCloseRequest(Event::consume);

@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,6 +61,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView prod1;
     public ImageView prod2;
     public ImageView prod3;
+    public Label gameStateLabel;
 
     private DevCard chosenDev;
 
@@ -154,6 +156,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onMessage(Message message) {
         System.out.println("GUIMainGame: \"" + message + "\" arrived");
         Platform.runLater(() -> {
+            gameStateLabel.setText(message.toString());
             switch(message) {
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
@@ -179,7 +182,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 for (int j = 0; j < 3; j++) {
 
                     DevCard topCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j];
-
                     if(topCard == null) devCards[i][j].setImage(null);
                     else devCards[i][j].setImage(getImage(topCard.getCardId()));
                 }
@@ -355,14 +357,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseContentChange() {
-        System.out.println("GUIMainGame.onWarehouseContentChange");
         String nickname = GameApplication.getInstance().getUserNickname();
         Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
         Platform.runLater(() -> {
             for(int i = 0; i < 3; i++) {
                 Resources rowResources = warehouse[i];
                 if(rowResources != null) {
-                    System.out.println("GUIMainGame.onWarehouseContentChange. For - row size = " + rowResources.getTotalAmount());
                     fillRow(rowResources, rows.get(2-i));
                 }
             }
@@ -375,7 +375,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             int resCount = resources.getAmountOf(resourceType);
             row.stream().limit(resCount).forEach(imageView -> imageView.setImage(resourceType.getImage()));
             row.stream().skip(resCount).forEach(imageView -> imageView.setImage(null));
-            System.out.println("GUIMainGame.fillRow with res " + resourceType + " with count " + resCount);
         } else {
             row.forEach(imageView -> imageView.setImage(null));
         }
