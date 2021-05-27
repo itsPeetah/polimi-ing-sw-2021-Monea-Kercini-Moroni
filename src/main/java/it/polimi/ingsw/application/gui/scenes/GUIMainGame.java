@@ -32,10 +32,7 @@ import javafx.scene.shape.Sphere;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -128,7 +125,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     private Action choice;
 
-    private ArrayList<Production> productionsSelected;
+    private HashSet<Production> productionsSelected;
 
     @FXML
     //The marble waiting
@@ -310,7 +307,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
 
-        productionsSelected = new ArrayList<>();
+        productionsSelected = new HashSet<>();
 
         //NOTE: setListeners must be set at the end so all other initializers are already executed
         setListeners();
@@ -695,7 +692,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         }else if(choice == Action.PRODUCE){
 
-            ProduceActionData produceActionData = new ProduceActionData(productionsSelected);
+            ArrayList<Production> arrayList = new ArrayList<>(productionsSelected);
+            ProduceActionData produceActionData = new ProduceActionData(arrayList);
             produceActionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
             ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
