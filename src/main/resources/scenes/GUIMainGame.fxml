@@ -120,7 +120,7 @@
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Produce">
+            <Button mnemonicParsing="false" onAction="#produce" prefHeight="140.0" prefWidth="210.0" text="Produce">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
@@ -335,7 +335,7 @@
          <children>
             <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="Blackadder ITC" size="32.0" />
+                  <Font name="Blackadder ITC" size="16.0" />
                </font>
                <effect>
                   <DropShadow />
@@ -371,5 +371,6 @@
             <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="94.0" prefHeight="30.0" prefWidth="20.0" text="Label" textAlignment="CENTER" />
          </children>
       </Pane>
+      <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="241.0" layoutY="862.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

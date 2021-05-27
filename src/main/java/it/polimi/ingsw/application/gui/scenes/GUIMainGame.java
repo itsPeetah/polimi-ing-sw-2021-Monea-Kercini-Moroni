@@ -5,12 +5,10 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.ChooseLeaderActionData;
-import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
-import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
-import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
+import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
@@ -38,6 +36,7 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
+import static it.polimi.ingsw.model.playerboard.ProductionPowers.getBasicProduction;
 
 public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver {
 
@@ -113,6 +112,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     private Sphere[][] marbles = new Sphere[3][4];
 
     private Action choice;
+
+    private ArrayList<Production> productionsSelected;
 
     @FXML
     //The marble waiting
@@ -291,6 +292,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
+
+        productionsSelected = new ArrayList<>();
 
         //NOTE: setListeners must be set at the end so all other initializers are already executed
         setListeners();
@@ -567,8 +570,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     private void devCardSend(DevCard devCard, int space) {
 
-        System.out.println(devCard.getCardId());
-
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
         devCardActionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
@@ -614,5 +615,34 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             }
         });
 
+    }
+
+    public void basicProdClick(MouseEvent mouseEvent) {
+        if(choice==Action.PRODUCE){
+            productionsSelected.add(getBasicProduction());
+            System.out.println("Hai scelto basic prod");
+        }
+    }
+
+    public void produce(ActionEvent actionEvent) {
+
+        if(choice != Action.PRODUCE){
+
+            choice = Action.PRODUCE;
+            productionsSelected.clear();
+
+            //todo show player now he is choosing productions
+
+            System.out.println("Choose productions!!!!!!");
+        }else if(choice == Action.PRODUCE){
+
+            ProduceActionData produceActionData = new ProduceActionData(productionsSelected);
+            produceActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+
+            ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
+            GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+            System.out.println("Ho mandato la scelta");
+        }
     }
 }
