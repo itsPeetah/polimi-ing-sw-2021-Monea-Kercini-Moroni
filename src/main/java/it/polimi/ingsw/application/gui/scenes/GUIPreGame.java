@@ -277,6 +277,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @FXML
     public void ready(){
+        GUIScene.showLoadingScene();
         button.setDisable(true);
         int cont = 0;
         LeadCard[] actionLeaders = new LeadCard[2];

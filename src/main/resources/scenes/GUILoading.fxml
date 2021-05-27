@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/Loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUILoading">
+    <center>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="container" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="loadingFlask" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="465.0" AnchorPane.leftAnchor="885.0" AnchorPane.rightAnchor="885.0" AnchorPane.topAnchor="465.0">
+                   <image>
+                      <Image url="@../images/flask.png" />
+                   </image>
+                </ImageView>
+                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Loading, please wait..." textAlignment="CENTER" AnchorPane.leftAnchor="739.0" AnchorPane.rightAnchor="739.0" AnchorPane.topAnchor="300.0" BorderPane.alignment="CENTER" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

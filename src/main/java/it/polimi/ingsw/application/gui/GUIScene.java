@@ -17,7 +17,8 @@ public enum GUIScene {
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
-    WAREHOUSE("GUIWarehouse.fxml", false);
+    WAREHOUSE("GUIWarehouse.fxml", false),
+    LOADING("GUILoading.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -26,9 +27,11 @@ public enum GUIScene {
     /* SCENE ATTRIBUTES */
     private FXMLLoader fxmlLoader = null;
     private Scene scene = null;
+    private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
     private static PacketListener activeScene;
+    private static Scene nextLoadingScene;
 
     /**
      * Create a new GUIScene.
@@ -37,14 +40,7 @@ public enum GUIScene {
      */
     GUIScene(String fxmlPath, boolean loadOnStarting) {
         this.fxmlPath = FXML_DIRECTORY + fxmlPath;
-        if(!loadOnStarting) return;
-        try {
-            fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
-            Parent sceneParent = fxmlLoader.load();
-            scene = new Scene(sceneParent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.loadOnStarting = loadOnStarting;
     }
 
     public void load() {
@@ -82,5 +78,39 @@ public enum GUIScene {
 
     public static void setPacketListener(PacketListener activeScene) {
         GUIScene.activeScene = activeScene;
+    }
+
+    public static void init() {
+        for(GUIScene guiScene: GUIScene.values()) {
+            if(guiScene.loadOnStarting) {
+                try {
+                    guiScene.fxmlLoader = new FXMLLoader(guiScene.getClass().getResource(guiScene.fxmlPath));
+                    Parent sceneParent = guiScene.fxmlLoader.load();
+                    guiScene.scene = new Scene(sceneParent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(guiScene == LOADING) {
+                try {
+                    Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
+                    nextLoadingScene = new Scene(loadedSceneView);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static Scene showLoadingScene() {
+        Scene loadingScene = LOADING.produceScene();
+        GUIApplication.setScene(loadingScene);
+        try {
+            Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
+            nextLoadingScene = new Scene(loadedSceneView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return loadingScene;
     }
 }
