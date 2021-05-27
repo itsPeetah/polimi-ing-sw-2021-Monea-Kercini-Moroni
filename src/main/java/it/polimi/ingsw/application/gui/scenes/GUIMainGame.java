@@ -185,7 +185,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 }
             }
         });
-
     }
 
     @Override
