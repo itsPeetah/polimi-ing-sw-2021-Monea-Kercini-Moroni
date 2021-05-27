@@ -26,19 +26,19 @@ public class ClientSideServerListener {
             switch (np.getPacketType()) {
                 case SYSTEM:
                     handleSystemMessage(np);
-                    System.out.println("Received SYSTEM");
+                    /*System.out.println("Received SYSTEM");*/
                     break;
                 case DEBUG:
                     handleDebugMessage(np);
-                    System.out.println("Received DEBUG");
+                    /*System.out.println("Received DEBUG");*/
                     break;
                 case MESSAGE:
                     GameApplicationIOHandler.getInstance().notifyMessage(np);
-                    System.out.println("Received MESSAGE");
+                    /*System.out.println("Received MESSAGE");*/
                     break;
                 case UPDATE:
                     GameApplicationIOHandler.getInstance().notifyUpdate(np);
-                    System.out.println("Received UPDATE");
+                    /*System.out.println("Received UPDATE");*/
                     break;
                 case SOCIAL:
                     GameApplicationIOHandler.getInstance().handleSocialMessage(np);
