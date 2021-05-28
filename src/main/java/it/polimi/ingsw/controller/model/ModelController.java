@@ -894,7 +894,7 @@ public class ModelController {
 
     private void updateWarehouse(Player player){
 
-        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getNickname());
+        WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getBoard().getStrongbox(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }
 

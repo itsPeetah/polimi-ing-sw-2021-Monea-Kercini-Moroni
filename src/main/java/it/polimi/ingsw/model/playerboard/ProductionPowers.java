@@ -153,6 +153,7 @@ public class ProductionPowers {
 
         Resources inb = new Resources();
         Resources outb = new Resources();
+
         inb.add(ResourceType.CHOICE, 2);
         outb.add(ResourceType.CHOICE, 1);
 
@@ -177,5 +178,9 @@ public class ProductionPowers {
             }
         }
         return vp;
+    }
+
+    public static Production getBasicProduction() {
+        return basicProduction;
     }
 }

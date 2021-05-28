@@ -11,7 +11,6 @@ public class ProduceActionData extends ActionData {
     /**
      * Constructor for GSON
      */
-    public ProduceActionData() {}
 
     public ProduceActionData(ArrayList<Production> chosenProductions) {
         this.chosenProductions = chosenProductions;

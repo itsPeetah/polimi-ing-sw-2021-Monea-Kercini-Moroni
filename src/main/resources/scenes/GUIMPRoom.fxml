@@ -97,7 +97,7 @@
                </font></TextField>
          </bottom>
          <BorderPane.margin>
-            <Insets left="800.0" />
+            <Insets />
          </BorderPane.margin>
       </BorderPane>
    </center>
