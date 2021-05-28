@@ -4,16 +4,17 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
 public enum GUIScene {
     MAIN_MENU("GUIMainMenu.fxml", true),
     GAME_MODE_SELECTION("GUIGameModeSelection.fxml", true),
-    MP_SELECTION("GUIMPSelection.fxml", false),
-    MP_ROOM("GUIMPRoom.fxml", false),
-    PRE_GAME("GUIPreGame.fxml", false),
-    MAIN_GAME("GUIMainGame.fxml", false),
+    MP_SELECTION("GUIMPSelection.fxml", true),
+    MP_ROOM("GUIMPRoom.fxml", true),
+    PRE_GAME("GUIPreGame.fxml", true),
+    MAIN_GAME("GUIMainGame.fxml", true),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
@@ -26,12 +27,15 @@ public enum GUIScene {
 
     /* SCENE ATTRIBUTES */
     private FXMLLoader fxmlLoader = null;
-    private Scene scene = null;
+    private Parent root = null;
     private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
     private static PacketListener activeScene;
-    private static Scene nextLoadingScene;
+    private static Parent nextLoadingRoot;
+
+    /* STATIC SCENE */
+    private static final Scene scene = new Scene(new Pane());
 
     /**
      * Create a new GUIScene.
@@ -47,32 +51,30 @@ public enum GUIScene {
         if(fxmlLoader == null) {
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
-                Parent sceneParent = fxmlLoader.load();
-                scene = new Scene(sceneParent);
+                root = fxmlLoader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if(fxmlLoader.getController() instanceof PacketListener) {
-            activeScene = fxmlLoader.getController();
-        }
-        GUIApplication.setScene(scene);
+        startCallbacks();
+        scene.setRoot(root);
     }
 
-    public Scene loadWithoutSet() {
-        if(fxmlLoader == null) {
-            try {
-                fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
-                Parent sceneParent = fxmlLoader.load();
-                scene = new Scene(sceneParent);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public static Scene getScene() {
+        return scene;
+    }
+
+    public Parent getRoot() {
+        return root;
+    }
+
+    public void startCallbacks() {
         if(fxmlLoader.getController() instanceof PacketListener) {
             activeScene = fxmlLoader.getController();
         }
-        return scene;
+        if(fxmlLoader.getController() instanceof GUIObserverScene) {
+            new Thread(((GUIObserverScene)fxmlLoader.getController())::startObserver).start();
+        }
     }
 
     public Scene produceScene() {
@@ -90,25 +92,19 @@ public enum GUIScene {
         return activeScene;
     }
 
-    public static void setPacketListener(PacketListener activeScene) {
-        GUIScene.activeScene = activeScene;
-    }
-
     public static void init() {
         for(GUIScene guiScene: GUIScene.values()) {
             if(guiScene.loadOnStarting) {
                 try {
                     guiScene.fxmlLoader = new FXMLLoader(guiScene.getClass().getResource(guiScene.fxmlPath));
-                    Parent sceneParent = guiScene.fxmlLoader.load();
-                    guiScene.scene = new Scene(sceneParent);
+                    guiScene.root = guiScene.fxmlLoader.load();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             if(guiScene == LOADING) {
                 try {
-                    Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
-                    nextLoadingScene = new Scene(loadedSceneView);
+                    nextLoadingRoot = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,15 +112,12 @@ public enum GUIScene {
         }
     }
 
-    public static Scene showLoadingScene() {
-        Scene loadingScene = LOADING.produceScene();
-        GUIApplication.setScene(loadingScene);
+    public static void showLoadingScene() {
+        scene.setRoot(nextLoadingRoot);
         try {
-            Parent loadedSceneView = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
-            nextLoadingScene = new Scene(loadedSceneView);
+            nextLoadingRoot = new FXMLLoader(LOADING.getClass().getResource(LOADING.fxmlPath)).load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return loadingScene;
     }
 }
