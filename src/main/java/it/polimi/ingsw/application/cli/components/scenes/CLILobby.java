@@ -25,7 +25,7 @@ public class CLILobby extends CLIScene {
     @Override
     public void show() {
         clearConsole();
-        print("========= Game Lobby =========");
+        println("========= Game Lobby =========");
 
         String nickLabel = nickname == null
                 ? "[" + ANSIColor.RED + "CHOOSE NICKNAME" + ANSIColor.RESET + "]"
@@ -34,18 +34,18 @@ public class CLILobby extends CLIScene {
                 ? "[" + ANSIColor.RED + "CHOOSE GAME ROOM" + ANSIColor.RESET + "]"
                 : "[" + ANSIColor.GREEN + roomName + ANSIColor.RESET + "]";
 
-        print("Nickname:\t" + nickLabel);
-        print("Game room:\t" + roomLabel);
+        println("Nickname:\t" + nickLabel);
+        println("Game room:\t" + roomLabel);
 
-        print("==============================");
+        println("==============================");
     }
 
     @Override
     public void help() {
-        print("Use \"nick <nickname>\" to choose your nickname");
-        print("Use \"room <room name>\" to choose the room you want to join");
-        print("Use either \"join\" or \"create\" to join or create a room on the server.");
-        print("Use \"quit\" to quit the game.");
+        println("Use \"nick <nickname>\" to choose your nickname");
+        println("Use \"room <room name>\" to choose the room you want to join");
+        println("Use either \"join\" or \"create\" to join or create a room on the server.");
+        println("Use \"quit\" to quit the game.");
     }
 
     /*@Override
@@ -108,19 +108,19 @@ public class CLILobby extends CLIScene {
                 help();
                 break;
             case "nick":
-                if (arguments.length < 1) print("Error: missing arguments. Retry.");
+                if (arguments.length < 1) println("Error: missing arguments. Retry.");
                 else {
                     nickname = arguments[0];
                     show();
-                    print("Set the nickname to " + nickname);
+                    /*println("Set the nickname to " + nickname);*/
                 }
                 break;
             case "room":
-                if (arguments.length < 1) print("Error: missing arguments. Retry.");
+                if (arguments.length < 1) println("Error: missing arguments. Retry.");
                 else {
                     roomName = arguments[0];
                     show();
-                    print("Set the room to " + roomName);
+                    /*println("Set the room to " + roomName);*/
                 }
                 break;
             case "create":
@@ -145,13 +145,13 @@ public class CLILobby extends CLIScene {
                 makeChoice(ConnectionMessage.QUIT.getCode());
                 break;
             default:
-                print("Error: invalid command.");
+                println("Error: invalid command.");
                 break;
         }
     }
 
     private void makeChoice(String choice){
-        print("Processing request, please wait.");
+        println("Processing request, please wait.");
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, choice);
         GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
         GameApplication.getInstance().sendNetworkPacket(np);

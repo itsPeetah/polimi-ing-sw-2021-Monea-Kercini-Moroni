@@ -12,12 +12,12 @@ public class CLITitle extends CLIScene {
 
     @Override
     public void show() {
-        print("========= Masters of Renaissance =========");
-        print("             - CLI Version -");
-        print("==========================================");
-        print(" ");
-        print("Type \"help\" at any point to visualize available commands.");
-        print("Press [ENTER] to continue.");
+        println("========= Masters of Renaissance =========");
+        println("             - CLI Version -");
+        println("==========================================");
+        println(" ");
+        println("Type \"help\" at any point to visualize available commands.");
+        println("Press [ENTER] to continue.");
     }
     /*
     @Override

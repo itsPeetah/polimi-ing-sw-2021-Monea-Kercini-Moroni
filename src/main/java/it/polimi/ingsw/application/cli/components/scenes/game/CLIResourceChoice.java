@@ -6,9 +6,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
@@ -30,17 +28,17 @@ public class CLIResourceChoice extends CLIScene implements ICLIGameSubScene {
 
     @Override
     public void show() {
-        print("CHOOSE RESOURCES:");
-        print("1) "+ ANSIColor.PURPLE + "SERVANTS" + ANSIColor.RESET);
-        print("2) "+ ANSIColor.YELLOW + "COINS" + ANSIColor.RESET);
-        print("3) "+ ANSIColor.BLUE + "SHIELDS" + ANSIColor.RESET);
-        print("1) "+ ANSIColor.WHITE_BACKGROUND + "STONES" + ANSIColor.RESET);
+        println("CHOOSE RESOURCES:");
+        println("1) "+ ANSIColor.PURPLE + "SERVANTS" + ANSIColor.RESET);
+        println("2) "+ ANSIColor.YELLOW + "COINS" + ANSIColor.RESET);
+        println("3) "+ ANSIColor.BLUE + "SHIELDS" + ANSIColor.RESET);
+        println("1) "+ ANSIColor.WHITE_BACKGROUND + "STONES" + ANSIColor.RESET);
     }
 
     @Override
     public void help() {
-        print("Use command \"pick <num>\" to choose a resource (num must be between 1 and 4).");
-        print("Use command \"confirm\" or \"ok\" to confirm your selection.");
+        println("Use command \"pick <num>\" to choose a resource (num must be between 1 and 4).");
+        println("Use command \"confirm\" or \"ok\" to confirm your selection.");
     }
 
     @Override

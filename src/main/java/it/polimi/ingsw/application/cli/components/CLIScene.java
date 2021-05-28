@@ -2,7 +2,6 @@ package it.polimi.ingsw.application.cli.components;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class CLIScene {
@@ -30,15 +29,23 @@ public class CLIScene {
     }
 
     public void help(){
-        print("The help view is not implemented for this scene.");
+        println("The help view is not implemented for this scene.");
     }
 
-    public void print(String message){
+    public void println(String message){
         System.out.println(message);
     }
 
+    public void print(String message){
+        System.out.print(message);
+    }
+
+    public void print(char character){
+        System.out.print(character);
+    }
+
     public void error(String errorMessage){
-        print(ANSIColor.RED + errorMessage + ANSIColor.RESET);
+        println(ANSIColor.RED + errorMessage + ANSIColor.RESET);
     }
 
     public final static void clearConsole()

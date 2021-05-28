@@ -6,6 +6,6 @@ public class CLIWait extends CLIScene {
 
     @Override
     public void show() {
-        print("Please wait...");
+        println("Please wait...");
     }
 }

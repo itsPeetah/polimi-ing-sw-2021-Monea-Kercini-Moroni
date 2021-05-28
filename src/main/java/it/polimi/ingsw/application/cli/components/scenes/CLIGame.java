@@ -50,19 +50,20 @@ public class CLIGame extends CLIScene {
 
     @Override
     public void show() {
-        print("+--------------------------------------------------+");
-        print("|         Masters of Renaissance - In Game         |");
-        print("+--------------------------------------------------+");
-        print("");
+        clearConsole();
+        println("|         Masters of Renaissance - In Game         |");
+        println("+--------------------------------------------------+");
+        println("Current state: " + currentGameState.toString());
 
         if(currentView == null){
-            print("");print("Please wait...");print("");
+            println("");
+            println("Please wait...");
+            println("");
         } else {
             currentView.update(gameController.getGameData());
             currentView.show();
         }
-
-        /*print("====================================================");*/
+        println("====================================================");
     }
 
     @Override
