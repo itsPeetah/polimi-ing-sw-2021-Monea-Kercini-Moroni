@@ -3,6 +3,9 @@ package it.polimi.ingsw.application.cli.components;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.common.GameApplication;
 
+/**
+ * Collection of CLIScenes.
+ */
 public enum CLIScenes {
 
     TITLE(new CLITitle(), "Masters of Renaissance - Welcome"),

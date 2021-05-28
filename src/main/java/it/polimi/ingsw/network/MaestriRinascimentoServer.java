@@ -12,12 +12,27 @@ public class MaestriRinascimentoServer {
 
     public static void main(String[] args) {
 
-        // TODO Get from args/read from file
-        hostName = defaultHostName;
-        portNumber = defaultPortNumber;
+        if(args.length < 1){
+            setHostName(defaultHostName);
+            setPortNumber(defaultPortNumber);
+        } else if (args.length < 2){
+            setHostName(args[0]);
+            setPortNumber(defaultPortNumber);
+        } else {
+            setHostName(args[0]);
+            setPortNumber(Integer.parseInt(args[1]));
+        }
 
         GameServer server = new GameServer(hostName, portNumber).setAsInstance();
         server.execute();
+    }
+
+    public static void setHostName(String hostName){
+        MaestriRinascimentoServer.hostName = hostName;
+    }
+
+    public static void setPortNumber(int portNumber){
+        MaestriRinascimentoServer.portNumber = portNumber;
     }
 
 

@@ -28,9 +28,8 @@ public class CLILeadChoice extends CLIScene implements ICLIGameSubScene {
 
     @Override
     public void show() {
-        print("CHOOSE YOUR LEADER CARDS:"); print("");
-        print(leadersToChooseFrom.toString());
-        print("");
+        println("CHOOSE YOUR LEADER CARDS:"); println("");
+        println(leadersToChooseFrom.toString());
     }
 
   /*  @Override
