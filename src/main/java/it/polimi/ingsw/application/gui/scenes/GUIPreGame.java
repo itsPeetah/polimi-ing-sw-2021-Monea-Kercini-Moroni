@@ -112,7 +112,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set listeners
-
         setListeners();
 
         //setting level of the glow effect
@@ -154,10 +153,12 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
 
     private void setListeners() {
-        GameData gameData = GameApplication.getInstance().getGameController().getGameData();
-        gameData.getCommon().getMarketTray().setObserver(this);
-        gameData.getCommon().getDevCardMarket().setObserver(this);
-        gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
+        new Thread(() -> {
+            GameData gameData = GameApplication.getInstance().getGameController().getGameData();
+            gameData.getCommon().getMarketTray().setObserver(this);
+            gameData.getCommon().getDevCardMarket().setObserver(this);
+            gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
+        }).start();
     }
 
     Materials materials = new Materials();

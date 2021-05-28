@@ -40,6 +40,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
     }
 
     public void onConnectClick(ActionEvent actionEvent) {
+        if(GameApplication.getInstance().isOnNetwork()) return;
         disableButtons(true);
         address = addressTextField.getText();
         String portString = portTextField.getText().equals("") ? "0" : portTextField.getText();
@@ -51,10 +52,12 @@ public class GUIConnSettings implements Initializable, PacketListener {
         timeoutTask = new TimerTask() {
             @Override
             public void run() {
-                disableButtons(false);
-                if(GameApplication.getInstance().isOnNetwork()) return;
-                GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
-                Platform.runLater(GUIScene.CONN_SETTINGS::load);
+                Platform.runLater(() -> {
+                    disableButtons(false);
+                    System.out.println("GUIConnSettings.run: Oops, make sure the server is online and the address and port are correct!");
+                    GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
+                    Platform.runLater(GUIScene.CONN_SETTINGS::load);
+                });
             }
         };
         timer.schedule(timeoutTask, TIMEOUT_TIME);
