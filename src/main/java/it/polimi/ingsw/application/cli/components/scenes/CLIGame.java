@@ -72,18 +72,6 @@ public class CLIGame extends CLIScene {
         else super.help();
     }
 
-    /*@Override
-    public void getInput() {
-        if(currentView != null) currentView.getInput();
-        else {
-            String cmd = input.nextLine();
-            switch(cmd){
-                case "help": help(); break;
-                default: error("Unsupported command."); break;
-            }
-        }
-    }*/
-
     @Override
     public void execute(String command, String[] arguments) {
         if(currentView != null) currentView.execute(command, arguments);

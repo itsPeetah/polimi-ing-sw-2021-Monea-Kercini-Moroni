@@ -14,32 +14,26 @@ import java.text.NumberFormat;
 
 public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene {
 
-    private Warehouse whData;
-    private ResourcesToPut resourcesToPut;
-
-    private String warehouseBase
-            = "    +---+\n"
-            + "    | 1 |\n"
-            + "  +-+-+-+-+\n"
-            + "  | 2 | 3 |\n"
-            + "+-+-+-+-+-+-+\n"
-            + "| 4 | 5 | 6 |\n"
-            + "+---+---+---+\n";
-
-    private final int cell1Index = 16, cell2Index = 36, cell3Index = 24, cell4Index = 60, cell5Index = 64, cell6Index = 68;
-
+    private Warehouse tempWarehouse;
+    private Resources queuedResources;
 
     public CLIWarehouseOrganizing(){
         super();
-        whData = null;
-        resourcesToPut = null;
+        tempWarehouse = new Warehouse();
+        queuedResources = new Resources();
     }
-
 
     @Override
     public void update(GameData data) {
-        whData = data.getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
-        resourcesToPut = data.getMomentary().getResourcesToPut();
+
+        Warehouse gameWarehouse = data.getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
+        ResourcesToPut rtp = data.getMomentary().getResourcesToPut();
+
+        tempWarehouse = new Warehouse();
+        queuedResources = new Resources();
+
+        tempWarehouse.setContent(gameWarehouse.getContent());
+        queuedResources.add(rtp.getRes());
     }
 
     @Override
@@ -75,64 +69,27 @@ public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene
 
     private void printWarehouse(){
 
-        if(whData == null) println(warehouseBase);
-        else{
-            Resources[] inWarehouse = whData.getContent();
-            ResourceType[] types = new ResourceType[3];
-            for (int i = 0; i < inWarehouse.length; i++) {
-                types[i] = getResourceType(inWarehouse[i]);
-            }
+        Resources[] inWarehouse = tempWarehouse.getContent();
+        Resources current;
 
-            for(int i = 0; i < warehouseBase.length(); i++){
-
-                if(i == cell1Index)
-                    if(inWarehouse[2] != null && inWarehouse[2].getTotalAmount() > 0 && types[2] != null){
-                        printResourceInCell(i, types[2]);
-                        continue;
-                    }
-                else if(i == cell2Index){
-                    if(inWarehouse[1] != null && inWarehouse[1].getTotalAmount() > 0 && types[1] != null){
-                        printResourceInCell(i, types[1]);
-                        continue;
-                    }
-                }
-                else if(i == cell3Index){
-                    if(inWarehouse[1] != null && inWarehouse[1].getTotalAmount() > 1 && types[1] != null){
-                        printResourceInCell(i, types[1]);
-                        continue;
-                    }
-                }
-                else if(i == cell4Index){
-                    if(inWarehouse[0] != null && inWarehouse[0].getTotalAmount() > 0 && types[0] != null){
-                        printResourceInCell(i, types[0]);
-                    }
-                }
-                else if(i == cell5Index){
-                    if(inWarehouse[0] != null && inWarehouse[0].getTotalAmount() > 1 && types[0] != null){
-                        printResourceInCell(i, types[0]);
-                        continue;
-                    }
-                }
-                else if(i == cell6Index){
-                    if(inWarehouse[0] != null && inWarehouse[0].getTotalAmount() > 2 && types[0] != null){
-                        printResourceInCell(i, types[0]);
-                        continue;
-                    }
-                }
-
-                print(warehouseBase.charAt(i));
+        for(int i = inWarehouse.length - 1; i >= 0; i--){
+            current = inWarehouse[i];
+            if(i == 2){
+                println("[" + warehouseResourceAsString(getResourceType(current), 6) + "]");
             }
         }
     }
 
-    private void printResourceInCell(int cellIndex, ResourceType resourceType){
+    private String warehouseResourceAsString(ResourceType resourceType, int fallbackCellNumber){
+        String s = "";
+        if(resourceType == null) return Integer.toString(fallbackCellNumber);
         switch (resourceType){
-            case SERVANTS: print(ANSIColor.PURPLE); break;
-            case COINS: print(ANSIColor.YELLOW); break;
-            case SHIELDS: print(ANSIColor.BLUE); break;
-            case STONES: print(ANSIColor.WHITE_BACKGROUND); break;
+            case SERVANTS: s += ANSIColor.PURPLE; break;
+            case COINS: s += ANSIColor.YELLOW; break;
+            case SHIELDS: s += ANSIColor.BLUE; break;
+            case STONES: s += ANSIColor.WHITE_BACKGROUND; break;
         }
-        print("@" + ANSIColor.RESET);
+        return s + "@" + ANSIColor.RESET;
     }
 
     private ResourceType getResourceType(Resources resources) {
@@ -146,7 +103,7 @@ public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene
 
     private void printResourcesToPut(){
 
-        if(resourcesToPut==null) {
+        /*if(resourcesToPut==null) {
             println("You have no resources to put in the warehouse.");
             this.execute("confirm", null);
         }
@@ -171,11 +128,11 @@ public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene
                         break;
                 }
             }
-        }
+        }*/
     }
 
     private void tryPutInWarehouse(String[] arguments) {
-        if (arguments == null || arguments.length < 2) {
+        /*if (arguments == null || arguments.length < 2) {
             error("Missing arguments.");
             return;
         }
@@ -211,7 +168,7 @@ public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene
         else if (cell <= 3) resIndex = 1;
         else resIndex = 0;
 
-        // TODO Move resources from put to warehouse
+        // TODO Move resources from put to warehouse*/
 
     }
 

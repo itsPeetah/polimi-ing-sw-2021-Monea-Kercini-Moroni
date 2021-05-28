@@ -48,59 +48,6 @@ public class CLILobby extends CLIScene {
         println("Use \"quit\" to quit the game.");
     }
 
-    /*@Override
-    public void getInput() {
-
-        String in = input.nextLine();
-        String[] fields = in.split(" ", 2);
-
-        switch (fields[0]) {
-            case "help":
-                help();
-                break;
-            case "nick":
-                if (fields.length < 2) print("Error: missing arguments. Retry.");
-                else {
-                    nickname = fields[1];
-                    show();
-                    print("Set the nickname to " + nickname);
-                }
-                break;
-            case "room":
-                if (fields.length < 2) print("Error: missing arguments. Retry.");
-                else {
-                    roomName = fields[1];
-                    show();
-                    print("Set the room to " + roomName);
-                }
-                break;
-            case "create":
-                if (nickname == null || roomName == null)
-                    error("Choose a nickname and a room name first. Retry.");
-                else {
-                    GameApplication.getInstance().setUserNickname(nickname);
-                    GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
-                }
-                break;
-            case "join":
-                if (nickname == null || roomName == null)
-                    error("Choose a nickname and a room name first. Retry.");
-                else {
-                    GameApplication.getInstance().setUserNickname(nickname);
-                    GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
-                }
-                break;
-            case "quit":
-                makeChoice(ConnectionMessage.QUIT.getCode());
-                break;
-            default:
-                print("Error: invalid command.");
-                break;
-        }
-    }*/
-
     @Override
     public void execute(String command, String[] arguments) {
         switch (command) {

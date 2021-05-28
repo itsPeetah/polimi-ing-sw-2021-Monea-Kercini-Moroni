@@ -34,24 +34,6 @@ public class CLIHome extends CLIScene {
         println("Use \"quit\" to quit the game.");
     }
 
-    /*@Override
-    public void getInput() {
-        String command = input.nextLine().split(" ")[0];
-        switch (command) {
-            case "sp":
-                selectSinglePlayerMode();
-                break;
-            case "mp":
-                selectMultiplayerMode();
-                break;
-            case "help":
-                help();
-                break;
-            default:
-                error("Command not supported or implemented yet.");
-        }
-    }*/
-
     @Override
     public void execute(String command, String[] arguments) {
         switch (command) {
@@ -76,7 +58,6 @@ public class CLIHome extends CLIScene {
     private void selectMultiplayerMode(){
         println(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
-        // TODO Move data somewhere else
         GameApplication.getInstance().connect(MaestriRinascimentoCLI.serverHostName, MaestriRinascimentoCLI.serverPortNumber);
         if(GameApplication.getInstance().isOnNetwork()){
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
