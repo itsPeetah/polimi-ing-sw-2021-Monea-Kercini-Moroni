@@ -14,6 +14,10 @@ public class Strongbox {
         if(strongboxObserver != null) strongboxObserver.onStrongboxChange();
     }
 
+    public Resources getContent() {
+        return content;
+    }
+
     public Strongbox() {
         this.content = new Resources();
     }

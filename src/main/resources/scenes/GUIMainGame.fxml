@@ -81,12 +81,12 @@
       </ImageView>
       <ImageView fx:id="lead1" fitHeight="358.0" fitWidth="232.0" layoutX="318.0" layoutY="12.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/cards/leadcards/lead_2.png" />
+            <Image url="@../images/cards/leadcards/lead_6.png" />
          </image>
       </ImageView>
       <ImageView fx:id="lead2" fitHeight="358.0" fitWidth="234.0" layoutX="617.0" layoutY="11.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/cards/leadcards/lead_4.png" />
+            <Image url="@../images/cards/leadcards/lead_5.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="456.0" fitWidth="362.0" layoutX="1030.0" layoutY="623.0" pickOnBounds="true" preserveRatio="true">
@@ -98,40 +98,40 @@
          <effect>
             <DropShadow />
          </effect></Button>
-      <VBox layoutX="1388.0" layoutY="622.0" prefHeight="456.0" prefWidth="222.0">
+      <VBox layoutX="1388.0" layoutY="622.0" styleClass="actionButtonsContainer">
          <children>
-            <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="210.0" text="Aquire resources">
+            <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Aquire resources">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="210.0" text="Buy Development Card">
+            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Buy Development Card">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="140.0" prefWidth="210.0" text="Produce">
+            <Button mnemonicParsing="false" onAction="#produce" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Produce">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="2.0" layoutY="2.0" prefHeight="370.0" prefWidth="258.0">
+      <VBox layoutX="2.0" layoutY="2.0" styleClass="leaderButtonsContainer" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="210.0" text="Play Leader">
+            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Play Leader">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="210.0" text="Discard Leader">
+            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Discard Leader">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="210.0" text="Reorganize Warehouse">
+            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Reorganize Warehouse">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
          </children>
@@ -321,11 +321,51 @@
                </HBox>
            </children>
        </VBox>
+       <HBox alignment="CENTER" layoutX="365.0" layoutY="289.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="50.0" spacing="38.0">
+           <children>
+               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" styleClass="warehouseCell">
+                   <children>
+                       <ImageView fx:id="lead1res1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/resources/shield.png" />
+                     </image></ImageView>
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" styleClass="warehouseCell">
+                   <children>
+                       <ImageView fx:id="lead1res2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/resources/shield.png" />
+                     </image></ImageView>
+                   </children>
+               </HBox>
+           </children>
+       </HBox>
+       <HBox alignment="CENTER" layoutX="665.0" layoutY="289.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="50.0" spacing="38.0">
+           <children>
+               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" styleClass="warehouseCell">
+                   <children>
+                       <ImageView fx:id="lead2res1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                               <Image url="@../images/resources/shield.png" />
+                           </image></ImageView>
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" styleClass="warehouseCell">
+                   <children>
+                       <ImageView fx:id="lead2res2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                               <Image url="@../images/resources/shield.png" />
+                           </image></ImageView>
+                   </children>
+               </HBox>
+           </children>
+       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="1640.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="650.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true" styleClass="gameStateLabel">
                <font>
-                  <Font name="Blackadder ITC" size="32.0" />
+                  <Font name="Blackadder ITC" size="16.0" />
                </font>
                <effect>
                   <DropShadow />
@@ -333,5 +373,34 @@
             </Label>
          </children>
       </HBox>
+      <Pane fx:id="strongbox" layoutX="29.0" layoutY="889.0" prefHeight="130.0" prefWidth="164.0">
+         <children>
+            <ImageView fx:id="coin" fitHeight="30.0" fitWidth="30.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="servant" fitHeight="30.0" fitWidth="30.0" layoutX="109.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="stone" fitHeight="30.0" fitWidth="30.0" layoutX="24.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="shield" fitHeight="30.0" fitWidth="30.0" layoutX="109.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="coins" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="servants" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="stones" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+         </children>
+      </Pane>
+      <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="241.0" layoutY="862.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

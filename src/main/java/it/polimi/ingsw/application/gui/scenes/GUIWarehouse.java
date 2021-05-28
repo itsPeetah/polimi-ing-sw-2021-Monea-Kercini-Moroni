@@ -3,7 +3,6 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -319,6 +318,9 @@ public class GUIWarehouse implements Initializable {
                         ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
                         // If the leader has an extra space
                         if(leaderResourceType != null) {
+                            HBox leaderHBox = leadersHBox.get(i);
+                            leaderHBox.setVisible(true);
+                            leaderHBox.setDisable(false);
                             // Get the current amount of extra
                             int extraAmount = extra[i].getAmountOf(leaderResourceType);
                             // Update the leader image
@@ -326,6 +328,9 @@ public class GUIWarehouse implements Initializable {
                             // Update the leader resources
                             for(int j = 0; j < extraAmount; j++) {
                                 leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
+                            }
+                            for(int j = extraAmount; j < 2; j++) {
+                                leadersResources.get(count).get(j).setImage(null);
                             }
                             // Update the leader resource type
                             leadersResourceTypes.set(count, leaderResourceType);
