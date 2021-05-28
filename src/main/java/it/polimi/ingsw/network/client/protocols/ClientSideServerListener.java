@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class ClientSideServerListener {
 
     private final ExSocket socket;
@@ -20,27 +23,31 @@ public class ClientSideServerListener {
 
         this.done = false;
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
         while (!done) {
 
             NetworkPacket np = socket.receive();
             switch (np.getPacketType()) {
                 case SYSTEM:
-                    handleSystemMessage(np);
+                    executorService.submit(()-> handleSystemMessage(np));
                     break;
                 case DEBUG:
-                    handleDebugMessage(np);
+                    executorService.submit(() -> handleDebugMessage(np));
                     break;
                 case MESSAGE:
-                    GameApplicationIOHandler.getInstance().notifyMessage(np);
+                    executorService.submit(() -> GameApplicationIOHandler.getInstance().notifyMessage(np));
                     break;
                 case UPDATE:
-                    GameApplicationIOHandler.getInstance().notifyUpdate(np);
+                    executorService.submit(() -> GameApplicationIOHandler.getInstance().notifyUpdate(np));
                     break;
                 case SOCIAL:
-                    GameApplicationIOHandler.getInstance().handleSocialMessage(np);
+                    executorService.submit(() -> GameApplicationIOHandler.getInstance().handleSocialMessage(np));
                     break;
             }
         }
+
+        executorService.shutdown();
     }
 
     public void handleSystemMessage(NetworkPacket packet){
