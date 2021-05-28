@@ -9,7 +9,7 @@ public class DevCardMarket {
 
     private DevCard availableCards[][];
 
-    public DevCard[][] getAvailableCards() {
+    public synchronized DevCard[][] getAvailableCards() {
         return availableCards;
     }
 

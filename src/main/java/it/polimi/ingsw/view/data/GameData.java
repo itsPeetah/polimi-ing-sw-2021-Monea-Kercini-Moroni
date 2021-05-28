@@ -37,7 +37,6 @@ public class GameData {
 
     public synchronized PlayerData getPlayerData(String name){
         return playerTable.get(name);
-        //System.out.println("E poi tu non vedi niente");
     }
 
     public MomentaryData getMomentary() {

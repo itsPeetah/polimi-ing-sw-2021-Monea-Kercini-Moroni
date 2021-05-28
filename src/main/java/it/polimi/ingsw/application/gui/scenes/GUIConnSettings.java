@@ -4,19 +4,12 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +33,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
     }
 
     public void onConnectClick(ActionEvent actionEvent) {
+        if(GameApplication.getInstance().isOnNetwork()) return;
         disableButtons(true);
         address = addressTextField.getText();
         String portString = portTextField.getText().equals("") ? "0" : portTextField.getText();
@@ -51,10 +45,12 @@ public class GUIConnSettings implements Initializable, PacketListener {
         timeoutTask = new TimerTask() {
             @Override
             public void run() {
-                disableButtons(false);
-                if(GameApplication.getInstance().isOnNetwork()) return;
-                GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
-                Platform.runLater(GUIScene.CONN_SETTINGS::load);
+                Platform.runLater(() -> {
+                    disableButtons(false);
+                    System.out.println("GUIConnSettings.run: Oops, make sure the server is online and the address and port are correct!");
+                    GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
+                    Platform.runLater(GUIScene.CONN_SETTINGS::load);
+                });
             }
         };
         timer.schedule(timeoutTask, TIMEOUT_TIME);

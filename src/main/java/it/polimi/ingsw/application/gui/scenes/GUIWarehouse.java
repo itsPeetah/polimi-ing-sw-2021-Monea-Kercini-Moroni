@@ -120,9 +120,10 @@ public class GUIWarehouse implements Initializable {
             int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
             ResourceType resType = leadersResourceTypes.get(i);
             if(resCount > 0) {
+                System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
                 extraResources.add(resType, resCount);
             }
-            sentWarehouse.deposit(extraResources,i);
+            sentWarehouse.deposit(extraResources,i+3);
         }
         putResourcesActionData.setWh(sentWarehouse);
 
@@ -308,16 +309,18 @@ public class GUIWarehouse implements Initializable {
     private void fillLeaders() {
         String nickname = GameApplication.getInstance().getUserNickname();
         new Thread(() -> {
-            int count = 0;
             LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
             Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
             Platform.runLater(() -> {
+                int count = 0;
                 for(int i = 0; i < leadersData.length; i++) {
                     LeadCard leader = leadersData[i];
                     if(leader != null) {
+                        System.out.println("GUIWarehouse.fillLeaders: found leader");
                         ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
                         // If the leader has an extra space
                         if(leaderResourceType != null) {
+                            System.out.println("GUIWarehouse.fillLeaders: activate leader");
                             HBox leaderHBox = leadersHBox.get(i);
                             leaderHBox.setVisible(true);
                             leaderHBox.setDisable(false);
@@ -335,9 +338,11 @@ public class GUIWarehouse implements Initializable {
                             // Update the leader resource type
                             leadersResourceTypes.set(count, leaderResourceType);
                         }
+                        count++;
                     }
                 }
                 for(int i = count; i < 2; i++) {
+                    System.out.println("GUIWarehouse.fillLeaders: disable leader");
                     leaders.get(i).setImage(null);
                     HBox leaderHBox = leadersHBox.get(i);
                     leaderHBox.setVisible(false);

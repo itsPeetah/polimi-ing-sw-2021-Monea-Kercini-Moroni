@@ -275,7 +275,7 @@
       <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="379.0" layoutY="750.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="570.0" layoutY="750.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="761.0" layoutY="750.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
-       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="180.0" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="680.0">
+       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="180.0" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="680.0">
            <children>
                <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="50.0" spacing="5.0">
                    <children>
@@ -363,7 +363,7 @@
        </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="1640.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="650.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true" styleClass="gameStateLabel">
+            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" styleClass="gameStateLabel" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Blackadder ITC" size="16.0" />
                </font>

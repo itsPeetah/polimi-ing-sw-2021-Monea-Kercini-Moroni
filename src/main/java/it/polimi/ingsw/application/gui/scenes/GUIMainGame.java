@@ -2,12 +2,12 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Production;
@@ -27,7 +27,6 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -38,7 +37,7 @@ import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 import static it.polimi.ingsw.model.playerboard.ProductionPowers.getBasicProduction;
 
-public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver {
+public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver, GUIObserverScene {
 
     public ImageView dev01;
     public ImageView dev02;
@@ -309,12 +308,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         productionsSelected = new HashSet<>();
 
-        //NOTE: setListeners must be set at the end so all other initializers are already executed
-        setListeners();
-
     }
 
-    private void setListeners() {
+    @Override
+    public void startObserver() {
         String nickname = GameApplication.getInstance().getUserNickname();
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
