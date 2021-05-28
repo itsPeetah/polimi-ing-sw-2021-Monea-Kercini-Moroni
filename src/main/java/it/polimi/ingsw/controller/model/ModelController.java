@@ -510,11 +510,15 @@ public class ModelController {
             //Paying cost
             Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
 
-            fromStrongbox.add(chosenCard.getCost());
+            // Compute the discounted cost
+            Resources costWithDiscount = chosenCard.getCost();
+            player.getLeaders().getPlayedCards().forEach(leadCard -> costWithDiscount.removeWithoutException(leadCard.getAbility().getResourceDiscount()));
+
+            fromStrongbox.add(costWithDiscount);
 
             try {
                 //Withdraw as many resources as you need from warehouse
-                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenCard.getCost()));
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(costWithDiscount));
             } catch (Exception e) {
                 e.printStackTrace();
             }
