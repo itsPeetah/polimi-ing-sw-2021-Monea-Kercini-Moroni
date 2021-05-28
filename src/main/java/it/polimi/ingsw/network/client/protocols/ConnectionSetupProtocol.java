@@ -17,7 +17,6 @@ public class ConnectionSetupProtocol {
 
         // Receive WELCOME
         serverMessage = socket.receiveSystemMessage();
-        /*System.out.println("[SERVER] " + serverMessage);*/
 
         // Send HELLO
         socket.sendSystemMessage("HELLO");
@@ -25,7 +24,6 @@ public class ConnectionSetupProtocol {
         // Receive ID
         String userId;
         serverMessage = socket.receiveSystemMessage();
-        /*System.out.println("[SERVER] " + serverMessage);*/
 
         String[] messageFields = serverMessage.split(" ", 2);
 
@@ -38,7 +36,6 @@ public class ConnectionSetupProtocol {
 
         // Receive ready
         serverMessage = socket.receiveSystemMessage();
-        /*System.out.println("[SERVER] " + serverMessage);*/
         messageFields = serverMessage.split(" ", 2);
 
         if(!ConnectionMessage.READY.check(messageFields[0]))

@@ -20,14 +20,9 @@ public class ClientConnectionHandler implements Runnable {
     public void run() {
 
         String userId = new ConnectionSetupProtocol(client.getSocket()).getUserId();
-
-        /*GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);*/
-
         ClientSideServerListener listener = new ClientSideServerListener(client.getSocket());
         listener.run();
-
         closeConnection();
-
     }
 
     private void closeConnection(){
