@@ -525,6 +525,7 @@ public class ModelController {
 
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+
             //Remove Card from DevCardMarket
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
