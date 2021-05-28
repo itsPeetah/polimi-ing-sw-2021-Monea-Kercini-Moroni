@@ -157,8 +157,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
     }
 
-
-
+    Materials materials = new Materials();
 
     @Override
     public void onMarketTrayChange() {
