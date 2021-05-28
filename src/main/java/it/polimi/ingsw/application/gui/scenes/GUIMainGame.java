@@ -455,7 +455,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }
         if(choice == Action.PlAY_LEADER){
             playLeader(0);
-
+        }
+        if(choice == Action.PRODUCE){
+            produceLeader(0);
         }
     }
 
@@ -466,16 +468,29 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }
         if(choice == Action.PlAY_LEADER){
             playLeader(1);
-
+        }
+        if(choice == Action.PRODUCE){
+            produceLeader(1);
         }
     }
+
+    private void produceLeader(int i){
+        String nickname = GameApplication.getInstance().getUserNickname();
+
+        //if player has played the leader
+
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
+            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction());
+        }
+    }
+
 
     /**
      * Method for discarding leader
      * @param i 0 lead 1, 1 lead2
      */
 
-    public void discardLeader(int i){
+    private void discardLeader(int i){
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());
