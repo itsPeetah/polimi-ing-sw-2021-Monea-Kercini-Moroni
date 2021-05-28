@@ -505,8 +505,24 @@ public class ModelController {
             return false;
 
         }else{
-            //Removes the cost from players warehouse
-            player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
+            //Removes the cost from players warehouse and strongbox
+
+            //Paying cost
+            Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
+
+            fromStrongbox.add(chosenCard.getCost());
+
+            try {
+                //Withdraw as many resources as you need from warehouse
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(chosenCard.getCost()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Withdraw the rest from strongbox
+            player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
             //Remove Card from DevCardMarket
