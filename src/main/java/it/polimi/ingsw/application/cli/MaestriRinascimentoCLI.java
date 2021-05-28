@@ -28,7 +28,10 @@ public class MaestriRinascimentoCLI {
 
     public static void main(String[] args){
 
-        if(args.length < 2) return;
+        if(args.length < 2) {
+            System.out.println("Please provide server address and port");
+            return;
+        }
 
         serverHostName = args[0];
         serverPortNumber = Integer.parseInt(args[1]);
