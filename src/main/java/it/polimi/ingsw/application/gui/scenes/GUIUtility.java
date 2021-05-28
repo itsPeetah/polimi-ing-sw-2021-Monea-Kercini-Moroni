@@ -13,6 +13,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
