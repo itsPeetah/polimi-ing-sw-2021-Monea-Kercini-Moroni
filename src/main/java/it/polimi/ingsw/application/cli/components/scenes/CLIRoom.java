@@ -16,27 +16,28 @@ public class CLIRoom extends CLIScene {
 
     @Override
     public void show() {
-        print("========= Game Room =========");
-        print("You're into room: " + ANSIColor.GREEN + GameApplication.getInstance().getRoomName() + ANSIColor.RESET);
-        print("Your nickname is: " + ANSIColor.GREEN + GameApplication.getInstance().getUserNickname() +ANSIColor.RESET);
-        print("=============================");
+        println("========= Game Room =========");
+        println("You're into room: " + ANSIColor.GREEN + GameApplication.getInstance().getRoomName() + ANSIColor.RESET);
+        println("Your nickname is: " + ANSIColor.GREEN + GameApplication.getInstance().getUserNickname() +ANSIColor.RESET);
+        println("=============================");
     }
 
     @Override
     public void help() {
-        print("Use command \"leave\" to leave the room before the game starts.");
-        print("Use command \"start\" to start the game.");
+        println("Use command \"leave\" to leave the room before the game starts.");
+        println("Use command \"start\" to start the game.");
     }
 
+
+
     @Override
-    public void getInput() {
-        String[] fields = input.nextLine().split(" ");
+    public void execute(String command, String[] arguments) {
 
         // Skip command if the game has started.
         if(GameApplication.getInstance().gameExists())
             return;
 
-        switch (fields[0]){
+        switch (command){
             case "help":
                 help();
                 break;
@@ -44,7 +45,7 @@ public class CLIRoom extends CLIScene {
                 startGame();
                 break;
             default:
-                print("The command is not supported or has not been implemented yet");
+                println("The command is not supported or has not been implemented yet");
                 break;
         }
     }

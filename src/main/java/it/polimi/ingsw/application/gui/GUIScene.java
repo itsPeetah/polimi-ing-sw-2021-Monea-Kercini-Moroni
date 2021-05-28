@@ -59,6 +59,22 @@ public enum GUIScene {
         GUIApplication.setScene(scene);
     }
 
+    public Scene loadWithoutSet() {
+        if(fxmlLoader == null) {
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource(this.fxmlPath));
+                Parent sceneParent = fxmlLoader.load();
+                scene = new Scene(sceneParent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(fxmlLoader.getController() instanceof PacketListener) {
+            activeScene = fxmlLoader.getController();
+        }
+        return scene;
+    }
+
     public Scene produceScene() {
         Scene loadedScene = null;
         try {

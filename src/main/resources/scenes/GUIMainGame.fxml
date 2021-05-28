@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Point3D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.shape.Sphere?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MainGame.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainGame">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MainGame.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainGame">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000cc" height="219.0" layoutX="1074.0" layoutY="670.0" stroke="BLACK" strokeType="INSIDE" width="265.0" />
 
@@ -108,40 +98,40 @@
          <effect>
             <DropShadow />
          </effect></Button>
-      <VBox layoutX="1388.0" layoutY="622.0" prefHeight="456.0" prefWidth="222.0">
+      <VBox layoutX="1388.0" layoutY="622.0" styleClass="actionButtonsContainer">
          <children>
-            <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="210.0" text="Aquire resources">
+            <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Aquire resources">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="210.0" text="Buy Development Card">
+            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Buy Development Card">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#produce" prefHeight="140.0" prefWidth="210.0" text="Produce">
+            <Button mnemonicParsing="false" onAction="#produce" prefHeight="140.0" prefWidth="210.0" styleClass="actionButton" text="Produce">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="2.0" layoutY="2.0" prefHeight="370.0" prefWidth="258.0">
+      <VBox layoutX="2.0" layoutY="2.0" styleClass="leaderButtonsContainer" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="210.0" text="Play Leader">
+            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Play Leader">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="210.0" text="Discard Leader">
+            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Discard Leader">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="210.0" text="Reorganize Warehouse">
+            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="210.0" styleClass="leaderButton" text="Reorganize Warehouse">
                <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
          </children>
@@ -373,7 +363,7 @@
        </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="1640.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="650.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="gameStateLabel" alignment="CENTER" prefHeight="191.0" prefWidth="297.0" text="It's your turn!" textAlignment="CENTER" textFill="WHITE" wrapText="true" styleClass="gameStateLabel">
                <font>
                   <Font name="Blackadder ITC" size="16.0" />
                </font>

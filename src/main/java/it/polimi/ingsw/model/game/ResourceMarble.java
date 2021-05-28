@@ -30,6 +30,11 @@ public class ResourceMarble{
         this.value = resources;
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
     /**
      * @return the resources associated with this marble.
      */

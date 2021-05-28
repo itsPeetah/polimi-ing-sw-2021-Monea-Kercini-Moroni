@@ -1,13 +1,19 @@
 package it.polimi.ingsw.application.gui.scenes;
 
+import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
+import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
@@ -41,4 +47,18 @@ public class GUIUtility {
         stage.show();
     }
 
+    public static void runSceneWithDelay(GUIScene guiScene, int delay) {
+        new Thread(() -> {
+            Scene scene = guiScene.loadWithoutSet();
+            Timer timer = new Timer();
+            TimerTask timeoutTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> GUIApplication.setScene(scene));
+                }
+            };
+            timer.schedule(timeoutTask, delay);
+        }).start();
+
+    }
 }

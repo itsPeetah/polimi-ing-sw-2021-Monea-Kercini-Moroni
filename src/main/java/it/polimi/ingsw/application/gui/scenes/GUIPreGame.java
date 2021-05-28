@@ -10,6 +10,8 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
+import it.polimi.ingsw.view.data.common.DevCardMarket;
+import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
@@ -31,6 +33,7 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
@@ -106,11 +109,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     Glow glow = new Glow();
 
 
-
-    //generating materials needed for the marble spheres
-    Materials materials = new Materials();
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set listeners
@@ -162,47 +160,52 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().setObserver(this);
     }
 
-
-
+    Materials materials = new Materials();
 
     @Override
     public void onMarketTrayChange() {
+        new Thread(() -> {
+            MarketTray marketTray = GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray();
+            Platform.runLater(() -> {
+                marble.setMaterial(getMaterial(marketTray.getWaiting()[0].getMarbleColor()));
 
-        Platform.runLater(() -> {
-
-            marble.setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getWaiting()[0].getMarbleColor()));
-
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 3; j++) {
-                    marbles[j][i].setMaterial(getMaterial(GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray().getAvailable()[j][i].getMarbleColor()));
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        marbles[j][i].setMaterial(getMaterial(marketTray.getAvailable()[j][i].getMarbleColor()));
+                    }
                 }
-            }
             });
+        }).start();
+
     }
 
 
     @Override
     public void onDevCardMarketChange() {
-        Platform.runLater(() -> {
-
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 3; j++) {
-                    devCards[i][j].setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[i][j].getCardId()));
+        new Thread(() -> {
+            DevCardMarket devCardMarket = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
+            Platform.runLater(() -> {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        devCards[i][j].setImage(getImage(devCardMarket.getAvailableCards()[i][j].getCardId()));
+                    }
                 }
-            }
-        });
+            });
+        }).start();
     }
 
 
     @Override
     public void onLeadersToChooseFromChange() {
-
-        Platform.runLater(() -> {
-            lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(0).getCardId()));
-            lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(1).getCardId()));
-            lead3.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(2).getCardId()));
-            lead4.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders().get(3).getCardId()));
-        });
+        new Thread(() -> {
+            List<LeadCard> leadCardList = GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom().getLeaders();
+            Platform.runLater(() -> {
+                lead1.setImage(getImage(leadCardList.get(0).getCardId()));
+                lead2.setImage(getImage(leadCardList.get(1).getCardId()));
+                lead3.setImage(getImage(leadCardList.get(2).getCardId()));
+                lead4.setImage(getImage(leadCardList.get(3).getCardId()));
+            });
+        }).start();
     }
 
     boolean[] leadersSelected = new boolean[4];
@@ -280,7 +283,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @FXML
     public void ready(){
-        GUIScene.showLoadingScene();
         button.setDisable(true);
         int cont = 0;
         LeadCard[] actionLeaders = new LeadCard[2];
@@ -332,7 +334,10 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        Platform.runLater(MAIN_GAME::load);
+        GUIScene.showLoadingScene();
+        new Thread(() -> {
+            GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 2000);
+        }).start();
     }
 
     @Override

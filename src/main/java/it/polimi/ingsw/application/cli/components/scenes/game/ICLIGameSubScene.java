@@ -6,6 +6,6 @@ public interface ICLIGameSubScene {
     void update(GameData data);
     void update();
     void show();
-    void getInput();
+    void execute(String command, String[] args);
     void help();
 }

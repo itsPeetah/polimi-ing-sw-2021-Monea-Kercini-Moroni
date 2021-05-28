@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.cli.components.scenes;
 
+import it.polimi.ingsw.application.cli.MaestriRinascimentoCLI;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
@@ -13,29 +14,28 @@ public class CLIHome extends CLIScene {
 
     @Override
     public void show() {
-        print("========= Masters of Renaissance =========");
-        print(" ");
-        print("Game modes:");
-        print("[" + ANSIColor.CYAN + "SINGLE PLAYER" + ANSIColor.RESET + "]");
-        print("[" + ANSIColor.CYAN + "MULTIPLAYER" + ANSIColor.RESET + "]");
-        print("More options:");
-        print("[" + ANSIColor.CYAN + "SETTINGS" + ANSIColor.RESET + "]");
-        print("[" + ANSIColor.CYAN + "CREDITS" + ANSIColor.RESET + "]");
-        print("==========================================");
+        println("========= Masters of Renaissance =========");
+        println(" ");
+        println("Game modes:");
+        println("[" + ANSIColor.CYAN + "SINGLE PLAYER" + ANSIColor.RESET + "]");
+        println("[" + ANSIColor.CYAN + "MULTIPLAYER" + ANSIColor.RESET + "]");
+        println("More options:");
+        println("[" + ANSIColor.CYAN + "SETTINGS" + ANSIColor.RESET + "]");
+        println("[" + ANSIColor.CYAN + "CREDITS" + ANSIColor.RESET + "]");
+        println("==========================================");
     }
 
     @Override
     public void help() {
-        print("Use \"sp\" to start a single player game.");
-        print("Use \"mp\" to enter the multiplayer lobby.");
-        print("Use \"options\" to see the game options.");
-        print("Use \"credits\" to visualize the credits.");
-        print("Use \"quit\" to quit the game.");
+        println("Use \"sp\" to start a single player game.");
+        println("Use \"mp\" to enter the multiplayer lobby.");
+        println("Use \"options\" to see the game options.");
+        println("Use \"credits\" to visualize the credits.");
+        println("Use \"quit\" to quit the game.");
     }
 
     @Override
-    public void getInput() {
-        String command = input.nextLine().split(" ")[0];
+    public void execute(String command, String[] arguments) {
         switch (command) {
             case "sp":
                 selectSinglePlayerMode();
@@ -52,14 +52,13 @@ public class CLIHome extends CLIScene {
     }
 
     private void selectSinglePlayerMode(){
-        print(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
+        println(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
     }
 
     private void selectMultiplayerMode(){
-        print(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
+        println(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 
-        // TODO Move data somewhere else
-        GameApplication.getInstance().connect("localhost", 42069);
+        GameApplication.getInstance().connect(MaestriRinascimentoCLI.serverHostName, MaestriRinascimentoCLI.serverPortNumber);
         if(GameApplication.getInstance().isOnNetwork()){
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else{

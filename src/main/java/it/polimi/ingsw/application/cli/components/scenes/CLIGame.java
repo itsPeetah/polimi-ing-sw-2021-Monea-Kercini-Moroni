@@ -50,19 +50,20 @@ public class CLIGame extends CLIScene {
 
     @Override
     public void show() {
-        print("+--------------------------------------------------+");
-        print("|         Masters of Renaissance - In Game         |");
-        print("+--------------------------------------------------+");
-        print("");
+        clearConsole();
+        println("|         Masters of Renaissance - In Game         |");
+        println("+--------------------------------------------------+");
+        println("Current state: " + currentGameState.toString());
 
         if(currentView == null){
-            print("");print("Please wait...");print("");
+            println("");
+            println("Please wait...");
+            println("");
         } else {
             currentView.update(gameController.getGameData());
             currentView.show();
         }
-
-        /*print("====================================================");*/
+        println("====================================================");
     }
 
     @Override
@@ -72,11 +73,10 @@ public class CLIGame extends CLIScene {
     }
 
     @Override
-    public void getInput() {
-        if(currentView != null) currentView.getInput();
+    public void execute(String command, String[] arguments) {
+        if(currentView != null) currentView.execute(command, arguments);
         else {
-            String cmd = input.nextLine();
-            switch(cmd){
+            switch(command){
                 case "help": help(); break;
                 default: error("Unsupported command."); break;
             }

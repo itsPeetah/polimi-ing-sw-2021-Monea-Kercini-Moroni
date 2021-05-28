@@ -23,17 +23,16 @@ public class CLILeadChoice extends CLIScene implements ICLIGameSubScene {
 
     @Override
     public void update(GameData data) {
-        leadersToChooseFrom = data.getMomentary().getLeaders();
+        leadersToChooseFrom = data.getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom();
     }
 
     @Override
     public void show() {
-        print("LEADERS TO CHOOSE FROM:"); print("");
-        print(leadersToChooseFrom.toString());
-        print("");
+        println("CHOOSE YOUR LEADER CARDS:"); println("");
+        println(leadersToChooseFrom.toString());
     }
 
-    @Override
+  /*  @Override
     public void getInput() {
         String[] cmd = input.nextLine().split(" ");
         if (cmd == null) error("Could not parse the command.");
@@ -45,9 +44,24 @@ public class CLILeadChoice extends CLIScene implements ICLIGameSubScene {
             if(arg1 < 1 || arg1 > 4 || arg2 < 1 || arg2 > 4) error("Please insert two integers between 1 and 4.");
             else chooseLeaders(arg1 - 1, arg2 - 1);
         }
+    }*/
+
+    @Override
+    public void execute(String command, String[] arguments) {
+
+        if (command == null) error("Could not parse the command.");
+        else if (!command.equals("pick")) error("Invalid command.");
+        else if(command.length() < 3) error("Error: missing arguments.");
+        else{
+            int arg1 = Integer.parseInt(arguments[0]); int arg2 = Integer.parseInt(arguments[1]);
+            if(arg1 == arg2) error("Please insert two different numbers.");
+            if(arg1 < 1 || arg1 > 4 || arg2 < 1 || arg2 > 4) error("Please insert two integers between 1 and 4.");
+            else chooseLeaders(arg1 - 1, arg2 - 1);
+        }
     }
 
     private void chooseLeaders(int index1, int index2){
+
         LeadCard[] chosen = new LeadCard[]{
                 leadersToChooseFrom.getLeaders().get(index1),
                 leadersToChooseFrom.getLeaders().get(index2)
