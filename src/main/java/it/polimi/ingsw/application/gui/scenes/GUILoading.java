@@ -1,6 +1,5 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import it.polimi.ingsw.application.common.GameApplication;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -10,8 +9,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GUILoading implements Initializable {
     public static int MAXIMUM_TIME = Integer.MAX_VALUE;

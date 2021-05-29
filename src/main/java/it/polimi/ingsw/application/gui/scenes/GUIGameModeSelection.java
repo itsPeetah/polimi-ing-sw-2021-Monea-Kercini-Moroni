@@ -1,18 +1,13 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GUIGameModeSelection {
 
@@ -41,7 +36,7 @@ public class GUIGameModeSelection {
             /*while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println(newState);*/
-            GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME, 2000);
+            GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME, 1000);
         }).start();
     }
 

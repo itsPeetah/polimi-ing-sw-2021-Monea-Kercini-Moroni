@@ -238,18 +238,19 @@ public class Warehouse{
      * @return true if leaders extra spaces are used correctly
      */
     private boolean areLeadersOrganized(){
-
+        System.out.println("Warehouse.areLeadersOrganized: entered");
         for (int i = 0; i < leadersExtra.length; i++) {
-
+            System.out.println("Warehouse.areLeadersOrganized: inside for. iteration " + i + " of " + leadersExtra.length);
             //for each leader the extra space he gives should be equal or bigger than the resources put there
 
             if(leadersExtra[i]!=null){
-
+                System.out.println("Warehouse.areLeadersOrganized: leader not null");
                 if (!leadersExtra[i].getAbility().getExtraWarehouseSpace().isGreaterThan(leaderExtraUsed[i])){
                     return false;
                 }
 
             }else{
+                System.out.println("Warehouse.areLeadersOrganized: leader null");
                 //If the leader is null but the player has put resources there
                 if (leaderExtraUsed[i].getTotalAmount()>0){
                     return false;

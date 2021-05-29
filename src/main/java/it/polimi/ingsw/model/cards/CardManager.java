@@ -26,6 +26,12 @@ public class CardManager {
     private static final HashMap<String, Image> devCardsImages = new HashMap<>();
     private static final HashMap<String, Image> leadCardsImages = new HashMap<>();
 
+    // Statically retrieve the images
+    static {
+        loadDevCardsImages();
+        loadLeadCardsImages();
+    }
+
     /**
      * @return List containing all the dev cards in the JSON file.
      */
@@ -122,11 +128,6 @@ public class CardManager {
      * @return JavaFX <code>Image</code> of the card.
      */
     public static Image getImage(String cardID) {
-        // If maps are empty, load them
-        if(devCardsImages.isEmpty() || leadCardsImages.isEmpty()) {
-            loadDevCardsImages();
-            loadLeadCardsImages();
-        }
         // Get the image
         Image image = devCardsImages.get(cardID);
         if(image == null) image = leadCardsImages.get(cardID);

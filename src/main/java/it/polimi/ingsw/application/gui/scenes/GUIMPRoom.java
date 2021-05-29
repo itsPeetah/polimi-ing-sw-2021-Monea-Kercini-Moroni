@@ -1,10 +1,10 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIChat;
+import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.net.URL;
@@ -27,7 +26,7 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.GUIChat.observableChatList;
 
-public class GUIMPRoom implements Initializable, PacketListener {
+public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
 
@@ -52,13 +51,6 @@ public class GUIMPRoom implements Initializable, PacketListener {
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
 
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        playersListView.setItems(observablePlayersList);
-        chatListView.setItems(observableChatList);
-        room_name.setText(GameApplication.getInstance().getRoomName());
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -87,5 +79,12 @@ public class GUIMPRoom implements Initializable, PacketListener {
 
     private void setButtonsDisabled(boolean disabled) {
         startButt.setDisable(disabled);
+    }
+
+    @Override
+    public void startObserver() {
+        playersListView.setItems(observablePlayersList);
+        chatListView.setItems(observableChatList);
+        room_name.setText(GameApplication.getInstance().getRoomName());
     }
 }
