@@ -412,16 +412,19 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onWarehouseExtraChange() {
         String nickname = GameApplication.getInstance().getUserNickname();
-        int count = 0;
+
         LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
         Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
         Platform.runLater(() -> {
+            int count = 0;
             for(int i = 0; i < leadersData.length; i++) {
                 LeadCard leader = leadersData[i];
                 if(leader != null) {
+                    System.out.println("GUIMainGame.onWarehouseExtraChange: leader found");
                     ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
                     // If the leader has an extra space
                     if(leaderResourceType != null) {
+                        System.out.println("GUIMainGame.onWarehouseExtraChange: warehouse leader found");
                         // Get the current amount of extra
                         int extraAmount = extra[i].getAmountOf(leaderResourceType);
                         // Update the leader resources
@@ -432,9 +435,11 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                             leadersResources.get(count).get(j).setImage(null);
                         }
                     }
+                    count++;
                 }
             }
             for(int i = count; i < 2; i++) {
+                System.out.println("GUIMainGame.onWarehouseExtraChange: cancelling leader resources");
                 leadersResources.get(i).forEach(imageView -> imageView.setImage(null));
             }
         });
