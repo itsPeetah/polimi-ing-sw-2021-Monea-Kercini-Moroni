@@ -75,6 +75,7 @@ public class PlayerLeaders {
         Optional<LeadCard> searchedCard = Arrays.stream(cards).filter(leadCardList -> leadCardList.getCardId().equals(leadCard.getCardId())).findFirst();
         if(searchedCard.isPresent()) {
             int cardIndex = Arrays.asList(cards).indexOf(searchedCard.get());
+            System.out.println("PlayerLeaders.playCard index :" + cardIndex);
             playCard(cardIndex);
         } else throw new PlayerLeadersException("Leader Card is not present.");
     }
@@ -86,7 +87,6 @@ public class PlayerLeaders {
      */
     public void discardCard(int index) throws PlayerLeadersException{
         if(cardStates[index] == CardState.INHAND) {
-            System.out.println("PlayerLeaders sta facendo discard");
             cardStates[index] = CardState.DISCARDED;
         }else{
             throw new PlayerLeadersException("Leader Card is already played or discarded.");
