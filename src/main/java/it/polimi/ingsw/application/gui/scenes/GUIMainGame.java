@@ -412,35 +412,42 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onWarehouseExtraChange() {
         String nickname = GameApplication.getInstance().getUserNickname();
-
-        LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+        List<LeadCard> leaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
+        List<LeadCard> leadersData = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders());
         Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
         Platform.runLater(() -> {
-            int count = 0;
-            for(int i = 0; i < leadersData.length; i++) {
-                LeadCard leader = leadersData[i];
-                if(leader != null) {
+            for(int i = 0; i < 2; i++) {
+                LeadCard shownLeader = leaders.get(i);
+                if(shownLeader != null) {
                     System.out.println("GUIMainGame.onWarehouseExtraChange: leader found");
-                    ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
-                    // If the leader has an extra space
-                    if(leaderResourceType != null) {
-                        System.out.println("GUIMainGame.onWarehouseExtraChange: warehouse leader found");
-                        // Get the current amount of extra
-                        int extraAmount = extra[i].getAmountOf(leaderResourceType);
-                        // Update the leader resources
-                        for(int j = 0; j < extraAmount; j++) {
-                            leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
-                        }
-                        for(int j = extraAmount; j < 2; j++) {
-                            leadersResources.get(count).get(j).setImage(null);
+
+                    // Find the index in the list of leaders
+                    Optional<LeadCard> searchedCard = leadersData.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(shownLeader.getCardId())).findFirst();
+                    if(searchedCard.isPresent()) {
+                        int leaderIndex = leadersData.indexOf(searchedCard.get());
+
+                        ResourceType leaderResourceType = getResourceType(shownLeader.getAbility().getExtraWarehouseSpace());
+                        // If the leader has an extra space
+                        if(leaderResourceType != null) {
+                            System.out.println("GUIMainGame.onWarehouseExtraChange: warehouse leader found");
+                            // Get the current amount of extra
+                            int extraAmount = extra[leaderIndex].getAmountOf(leaderResourceType);
+                            // Update the leader resources
+                            for(int j = 0; j < extraAmount; j++) {
+                                leadersResources.get(i).get(j).setImage(leaderResourceType.getImage());
+                            }
+                            for(int j = extraAmount; j < 2; j++) {
+                                leadersResources.get(i).get(j).setImage(null);
+                            }
                         }
                     }
-                    count++;
+                    else {
+                        System.out.println("GUIMainGame.onWarehouseExtraChange: cancelling leader resources");
+                        for(int j = 0; j < 2; j++) {
+                            leadersResources.get(i).get(j).setImage(null);
+                        }
+                    }
                 }
-            }
-            for(int i = count; i < 2; i++) {
-                System.out.println("GUIMainGame.onWarehouseExtraChange: cancelling leader resources");
-                leadersResources.get(i).forEach(imageView -> imageView.setImage(null));
             }
         });
     }

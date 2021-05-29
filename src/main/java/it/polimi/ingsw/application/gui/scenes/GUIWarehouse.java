@@ -121,7 +121,7 @@ public class GUIWarehouse implements Initializable {
                 Resources extraResources = new Resources();
                 int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
                 ResourceType resType = leadersResourceTypes.get(i);
-                if(resCount > 0) {
+                if(leadCards[i] != null) {
                     System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
                     extraResources.add(resType, resCount);
                     sentWarehouse.deposit(extraResources,i+3);
