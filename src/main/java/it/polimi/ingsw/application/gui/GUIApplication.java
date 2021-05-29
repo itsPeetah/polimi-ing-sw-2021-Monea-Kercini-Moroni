@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.model.cards.CardManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        CardManager.loadImages();
         GUIScene.init();
         stage.setTitle("Masters of Renaissance");
         stage.setScene(GUIScene.getScene());
