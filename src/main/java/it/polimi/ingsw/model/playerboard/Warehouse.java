@@ -91,20 +91,22 @@ public class Warehouse{
             //Same procedure for the extra resources from leader
                 if (leaderExtraUsed[i].getAmountOf(tipo) >= curr_res) {
 
-                try { leaderExtraUsed[i].remove(tipo, curr_res);
-                } catch (Exception e) {
-                    e.printStackTrace(); }
-
-                    withdrawed.add(tipo, curr_res);
-                    curr_res = 0;
-                } else {
-                    curr_res -= leaderExtraUsed[i].getAmountOf(tipo);
-                    withdrawed.add(tipo, leaderExtraUsed[i].getAmountOf(tipo));
-
-                    try {  leaderExtraUsed[i].remove(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+                    try { leaderExtraUsed[i].remove(tipo, curr_res);
                     } catch (Exception e) {
                         e.printStackTrace(); }
-            }
+
+                        withdrawed.add(tipo, curr_res);
+                        curr_res = 0;
+                    } else {
+                        curr_res -= leaderExtraUsed[i].getAmountOf(tipo);
+                        withdrawed.add(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+
+                        try {
+                            leaderExtraUsed[i].remove(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
             }
 

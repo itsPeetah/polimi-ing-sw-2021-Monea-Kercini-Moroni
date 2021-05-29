@@ -128,6 +128,8 @@ public class GUIWarehouse implements Initializable {
                     sentWarehouse.expandWithLeader(leadCards[i]);
                 }
             }
+            System.out.println("GUIWarehouse.onConfirmClick leaders = ");
+            Arrays.stream(sentWarehouse.getLeadersExtra()).forEach(System.out::println);
             putResourcesActionData.setWh(sentWarehouse);
 
             // Send packet
