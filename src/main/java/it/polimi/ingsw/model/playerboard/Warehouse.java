@@ -165,7 +165,7 @@ public class Warehouse{
         this.content = w.content;
         this.leadersUsed = w.leadersUsed;
         this.leaderExtraUsed = w.leaderExtraUsed;
-        this.leadersExtra = this.leadersExtra;
+        this.leadersExtra = w.leadersExtra;
     }
 
     /**

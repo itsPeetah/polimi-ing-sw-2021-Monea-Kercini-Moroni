@@ -307,8 +307,11 @@ public class GUIWarehouse implements Initializable {
     }
 
     private void fillLeaders() {
+
         String nickname = GameApplication.getInstance().getUserNickname();
+
         new Thread(() -> {
+
             LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
             Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
             Platform.runLater(() -> {

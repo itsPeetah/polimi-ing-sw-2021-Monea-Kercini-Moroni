@@ -635,6 +635,7 @@ public class ModelController {
 
             //update
             updateLeaders(player);
+            updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
