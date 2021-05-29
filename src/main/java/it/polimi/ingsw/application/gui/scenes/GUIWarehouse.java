@@ -100,36 +100,43 @@ public class GUIWarehouse implements Initializable {
     }
 
     public void onConfirmClick(ActionEvent actionEvent) {
-        String nickname = GameApplication.getInstance().getUserNickname();
-        PutResourcesActionData putResourcesActionData = new PutResourcesActionData();
-        putResourcesActionData.setPlayer(nickname);
-        Warehouse sentWarehouse = new Warehouse();
-        // Create warehouse to send
-        for(int i=0; i<3; i++) {
-            Resources floorResources = new Resources();
-            int resCount = (int)rows.get(2-i).stream().filter(imageView -> imageView.getImage() != null).count();
-            ResourceType resType = rowsResourceTypes.get(2-i);
-            if(resCount > 0) {
-                floorResources.add(resType, resCount);
+        GUIUtility.executorService.submit(() -> {
+            String nickname = GameApplication.getInstance().getUserNickname();
+            LeadCard[] leadCards = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+            PutResourcesActionData putResourcesActionData = new PutResourcesActionData();
+            putResourcesActionData.setPlayer(nickname);
+            Warehouse sentWarehouse = new Warehouse();
+            // Create warehouse to send
+            for(int i=0; i<3; i++) {
+                Resources floorResources = new Resources();
+                int resCount = (int)rows.get(2-i).stream().filter(imageView -> imageView.getImage() != null).count();
+                ResourceType resType = rowsResourceTypes.get(2-i);
+                if(resCount > 0) {
+                    floorResources.add(resType, resCount);
+                }
+                sentWarehouse.deposit(floorResources,i);
             }
-            sentWarehouse.deposit(floorResources,i);
-        }
-        // Create leader extra to send
-        for(int i=0; i<2; i++) {
-            Resources extraResources = new Resources();
-            int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
-            ResourceType resType = leadersResourceTypes.get(i);
-            if(resCount > 0) {
-                System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
-                extraResources.add(resType, resCount);
+            // Create leader extra to send
+            for(int i=0; i<2; i++) {
+                Resources extraResources = new Resources();
+                int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
+                ResourceType resType = leadersResourceTypes.get(i);
+                if(leadCards[i] != null) {
+                    System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
+                    extraResources.add(resType, resCount);
+                    sentWarehouse.deposit(extraResources,i+3);
+                    sentWarehouse.expandWithLeader(leadCards[i]);
+                }
             }
-            sentWarehouse.deposit(extraResources,i+3);
-        }
-        putResourcesActionData.setWh(sentWarehouse);
+            System.out.println("GUIWarehouse.onConfirmClick leaders = ");
+            Arrays.stream(sentWarehouse.getLeadersExtra()).forEach(System.out::println);
+            putResourcesActionData.setWh(sentWarehouse);
 
-        // Send packet
-        ActionPacket actionPacket = new ActionPacket(Action.PUT_RESOURCES, JSONUtility.toJson(putResourcesActionData, PutResourcesActionData.class));
-        GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+            // Send packet
+            ActionPacket actionPacket = new ActionPacket(Action.PUT_RESOURCES, JSONUtility.toJson(putResourcesActionData, PutResourcesActionData.class));
+            GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+        });
+
 
         Stage s = (Stage) coin.getScene().getWindow();
         s.close();
@@ -307,8 +314,11 @@ public class GUIWarehouse implements Initializable {
     }
 
     private void fillLeaders() {
+
         String nickname = GameApplication.getInstance().getUserNickname();
+
         new Thread(() -> {
+
             LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
             Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
             Platform.runLater(() -> {

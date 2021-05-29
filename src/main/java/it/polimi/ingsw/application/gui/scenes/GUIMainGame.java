@@ -412,30 +412,42 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void onWarehouseExtraChange() {
         String nickname = GameApplication.getInstance().getUserNickname();
-        int count = 0;
-        LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+        List<LeadCard> leaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
+        List<LeadCard> leadersData = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders());
         Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
         Platform.runLater(() -> {
-            for(int i = 0; i < leadersData.length; i++) {
-                LeadCard leader = leadersData[i];
-                if(leader != null) {
-                    ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
-                    // If the leader has an extra space
-                    if(leaderResourceType != null) {
-                        // Get the current amount of extra
-                        int extraAmount = extra[i].getAmountOf(leaderResourceType);
-                        // Update the leader resources
-                        for(int j = 0; j < extraAmount; j++) {
-                            leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
+            for(int i = 0; i < 2; i++) {
+                LeadCard shownLeader = leaders.get(i);
+                if(shownLeader != null) {
+                    System.out.println("GUIMainGame.onWarehouseExtraChange: leader found");
+
+                    // Find the index in the list of leaders
+                    Optional<LeadCard> searchedCard = leadersData.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(shownLeader.getCardId())).findFirst();
+                    if(searchedCard.isPresent()) {
+                        int leaderIndex = leadersData.indexOf(searchedCard.get());
+
+                        ResourceType leaderResourceType = getResourceType(shownLeader.getAbility().getExtraWarehouseSpace());
+                        // If the leader has an extra space
+                        if(leaderResourceType != null) {
+                            System.out.println("GUIMainGame.onWarehouseExtraChange: warehouse leader found");
+                            // Get the current amount of extra
+                            int extraAmount = extra[leaderIndex].getAmountOf(leaderResourceType);
+                            // Update the leader resources
+                            for(int j = 0; j < extraAmount; j++) {
+                                leadersResources.get(i).get(j).setImage(leaderResourceType.getImage());
+                            }
+                            for(int j = extraAmount; j < 2; j++) {
+                                leadersResources.get(i).get(j).setImage(null);
+                            }
                         }
-                        for(int j = extraAmount; j < 2; j++) {
-                            leadersResources.get(count).get(j).setImage(null);
+                    }
+                    else {
+                        System.out.println("GUIMainGame.onWarehouseExtraChange: cancelling leader resources");
+                        for(int j = 0; j < 2; j++) {
+                            leadersResources.get(i).get(j).setImage(null);
                         }
                     }
                 }
-            }
-            for(int i = count; i < 2; i++) {
-                leadersResources.get(i).forEach(imageView -> imageView.setImage(null));
             }
         });
     }
@@ -452,7 +464,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }
         if(choice == Action.PlAY_LEADER){
             playLeader(0);
-
+        }
+        if(choice == Action.PRODUCE){
+            produceLeader(0);
         }
     }
 
@@ -463,16 +477,29 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }
         if(choice == Action.PlAY_LEADER){
             playLeader(1);
-
+        }
+        if(choice == Action.PRODUCE){
+            produceLeader(1);
         }
     }
+
+    private void produceLeader(int i){
+        String nickname = GameApplication.getInstance().getUserNickname();
+
+        //if player has played the leader
+
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
+            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction());
+        }
+    }
+
 
     /**
      * Method for discarding leader
      * @param i 0 lead 1, 1 lead2
      */
 
-    public void discardLeader(int i){
+    private void discardLeader(int i){
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(GameApplication.getInstance().getUserNickname());

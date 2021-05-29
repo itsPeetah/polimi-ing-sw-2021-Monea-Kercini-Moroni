@@ -13,9 +13,7 @@ import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
 import it.polimi.ingsw.model.singleplayer.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class ModelController {
@@ -635,6 +633,7 @@ public class ModelController {
 
             //update
             updateLeaders(player);
+            updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
@@ -914,7 +913,7 @@ public class ModelController {
      */
 
     private void updateWarehouse(Player player){
-
+        System.out.println("ModelController.updateWarehouse: warehouse leaders count = " + Arrays.stream(player.getBoard().getWarehouse().getLeadersExtra()).filter(Objects::nonNull).count());
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getBoard().getStrongbox(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }

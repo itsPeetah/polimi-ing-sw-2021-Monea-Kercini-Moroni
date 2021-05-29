@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.cards.LeadCard;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
@@ -56,7 +59,7 @@ public class Warehouse{
      */
 
     public Resources withdraw(Resources res) {
-
+        System.out.println("Warehouse.withdraw: leaders count = " + Arrays.stream(getLeadersExtra()).filter(Objects::nonNull).count());
         Resources withdrawed = new Resources();
 
         for (ResourceType tipo : ResourceType.values()) {
@@ -86,28 +89,32 @@ public class Warehouse{
                 }
             }
 
+            System.out.println("Warehouse.withdraw: leaders count = " + Arrays.stream(getLeadersExtra()).filter(Objects::nonNull).count());
+
             for (int i = 0; i < 2; i++) { //Search all two leader floors
 
             //Same procedure for the extra resources from leader
                 if (leaderExtraUsed[i].getAmountOf(tipo) >= curr_res) {
 
-                try { leaderExtraUsed[i].remove(tipo, curr_res);
-                } catch (Exception e) {
-                    e.printStackTrace(); }
-
-                    withdrawed.add(tipo, curr_res);
-                    curr_res = 0;
-                } else {
-                    curr_res -= leaderExtraUsed[i].getAmountOf(tipo);
-                    withdrawed.add(tipo, leaderExtraUsed[i].getAmountOf(tipo));
-
-                    try {  leaderExtraUsed[i].remove(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+                    try { leaderExtraUsed[i].remove(tipo, curr_res);
                     } catch (Exception e) {
                         e.printStackTrace(); }
-            }
+
+                        withdrawed.add(tipo, curr_res);
+                        curr_res = 0;
+                    } else {
+                        curr_res -= leaderExtraUsed[i].getAmountOf(tipo);
+                        withdrawed.add(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+
+                        try {
+                            leaderExtraUsed[i].remove(tipo, leaderExtraUsed[i].getAmountOf(tipo));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
             }
-
+            System.out.println("Warehouse.withdraw: leaders count = " + Arrays.stream(getLeadersExtra()).filter(Objects::nonNull).count());
 
         }
         return withdrawed;
@@ -165,7 +172,7 @@ public class Warehouse{
         this.content = w.content;
         this.leadersUsed = w.leadersUsed;
         this.leaderExtraUsed = w.leaderExtraUsed;
-        this.leadersExtra = this.leadersExtra;
+        this.leadersExtra = w.leadersExtra;
     }
 
     /**

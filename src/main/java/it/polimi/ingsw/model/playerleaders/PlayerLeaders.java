@@ -75,6 +75,7 @@ public class PlayerLeaders {
         Optional<LeadCard> searchedCard = Arrays.stream(cards).filter(leadCardList -> leadCardList.getCardId().equals(leadCard.getCardId())).findFirst();
         if(searchedCard.isPresent()) {
             int cardIndex = Arrays.asList(cards).indexOf(searchedCard.get());
+            System.out.println("PlayerLeaders.playCard - index: " + cardIndex);
             playCard(cardIndex);
         } else throw new PlayerLeadersException("Leader Card is not present.");
     }
