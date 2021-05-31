@@ -71,6 +71,7 @@ public class RemoteUser {
      * Close the connection with the user.
      */
     public void terminateConnection() {
+        if(isInRoom()) leaveCurrentRoom();
         socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
         socket.close();
         GameServer.getInstance().getUserTable().removeUser(id);
