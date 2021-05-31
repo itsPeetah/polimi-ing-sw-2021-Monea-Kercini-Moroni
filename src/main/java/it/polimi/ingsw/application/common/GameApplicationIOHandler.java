@@ -49,9 +49,11 @@ public class GameApplicationIOHandler {
         String[] messageFields = serverMessage.split(" ", 2);
 
         if (ConnectionMessage.QUIT.check(messageFields[0])) {
-            GameApplication.getInstance().setApplicationState(GameApplicationState.STOPPED);
+            handleQuitMessage();
             return -1;
-        } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
+        } else if(GameLobbyMessage.IN_LOBBY.check(messageFields[0])) {
+            GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+        }else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
             GameApplication.getInstance().startMPGame();
         } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
@@ -107,6 +109,11 @@ public class GameApplicationIOHandler {
                 GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
                 break;
         }
+    }
+
+    private void handleQuitMessage() {
+        GameApplication.getInstance().closeConnectionWithServer();
+        GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
 
 }

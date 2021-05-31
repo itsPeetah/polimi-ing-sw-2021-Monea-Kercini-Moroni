@@ -19,6 +19,8 @@ public class GameLobbyProtocol {
     public boolean joinOrCreateRoom() {
         System.out.println("User " + user.getId() + " is now in the lobby.");
 
+        user.sendSystemMessage(GameLobbyMessage.IN_LOBBY.getCode());
+
         while (true) {
             clientMessage = user.receiveSystemMessage();
             clientMessageFields = clientMessage.split(" ", 3);

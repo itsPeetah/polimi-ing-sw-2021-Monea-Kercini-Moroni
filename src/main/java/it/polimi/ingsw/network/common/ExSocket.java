@@ -41,6 +41,7 @@ public class ExSocket {
 
     public NetworkPacket receive(){
         String json = in.nextLine();
+        /*if ()*/
         return NetworkPacket.fromString(json);
     }
 
