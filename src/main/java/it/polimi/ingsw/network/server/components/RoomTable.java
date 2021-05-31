@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+
 import java.util.Hashtable;
 
 /**
@@ -103,6 +106,16 @@ public class RoomTable {
             // Add user to the room
             GameRoom room = rooms.get(roomId);
             room.addUser(nickname, user);
+        }
+    }
+
+    public void removeRoom(String roomId){
+        synchronized (lock){
+            GameRoom room = rooms.get(roomId);
+            if(room != null){
+                room.broadcast(NetworkPacket.buildSystemMessagePacket(GameLobbyMessage.IN_LOBBY.getCode()));
+                rooms.remove(roomId);
+            }
         }
     }
 }

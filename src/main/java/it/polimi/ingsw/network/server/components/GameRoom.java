@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.social.SocialPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.util.JSONUtility;
 
 import java.util.ArrayList;
@@ -78,6 +79,11 @@ public class GameRoom {
             if(users.containsKey(nickname)){
                 users.remove(nickname);
                 result = true;
+            }
+
+            if(users.size() < 1) {
+                System.out.println("Removing room '" + roomId +"' since it's been left empty.");
+                GameServer.getInstance().getRoomTable().removeRoom(roomId);
             }
         }
         return result;
