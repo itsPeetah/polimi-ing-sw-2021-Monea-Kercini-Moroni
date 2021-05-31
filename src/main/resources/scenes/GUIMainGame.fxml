@@ -50,31 +50,12 @@
                <ImageView fx:id="dev30" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick30" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
            </children>
        </GridPane>
-      <VBox layoutX="352.0" layoutY="60.0" prefHeight="170.0" prefWidth="300.0" styleClass="leaderButtonsContainer" AnchorPane.leftAnchor="352.0" AnchorPane.topAnchor="60.0">
-         <children>
-            <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="300.0" styleClass="leaderButton" text="Play Leader">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" prefHeight="140.0" prefWidth="300.0" styleClass="leaderButton" text="Discard Leader">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="reorganizeWarehouse" mnemonicParsing="false" onAction="#reorganizeWarehouse" prefHeight="140.0" prefWidth="300.0" styleClass="leaderButton" text="Reorganize Warehouse">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="33.0" prefHeight="17.0" prefWidth="300.0" styleClass="menuTitle" text="Primary actions">
          <font>
             <Font name="Blackadder ITC" size="36.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="352.0" prefHeight="17.0" prefWidth="300.0" styleClass="menuTitle" text="Secondary actions">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="352.0" layoutY="33.0" prefHeight="17.0" prefWidth="300.0" styleClass="menuTitle" text="Secondary actions">
          <font>
             <Font name="Blackadder ITC" size="36.0" />
          </font>
@@ -471,16 +452,35 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton"/>
+                   <Button mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton" />
                </children></HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton"/>
+                   <Button mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton" />
                </children></HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#produce" styleClass="produceButton"/>
+                  <Button mnemonicParsing="false" onAction="#produce" styleClass="produceButton" />
                </children></HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="352.0" layoutY="100.0" prefHeight="99.0" prefWidth="300.0" spacing="20.0" styleClass="gameStateHBox">
+         <children>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#playLeader" styleClass="playLeaderButton" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#discardLeader" styleClass="discardLeaderButton" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#reorganizeWarehouse" styleClass="reorganizeButton" />
+               </children>
+            </HBox>
          </children>
       </HBox>
    </children>

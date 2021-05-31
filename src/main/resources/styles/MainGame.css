@@ -196,3 +196,54 @@
     -fx-background-size: 64;
     -fx-background-position: center;
 }
+
+.playLeaderButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.playLeaderButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/add.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
+
+.discardLeaderButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.discardLeaderButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/remove.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
+
+.reorganizeButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.reorganizeButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/shelf.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
