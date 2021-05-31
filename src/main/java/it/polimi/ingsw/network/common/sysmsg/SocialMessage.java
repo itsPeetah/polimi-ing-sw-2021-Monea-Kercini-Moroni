@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.common.sysmsg;
 
-public enum SocialMessage implements ISystemMessage{
+public enum SocialMessage implements SystemMessage {
     CHAT("CHAT"),
     WHISPER("WHISPER");
 
