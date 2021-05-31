@@ -94,7 +94,7 @@ public class GameApplication {
     /**
      * Has the networking been initialized?
      */
-    public boolean isOnNetwork() {return networkClient != null; }
+    public boolean isOnNetwork() {return networkClient != null && networkClient.getSocket().getSocket().isConnected(); }
 
     /**
      * Has the game been set up?
