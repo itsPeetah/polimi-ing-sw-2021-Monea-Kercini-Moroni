@@ -60,9 +60,8 @@ public class RemoteConnectionHandler implements Runnable {
      */
     private void closeConnection(){
 
-        socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
-
         if(user == null) {
+            socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
             socket.close();
         }
         else{

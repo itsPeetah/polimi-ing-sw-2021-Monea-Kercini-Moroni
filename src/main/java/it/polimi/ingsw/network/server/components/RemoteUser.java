@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.server.GameServer;
 
 /**
@@ -70,7 +71,9 @@ public class RemoteUser {
      * Close the connection with the user.
      */
     public void terminateConnection() {
+        socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
         socket.close();
+        GameServer.getInstance().getUserTable().removeUser(id);
     }
 
     /**
