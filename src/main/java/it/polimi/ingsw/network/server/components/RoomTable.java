@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server.components;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -21,6 +22,16 @@ public class RoomTable {
     public RoomTable(){
         this.lock = new Object();
         this.rooms = new Hashtable<String, GameRoom>();
+    }
+
+    public String[] getRoomIDs(){
+        String[] ids = new String[rooms.size()];
+        int i = 0;
+        for (String id : rooms.keySet()){
+            ids[i] = id;
+            i++;
+        }
+        return ids;
     }
 
     /**

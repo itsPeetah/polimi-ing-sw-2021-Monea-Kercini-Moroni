@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.server.GameServer;
+
+import java.util.Scanner;
 
 public class MaestriRinascimentoServer {
 
@@ -24,7 +27,30 @@ public class MaestriRinascimentoServer {
         }
 
         GameServer server = new GameServer(hostName, portNumber).setAsInstance();
+
+        Thread debugInput = new Thread(() -> {Scanner in = new Scanner(System.in);
+            String s;
+            while(true){
+                s = in.nextLine();
+                switch (s){
+                    case "rooms":
+                        System.out.println(ANSIColor.YELLOW + "Rooms:" + ANSIColor.RESET);
+                        for(String id : server.getRoomTable().getRoomIDs()) System.out.println(id);
+                        break;
+                    case "users":
+                        System.out.println(ANSIColor.YELLOW + "Users:" + ANSIColor.RESET);
+                        for(String id : server.getUserTable().getUserIDs()) System.out.println(id);
+                        break;
+                }
+            }});
+        debugInput.setDaemon(true);
+        debugInput.start();
+
+
         server.execute();
+
+
+
     }
 
     public static void setHostName(String hostName){
