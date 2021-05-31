@@ -35,11 +35,13 @@ public class MaestriRinascimentoServer {
                 switch (s){
                     case "rooms":
                         System.out.println(ANSIColor.YELLOW + "Rooms:" + ANSIColor.RESET);
-                        for(String id : server.getRoomTable().getRoomIDs()) System.out.println(id);
+                        int i = 0;
+                        for(String id : server.getRoomTable().getRoomIDs()) System.out.println(++i+ ": " + id);
                         break;
                     case "users":
                         System.out.println(ANSIColor.YELLOW + "Users:" + ANSIColor.RESET);
-                        for(String id : server.getUserTable().getUserIDs()) System.out.println(id);
+                        int j = 0;
+                        for(String id : server.getUserTable().getUserIDs()) System.out.println(++j+ ": " + id);
                         break;
                 }
             }});
@@ -48,9 +50,6 @@ public class MaestriRinascimentoServer {
 
 
         server.execute();
-
-
-
     }
 
     public static void setHostName(String hostName){
