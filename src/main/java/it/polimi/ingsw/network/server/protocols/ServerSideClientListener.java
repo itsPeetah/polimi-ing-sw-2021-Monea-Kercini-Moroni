@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.network.server.components.RemoteUser;
+import it.polimi.ingsw.network.server.components.UserTable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +59,6 @@ public class ServerSideClientListener {
             return;
         }
         // LEAVE
-        // TODO Check whether the user can do this (game not started yet).
         else if (GameLobbyMessage.LEAVE_ROOM.check(clientMessage)){
             user.leaveCurrentRoom();
             done = true;
@@ -71,6 +71,8 @@ public class ServerSideClientListener {
             executorService.submit(() -> user.getRoom().startGame());
             System.out.println("Started room");
             return;
+        } else if(ConnectionMessage.PING.check(clientMessage)){
+            UserTable.getInstance().setPingResponseForUser(user.getId());
         }
     }
 

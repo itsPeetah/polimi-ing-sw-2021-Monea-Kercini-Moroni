@@ -53,7 +53,9 @@ public class GameApplicationIOHandler {
             return -1;
         } else if(GameLobbyMessage.IN_LOBBY.check(messageFields[0])) {
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
-        }else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
+        } else if(ConnectionMessage.PING.check(messageFields[0])) {
+            GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(ConnectionMessage.PING.getCode()));
+        } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
             GameApplication.getInstance().startMPGame();
         } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);

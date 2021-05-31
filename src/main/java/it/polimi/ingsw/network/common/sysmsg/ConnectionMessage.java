@@ -7,7 +7,8 @@ public enum ConnectionMessage implements SystemMessage {
     READY("READY"),
     QUIT("QUIT"),
     OK("OK"),
-    ERR("ERR");
+    ERR("ERR"),
+    PING("PING");
 
     public static final String welcomeMessage = WELCOME.addBody("Welcome to the server!");
     public static final String connectionReadyMessage = READY.addBody("You are now connected to the server!");

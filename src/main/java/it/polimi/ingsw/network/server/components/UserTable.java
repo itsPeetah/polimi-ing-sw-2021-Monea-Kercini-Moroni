@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.network.common.NetworkPacket;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -14,6 +18,8 @@ public class UserTable {
 
     private Object lock;
     private Hashtable<String, RemoteUser> users;
+    private Hashtable<String, Integer> missedPings;
+    private HashSet<String> pingResponses;
 
     /**
      * Class constructor.
@@ -21,16 +27,28 @@ public class UserTable {
     public UserTable(){
         lock = new Object();
         users = new Hashtable<String, RemoteUser>();
+        missedPings = new Hashtable<String, Integer>();
+        pingResponses = new HashSet<String>();
+
+        Thread pinger = new Thread(new UserPingingHandler(this));
+        pinger.setDaemon(true);
+        pinger.start();
     }
 
     public String[] getUserIDs(){
-        String[] ids = new String[users.size()];
-        int i = 0;
-        for (String id : users.keySet()){
-            ids[i] = id;
-            i++;
+        synchronized (lock) {
+            String[] ids = new String[users.size()];
+            int i = 0;
+            for (String id : users.keySet()) {
+                ids[i] = id;
+                i++;
+            }
+            return ids;
         }
-        return ids;
+    }
+
+    public Hashtable<String, Integer> getMissedPings() {
+        return missedPings;
     }
 
     /**
@@ -112,5 +130,21 @@ public class UserTable {
      */
     public String generateId() {
         return generateId(DEFAULT_ID_LENGTH);
+    }
+
+    public void broadcast(NetworkPacket np){
+        synchronized (lock) {
+            for (String id : users.keySet()) users.get(id).send(np);
+        }
+    }
+
+    public void setPingResponseForUser(String id){
+        //synchronized (lock){
+            pingResponses.add(id);
+        //}
+    }
+
+    public boolean checkPingResponse(String id){
+        return pingResponses.remove(id);
     }
 }
