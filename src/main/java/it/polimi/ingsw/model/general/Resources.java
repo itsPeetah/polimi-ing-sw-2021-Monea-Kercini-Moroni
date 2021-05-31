@@ -54,7 +54,7 @@ public class Resources {
      */
     public Boolean isGreaterThan(Resources other) {
         int additional_amounts = 0;
-        if(other.amounts.isEmpty()) return true;
+        if(other == null || other.amounts.isEmpty()) return true;
         for(ResourceType resource: ResourceType.values()) {
             if(resource != ResourceType.CHOICE && getAmountOf(resource) < other.getAmountOf(resource)) {
                 // checking that ONLY normal resources are in a greater amount

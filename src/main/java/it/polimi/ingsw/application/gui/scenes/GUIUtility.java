@@ -13,10 +13,13 @@ import javafx.stage.Window;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
 public class GUIUtility {
+    public static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public static void launchOrganizeWarehouseWindow(Window owner) {
         Stage stage = new Stage();
@@ -48,15 +51,22 @@ public class GUIUtility {
 
     public static void runSceneWithDelay(GUIScene guiScene, int delay) {
         new Thread(() -> {
-            Scene scene = guiScene.loadWithoutSet();
+            // Start the listeners and observers so the scene can show the correct data
             Timer timer = new Timer();
-            TimerTask timeoutTask = new TimerTask() {
+            TimerTask startCallbacksTask = new TimerTask() {
                 @Override
                 public void run() {
-                    Platform.runLater(() -> GUIApplication.setScene(scene));
+                    guiScene.startCallbacks();
                 }
             };
-            timer.schedule(timeoutTask, delay);
+            TimerTask switchTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> GUIScene.getScene().setRoot(guiScene.getRoot()));
+                }
+            };
+            timer.schedule(startCallbacksTask, delay/2);
+            timer.schedule(switchTask, delay);
         }).start();
 
     }

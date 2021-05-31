@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.model.cards.CardManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -12,15 +13,15 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class GUIApplication extends Application {
-    private static Stage primaryStage;
     private static Alert oldDialog;
     public static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
 
     @Override
     public void start(Stage stage) throws Exception {
+        CardManager.loadImages();
         GUIScene.init();
-        primaryStage = stage;
         stage.setTitle("Masters of Renaissance");
+        stage.setScene(GUIScene.getScene());
         GUIScene.MAIN_MENU.load();
         stage.setResizable(false);
         File file = new File(ICON_PATH);
@@ -35,10 +36,6 @@ public class GUIApplication extends Application {
 
     public static void main(String[] args) {
         launch();
-    }
-
-    public static void setScene(Scene scene) {
-        primaryStage.setScene(scene);
     }
 
     public static void showDialog(String message) {

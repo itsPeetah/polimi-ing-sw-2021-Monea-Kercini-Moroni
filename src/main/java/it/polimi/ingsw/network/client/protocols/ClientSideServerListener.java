@@ -30,16 +30,16 @@ public class ClientSideServerListener {
             NetworkPacket np = socket.receive();
             switch (np.getPacketType()) {
                 case SYSTEM:
-                    executorService.submit(()-> handleSystemMessage(np));
+                    handleSystemMessage(np);
                     break;
                 case DEBUG:
-                    executorService.submit(() -> handleDebugMessage(np));
+                    handleDebugMessage(np);
                     break;
                 case MESSAGE:
-                    executorService.submit(() -> GameApplicationIOHandler.getInstance().notifyMessage(np));
+                    GameApplicationIOHandler.getInstance().notifyMessage(np);
                     break;
                 case UPDATE:
-                    executorService.submit(() -> GameApplicationIOHandler.getInstance().notifyUpdate(np));
+                    GameApplicationIOHandler.getInstance().notifyUpdate(np);
                     break;
                 case SOCIAL:
                     executorService.submit(() -> GameApplicationIOHandler.getInstance().handleSocialMessage(np));

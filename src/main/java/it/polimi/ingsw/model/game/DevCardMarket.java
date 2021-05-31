@@ -105,10 +105,18 @@ public class DevCardMarket {
 
                 //The cards available for purchase are the top ones
 
-                if (card.getCardId().equals(availableCards[j][i].get(availableCards[j][i].size()-1).getCardId())) {
-                    //Remove found card
-                    availableCards[j][i].remove(availableCards[j][i].size()-1);
-                    return true;
+                if(availableCards[j][i].size() != 0) {
+
+                    System.out.println("DevCardMarket.buyCard card abailable: " + availableCards[j][i].get(availableCards[j][i].size() - 1).getCardId());
+
+                    if (card.getCardId().equals(availableCards[j][i].get(availableCards[j][i].size() - 1).getCardId())) {
+
+                        System.out.println("DevCardMarket.buyCard " + availableCards[j][i].get(availableCards[j][i].size() - 1).getCardId());
+
+                        //Remove found card
+                        availableCards[j][i].remove(availableCards[j][i].size() - 1);
+                        return true;
+                    }
                 }
             }
         }

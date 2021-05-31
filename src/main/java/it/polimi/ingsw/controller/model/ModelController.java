@@ -13,9 +13,7 @@ import it.polimi.ingsw.model.general.*;
 import it.polimi.ingsw.model.playerboard.*;
 import it.polimi.ingsw.model.singleplayer.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class ModelController {
@@ -505,10 +503,31 @@ public class ModelController {
             return false;
 
         }else{
-            //Removes the cost from players warehouse
-            player.getBoard().getWarehouse().withdraw(chosenCard.getCost());
+            //Removes the cost from players warehouse and strongbox
+
+            //Paying cost
+            Resources fromStrongbox = new Resources(); // The resources that should be withdrawn from strongbox after the first withdrawal from warehouse has been done
+
+            // Compute the discounted cost
+            Resources costWithDiscount = chosenCard.getCost();
+            player.getLeaders().getPlayedCards().forEach(leadCard -> costWithDiscount.removeWithoutException(leadCard.getAbility().getResourceDiscount()));
+
+            fromStrongbox.add(costWithDiscount);
+
+            try {
+                //Withdraw as many resources as you need from warehouse
+                fromStrongbox.remove(player.getBoard().getWarehouse().withdraw(costWithDiscount));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Withdraw the rest from strongbox
+            player.getBoard().getStrongbox().withdraw(fromStrongbox);
+
+
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
+
             //Remove Card from DevCardMarket
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
@@ -614,6 +633,7 @@ public class ModelController {
 
             //update
             updateLeaders(player);
+            updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
@@ -893,7 +913,7 @@ public class ModelController {
      */
 
     private void updateWarehouse(Player player){
-
+        System.out.println("ModelController.updateWarehouse: warehouse leaders count = " + Arrays.stream(player.getBoard().getWarehouse().getLeadersExtra()).filter(Objects::nonNull).count());
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getBoard().getStrongbox(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }

@@ -1,18 +1,15 @@
 package it.polimi.ingsw.application.common;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
-import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
 import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.view.data.GameData;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 
 import java.util.*;
 import java.util.stream.Collectors;
