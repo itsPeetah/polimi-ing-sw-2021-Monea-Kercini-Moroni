@@ -20,6 +20,7 @@ public class GameApplication {
     // Output mode (CLI/GUI)
     private static GameApplicationMode outputMode = GameApplicationMode.CLI;
     public static void setOutputMode(GameApplicationMode mode) { outputMode = mode; }
+    public static GameApplicationMode getOutputMode() { return outputMode; }
 
     // Singleton
     private static GameApplication instance;
@@ -201,7 +202,7 @@ public class GameApplication {
             networkClient = null;
         else {
             isRunning = true;
-            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
+            if(outputMode == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
         }
     }
 

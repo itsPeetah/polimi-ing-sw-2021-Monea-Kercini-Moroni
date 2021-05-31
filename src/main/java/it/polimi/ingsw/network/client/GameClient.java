@@ -1,15 +1,11 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
-import it.polimi.ingsw.network.common.sysmsg.ISystemMessage;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class GameClient {
 

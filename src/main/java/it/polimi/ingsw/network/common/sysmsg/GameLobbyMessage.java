@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.common.sysmsg;
 /**
  * System messages for the game lobby.
  */
-public enum GameLobbyMessage implements ISystemMessage {
+public enum GameLobbyMessage implements SystemMessage {
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ"),
     LEAVE_ROOM("ROOML"),
