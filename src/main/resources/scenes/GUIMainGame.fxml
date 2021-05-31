@@ -50,25 +50,6 @@
                <ImageView fx:id="dev30" fitHeight="190.0" fitWidth="150.0" onMouseClicked="#devClick30" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
            </children>
        </GridPane>
-      <VBox layoutX="179.0" layoutY="194.0" prefHeight="150.0" prefWidth="300.0" styleClass="actionButtonsContainer">
-         <children>
-            <Button mnemonicParsing="false" onAction="#acquireResources" prefHeight="140.0" prefWidth="300.0" styleClass="actionButton" text="Aquire resources">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#buyDevCard" prefHeight="140.0" prefWidth="300.0" styleClass="actionButton" text="Buy Development Card">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#produce" prefHeight="140.0" prefWidth="300.0" styleClass="actionButton" text="Produce">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
       <VBox layoutX="352.0" layoutY="60.0" prefHeight="170.0" prefWidth="300.0" styleClass="leaderButtonsContainer" AnchorPane.leftAnchor="352.0" AnchorPane.topAnchor="60.0">
          <children>
             <Button fx:id="playLeader" mnemonicParsing="false" onAction="#playLeader" prefHeight="140.0" prefWidth="300.0" styleClass="leaderButton" text="Play Leader">
@@ -88,7 +69,7 @@
             </Button>
          </children>
       </VBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" prefHeight="17.0" prefWidth="300.0" styleClass="menuTitle" text="Primary actions">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="33.0" prefHeight="17.0" prefWidth="300.0" styleClass="menuTitle" text="Primary actions">
          <font>
             <Font name="Blackadder ITC" size="36.0" />
          </font>
@@ -358,13 +339,13 @@
             </ImageView>
          </children>
       </Pane>
-      <Button layoutX="1668.0" layoutY="877.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
-      <Button layoutX="1706.0" layoutY="877.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
-      <Button layoutX="1749.0" layoutY="877.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
-      <Button layoutX="1790.0" layoutY="877.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
-      <Button fx:id="y0" layoutX="1871.0" layoutY="785.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y1" layoutX="1871.0" layoutY="745.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y2" layoutX="1871.0" layoutY="703.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button layoutX="1560.0" layoutY="871.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
+      <Button layoutX="1598.0" layoutY="871.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
+      <Button layoutX="1641.0" layoutY="871.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
+      <Button layoutX="1682.0" layoutY="871.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
+      <Button fx:id="y0" layoutX="1763.0" layoutY="779.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y1" layoutX="1763.0" layoutY="739.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y2" layoutX="1763.0" layoutY="697.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="446.0" layoutY="656.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="637.0" layoutY="656.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="828.0" layoutY="656.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
@@ -486,20 +467,21 @@
             <Font name="Blackadder ITC" size="36.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="64.0" layoutX="44.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/market.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="64.0" layoutX="147.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/money-bag.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="64.0" layoutX="769.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/thor.png" />
-         </image>
-      </ImageView>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="100.0" prefHeight="99.0" prefWidth="300.0" spacing="20.0" styleClass="gameStateHBox">
+         <children>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                   <Button mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton"/>
+               </children></HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                   <Button mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton"/>
+               </children></HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#produce" styleClass="produceButton"/>
+               </children></HBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.application.gui.scenes;
 
-import com.sun.javafx.collections.ObservableListWrapper;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIObserverScene;

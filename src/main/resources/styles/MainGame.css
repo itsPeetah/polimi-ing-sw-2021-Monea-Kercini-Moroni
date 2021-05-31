@@ -145,3 +145,54 @@
     -fx-text-fill: black;
     -fx-font-size: 25;
 }
+
+.produceButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.produceButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/thor.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
+
+.acquireResourcesButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.acquireResourcesButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/market.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
+
+.buyDevCardButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+}
+
+.buyDevCardButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/money-bag.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+}
