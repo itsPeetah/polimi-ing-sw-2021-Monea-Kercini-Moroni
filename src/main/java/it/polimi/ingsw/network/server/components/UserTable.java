@@ -23,6 +23,16 @@ public class UserTable {
         users = new Hashtable<String, RemoteUser>();
     }
 
+    public String[] getUserIDs(){
+        String[] ids = new String[users.size()];
+        int i = 0;
+        for (String id : users.keySet()){
+            ids[i] = id;
+            i++;
+        }
+        return ids;
+    }
+
     /**
      * Make the instance the singleton instance.
      * @return the instance
@@ -65,6 +75,14 @@ public class UserTable {
             if(users.containsKey(id)) user = users.get(id);
         }
         return user;
+    }
+
+    public void removeUser(String id){
+        synchronized (lock){
+            if(getUser(id) != null){
+                users.remove(id);
+            }
+        }
     }
 
     /**
