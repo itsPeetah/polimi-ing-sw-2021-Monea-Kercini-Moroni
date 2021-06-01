@@ -13,7 +13,7 @@ import javax.sound.midi.Soundbank;
  */
 public class RemoteUser {
 
-    private static final int maxMissedPings = 3;
+    private static final int maxMissedPings = 1;
 
     private final String id;    // Server assigned user id
     private ExSocket socket;    // Socket
@@ -21,7 +21,7 @@ public class RemoteUser {
     private String roomId, nickname;    // User's game room references
 
     private int missedPings;
-    private boolean pingResponse;
+    private boolean pingResponse, wasPinged;
 
     /**
      * Class constructor.
@@ -32,7 +32,7 @@ public class RemoteUser {
         this.roomId = null;
         this.nickname = null;
         this.missedPings = 0;
-        this.pingResponse = false;
+        this.pingResponse = this.wasPinged = false;
     }
 
     /**
@@ -109,18 +109,20 @@ public class RemoteUser {
 
     public void ping(){
         sendSystemMessage(ConnectionMessage.PING.getCode());
+        this.wasPinged = true;
     }
 
     public void respondedToPing(){
         pingResponse = true;
     }
 
-    public void checkPingResponse() {
-        missedPings = pingResponse ? 0 : missedPings + 1;
-        if(missedPings >= maxMissedPings){
-            System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);
-            terminateConnection();
+    public boolean checkPingResponse() {
+        missedPings = pingResponse && wasPinged ? 0 : missedPings + 1;
+        if(missedPings > maxMissedPings){
+            return false;
         }
+        wasPinged = false;
         pingResponse = false;
+        return true;
     }
 }

@@ -131,8 +131,13 @@ public class UserTable {
 
     public void checkPingResponses(){
         synchronized (lock) {
+            ArrayList<String> ids2kick = new ArrayList<String>();
             for(String id : users.keySet()){
-                users.get(id).checkPingResponse();
+                if(!users.get(id).checkPingResponse()) ids2kick.add(id);
+            }
+            for(String id : ids2kick) {
+                users.get(id).terminateConnection();
+                System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);
             }
         }
     }
