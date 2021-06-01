@@ -128,7 +128,6 @@ public class UserTable {
         }
     }
 
-
     public void checkPingResponses(){
         synchronized (lock) {
             ArrayList<String> ids2kick = new ArrayList<String>();

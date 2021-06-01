@@ -20,6 +20,7 @@ public class RemoteUser {
 
     private String roomId, nickname;    // User's game room references
 
+    private boolean disconnected;
     private int missedPings;
     private boolean pingResponse, wasPinged;
 
@@ -32,6 +33,7 @@ public class RemoteUser {
         this.roomId = null;
         this.nickname = null;
         this.missedPings = 0;
+        this.disconnected = false;
         this.pingResponse = this.wasPinged = false;
     }
 
@@ -85,6 +87,11 @@ public class RemoteUser {
         socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
         socket.close();
         GameServer.getInstance().getUserTable().removeUser(id);
+        disconnected = true;
+    }
+
+    public boolean hasDisconnected() {
+        return disconnected;
     }
 
     /**
