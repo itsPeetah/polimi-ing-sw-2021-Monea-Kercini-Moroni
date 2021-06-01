@@ -101,7 +101,7 @@ public class SoloAction {
         return lastPlayedToken;
     }
 
-    public int getCross() {
-        return cross.getBlackFaith();
+    public BlackCross getCross() {
+        return cross;
     }
 }

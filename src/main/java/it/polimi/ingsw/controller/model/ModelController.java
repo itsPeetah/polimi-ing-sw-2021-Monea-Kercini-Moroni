@@ -123,6 +123,12 @@ public class ModelController {
                 }
             }
 
+            //In case of SP lorenzo also gets extra faith points
+
+            if(singlePlayer){
+                Lorenzo.getCross().incrementBlackFaith(extraFP);
+            }
+
             p.getBoard().getWarehouse().copy(updatedWarehouse);
 
             System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
@@ -955,7 +961,7 @@ public class ModelController {
 
     private void updateActionToken(){
 
-        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross());
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross().getBlackFaith());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
 
