@@ -922,7 +922,6 @@ public class ModelController {
      */
 
     private void updateWarehouse(Player player){
-        System.out.println("ModelController.updateWarehouse: warehouse leaders count = " + Arrays.stream(player.getBoard().getWarehouse().getLeadersExtra()).filter(Objects::nonNull).count());
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getBoard().getStrongbox(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }
@@ -940,10 +939,6 @@ public class ModelController {
     }
 
     private void updateProductionPowers(Player player){
-
-        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getOwnedDevCards().get(0));
-        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getVisibleDevCards());
-
 
         ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);

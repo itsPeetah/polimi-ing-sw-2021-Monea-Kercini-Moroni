@@ -11,8 +11,8 @@ public class BlackCross {
      */
 
     public boolean incrementBlackFaith(int amount){
-        //todo enable this again
-        //blackFaith += amount;
+
+        blackFaith += amount;
 
         //This means that Lorenzo has won the game
         if(blackFaith>=24){
