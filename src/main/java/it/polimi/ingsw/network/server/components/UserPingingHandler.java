@@ -2,13 +2,7 @@ package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import it.polimi.ingsw.network.common.sysmsg.SystemMessage;
-import it.polimi.ingsw.network.server.GameServer;
-
-import java.awt.image.AreaAveragingScaleFilter;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Hashtable;
 
 public class UserPingingHandler implements Runnable{
 
