@@ -128,7 +128,37 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public ImageView c23;
     public ImageView c24;
 
+
+    //black faith track
+
+    public ImageView c001;
+    public ImageView c011;
+    public ImageView c021;
+    public ImageView c031;
+    public ImageView c041;
+    public ImageView c051;
+    public ImageView c061;
+    public ImageView c071;
+    public ImageView c081;
+    public ImageView c091;
+    public ImageView c101;
+    public ImageView c111;
+    public ImageView c121;
+    public ImageView c131;
+    public ImageView c141;
+    public ImageView c151;
+    public ImageView c161;
+    public ImageView c171;
+    public ImageView c181;
+    public ImageView c191;
+    public ImageView c201;
+    public ImageView c211;
+    public ImageView c221;
+    public ImageView c231;
+    public ImageView c241;
+
     private ImageView[] faithTrack = new ImageView[25];
+    private ImageView[] blackTrack = new ImageView[25];
 
     private ImageView[][] devCards = new ImageView[4][3];
 
@@ -170,6 +200,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     //generating materials needed for the marble spheres
     Materials materials = new Materials();
     Image cross;
+    Image blackCross;
 
 
 
@@ -311,12 +342,43 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         faithTrack[23] =  c23;
         faithTrack[24] =  c24;
 
+
+        //Connecting faith images to list
+        blackTrack[0] =  c001;
+        blackTrack[1] =  c011;
+        blackTrack[2] =  c021;
+        blackTrack[3] =  c031;
+        blackTrack[4] =  c041;
+        blackTrack[5] =  c051;
+        blackTrack[6] =  c061;
+        blackTrack[7] =  c071;
+        blackTrack[8] =  c081;
+        blackTrack[9] =  c091;
+        blackTrack[10] =  c101;
+        blackTrack[11] =  c111;
+        blackTrack[12] =  c121;
+        blackTrack[13] =  c131;
+        blackTrack[14] =  c141;
+        blackTrack[15] =  c151;
+        blackTrack[16] =  c161;
+        blackTrack[17] =  c171;
+        blackTrack[18] =  c181;
+        blackTrack[19] =  c191;
+        blackTrack[20] =  c201;
+        blackTrack[21] =  c211;
+        blackTrack[22] =  c221;
+        blackTrack[23] =  c231;
+        blackTrack[24] =  c241;
+
         ImageView prod1 = new ImageView();
         ImageView prod2 = new ImageView();
         ImageView prod3 = new ImageView();
 
         File file = new File("src/main/resources/images/resources/cross.png");
         cross = new Image(file.toURI().toString());
+
+        file = new File("src/main/resources/images/solotokens/croce.png");
+        blackCross = new Image(file.toURI().toString());
 
         productionsSelected = new HashSet<>();
         ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -770,6 +832,16 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onBlackCrossChange() {
+        Platform.runLater(() -> {
+
+            System.out.println("GUIMainGame.onBlackCrossChange");
+
+            for (int i = 0; i < blackTrack.length; i++) {
+                blackTrack[i].setImage(null);
+            }
+            //System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().getFaith());
+            blackTrack[GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross()].setImage(blackCross);
+        });
 
     }
 

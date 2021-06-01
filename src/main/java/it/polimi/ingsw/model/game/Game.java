@@ -193,7 +193,7 @@ public class Game {
 
         if((lastVaticanReport==0 && maxFaith>=8)
             || (lastVaticanReport==1 && maxFaith>=16)
-            || (lastVaticanReport==2 && maxFaith>=20)){
+            || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
                     doVaticanReport();
                 } catch (GameException e) {

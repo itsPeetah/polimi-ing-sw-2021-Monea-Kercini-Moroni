@@ -66,7 +66,10 @@ public class SoloAction {
 
         lastPlayedToken = soloActionTokens.get(0);
 
-        switch (soloActionTokens.get(0)){
+        //Discard this token
+        soloActionTokens.remove(0);
+
+        switch (lastPlayedToken){
 
             case DISCARD_2_BLUE:
                 win = dcm.discard2(Color.BLUE);
@@ -89,8 +92,7 @@ public class SoloAction {
                 soloActionTokens = createSoloActionDeck();
                 break;
         }
-        //Discard this token
-        soloActionTokens.remove(0);
+
 
         return win;
     }
