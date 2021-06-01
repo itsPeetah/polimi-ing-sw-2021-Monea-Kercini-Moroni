@@ -45,7 +45,7 @@ public class GameLobbyProtocol {
                     roomCreate(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     user.sendSystemMessage(
-                            ConnectionMessage.OK.addBody("Successfully created and joined room " + clientMessageFields[1] + " as " + clientMessageFields[2])
+                            ConnectionMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
@@ -64,7 +64,7 @@ public class GameLobbyProtocol {
                     roomJoin(clientMessageFields[1], clientMessageFields[2]);
                     System.out.println("User " + user.getId() + " joined room " + clientMessageFields[1] + " as " + clientMessageFields[2]);
                     user.sendSystemMessage(
-                            ConnectionMessage.OK.addBody("Successfully joined room " + clientMessageFields[1] + " as " + clientMessageFields[2])
+                            ConnectionMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
