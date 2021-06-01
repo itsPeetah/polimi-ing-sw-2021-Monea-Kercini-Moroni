@@ -137,6 +137,7 @@ public class ModelController {
             //update
             updateWarehouse(p);
             updateFaithPoints();
+            updateActionToken();
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);

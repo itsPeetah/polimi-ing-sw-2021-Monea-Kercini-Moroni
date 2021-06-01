@@ -775,6 +775,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+        gameStateLabel.setText("Wait for your turn.");
     }
 
     @Override
