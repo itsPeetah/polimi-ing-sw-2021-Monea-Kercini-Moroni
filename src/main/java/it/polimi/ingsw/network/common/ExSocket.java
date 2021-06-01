@@ -2,7 +2,9 @@ package it.polimi.ingsw.network.common;
 
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -15,6 +17,8 @@ public class ExSocket {
     private Socket socket;      // the actual socket
     private Scanner in;         // handles the socket's input stream
     private PrintWriter out;    // handles the socket's output stream
+
+    private BufferedReader binr;
 
     /**
      * Socket getter.
@@ -30,6 +34,7 @@ public class ExSocket {
         this.socket = socket;
         this.in = new Scanner(socket.getInputStream());
         this.out = new PrintWriter(socket.getOutputStream());
+        this.binr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void send(NetworkPacket packet){
@@ -37,13 +42,20 @@ public class ExSocket {
         out.flush();
     }
 
-    public boolean hasReceivedPacket(){
-        return in.hasNextLine();
-    }
+    /*public boolean hasReceivedPacket(){
+        System.out.println("Checking");
+        *//*return in.hasNextLine();*//*
+        *//*binr.ready();*//*
+    }*/
 
     public NetworkPacket receive(){
-        String json = in.nextLine();
-        return NetworkPacket.fromString(json);
+        /*String json = in.nextLine();*/
+        try {
+            String json = binr.readLine();
+            return NetworkPacket.fromString(json);
+        } catch (IOException ex){
+            return null;
+        }
     }
 
     /**
@@ -71,6 +83,7 @@ public class ExSocket {
     public void close(){
         try {
             in.close();
+            binr.close();
             out.close();
             socket.close();
         } catch (IOException ex){

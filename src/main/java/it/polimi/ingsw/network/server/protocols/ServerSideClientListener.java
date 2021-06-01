@@ -29,21 +29,10 @@ public class ServerSideClientListener {
         this.continueAfterReturning = false;
 
         while (true){
-            if(done || user.hasDisconnected()) break;
-
-            while(!user.getSocket().hasReceivedPacket()){
-                if(user.hasDisconnected()) {
-                    System.out.println("DISCON");
-                    return false;
-                }
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    return true;
-                }
-            }
+            if(done) break;
 
             NetworkPacket np = user.receive();
+
             switch (np.getPacketType()){
                 case SYSTEM:
                     handleSystemMessage(np);
@@ -60,6 +49,7 @@ public class ServerSideClientListener {
             }
         }
 
+        executorService.shutdown();
         return continueAfterReturning;
     }
 
@@ -84,7 +74,9 @@ public class ServerSideClientListener {
             executorService.submit(() -> user.getRoom().startGame());
             System.out.println( ANSIColor.GREEN +"[Server] Started game in room '" + user.getRoom().getId() + "'." + ANSIColor.RESET);
             return;
-        } else if(ConnectionMessage.PING.check(clientMessage)){
+        }
+        // PING
+        else if(ConnectionMessage.PING.check(clientMessage)){
             user.respondedToPing();
         }
     }
@@ -94,7 +86,7 @@ public class ServerSideClientListener {
     }
 
     private void handleActionPacket(NetworkPacket packet){
-        user.getRoom().notify(packet);
+        executorService.submit(()-> user.getRoom().notify(packet));
     }
 
     private void handleSocialPacket(NetworkPacket packet){
