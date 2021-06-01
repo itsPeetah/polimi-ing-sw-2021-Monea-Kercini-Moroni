@@ -225,7 +225,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                     break;
                 case START_TURN:
 
-                    //todo
+                    //todo remove player list from here
                     //for the moment the player list it's here
                     //must move to better place in the future
 
@@ -436,7 +436,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getCommon().getLorenzo().setObserver(this);
         //the observers should be of this player
         String nickname = GameApplication.getInstance().getUserNickname();
-        System.out.println(nickname);
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
@@ -450,7 +449,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         nickname = notNull(nickname);
         Platform.runLater(() -> {
             for (int i = 0; i < faithTrack.length; i++) {
-                //System.out.println("Lopi loop");
+                //Com.out.println("Lopi loop");
                 faithTrack[i].setImage(null);
             }
             faithTrack[GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getFaith()].setImage(cross);
@@ -479,7 +478,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onLeadersStatesChange() {
         nickname = notNull(nickname);
         Platform.runLater(() -> {
-            System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]);
 
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]== CardState.DISCARDED){
                 lead1.setImage(null);
@@ -823,7 +821,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void basicProdClick(MouseEvent mouseEvent) {
         if(choice==Action.PRODUCE){
             productionsSelected.add(getBasicProduction());
-            System.out.println("Hai scelto basic prod");
         }
     }
 
@@ -876,8 +873,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onLastTokenChange() {
 
         if(GameApplication.getInstance().getGameController().isSinglePlayer() == true) {
-
-            System.out.println("GUIMainGame.onLastTokenChange");
 
             Platform.runLater(() -> {
 
