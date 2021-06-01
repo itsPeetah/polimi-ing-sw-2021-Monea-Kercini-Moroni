@@ -132,6 +132,7 @@ public class ModelController {
 
             //update
             updateWarehouse(p);
+            updateFaithPoints();
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
@@ -473,7 +474,7 @@ public class ModelController {
         //Send update of all stuff that has been updated
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
-        updateFaithPoints();
+
 
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
