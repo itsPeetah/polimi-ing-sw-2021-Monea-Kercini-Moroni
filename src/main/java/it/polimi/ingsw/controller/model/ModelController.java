@@ -110,7 +110,6 @@ public class ModelController {
 
             //If player has less resources than he should have give other players extra faith point
 
-            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
 
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
 
@@ -258,7 +257,7 @@ public class ModelController {
 
     private void startGame(){
 
-        System.out.println("Game has started!");
+        //System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
 
@@ -267,14 +266,10 @@ public class ModelController {
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
         }
 
-        System.out.println("ModelController.startGame has notified players the game has started");
-
         boolean lastRound = false;
 
         //Turns will keep being played until it's the last round and it's the last players turn
         while (!lastRound || !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
-
-            System.out.println("ModelController.startGame THE GAME IS ON");
 
             playTurn(game.getCurrentPlayer());
 
@@ -292,8 +287,6 @@ public class ModelController {
 
             //In a single player game, the game might end if Lorenzo wins
             if(singlePlayer) {
-
-                System.out.println("ModelController.startGame Lorenzo is playing");
 
                 //Lorenzo plays his turn
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
@@ -322,7 +315,6 @@ public class ModelController {
         boolean turnFinished = false;
 
         modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
-        System.out.println("ModelController.playTurn");
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
@@ -374,9 +366,6 @@ public class ModelController {
 
                 case END_TURN:
                     //Nothing - player just ends his turn
-
-                    System.out.println("ModelController.playTurn endTurn");
-
                     turnFinished = true;
                     break;
             }
@@ -391,8 +380,6 @@ public class ModelController {
      */
 
     public void endGame(){
-
-        System.out.println("ModelController.endGame");
 
         gamePhase = GamePhase.END;
 
