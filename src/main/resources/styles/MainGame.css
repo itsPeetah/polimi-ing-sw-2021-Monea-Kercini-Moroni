@@ -1,5 +1,5 @@
 .root{
-    -fx-background-image: url(/images/florence_3.jpg);
+    -fx-background-image: url(/images/florence_0.jpg);
     -fx-background-size: cover;
     -fx-background-position: left;
     -fx-cursor: default;
@@ -32,13 +32,13 @@
             linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
     -fx-border-style: solid;
     -fx-border-width:
-            5 0 0 0;
+            0 3 0 0;
 }
 
 .gameStateLabel {
     -fx-wrap-text: true;
     -fx-text-alignment: center;
-    -fx-font-size: 25;
+    -fx-font-size: 20;
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: white;
 }
@@ -46,7 +46,7 @@
 #coins, #servants, #shields, #stones {
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: white;
-    -fx-font-size: 20;
+    -fx-font-size: 32;
     -fx-alignment: center;
     -fx-text-alignment: center;
 }
@@ -58,8 +58,6 @@
     -fx-border-style: solid;
     -fx-border-width:
             5 0 0 0;
-    /*-fx-pref-height: 450;*/
-    -fx-pref-width: 230;
 }
 
 .actionButton{
@@ -67,8 +65,6 @@
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 25;
-    -fx-pref-width: 230;
-    -fx-pref-height: 150;
     -fx-wrap-text: true;
     -fx-text-alignment: center;
 }
@@ -78,8 +74,6 @@
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 25;
-    -fx-pref-width: 300;
-    -fx-pref-height: 150;
     -fx-wrap-text: true;
     -fx-text-alignment: center;
 }
@@ -97,6 +91,226 @@
     -fx-border-style: solid;
     -fx-border-width:
             5 0 0 0;
-    -fx-pref-height: 350;
-    -fx-pref-width: 300;
+}
+
+.leadersPane {
+    -fx-background-image: url(/images/wall2.jpg);
+    -fx-background-repeat: repeat;
+}
+
+.menuTitle{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(gaussian, black, 2, 0, 0, 0);
+}
+
+.gameLabel {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, white, 2, 0, 0, 0);
+}
+
+.cb {
+    -fx-mark-color: white ;
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+
+}
+
+.cb .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.cb .context-menu {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.cb .menu-item {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cb .menu-item .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.cb .menu-item:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.cb .menu-item:focused .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
+    -fx-font-size: 25;
+}
+
+.produceButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.produceButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/thor.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.acquireResourcesButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.acquireResourcesButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/market.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.buyDevCardButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.buyDevCardButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/money-bag.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.playLeaderButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.playLeaderButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/add.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.discardLeaderButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.discardLeaderButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/remove.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.reorganizeButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.reorganizeButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/shelf.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.chatButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.chatButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/manuscript.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 2, 0, 0, 0);
+}
+
+.settingsButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.settingsButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/helm.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.arrowButton:hover {
+    -fx-pref-height: 95;
+    -fx-pref-width: 95;
+    -fx-background-color: transparent;
+    -fx-background-size: 95;
+    -fx-background-position: center;
+}
+
+.arrowButton {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/bow-and-arrow.png);
+    -fx-background-size: 80;
+    -fx-background-position: center;
 }

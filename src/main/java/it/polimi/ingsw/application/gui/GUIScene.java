@@ -35,7 +35,7 @@ public enum GUIScene {
     private static Parent nextLoadingRoot;
 
     /* STATIC SCENE */
-    private static final Scene scene = new Scene(new Pane());
+    private static Scene scene;
 
     /**
      * Create a new GUIScene.
@@ -93,6 +93,7 @@ public enum GUIScene {
     }
 
     public static void init() {
+        scene = new Scene(new Pane());
         for(GUIScene guiScene: GUIScene.values()) {
             if(guiScene.loadOnStarting) {
                 try {

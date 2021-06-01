@@ -19,9 +19,12 @@ import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -62,6 +65,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public Label servants;
     public Label stones;
     public Label shields;
+    public ChoiceBox boardChoiceBox;
 
     private DevCard chosenDev;
 
@@ -307,7 +311,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         cross = new Image(file.toURI().toString());
 
         productionsSelected = new HashSet<>();
-
+        ObservableList<String> playerList = FXCollections.observableArrayList();
+        playerList.add("You");
+        playerList.add("Lorenzo");
+        boardChoiceBox.setItems(playerList);
     }
 
     @Override
@@ -727,5 +734,11 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
             choice = Action.NONE;
         }
+    }
+
+    public void openChat(ActionEvent actionEvent) {
+    }
+
+    public void openSettings(ActionEvent actionEvent) {
     }
 }
