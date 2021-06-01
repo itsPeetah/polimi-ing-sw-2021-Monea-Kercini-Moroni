@@ -273,6 +273,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        System.out.println("GUIMainGame.initialize");
+
         // Warehouse
         firstRow.add(im00);
         secondRow.addAll(Arrays.asList(im10, im11));
@@ -410,7 +413,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         //initializing black cross as null
 
         for (int i = 0; i < blackTrack.length; i++) {
-            //blackTrack[i].setImage(null);
+            blackTrack[i].setImage(null);
         }
 
 
@@ -422,7 +425,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
-        gameData.getCommon().getLorenzo().setObserver(this);
+        //gameData.getCommon().getLorenzo().setObserver(this);
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
@@ -447,11 +450,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onReportsAttendedChange() {
         Platform.runLater(() -> {
 
-            System.out.println("GUIMainGame.onReportsAttendedChange");
-
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().getReportsAttended()[0]==true){
             report2.setImage(report2Image);
-            System.out.println("GUIMainGame.onReportsAttendedChange entered if");
         }
         });
     }
@@ -794,6 +794,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void bigButton(ActionEvent actionEvent) {
         NoneActionData noneActionData = new NoneActionData();
         noneActionData.setPlayer(GameApplication.getInstance().getUserNickname());
+        System.out.println("Sending end turn action");
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
         gameStateLabel.setText("Wait for your turn.");
@@ -872,6 +873,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public void onLastTokenChange() {
 
         if(GameApplication.getInstance().getGameController().isSinglePlayer() == true) {
+
+            System.out.println("GUIMainGame.onLastTokenChange");
 
             Platform.runLater(() -> {
 

@@ -59,6 +59,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     public ImageView lead2;
     public ImageView lead3;
     public ImageView lead4;
+
     public Button button;
 
     private ImageView[][] devCards = new ImageView[4][3];
