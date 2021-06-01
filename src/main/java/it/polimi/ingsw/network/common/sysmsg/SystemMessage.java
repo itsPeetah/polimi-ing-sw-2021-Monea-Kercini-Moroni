@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.common.sysmsg;
 /**
  * System message enum method interface.
  */
-public interface ISystemMessage {
+public interface SystemMessage {
 
     /**
      * Message code getter.

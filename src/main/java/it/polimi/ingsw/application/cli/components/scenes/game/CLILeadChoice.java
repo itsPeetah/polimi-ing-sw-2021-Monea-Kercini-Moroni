@@ -11,7 +11,7 @@ import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 
-public class CLILeadChoice extends CLIScene implements ICLIGameSubScene {
+public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
 
     LeadersToChooseFrom leadersToChooseFrom;
 

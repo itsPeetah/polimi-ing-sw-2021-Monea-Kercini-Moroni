@@ -25,25 +25,29 @@ public class ServerSideClientListener {
         this.done = false;
         this.continueAfterReturning = false;
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
         while (true){
             if(done) break;
 
             NetworkPacket np = user.receive();
             switch (np.getPacketType()){
                 case SYSTEM:
-                    handleSystemMessage(np);
+                    executorService.submit(() -> handleSystemMessage(np));
                     break;
                 case DEBUG:
-                    handleDebugMessage(np);
+                    executorService.submit(() -> handleDebugMessage(np));
                     break;
                 case ACTION:
-                    handleActionPacket(np);
+                    executorService.submit(() -> handleActionPacket(np));
                     break;
                 case SOCIAL:
-                    handleSocialPacket(np);
+                    executorService.submit(() -> handleSocialPacket(np));
                     break;
             }
         }
+
+        executorService.shutdown();
 
         return continueAfterReturning;
     }

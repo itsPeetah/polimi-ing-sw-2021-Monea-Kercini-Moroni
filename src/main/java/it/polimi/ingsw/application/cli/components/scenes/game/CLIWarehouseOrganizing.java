@@ -3,16 +3,13 @@ package it.polimi.ingsw.application.cli.components.scenes.game;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
-import java.text.NumberFormat;
-
-public class CLIWarehouseOrganizing extends CLIScene implements ICLIGameSubScene {
+public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene {
 
     private Warehouse tempWarehouse;
     private Resources queuedResources;

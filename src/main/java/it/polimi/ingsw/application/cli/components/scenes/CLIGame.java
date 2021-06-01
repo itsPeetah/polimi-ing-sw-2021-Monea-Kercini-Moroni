@@ -9,18 +9,18 @@ import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 
 public class CLIGame extends CLIScene {
 
-    private ICLIGameSubScene board = new CLIBoard();
+    private CLIGameSubScene board = new CLIBoard();
     /*private CLIDevCardMarket devCardMarket = new CLIDevCardMarket();
     private CLIFaithTrack faithTrack = new CLIFaithTrack();*/
-    private ICLIGameSubScene leadChoice = new CLILeadChoice();
-    private ICLIGameSubScene resourceChoice = new CLIResourceChoice();
+    private CLIGameSubScene leadChoice = new CLILeadChoice();
+    private CLIGameSubScene resourceChoice = new CLIResourceChoice();
     /*private CLIResourceMarket resourceMarket = new CLIResourceMarket();*/
-    private ICLIGameSubScene warehouseOrganizing = new CLIWarehouseOrganizing();
+    private CLIGameSubScene warehouseOrganizing = new CLIWarehouseOrganizing();
 
     private GameController gameController;
     private GameControllerIOHandler gameControllerIO;
 
-    private ICLIGameSubScene currentView;
+    private CLIGameSubScene currentView;
 
     private GameState currentGameState, previousGameState;
 
@@ -83,7 +83,7 @@ public class CLIGame extends CLIScene {
         }
     }
 
-    private ICLIGameSubScene selectCurrentView(GameState currentState){
+    private CLIGameSubScene selectCurrentView(GameState currentState){
         switch (currentState){
             case CHOOSE_LEADERS:
                 return leadChoice;

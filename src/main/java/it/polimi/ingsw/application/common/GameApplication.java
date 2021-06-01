@@ -20,6 +20,7 @@ public class GameApplication {
     // Output mode (CLI/GUI)
     private static GameApplicationMode outputMode = GameApplicationMode.CLI;
     public static void setOutputMode(GameApplicationMode mode) { outputMode = mode; }
+    public static GameApplicationMode getOutputMode() { return outputMode; }
 
     // Singleton
     private static GameApplication instance;
@@ -94,7 +95,7 @@ public class GameApplication {
     /**
      * Has the networking been initialized?
      */
-    public boolean isOnNetwork() {return networkClient != null; }
+    public boolean isOnNetwork() {return networkClient != null && networkClient.getSocket().getSocket().isConnected(); }
 
     /**
      * Has the game been set up?
@@ -201,7 +202,7 @@ public class GameApplication {
             networkClient = null;
         else {
             isRunning = true;
-            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
+            if(outputMode == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
         }
     }
 
