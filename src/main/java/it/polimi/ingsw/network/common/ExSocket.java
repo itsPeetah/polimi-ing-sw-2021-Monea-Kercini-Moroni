@@ -20,8 +20,6 @@ public class ExSocket {
      * Socket getter.
      */
     public Socket getSocket() {return socket;}
-    //public Scanner getIn() {return in;}
-    //public PrintWriter getOut() {return out;}
 
     /**
      * Class constructor.
@@ -39,9 +37,12 @@ public class ExSocket {
         out.flush();
     }
 
+    public boolean hasReceivedPacket(){
+        return in.hasNextLine();
+    }
+
     public NetworkPacket receive(){
         String json = in.nextLine();
-        /*if ()*/
         return NetworkPacket.fromString(json);
     }
 
