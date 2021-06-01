@@ -120,6 +120,7 @@ public class GameApplicationIOHandler {
     }
 
     private void handleQuitMessage() {
+        System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
