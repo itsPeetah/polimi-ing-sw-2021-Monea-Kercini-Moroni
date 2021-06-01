@@ -32,7 +32,7 @@
             linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
     -fx-border-style: solid;
     -fx-border-width:
-            5 0 0 0;
+            0 3 0 0;
 }
 
 .gameStateLabel {
@@ -152,6 +152,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .produceButton {
@@ -161,6 +162,7 @@
     -fx-background-image: url(/images/thor.png);
     -fx-background-size: 64;
     -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
 }
 
 .acquireResourcesButton:hover {
@@ -169,6 +171,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .acquireResourcesButton {
@@ -178,6 +181,7 @@
     -fx-background-image: url(/images/market.png);
     -fx-background-size: 64;
     -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
 }
 
 .buyDevCardButton:hover {
@@ -186,6 +190,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .buyDevCardButton {
@@ -195,6 +200,7 @@
     -fx-background-image: url(/images/money-bag.png);
     -fx-background-size: 64;
     -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
 }
 
 .playLeaderButton:hover {
@@ -203,6 +209,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .playLeaderButton {
@@ -212,6 +219,7 @@
     -fx-background-image: url(/images/add.png);
     -fx-background-size: 64;
     -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
 }
 
 .discardLeaderButton:hover {
@@ -220,6 +228,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .discardLeaderButton {
@@ -229,6 +238,7 @@
     -fx-background-image: url(/images/remove.png);
     -fx-background-size: 64;
     -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
 }
 
 .reorganizeButton:hover {
@@ -237,6 +247,7 @@
     -fx-background-color: transparent;
     -fx-background-size: 80;
     -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
 }
 
 .reorganizeButton {
@@ -245,5 +256,61 @@
     -fx-background-color: transparent;
     -fx-background-image: url(/images/shelf.png);
     -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.chatButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.chatButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/manuscript.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 2, 0, 0, 0);
+}
+
+.settingsButton:hover {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-size: 80;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.settingsButton {
+    -fx-pref-height: 64;
+    -fx-pref-width: 64;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/helm.png);
+    -fx-background-size: 64;
+    -fx-background-position: center;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 0);
+}
+
+.arrowButton:hover {
+    -fx-pref-height: 95;
+    -fx-pref-width: 95;
+    -fx-background-color: transparent;
+    -fx-background-size: 95;
+    -fx-background-position: center;
+}
+
+.arrowButton {
+    -fx-pref-height: 80;
+    -fx-pref-width: 80;
+    -fx-background-color: transparent;
+    -fx-background-image: url(/images/bow-and-arrow.png);
+    -fx-background-size: 80;
     -fx-background-position: center;
 }

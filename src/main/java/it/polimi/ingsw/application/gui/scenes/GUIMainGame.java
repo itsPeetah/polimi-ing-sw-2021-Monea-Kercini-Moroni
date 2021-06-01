@@ -735,4 +735,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
             choice = Action.NONE;
         }
     }
+
+    public void openChat(ActionEvent actionEvent) {
+    }
+
+    public void openSettings(ActionEvent actionEvent) {
+    }
 }
