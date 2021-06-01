@@ -59,8 +59,7 @@ public class GameApplicationIOHandler {
         } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
             GameApplication.getInstance().startMPGame();
             // Save id in case the connection is interrupted...
-            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
-            System.out.println(ReconnectionInfo.loadID());
+            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId()); // TODO Add GAME_OVER => resetID
         } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
