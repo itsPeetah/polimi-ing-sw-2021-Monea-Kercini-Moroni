@@ -206,6 +206,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     Image cross;
     Image blackCross;
 
+    Image report2Image;
+    Image report3Image;
+    Image report4Image;
+
 
 
     @Override
@@ -390,6 +394,18 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         playerList.add("Lorenzo");
         boardChoiceBox.setItems(playerList);
 
+        report2.setImage(null);
+        report3.setImage(null);
+        report4.setImage(null);
+
+        //setting report images if gotten
+
+        file = new File("src/main/resources/images/vaticanreports/report2.png");
+        report2Image = new Image(file.toURI().toString());
+        file = new File("src/main/resources/images/vaticanreports/report3.png");
+        report3Image = new Image(file.toURI().toString());
+        file = new File("src/main/resources/images/vaticanreports/report4.png");
+        report4Image = new Image(file.toURI().toString());
 
 
     }
@@ -423,7 +439,14 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onReportsAttendedChange() {
+        Platform.runLater(() -> {
 
+            System.out.println("GUIMainGame.onReportsAttendedChange");
+
+        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().getReportsAttended()[0]==true){
+            report2.setImage(report2Image);
+        }
+        });
     }
 
     @Override
@@ -844,7 +867,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         if(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken()!=null) {
             Lorenzo.setImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
-            //Lorenzo = new ImageView(SoloActionTokens.DISCARD_2_BLUE.getImage());
+
         }
         });
     }

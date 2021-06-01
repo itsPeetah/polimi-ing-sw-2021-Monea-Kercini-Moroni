@@ -166,7 +166,8 @@ public class Game {
                 eligible = true;
             else eligible = false;
 
-            if (eligible) p.getBoard().attendReport(currentReport);
+            //current report-1 because array starts from 0 (first vatican report)
+            if (eligible) p.getBoard().attendReport(currentReport-1);
         }
         // Increase VR counter
         lastVaticanReport++;
@@ -193,7 +194,7 @@ public class Game {
 
         if((lastVaticanReport==0 && maxFaith>=8)
             || (lastVaticanReport==1 && maxFaith>=16)
-            || (lastVaticanReport==2 && maxFaith>=25)){
+            || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
                     doVaticanReport();
                 } catch (GameException e) {
