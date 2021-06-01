@@ -385,10 +385,10 @@
                   <Image url="@../images/resources/shield.png" />
                </image>
             </ImageView>
-            <Label fx:id="coins" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="servants" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="33.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="stones" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
-            <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="coins" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="24.0" prefHeight="30.0" prefWidth="30.0" text="0" textAlignment="CENTER" />
+            <Label fx:id="servants" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="24.0" prefHeight="30.0" prefWidth="30.0" text="0" textAlignment="CENTER" />
+            <Label fx:id="stones" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="85.0" prefHeight="30.0" prefWidth="30.0" text="0" textAlignment="CENTER" />
+            <Label fx:id="shields" alignment="CENTER" contentDisplay="CENTER" layoutX="108.0" layoutY="85.0" prefHeight="30.0" prefWidth="30.0" text="0" textAlignment="CENTER" />
          </children>
       </Pane>
        <VBox layoutX="110.0" layoutY="524.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="180.0" spacing="10.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="524.0">
