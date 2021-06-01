@@ -44,7 +44,7 @@ import static it.polimi.ingsw.model.playerboard.ProductionPowers.getBasicProduct
 
 public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver, GUIObserverScene, LorenzoObserver {
 
-    String nickname = GameApplication.getInstance().getUserNickname();
+    static String nickname = GameApplication.getInstance().getUserNickname();
 
     public ImageView dev01;
     public ImageView dev02;
@@ -274,7 +274,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("GUIMainGame.initialize");
+        nickname = GameApplication.getInstance().getUserNickname();
 
         // Warehouse
         firstRow.add(im00);
@@ -394,7 +394,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         productionsSelected = new HashSet<>();
         ObservableList<String> playerList = FXCollections.observableArrayList();
         playerList.add("You");
-        playerList.add("Lorenzo");
+        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+            playerList.add(GameApplication.getInstance().getRoomPlayers().get(i));
+        }
+
         boardChoiceBox.setItems(playerList);
 
         report2.setImage(null);
@@ -425,6 +428,9 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getCommon().getLorenzo().setObserver(this);
+        //the observers should be of this player
+        String nickname = GameApplication.getInstance().getUserNickname();
+        System.out.println(nickname);
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
@@ -435,6 +441,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onFaithChange() {
+        nickname = notNull(nickname);
         Platform.runLater(() -> {
             for (int i = 0; i < faithTrack.length; i++) {
                 //System.out.println("Lopi loop");
@@ -446,8 +453,8 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onReportsAttendedChange() {
+        nickname = notNull(nickname);
         Platform.runLater(() -> {
-
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[0]==true){
             report2.setImage(report2Image);
         }
@@ -456,12 +463,15 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onLeadersChange() {
+        nickname = notNull(nickname);
+        //System.out.println(nickname);
         lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[0].getCardId()));
         lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[1].getCardId()));
     }
 
     @Override
     public void onLeadersStatesChange() {
+        nickname = notNull(nickname);
         Platform.runLater(() -> {
             System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]);
 
@@ -482,6 +492,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onStrongboxChange() {
+        nickname = notNull(nickname);
         Platform.runLater(() -> {
             coins.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getStrongbox().getContent().getAmountOf(ResourceType.COINS).toString());
             shields.setText(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getStrongbox().getContent().getAmountOf(ResourceType.SHIELDS).toString());
@@ -492,6 +503,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseContentChange() {
+        nickname = notNull(nickname);
         Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
         Platform.runLater(() -> {
             for(int i = 0; i < 3; i++) {
@@ -524,6 +536,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onWarehouseExtraChange() {
+        nickname = notNull(nickname);
         List<LeadCard> leaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
         List<LeadCard> leadersData = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders());
         Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
@@ -789,6 +802,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onDevCardsChange() {
+        nickname = notNull(nickname);
         Platform.runLater(() -> {
             for(int i = 0; i < 3; i++) {
                 DevCard visibleCard = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[i];
@@ -866,6 +880,20 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
                 }
             });
+        }
+    }
+
+
+    /**
+     * Method will return the default nickname if current nickname is null
+     * @param s the nickname to chekc
+     * @return the nickname or the default
+     */
+    private String notNull(String s){
+        if(s==null){
+            return GameApplication.getInstance().getUserNickname();
+        }else{
+            return s;
         }
     }
 }
