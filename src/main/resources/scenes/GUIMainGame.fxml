@@ -352,13 +352,13 @@
             </ImageView>
          </children>
       </Pane>
-      <Button layoutX="1562.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
-      <Button layoutX="1600.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
-      <Button layoutX="1643.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
-      <Button layoutX="1684.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
-      <Button fx:id="y0" layoutX="1765.0" layoutY="690.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y1" layoutX="1765.0" layoutY="650.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y2" layoutX="1765.0" layoutY="608.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button layoutX="1560.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
+      <Button layoutX="1598.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
+      <Button layoutX="1641.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
+      <Button layoutX="1682.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
+      <Button fx:id="y0" layoutX="1763.0" layoutY="778.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y1" layoutX="1763.0" layoutY="738.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y2" layoutX="1763.0" layoutY="696.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="448.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="639.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="830.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
