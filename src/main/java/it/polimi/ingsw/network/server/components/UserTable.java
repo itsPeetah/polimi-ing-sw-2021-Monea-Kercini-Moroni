@@ -3,10 +3,7 @@ package it.polimi.ingsw.network.server.components;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Class that stores the unique connected users.
@@ -19,8 +16,6 @@ public class UserTable {
 
     private Object lock;
     private Hashtable<String, RemoteUser> users;
-    private Hashtable<String, Integer> missedPings;
-    private HashSet<String> pingResponses;
 
     /**
      * Class constructor.
@@ -28,8 +23,6 @@ public class UserTable {
     public UserTable(){
         lock = new Object();
         users = new Hashtable<String, RemoteUser>();
-        missedPings = new Hashtable<String, Integer>();
-        pingResponses = new HashSet<String>();
 
         Thread pinger = new Thread(new UserPingingHandler(this));
         pinger.setDaemon(true);
@@ -45,12 +38,6 @@ public class UserTable {
                 i++;
             }
             return ids;
-        }
-    }
-
-    public Hashtable<String, Integer> getMissedPings() {
-        synchronized (lock) {
-            return missedPings;
         }
     }
 
@@ -84,7 +71,6 @@ public class UserTable {
             result = !users.containsKey(id);
             if(result) {
                 users.put(id, user);
-                missedPings.put(id, 0);
             }
         }
         return result;
@@ -104,7 +90,6 @@ public class UserTable {
     public void removeUser(String id){
         synchronized (lock){
             users.remove(id);
-            missedPings.remove(id);
         }
     }
 
@@ -137,30 +122,18 @@ public class UserTable {
         return generateId(DEFAULT_ID_LENGTH);
     }
 
-    public void broadcast(NetworkPacket np){
+    public void pingAll(){
         synchronized (lock) {
-            for (String id : users.keySet()) users.get(id).send(np);
+            for (String id : users.keySet()) users.get(id).ping();
         }
     }
 
-    public void setPingResponseForUser(String id){
-        synchronized (lock){
-            pingResponses.add(id);
-        }
-    }
 
     public void checkPingResponses(){
         synchronized (lock) {
-            for(String id : missedPings.keySet()){
-                if(!pingResponses.contains(id)){
-                    missedPings.put(id, missedPings.get(id) + 1);
-                    if(missedPings.get(id) > UserPingingHandler.maxMissedPings){
-                        users.get(id).terminateConnection();
-                        System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);
-                    }
-                } else missedPings.put(id, 0);
+            for(String id : users.keySet()){
+                users.get(id).checkPingResponse();
             }
-            pingResponses.clear();
         }
     }
 

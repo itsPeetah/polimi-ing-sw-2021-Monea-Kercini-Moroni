@@ -45,6 +45,12 @@ public class CLIOutputDisplay implements Runnable{
             }
 
             previousState = currentState;
+
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException ex){
+                System.out.println(ex.getMessage());
+            }
         }
 
     }

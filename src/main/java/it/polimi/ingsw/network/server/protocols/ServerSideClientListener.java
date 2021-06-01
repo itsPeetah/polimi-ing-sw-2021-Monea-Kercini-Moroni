@@ -72,7 +72,7 @@ public class ServerSideClientListener {
             System.out.println( ANSIColor.GREEN +"[Server] Started game in room '" + user.getRoom().getId() + "'." + ANSIColor.RESET);
             return;
         } else if(ConnectionMessage.PING.check(clientMessage)){
-            UserTable.getInstance().setPingResponseForUser(user.getId());
+            user.respondedToPing();
         }
     }
 

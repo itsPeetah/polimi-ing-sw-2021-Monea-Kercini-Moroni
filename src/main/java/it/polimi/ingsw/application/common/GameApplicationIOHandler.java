@@ -113,7 +113,7 @@ public class GameApplicationIOHandler {
         GameApplicationState state = GameApplication.getInstance().getApplicationState();
         switch (state){
             case CONNECTING_TO_ROOM:
-                /*if(args != null) GameApplication.getInstance().out(args);*/
+                if(args != null) GameApplication.getInstance().out(args);
                 GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
                 break;
         }

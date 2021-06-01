@@ -35,7 +35,7 @@ public class GameLobbyProtocol {
             }
 
             if(ConnectionMessage.PING.check(clientMessageFields[0]))
-                GameServer.getInstance().getUserTable().setPingResponseForUser(user.getId());
+                user.respondedToPing();
 
             System.out.println("[Debug] User " + user.getId() +": "+ clientMessage);
 
@@ -89,7 +89,7 @@ public class GameLobbyProtocol {
 
             // THE user wants to rejoin a game.
             // Usage: ROOM_R <id>
-            if(GameLobbyMessage.JOIN_ROOM.check(clientMessageFields[0])){
+            if(GameLobbyMessage.REJOIN_ROOM.check(clientMessageFields[0])){
                 // Success
                 try{
                     String[] roomAndNickname = rejoinRoom(clientMessageFields[1]);
