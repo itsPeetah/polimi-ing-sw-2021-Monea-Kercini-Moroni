@@ -966,4 +966,14 @@ public class ModelController {
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
 
+
+    private void updateAll(Player player){
+        updateLeaders(player);
+        updateFaithPoints();
+        updateResourceMarket();
+        updateLeaders(player);
+        updateDevCardMarket();
+        updateProductionPowers(player);
+    }
+
 }
