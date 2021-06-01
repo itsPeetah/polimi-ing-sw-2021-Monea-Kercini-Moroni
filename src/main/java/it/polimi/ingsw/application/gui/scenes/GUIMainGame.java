@@ -223,6 +223,21 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
                     break;
+                case START_TURN:
+
+                    //todo
+                    //for the moment the player list it's here
+                    //must move to better place in the future
+
+                    ObservableList<String> playerList = FXCollections.observableArrayList();
+
+                    for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+                        playerList.add(GameApplication.getInstance().getRoomPlayers().get(i));
+                    }
+
+                    boardChoiceBox.setItems(playerList);
+
+                    break;
             }
         });
     }
@@ -237,7 +252,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onSystemMessage(String message) {
-
     }
 
     @Override
@@ -392,13 +406,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         blackCross = new Image(file.toURI().toString());
 
         productionsSelected = new HashSet<>();
-        ObservableList<String> playerList = FXCollections.observableArrayList();
-        playerList.add("You");
-        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-            playerList.add(GameApplication.getInstance().getRoomPlayers().get(i));
-        }
-
-        boardChoiceBox.setItems(playerList);
 
         report2.setImage(null);
         report3.setImage(null);
@@ -418,7 +425,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         for (int i = 0; i < blackTrack.length; i++) {
             blackTrack[i].setImage(null);
         }
-
 
     }
 

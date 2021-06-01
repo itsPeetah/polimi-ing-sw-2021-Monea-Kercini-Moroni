@@ -263,6 +263,7 @@ public class ModelController {
 
         //Notifying players tha game has started
         for(Player p : game.getPlayers()){
+            System.out.println("ModelController.startGame");
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
         }
 
