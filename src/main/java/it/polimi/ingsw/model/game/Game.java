@@ -167,7 +167,12 @@ public class Game {
             else eligible = false;
 
             //current report-1 because array starts from 0 (first vatican report)
-            if (eligible) p.getBoard().attendReport(currentReport-1);
+            if (eligible) {
+
+                System.out.println("Game.doVaticanReport eligible true " + p.getNickname());
+
+                p.getBoard().attendReport(currentReport - 1);
+            }
         }
         // Increase VR counter
         lastVaticanReport++;

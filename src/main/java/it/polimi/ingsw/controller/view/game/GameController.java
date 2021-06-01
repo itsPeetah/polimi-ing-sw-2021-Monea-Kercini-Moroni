@@ -131,15 +131,12 @@ public class GameController {
                     //adding to each player the corresponding faith points
                     gameData.getPlayerData(fp.getPlayers()[i]).getFaithTrack().setFaith(fp.getFp()[i]);
 
-                    System.out.println("GameController.reactToUpdate Faith points of player " + fp.getPlayers()[i] + " set " + fp.getFp()[i]);
-
                     //adding to each player the corresponding reports attended
                     gameData.getPlayerData(fp.getPlayers()[i]).getFaithTrack().setReportsAttended(fp.getReportsAttended()[i]);
                 }
                 break;
 
             case SOLO_ACTION:
-                System.out.println("GameController.reactToUpdate");
                 ActionTokenUpdateData at = update.getUpdateData(updateDataString);
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());

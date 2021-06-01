@@ -445,6 +445,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().getReportsAttended()[0]==true){
             report2.setImage(report2Image);
+            System.out.println("GUIMainGame.onReportsAttendedChange entered if");
         }
         });
     }
