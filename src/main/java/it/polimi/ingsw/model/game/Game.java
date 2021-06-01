@@ -183,13 +183,15 @@ public class Game {
      *
      * **NOTE this method can be changed to return a boolean so we can call
      * the doVaticanReport on controller and send a nice message to the players
+     *
+     * Black faith symbolizes lorenzo faith in single player game
      */
 
-    public void checkVaticanReport(){
+    public void checkVaticanReport(int blackFaith){
 
         //find the player who has reached furthest in the game track
 
-        int maxFaith = 0;
+        int maxFaith = blackFaith;
 
         for (Player p : players) {
             maxFaith = Math.max(maxFaith, p.getBoard().getFaithPoints());

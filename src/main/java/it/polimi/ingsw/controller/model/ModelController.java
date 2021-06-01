@@ -902,7 +902,11 @@ public class ModelController {
     private void updateFaithPoints(){
 
         //Always before sending faith update check if any vatican report has been triggered
-        game.checkVaticanReport();
+        if(singlePlayer){
+            game.checkVaticanReport(Lorenzo.getCross().getBlackFaith());
+        }else{
+            game.checkVaticanReport(0);
+        }
 
 
         int fp[] = new int[4];
