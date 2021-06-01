@@ -370,9 +370,6 @@ public class ModelController {
                     break;
             }
 
-            //After each action check if the player has triggered a vatican report event
-            game.checkVaticanReport();
-
         }while(!turnFinished);
 
     }
@@ -903,6 +900,10 @@ public class ModelController {
      */
 
     private void updateFaithPoints(){
+
+        //Always before sending faith update check if any vatican report has been triggered
+        game.checkVaticanReport();
+
 
         int fp[] = new int[4];
 
