@@ -75,8 +75,8 @@ public class GameRoom {
         synchronized (lock){
             miaPlayers.remove(user.getId());
             users.put(nickname, user);
-            // TODO Send catch up update
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
+            // TODO Send catch up update
             // catchUp(user);
         }
     }
