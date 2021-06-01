@@ -407,6 +407,12 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         file = new File("src/main/resources/images/vaticanreports/report4.png");
         report4Image = new Image(file.toURI().toString());
 
+        //initializing black cross as null
+
+        for (int i = 0; i < blackTrack.length; i++) {
+            //blackTrack[i].setImage(null);
+        }
+
 
     }
 
@@ -848,28 +854,32 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
 
     @Override
     public void onBlackCrossChange() {
-        Platform.runLater(() -> {
 
-            System.out.println("GUIMainGame.onBlackCrossChange");
+        if(GameApplication.getInstance().getGameController().isSinglePlayer() == true){
 
-            for (int i = 0; i < blackTrack.length; i++) {
-                blackTrack[i].setImage(null);
-            }
-            //System.out.println(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getFaithTrack().getFaith());
-            blackTrack[GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross()].setImage(blackCross);
-        });
+            Platform.runLater(() -> {
+
+                for (int i = 0; i < blackTrack.length; i++) {
+                    blackTrack[i].setImage(null);
+                }
+                blackTrack[GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross()].setImage(blackCross);
+            });
+        }
 
     }
 
     @Override
     public void onLastTokenChange() {
 
-        Platform.runLater(() -> {
+        if(GameApplication.getInstance().getGameController().isSinglePlayer() == true) {
 
-        if(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken()!=null) {
-            Lorenzo.setImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
+            Platform.runLater(() -> {
 
+                if (GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken() != null) {
+                    Lorenzo.setImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
+
+                }
+            });
         }
-        });
     }
 }

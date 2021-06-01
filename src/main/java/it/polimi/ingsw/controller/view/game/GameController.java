@@ -19,6 +19,7 @@ public class GameController {
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
     private boolean gameStarted = false;
+    private boolean singlePlayer = false;
 
 
     /**
@@ -37,6 +38,9 @@ public class GameController {
      * @param playerNickname nickname of the player.
      */
     public GameController(GameData gameData, String playerNickname) {
+
+        this.singlePlayer = true;
+
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
 
@@ -63,6 +67,10 @@ public class GameController {
 
     public GameState getCurrentState() {
         return currentState;
+    }
+
+    public boolean isSinglePlayer() {
+        return singlePlayer;
     }
 
     /**

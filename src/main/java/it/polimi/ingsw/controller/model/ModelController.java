@@ -205,6 +205,13 @@ public class ModelController {
         updateDevCardMarket();
 
 
+
+        //If single player game instantiate Lorenzo, the opponent
+        if(singlePlayer){
+            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
+        }
+
+
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
@@ -234,13 +241,6 @@ public class ModelController {
             //After each players choice update the view
             updateWarehouse(game.getPlayers()[i]);
             updateFaithPoints();
-        }
-
-
-
-        //If single player game instantiate Lorenzo, the opponent
-        if(singlePlayer){
-            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
         }
 
 
