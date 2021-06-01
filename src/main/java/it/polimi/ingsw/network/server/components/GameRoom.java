@@ -26,8 +26,6 @@ public class GameRoom {
     private ModelController modelController;
     private Hashtable<String, String> miaPlayers;
 
-    // TODO Add PINGING functionalities
-
     /**
      * Class constructor.
      */
@@ -59,7 +57,9 @@ public class GameRoom {
      * @throws GameRoomException if the nickname is already taken.
      */
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
-        // TODO controllare che non ci sia una partita in corso (FAI ECCEZIONE RESILIENZA O RICONNESSIONE MAMMA TI CHIAMO TRA UN ATTIMO CIAO)
+
+        if(gameInProgress()) throw new GameRoomException("The game has already started in this room!");
+
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
             users.put(nickname, user);
@@ -81,7 +81,6 @@ public class GameRoom {
         }
     }
 
-    // TODO if in game prevent from succeeding
     // TODO if room is empty after a user has left delete it.
     public boolean removeUser(String nickname){
         boolean result = false;
@@ -92,6 +91,7 @@ public class GameRoom {
 
                 // If the game is in progress
                 if(gameInProgress()){
+                    System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
                     miaPlayers.put(removed.getId(), nickname);
                 }
             }

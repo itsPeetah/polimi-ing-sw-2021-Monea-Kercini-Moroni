@@ -24,7 +24,6 @@ public class UserPingingHandler implements Runnable{
         while(true){
             idsToKick.clear();
 
-            System.out.println("Pinging everyone");
             userTable.broadcast(NetworkPacket.buildSystemMessagePacket(ConnectionMessage.PING.getCode()));
 
             try {
@@ -32,8 +31,6 @@ public class UserPingingHandler implements Runnable{
             } catch (InterruptedException ex){
                 continue;
             }
-
-            System.out.println("Checking ping responses");
 
             userTable.checkPingResponses();
         }
