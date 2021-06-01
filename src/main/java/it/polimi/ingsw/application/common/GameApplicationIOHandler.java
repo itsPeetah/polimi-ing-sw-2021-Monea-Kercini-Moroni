@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.client.persistence.ReconnectionInfo;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.social.SocialPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
@@ -57,6 +58,9 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(ConnectionMessage.PING.getCode()));
         } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
             GameApplication.getInstance().startMPGame();
+            // Save id in case the connection is interrupted...
+            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
+            System.out.println(ReconnectionInfo.loadID());
         } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);

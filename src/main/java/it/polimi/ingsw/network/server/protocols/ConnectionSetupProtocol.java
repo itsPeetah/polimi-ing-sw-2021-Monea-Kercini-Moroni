@@ -13,7 +13,7 @@ public class ConnectionSetupProtocol {
         this.socket = socket;
     }
 
-    public String getUserId() {
+    public ConnectionSetupResult getUserId() {
 
         // New client has connected
         System.out.println("New client connecting: " + socket.getSocket().getInetAddress().getHostAddress());
@@ -29,8 +29,19 @@ public class ConnectionSetupProtocol {
             return null;
         }
 
-        // Generate id for client
-        String id = GameServer.getInstance().getUserTable().generateId();
+        // Check if the client has provided an old id
+        String id;
+        boolean checkCanReconnect;
+        if(clientMessageFields.length > 1){
+            // Set client's id to the old one that has been provided
+            id = clientMessageFields[1];
+            checkCanReconnect = true;
+        } else{
+            // Generate id for client
+            id = GameServer.getInstance().getUserTable().generateId();
+            checkCanReconnect = false;
+        }
+
         socket.sendSystemMessage(ConnectionMessage.ASSIGNID.addBody(id));
 
         // EXPECT OK <id>
@@ -44,6 +55,7 @@ public class ConnectionSetupProtocol {
         // Connection is ready
         socket.sendSystemMessage(ConnectionMessage.connectionReadyMessage);
 
-        return id;
+        ConnectionSetupResult csr = new ConnectionSetupResult(id, checkCanReconnect);
+        return csr;
     }
 }

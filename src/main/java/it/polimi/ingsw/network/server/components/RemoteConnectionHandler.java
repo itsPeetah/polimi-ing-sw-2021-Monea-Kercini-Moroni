@@ -26,21 +26,25 @@ public class RemoteConnectionHandler implements Runnable {
     public void run() {
 
         // Setup connection
-        String userId = new ConnectionSetupProtocol(socket).getUserId();
+        ConnectionSetupResult connectionSetupResult = new ConnectionSetupProtocol(socket).getUserId();
 
-        if(userId == null){
+        if(connectionSetupResult == null){
             closeConnection();
             return;
         }
 
         // Setup user
-        user = new RemoteUser(userId, socket);
+        user = new RemoteUser(connectionSetupResult.getUserID(), socket);
         GameServer.getInstance().getUserTable().add(user);
 
         // Loop handles the player possibly leaving a room before the game has started
         while(true) {
+
+            // TODO: Send a boolean to GLP "checkCanReconnect"
+            // TODO: if the user has been registered as trying to reconnect -> reconnect them to the game
+
             // Game Lobby protocol
-            boolean roomJoined = new GameLobbyProtocol(user).joinOrCreateRoom();
+            boolean roomJoined = new GameLobbyProtocol(user, connectionSetupResult.getCheckCanReconnect()).joinOrCreateRoom();
 
             if (!roomJoined || !user.isInRoom()) break;
 

@@ -12,7 +12,7 @@ public class GameLobbyProtocol {
     private String clientMessage;
     private String[] clientMessageFields;
 
-    public GameLobbyProtocol(RemoteUser user){
+    public GameLobbyProtocol(RemoteUser user, boolean checkCanReconnect){
         this.user = user;
     }
 

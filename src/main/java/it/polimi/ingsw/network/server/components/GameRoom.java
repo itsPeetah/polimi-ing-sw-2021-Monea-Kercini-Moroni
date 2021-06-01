@@ -90,6 +90,7 @@ public class GameRoom {
     }
 
     // TODO error handling?
+    // TODO: if sending an update/message to the user check if they are connected first -> if not, push next turn action
     public void sendTo(String player, NetworkPacket packet){
         users.get(player).send(packet);
     }
@@ -129,11 +130,10 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
-        String startMessage = GameLobbyMessage.START_ROOM.addBody("CIAO PIE");
+        String startMessage = GameLobbyMessage.START_ROOM.addBody("Game started");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
-        // todo check ownership
 
         return true;
     }
