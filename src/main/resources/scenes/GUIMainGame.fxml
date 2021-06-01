@@ -103,7 +103,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
+                  <Button fx:id="chat" mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
@@ -460,5 +460,6 @@
             <Image url="@../images/frame.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Lorenzo" fitHeight="100.0" fitWidth="100.0" layoutX="1344.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

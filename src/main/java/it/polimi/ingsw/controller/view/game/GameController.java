@@ -139,6 +139,7 @@ public class GameController {
                 break;
 
             case SOLO_ACTION:
+                System.out.println("GameController.reactToUpdate");
                 ActionTokenUpdateData at = update.getUpdateData(updateDataString);
                 gameData.getCommon().getLorenzo().setBlackCross(at.getBlackCross());
                 gameData.getCommon().getLorenzo().setLastToken(at.getActionToken());

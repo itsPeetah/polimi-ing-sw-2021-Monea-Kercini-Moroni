@@ -14,16 +14,20 @@ import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
+import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
+import it.polimi.ingsw.view.data.single.Lorenzo;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.view.observer.PlayerDataObserver;
+import it.polimi.ingsw.view.observer.single.LorenzoObserver;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -40,7 +44,7 @@ import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 import static it.polimi.ingsw.model.playerboard.ProductionPowers.getBasicProduction;
 
-public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver, GUIObserverScene {
+public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver, GUIObserverScene, LorenzoObserver {
 
     public ImageView dev01;
     public ImageView dev02;
@@ -66,6 +70,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public Label stones;
     public Label shields;
     public ChoiceBox boardChoiceBox;
+
+    public Button chat;
+    public ImageView Lorenzo;
+
 
     private DevCard chosenDev;
 
@@ -315,6 +323,22 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         playerList.add("You");
         playerList.add("Lorenzo");
         boardChoiceBox.setItems(playerList);
+
+        /**
+
+        //todo Testing for lorenzo image -> delete these rows later
+        //ImageView iv = new ImageView(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
+        ImageView iv = new ImageView(SoloActionTokens.DISCARD_2_BLUE.getImage());
+        iv.setFitHeight(64);
+        iv.setFitWidth(64);
+        chat.setGraphic(iv);
+
+         */
+
+
+
+        //button.setStyle("-fx-background-image: url('/testing/background.jpg')");
+
     }
 
     @Override
@@ -323,11 +347,13 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
+        gameData.getCommon().getLorenzo().setObserver(this);
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
         gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
         gameData.getPlayerData(nickname).getDevCards().setObserver(this);
         gameData.getPlayerData(nickname).getStrongbox().setObserver(this);
+
     }
 
     @Override
@@ -740,5 +766,22 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     }
 
     public void openSettings(ActionEvent actionEvent) {
+    }
+
+    @Override
+    public void onBlackCrossChange() {
+
+    }
+
+    @Override
+    public void onLastTokenChange() {
+
+        Platform.runLater(() -> {
+
+        if(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken()!=null) {
+            Lorenzo.setImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
+            //Lorenzo = new ImageView(SoloActionTokens.DISCARD_2_BLUE.getImage());
+        }
+        });
     }
 }
