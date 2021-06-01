@@ -131,13 +131,14 @@ public class ModelController {
 
             p.getBoard().getWarehouse().copy(updatedWarehouse);
 
-            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
-
 
             //update
             updateWarehouse(p);
             updateFaithPoints();
-            updateActionToken();
+
+            if(singlePlayer) {
+                updateActionToken();
+            }
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
