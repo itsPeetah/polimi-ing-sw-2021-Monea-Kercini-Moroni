@@ -9,6 +9,7 @@ public enum GameLobbyMessage implements SystemMessage {
     JOIN_ROOM("ROOMJ"),
     LEAVE_ROOM("ROOML"),
     START_ROOM("ROOMS"),
+    REJOIN_ROOM("ROOMR"),
     PLAYERS_IN_ROOM("ROOMP");
 
     private final String messageCode;

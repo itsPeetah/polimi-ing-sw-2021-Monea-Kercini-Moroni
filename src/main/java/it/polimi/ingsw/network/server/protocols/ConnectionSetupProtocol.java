@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server.protocols;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
@@ -24,7 +25,7 @@ public class ConnectionSetupProtocol {
         // Expect HELLO
         clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
         if (!ConnectionMessage.HELLO.check(clientMessageFields[0])) {
-            System.out.println("Client did not reply to welcome message");
+            System.out.println(ANSIColor.RED + "Client did not reply to welcome message" + ANSIColor.RESET);
             socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
             return null;
         }
@@ -32,7 +33,7 @@ public class ConnectionSetupProtocol {
         // Check if the client has provided an old id
         String id;
         boolean checkCanReconnect;
-        if(clientMessageFields.length > 1){
+        if(clientMessageFields.length > 1 && GameServer.getInstance().getUserTable().getUser(clientMessageFields[1]) == null){
             // Set client's id to the old one that has been provided
             id = clientMessageFields[1];
             checkCanReconnect = true;
@@ -48,7 +49,7 @@ public class ConnectionSetupProtocol {
         clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
         if(clientMessageFields.length < 2 || !ConnectionMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
             socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
-            System.out.println("Client did not confirm the correct id");
+            System.out.println(ANSIColor.RED + "Client did not confirm the correct id" + ANSIColor.RESET);
             return null;
         }
 

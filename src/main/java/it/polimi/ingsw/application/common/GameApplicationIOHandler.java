@@ -96,10 +96,13 @@ public class GameApplicationIOHandler {
 
     private void handleSystemOK(String args){
 
+        String[] arguments = args.split(" ");
+
         GameApplicationState state = GameApplication.getInstance().getApplicationState();
         switch (state){
             case CONNECTING_TO_ROOM:
-                if(args != null) GameApplication.getInstance().out(args);
+                GameApplication.getInstance().setRoomName(arguments[0]);
+                GameApplication.getInstance().setUserNickname(arguments[1]);
                 GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
                 break;
         }
@@ -110,7 +113,7 @@ public class GameApplicationIOHandler {
         GameApplicationState state = GameApplication.getInstance().getApplicationState();
         switch (state){
             case CONNECTING_TO_ROOM:
-                if(args != null) GameApplication.getInstance().out(args);
+                /*if(args != null) GameApplication.getInstance().out(args);*/
                 GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
                 break;
         }

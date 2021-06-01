@@ -129,4 +129,17 @@ public class RoomTable {
             }
         }
     }
+
+    public String[] findRoomToRejoin(String userId) throws GameRoomException{
+        synchronized (lock){
+            String nickname;
+            for(String roomID : rooms.keySet()){
+                nickname = rooms.get(roomID).checkMIA(userId);
+                if(nickname != null){
+                    return new String[]{roomID, nickname};
+                }
+            }
+            throw new GameRoomException("There is no room user expecting the given id.");
+        }
+    }
 }

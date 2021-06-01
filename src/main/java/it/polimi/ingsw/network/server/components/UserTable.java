@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.NetworkPacket;
 
 import java.util.ArrayList;
@@ -48,7 +49,9 @@ public class UserTable {
     }
 
     public Hashtable<String, Integer> getMissedPings() {
-        return missedPings;
+        synchronized (lock) {
+            return missedPings;
+        }
     }
 
     /**
@@ -79,7 +82,10 @@ public class UserTable {
         String id = user.getId();
         synchronized (lock){
             result = !users.containsKey(id);
-            if(result) users.put(id, user);
+            if(result) {
+                users.put(id, user);
+                missedPings.put(id, 0);
+            }
         }
         return result;
     }
@@ -97,9 +103,8 @@ public class UserTable {
 
     public void removeUser(String id){
         synchronized (lock){
-            if(getUser(id) != null){
-                users.remove(id);
-            }
+            users.remove(id);
+            missedPings.remove(id);
         }
     }
 
@@ -139,12 +144,25 @@ public class UserTable {
     }
 
     public void setPingResponseForUser(String id){
-        //synchronized (lock){
+        synchronized (lock){
             pingResponses.add(id);
-        //}
+        }
     }
 
-    public boolean checkPingResponse(String id){
-        return pingResponses.remove(id);
+    public void checkPingResponses(){
+        synchronized (lock) {
+            for(String id : missedPings.keySet()){
+                if(!pingResponses.contains(id)){
+                    missedPings.put(id, missedPings.get(id) + 1);
+                    if(missedPings.get(id) > UserPingingHandler.maxMissedPings){
+                        users.get(id).terminateConnection();
+                        System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);
+                    }
+                } else missedPings.put(id, 0);
+            }
+            pingResponses.clear();
+        }
     }
+
+
 }

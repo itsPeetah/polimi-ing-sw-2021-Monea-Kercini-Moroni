@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server.protocols;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
@@ -67,9 +68,8 @@ public class ServerSideClientListener {
         }
         // START
         else if (GameLobbyMessage.START_ROOM.check(clientMessage)) {
-            System.out.println("Starting room");
             executorService.submit(() -> user.getRoom().startGame());
-            System.out.println("Started room");
+            System.out.println( ANSIColor.GREEN +"[Server] Started game in room '" + user.getRoom().getId() + "'." + ANSIColor.RESET);
             return;
         } else if(ConnectionMessage.PING.check(clientMessage)){
             UserTable.getInstance().setPingResponseForUser(user.getId());
@@ -77,10 +77,7 @@ public class ServerSideClientListener {
     }
 
     private void handleDebugMessage(NetworkPacket packet){
-        /*String clientMessage = packet.getPayload();*/
-        System.out.println("[USER "+ user.getId() + "] " + packet.getPayload());
-        /*clientMessage = "[SERVER ECHO] You said: " + clientMessage;*/
-        /*user.send(new NetworkPacket(NetworkPacketType.DEBUG, clientMessage));*/
+        System.out.println("[Debug] User "+ user.getId() + ": " + packet.getPayload());
     }
 
     private void handleActionPacket(NetworkPacket packet){
@@ -88,7 +85,6 @@ public class ServerSideClientListener {
     }
 
     private void handleSocialPacket(NetworkPacket packet){
-        System.out.println("Received SocialMessage");
         user.getRoom().handleSocialPacket(packet);
     }
 }
