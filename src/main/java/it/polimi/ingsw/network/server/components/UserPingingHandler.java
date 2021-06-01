@@ -64,7 +64,6 @@ public class UserPingingHandler implements Runnable{
                 }
             } else {
                 if(userTable.getMissedPings().get(id).intValue() > 0) {
-                    userTable.getMissedPings().remove(id);
                     userTable.getMissedPings().put(id, 0);
                 }
             }
