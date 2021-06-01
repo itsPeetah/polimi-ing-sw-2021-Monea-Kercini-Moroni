@@ -34,9 +34,8 @@ public class SoloAction {
                 soloActionTokens.add(SoloActionTokens.DISCARD_2_YELLOW);
                 soloActionTokens.add(SoloActionTokens.DISCARD_2_PURPLE);
                 soloActionTokens.add(SoloActionTokens.MOVE_2);
+                soloActionTokens.add(SoloActionTokens.MOVE_2);
                 soloActionTokens.add(SoloActionTokens.MOVE_1_SHUFFLE);
-                // I think one of the tokens was 2 times?
-                //todo confirm the number of tokens
         }
         //Shuffle tokens
         Collections.shuffle(soloActionTokens);
