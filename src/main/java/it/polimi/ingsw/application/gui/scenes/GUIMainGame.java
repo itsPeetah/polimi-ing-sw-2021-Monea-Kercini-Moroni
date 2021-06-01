@@ -74,6 +74,10 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
     public Button chat;
     public ImageView Lorenzo;
 
+    public ImageView report2;
+    public ImageView report3;
+    public ImageView report4;
+
 
     private DevCard chosenDev;
 
@@ -386,20 +390,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         playerList.add("Lorenzo");
         boardChoiceBox.setItems(playerList);
 
-        /**
 
-        //todo Testing for lorenzo image -> delete these rows later
-        //ImageView iv = new ImageView(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
-        ImageView iv = new ImageView(SoloActionTokens.DISCARD_2_BLUE.getImage());
-        iv.setFitHeight(64);
-        iv.setFitWidth(64);
-        chat.setGraphic(iv);
-
-         */
-
-
-
-        //button.setStyle("-fx-background-image: url('/testing/background.jpg')");
 
     }
 
