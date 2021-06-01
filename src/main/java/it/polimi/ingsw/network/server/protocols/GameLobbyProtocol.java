@@ -34,8 +34,10 @@ public class GameLobbyProtocol {
                 return false;
             }
 
-            if(ConnectionMessage.PING.check(clientMessageFields[0]))
+            if(ConnectionMessage.PING.check(clientMessageFields[0])) {
                 user.respondedToPing();
+                continue;
+            }
 
             System.out.println("[Debug] User " + user.getId() +": "+ clientMessage);
 
@@ -93,8 +95,6 @@ public class GameLobbyProtocol {
                 // Success
                 try{
                     String[] roomAndNickname = rejoinRoom(clientMessageFields[1]);
-                    System.out.println(ANSIColor.GREEN +"User " + user.getId() + " rejoined room " +
-                            roomAndNickname[0] + " as " + roomAndNickname[1] + ANSIColor.RESET);
                     user.sendSystemMessage(
                             ConnectionMessage.OK.addBody(roomAndNickname[0] + " " + roomAndNickname[1])
                     );
@@ -103,6 +103,7 @@ public class GameLobbyProtocol {
                 }
                 // Failure: no game to rejoin available
                 catch (GameRoomException ex){
+                    System.out.println(ex.getMessage());
                     user.sendSystemMessage(ConnectionMessage.ERR.addBody(ex.getMessage()));
                     continue;
                 }

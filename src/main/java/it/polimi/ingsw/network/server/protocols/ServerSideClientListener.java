@@ -20,6 +20,7 @@ public class ServerSideClientListener {
 
     public ServerSideClientListener(RemoteUser user){
         this.user = user;
+        System.out.println("Listening for " + user.getId());
     }
 
     public boolean run() {
@@ -28,7 +29,19 @@ public class ServerSideClientListener {
         this.continueAfterReturning = false;
 
         while (true){
-            if(done) break;
+            if(done || user.hasDisconnected()) break;
+
+            while(!user.getSocket().hasReceivedPacket()){
+                if(user.hasDisconnected()) {
+                    System.out.println("DISCON");
+                    return false;
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    return true;
+                }
+            }
 
             NetworkPacket np = user.receive();
             switch (np.getPacketType()){
