@@ -97,6 +97,7 @@ public class GameApplication {
      */
     public boolean isOnNetwork() {return networkClient != null && networkClient.isConnected(); }
 
+
     /**
      * Has the game been set up?
      */
