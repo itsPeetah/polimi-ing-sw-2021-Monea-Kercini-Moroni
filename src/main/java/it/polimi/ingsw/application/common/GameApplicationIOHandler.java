@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
+import it.polimi.ingsw.network.client.persistence.ReconnectionInfo;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.social.SocialPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
@@ -49,10 +50,16 @@ public class GameApplicationIOHandler {
         String[] messageFields = serverMessage.split(" ", 2);
 
         if (ConnectionMessage.QUIT.check(messageFields[0])) {
-            GameApplication.getInstance().setApplicationState(GameApplicationState.STOPPED);
+            handleQuitMessage();
             return -1;
+        } else if(GameLobbyMessage.IN_LOBBY.check(messageFields[0])) {
+            GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+        } else if(ConnectionMessage.PING.check(messageFields[0])) {
+            GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(ConnectionMessage.PING.getCode()));
         } else if(GameLobbyMessage.START_ROOM.check(messageFields[0])) {
             GameApplication.getInstance().startMPGame();
+            // Save id in case the connection is interrupted...
+            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId()); // TODO Add GAME_OVER => resetID
         } else if(GameLobbyMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
@@ -89,10 +96,13 @@ public class GameApplicationIOHandler {
 
     private void handleSystemOK(String args){
 
+        String[] arguments = args.split(" ");
+
         GameApplicationState state = GameApplication.getInstance().getApplicationState();
         switch (state){
             case CONNECTING_TO_ROOM:
-                if(args != null) GameApplication.getInstance().out(args);
+                GameApplication.getInstance().setRoomName(arguments[0]);
+                GameApplication.getInstance().setUserNickname(arguments[1]);
                 GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
                 break;
         }
@@ -107,6 +117,12 @@ public class GameApplicationIOHandler {
                 GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
                 break;
         }
+    }
+
+    private void handleQuitMessage() {
+        System.out.println("Received quit instruction");
+        GameApplication.getInstance().closeConnectionWithServer();
+        GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
 
 }

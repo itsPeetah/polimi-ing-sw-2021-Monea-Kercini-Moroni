@@ -44,6 +44,9 @@ public class CLIRoom extends CLIScene {
             case "start":
                 startGame();
                 break;
+            case "leave":
+                leaveRoom();
+                break;
             default:
                 println("The command is not supported or has not been implemented yet");
                 break;
@@ -54,6 +57,12 @@ public class CLIRoom extends CLIScene {
         GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
         String messageContent = GameLobbyMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
+        GameApplication.getInstance().sendNetworkPacket(np);
+    }
+
+    private void leaveRoom(){
+        GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
+        NetworkPacket np = NetworkPacket.buildSystemMessagePacket(GameLobbyMessage.LEAVE_ROOM.getCode());
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.network.server.components;
 
-import java.util.Hashtable;
-import java.util.Random;
+import it.polimi.ingsw.application.cli.util.ANSIColor;
+import it.polimi.ingsw.network.common.NetworkPacket;
+
+import java.util.*;
 
 /**
  * Class that stores the unique connected users.
@@ -21,6 +23,22 @@ public class UserTable {
     public UserTable(){
         lock = new Object();
         users = new Hashtable<String, RemoteUser>();
+
+        Thread pinger = new Thread(new UserPingingHandler(this));
+        pinger.setDaemon(true);
+        pinger.start();
+    }
+
+    public String[] getUserIDs(){
+        synchronized (lock) {
+            String[] ids = new String[users.size()];
+            int i = 0;
+            for (String id : users.keySet()) {
+                ids[i] = id;
+                i++;
+            }
+            return ids;
+        }
     }
 
     /**
@@ -51,7 +69,9 @@ public class UserTable {
         String id = user.getId();
         synchronized (lock){
             result = !users.containsKey(id);
-            if(result) users.put(id, user);
+            if(result) {
+                users.put(id, user);
+            }
         }
         return result;
     }
@@ -65,6 +85,12 @@ public class UserTable {
             if(users.containsKey(id)) user = users.get(id);
         }
         return user;
+    }
+
+    public void removeUser(String id){
+        synchronized (lock){
+            users.remove(id);
+        }
     }
 
     /**
@@ -95,4 +121,25 @@ public class UserTable {
     public String generateId() {
         return generateId(DEFAULT_ID_LENGTH);
     }
+
+    public void pingAll(){
+        synchronized (lock) {
+            for (String id : users.keySet()) users.get(id).ping();
+        }
+    }
+
+    public void checkPingResponses(){
+        synchronized (lock) {
+            ArrayList<String> ids2kick = new ArrayList<String>();
+            for(String id : users.keySet()){
+                if(!users.get(id).checkPingResponse()) ids2kick.add(id);
+            }
+            for(String id : ids2kick) {
+                users.get(id).terminateConnection();
+                System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);
+            }
+        }
+    }
+
+
 }

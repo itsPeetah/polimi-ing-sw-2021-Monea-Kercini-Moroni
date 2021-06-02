@@ -95,7 +95,8 @@ public class GameApplication {
     /**
      * Has the networking been initialized?
      */
-    public boolean isOnNetwork() {return networkClient != null && networkClient.getSocket().getSocket().isConnected(); }
+    public boolean isOnNetwork() {return networkClient != null && networkClient.isConnected(); }
+
 
     /**
      * Has the game been set up?
@@ -228,5 +229,10 @@ public class GameApplication {
         gameController = new GameController(new GameData());
         getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
+    }
+
+    public void closeConnectionWithServer() {
+        networkClient.terminateConnection();
+        networkClient = null;
     }
 }

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -18,6 +22,16 @@ public class RoomTable {
     public RoomTable(){
         this.lock = new Object();
         this.rooms = new Hashtable<String, GameRoom>();
+    }
+
+    public String[] getRoomIDs(){
+        String[] ids = new String[rooms.size()];
+        int i = 0;
+        for (String id : rooms.keySet()){
+            ids[i] = id;
+            i++;
+        }
+        return ids;
     }
 
     /**
@@ -103,6 +117,29 @@ public class RoomTable {
             // Add user to the room
             GameRoom room = rooms.get(roomId);
             room.addUser(nickname, user);
+        }
+    }
+
+    public void removeRoom(String roomId){
+        synchronized (lock){
+            GameRoom room = rooms.get(roomId);
+            if(room != null){
+                room.broadcast(NetworkPacket.buildSystemMessagePacket(GameLobbyMessage.IN_LOBBY.getCode()));
+                rooms.remove(roomId);
+            }
+        }
+    }
+
+    public String[] findRoomToRejoin(String userId) throws GameRoomException{
+        synchronized (lock){
+            String nickname;
+            for(String roomID : rooms.keySet()){
+                nickname = rooms.get(roomID).checkMIA(userId);
+                if(nickname != null){
+                    return new String[]{roomID, nickname};
+                }
+            }
+            throw new GameRoomException("There is no room user expecting the given id.");
         }
     }
 }
