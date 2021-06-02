@@ -27,6 +27,9 @@ public class GameLobbyProtocol {
 
         while (true) {
             clientMessage = user.receiveSystemMessage();
+
+            if(clientMessage == null) return false;
+
             clientMessageFields = clientMessage.split(" ", 3);
 
             // Client asks to close the connection.

@@ -72,6 +72,7 @@ public class ExSocket {
      */
     public String receiveSystemMessage(){
         NetworkPacket np = receive();
+        if(np == null) return null;
         String message = np.getPacketType() == NetworkPacketType.SYSTEM ? np.getPayload() : ConnectionMessage.ERR.getCode();
         return message;
     }
