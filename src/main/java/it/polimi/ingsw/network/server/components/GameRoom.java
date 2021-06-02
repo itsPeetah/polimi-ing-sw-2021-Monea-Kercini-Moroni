@@ -75,13 +75,12 @@ public class GameRoom {
         synchronized (lock){
             miaPlayers.remove(user.getId());
             users.put(nickname, user);
+            user.assignRoom(roomId, nickname);
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
-            // TODO Send catch up update
-            // catchUp(user);
+            // TODO: Send catch up update
         }
     }
 
-    // TODO if room is empty after a user has left delete it.
     public boolean removeUser(String nickname){
         boolean result = false;
         synchronized (lock){
@@ -92,7 +91,7 @@ public class GameRoom {
                 // If the game is in progress
                 if(gameInProgress()){
                     System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
-                    miaPlayers.put(removed.getId(), nickname);
+                    markAsMIA(removed.getId(), nickname);
                 }
             }
 
@@ -104,11 +103,20 @@ public class GameRoom {
         return result;
     }
 
-    // TODO error handling?
-    // TODO: if sending an update/message to the user check if they are connected first -> if not, push next turn action
-    // TODO: define fallback answer for actions if disconnected -> pick leads, res and next turn.
+    private void markAsMIA(String userId, String playerNickname) {
+        synchronized (lock) {
+            miaPlayers.put(userId, playerNickname);
+        }
+    }
+
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).send(packet);
+        synchronized (lock) {
+            if (miaPlayers.containsKey(player) && NetworkPacketType.isGameRelated(packet)){
+                // TODO: Send MIA Action
+            }
+            if(users.containsKey(player))
+                users.get(player).send(packet);
+        }
     }
 
     public void broadcast(NetworkPacket packet){
