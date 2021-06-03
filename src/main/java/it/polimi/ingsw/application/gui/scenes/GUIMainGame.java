@@ -405,7 +405,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         file = new File("src/main/resources/images/solotokens/croce.png");
         blackCross = new Image(file.toURI().toString());
 
-        file = new File("src/main/resources/images/resources/cards/LeaderBack.png");
+        file = new File("src/main/resources/images/cards/LeaderBack.png");
         leaderBack = new Image(file.toURI().toString());
 
         productionsSelected = new HashSet<>();

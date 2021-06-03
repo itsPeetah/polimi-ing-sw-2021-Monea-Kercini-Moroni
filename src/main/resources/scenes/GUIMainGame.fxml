@@ -478,7 +478,7 @@
                      </HBox>
                  </children>
              </HBox>
-            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onContextMenuRequested="#boardChanged" onMouseClicked="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
+            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onAction="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
          </children>
       </Pane>
       <Button layoutX="1560.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
