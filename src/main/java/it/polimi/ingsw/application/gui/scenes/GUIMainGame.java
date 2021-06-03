@@ -17,14 +17,9 @@ import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
-import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.view.observer.GameDataObserver;
-import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import it.polimi.ingsw.view.observer.single.LorenzoObserver;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -144,7 +139,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
 
     //black faith track
-
     public ImageView c001;
     public ImageView c011;
     public ImageView c021;
@@ -222,7 +216,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     Image report4Image;
 
 
-
     @Override
     public void onMessage(Message message) {
         Platform.runLater(() -> {
@@ -237,6 +230,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 case WINNER:
                 case LOSER:
                 case LOSER_MULTIPLAYER:
+                    GUIEndGame.setWin(false);
                     setEndGameScene();
                     break;
             }
