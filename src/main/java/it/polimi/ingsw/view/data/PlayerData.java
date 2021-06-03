@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PlayerData {
 
     private String nickname;
-    private AtomicInteger VP;
+    private AtomicInteger VP = new AtomicInteger(0);
 
     private DevCards devCards;
     private FaithTrack faithTrack;
@@ -53,7 +53,6 @@ public class PlayerData {
         warehouse = new Warehouse();
         strongbox = new Strongbox();
         leadersToChooseFrom = new LeadersToChooseFrom();
-        VP.set(0);
     }
 
     public synchronized String getNickname() {
@@ -66,9 +65,15 @@ public class PlayerData {
 
     public void setVP(int VP) {
 
+        System.out.println("PlayerData.setVP");
+
         int oldVP = this.VP.get();
         while(!this.VP.compareAndSet(oldVP, VP)) setVP(VP);
         if(vpObserver != null) vpObserver.onVPChange();
+    }
+
+    public AtomicInteger getVP() {
+        return VP;
     }
 
     public void setObserver(VPObserver vpObserver) {
