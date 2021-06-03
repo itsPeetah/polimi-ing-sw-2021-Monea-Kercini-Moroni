@@ -15,6 +15,7 @@ public enum GUIScene {
     MP_ROOM("GUIMPRoom.fxml", true),
     PRE_GAME("GUIPreGame.fxml", true),
     MAIN_GAME("GUIMainGame.fxml", true),
+    END_GAME("GUIEndGame.fxml", false),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),

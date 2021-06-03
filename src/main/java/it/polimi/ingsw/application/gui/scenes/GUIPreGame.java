@@ -311,6 +311,10 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
                     break;
+                case WINNER:
+                case LOSER:
+                case LOSER_MULTIPLAYER:
+
             }
         });
     }

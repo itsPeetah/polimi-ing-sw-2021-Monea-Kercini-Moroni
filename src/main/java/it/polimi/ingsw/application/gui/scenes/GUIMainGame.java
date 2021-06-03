@@ -3,6 +3,7 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
+import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -233,10 +234,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
                     break;
-                case START_TURN:
-
-
-
+                case WINNER:
+                case LOSER:
+                case LOSER_MULTIPLAYER:
+                    setEndGameScene();
                     break;
             }
         });
@@ -493,7 +494,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 lead2.setEffect(null); }
 
             //Show leaders only if they are in players hand
-
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]== CardState.INHAND){
                 if(isItMe()){
                     lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[0].getCardId()));
@@ -985,6 +985,14 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         onWarehouseContentChange();
         onWarehouseExtraChange();
         onStrongboxChange();
+    }
+
+
+    private void setEndGameScene() {
+        GUIScene.showLoadingScene();
+        new Thread(() -> {
+            GUIUtility.runSceneWithDelay(GUIScene.END_GAME, 500);
+        }).start();
     }
 
 
