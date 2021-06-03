@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.playerboard;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.general.*;
 import org.junit.jupiter.api.Test;
@@ -95,6 +96,30 @@ class ProductionPowersTest {
         pp.addDevCard(dc2, 1);
 
         assertEquals(5 ,pp.getOwnedCardsVictoryPoints() );
+
+    }
+
+    @Test
+    void addDevCard() {
+        DevCard dev1 = CardManager.loadDevCardsFromJson().get(0);
+        DevCard dev2 = CardManager.loadDevCardsFromJson().get(4);
+        DevCard dev3 = CardManager.loadDevCardsFromJson().get(8);
+
+        ProductionPowers pp = new ProductionPowers(3);
+
+        pp.addDevCard(dev1, 0);
+
+        assertEquals(pp.getVisibleDevCards()[0], dev1);
+
+        pp.addDevCard(dev2, 0);
+
+        assertEquals(pp.getVisibleDevCards()[0], dev2);
+
+        pp.addDevCard(dev3, 0);
+
+        assertEquals(pp.getVisibleDevCards()[0], dev3);
+
+
 
     }
 }
