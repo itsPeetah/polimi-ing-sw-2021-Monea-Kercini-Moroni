@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/GUIEndGame.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIEndGame">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/EndGame.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIEndGame">
    <children>
-      <Label layoutX="821.0" layoutY="197.0" text="Victory">
+      <Label layoutX="703.0" layoutY="85.0" text="Victory">
          <font>
             <Font name="Old English Text MT" size="96.0" />
          </font>
       </Label>
-      <ListView fx:id="playerList" layoutX="813.0" layoutY="428.0" prefHeight="323.0" prefWidth="247.0" />
-      <ListView fx:id="scoreList" layoutX="1060.0" layoutY="428.0" prefHeight="323.0" prefWidth="61.0" />
+      <ListView fx:id="playerList" layoutX="813.0" layoutY="397.0" prefHeight="200.0" prefWidth="247.0" />
+      <ListView fx:id="scoreList" layoutX="1058.0" layoutY="397.0" prefHeight="200.0" prefWidth="63.0" />
    </children>
 </AnchorPane>

@@ -1,5 +1,5 @@
 .root{
-    -fx-background-image: url(/images/renaissance-music_02.jpg);
+    -fx-background-image: url(/images/end.jpg);
     -fx-background-size: cover;
     -fx-background-position: left;
     -fx-cursor: default;
@@ -20,4 +20,11 @@
     -fx-font-size: 25;
     -fx-font-family: "High Tower Text";
     -fx-text-fill: white;
+}
+
+.label{
+    -fx-font-size: 182;
+    -fx-font-family: "Old English Text MT";
+    -fx-effect: dropshadow(gaussian, white, 30, 0, 0, 0);
+    -fx-text-fill: black;
 }
