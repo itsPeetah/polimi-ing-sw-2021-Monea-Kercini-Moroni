@@ -214,6 +214,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     Materials materials = new Materials();
     Image cross;
     Image blackCross;
+    Image leaderBack;
 
     Image report2Image;
     Image report3Image;
@@ -404,6 +405,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         file = new File("src/main/resources/images/solotokens/croce.png");
         blackCross = new Image(file.toURI().toString());
 
+        file = new File("src/main/resources/images/resources/cards/LeaderBack.png");
+        leaderBack = new Image(file.toURI().toString());
+
         productionsSelected = new HashSet<>();
 
         report2.setImage(null);
@@ -480,17 +484,13 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         Platform.runLater(() -> {
 
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]== CardState.DISCARDED){
-                lead1.setImage(null);
-            }
+                lead1.setImage(null); }
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[1]== CardState.DISCARDED){
-                lead2.setImage(null);
-            }
+                lead2.setImage(null); }
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]== CardState.PLAYED){
-                lead1.setEffect(null);
-            }
+                lead1.setEffect(null); }
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[1]== CardState.PLAYED){
-                lead2.setEffect(null);
-            }
+                lead2.setEffect(null); }
 
             //Show leaders only if they are in players hand
 
@@ -498,16 +498,14 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 if(isItMe()){
                     lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[0].getCardId()));
                      }else{
-                    lead1.setImage(null);
-                }
-            }
+                    lead1.setImage(leaderBack);
+                } }
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[1]== CardState.INHAND){
                 if(isItMe()){
                     lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[1].getCardId()));
                 }else{
-                    lead2.setImage(null);
-                }
-            }
+                    lead2.setImage(leaderBack);
+                } }
         });
     }
 
