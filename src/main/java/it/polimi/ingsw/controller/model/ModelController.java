@@ -702,11 +702,9 @@ public class ModelController {
     private Resources faithCheck(Player player, Resources res){
 
         if (res.getAmountOf(ResourceType.FAITH) > 0) {
+
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
-
-            //todo remove the lime below! - Used only for testing
-            player.getBoard().incrementFaithPoints(10);
 
             //remove the faith from resources
             try {

@@ -28,11 +28,7 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
 
         Platform.runLater(() -> {
 
-            System.out.println("GUIEndGame.onVPChange");
-
             for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-
-                System.out.println("GUIEndGame.onVPChange inside");
 
                 playerList.getItems().add(i, GameApplication.getInstance().getRoomPlayers().get(i));
                 scoreList.getItems().add(i, GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getRoomPlayers().get(i)).getVP());
@@ -46,8 +42,6 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
     @Override
     public void startObserver() {
 
-        //setting observer of VP
-        System.out.println("GUIEndGame.initialize" + GameApplication.getInstance().gameExists());
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
 
