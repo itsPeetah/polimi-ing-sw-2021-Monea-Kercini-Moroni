@@ -65,17 +65,17 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton" />
+                   <Button fx:id="resourcesButton" mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton" />
+                   <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#produce" styleClass="produceButton" />
+                  <Button fx:id="produceButton" mnemonicParsing="false" onAction="#produce" styleClass="produceButton" />
                </children>
             </HBox>
          </children>
@@ -84,17 +84,17 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#playLeader" styleClass="playLeaderButton" />
+                  <Button fx:id="playLeaderButton" mnemonicParsing="false" onAction="#playLeader" styleClass="playLeaderButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#discardLeader" styleClass="discardLeaderButton" />
+                  <Button fx:id="discardLeaderButton" mnemonicParsing="false" onAction="#discardLeader" styleClass="discardLeaderButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#reorganizeWarehouse" styleClass="reorganizeButton" />
+                  <Button fx:id="warehouseButton" mnemonicParsing="false" onAction="#reorganizeWarehouse" styleClass="reorganizeButton" />
                </children>
             </HBox>
          </children>
@@ -478,7 +478,7 @@
                      </HBox>
                  </children>
              </HBox>
-            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="You" />
+            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onContextMenuRequested="#boardChanged" onMouseClicked="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
          </children>
       </Pane>
       <Button layoutX="1560.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />

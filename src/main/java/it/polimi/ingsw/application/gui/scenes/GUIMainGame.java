@@ -80,6 +80,13 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public ImageView report3;
     public ImageView report4;
 
+    public Button resourcesButton;
+    public Button buyButton;
+    public Button produceButton;
+    public Button playLeaderButton;
+    public Button discardLeaderButton;
+    public Button warehouseButton;
+
 
     private DevCard chosenDev;
 
@@ -426,6 +433,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getCommon().getLorenzo().setObserver(this);
+        gameData.setObserver(this);
         //the observers should be of this player
         String nickname = GameApplication.getInstance().getUserNickname();
         gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
@@ -482,6 +490,23 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             }
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[1]== CardState.PLAYED){
                 lead2.setEffect(null);
+            }
+
+            //Show leaders only if they are in players hand
+
+            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[0]== CardState.INHAND){
+                if(isItMe()){
+                    lead1.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[0].getCardId()));
+                     }else{
+                    lead1.setImage(null);
+                }
+            }
+            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[1]== CardState.INHAND){
+                if(isItMe()){
+                    lead2.setImage(getImage(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[1].getCardId()));
+                }else{
+                    lead2.setImage(null);
+                }
             }
         });
     }
@@ -893,16 +918,79 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onPlayerTableChange() {
 
+        Platform.runLater(() -> {
+
         //todo remove player list from here
         //for the moment the player list it's here
         //must move to better place in the future
 
         //ObservableList<String> playerList = FXCollections.observableArrayList();
 
-        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-            System.out.println("GUIMainGame.onPlayer " + GameApplication.getInstance().getRoomPlayers().get(i));
-            boardChoiceBox.getItems().add(GameApplication.getInstance().getRoomPlayers().get(i));
+            for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+                System.out.println("GUIMainGame.onPlayer " + GameApplication.getInstance().getRoomPlayers().get(i));
+                boardChoiceBox.getItems().add(i, GameApplication.getInstance().getRoomPlayers().get(i));
+            }
+        });
+    }
+
+    /**
+     *
+     * @return true if the player selected in the choice box of the player board view is the current player
+     */
+
+    private boolean isItMe(){
+        if(nickname.equals(GameApplication.getInstance().getUserNickname())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    public void boardChanged(){
+
+        nickname = (String) boardChoiceBox.getValue();
+
+        System.out.println(nickname);
+
+        if(isItMe()){
+            resourcesButton.setVisible(true);
+            buyButton.setVisible(true);
+            produceButton.setVisible(true);
+            playLeaderButton.setVisible(true);
+            discardLeaderButton.setVisible(true);
+            warehouseButton.setVisible(true);
+
+        }else{
+            choice = Action.NONE;
+            resourcesButton.setVisible(false);
+            buyButton.setVisible(false);
+            produceButton.setVisible(false);
+            playLeaderButton.setVisible(false);
+            discardLeaderButton.setVisible(false);
+            warehouseButton.setVisible(false);
         }
 
+        //change visualization
+        everythingChanged();
+
     }
+
+    private void everythingChanged(){
+        onDevCardsChange();
+        onFaithChange();
+        onDevCardMarketChange();
+        onLeadersChange();
+        onLeadersStatesChange();
+        onMarketTrayChange();
+        onReportsAttendedChange();
+        onWarehouseContentChange();
+        onWarehouseExtraChange();
+        onStrongboxChange();
+    }
+
+
+
+
+
 }
