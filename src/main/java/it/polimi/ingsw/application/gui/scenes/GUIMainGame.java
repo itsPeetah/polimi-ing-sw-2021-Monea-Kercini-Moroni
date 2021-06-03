@@ -21,6 +21,7 @@ import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import it.polimi.ingsw.view.observer.single.LorenzoObserver;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -225,17 +226,7 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
                     break;
                 case START_TURN:
 
-                    //todo remove player list from here
-                    //for the moment the player list it's here
-                    //must move to better place in the future
 
-                    ObservableList<String> playerList = FXCollections.observableArrayList();
-
-                    for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-                        playerList.add(GameApplication.getInstance().getRoomPlayers().get(i));
-                    }
-
-                    boardChoiceBox.setItems(playerList);
 
                     break;
             }
@@ -425,6 +416,24 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         for (int i = 0; i < blackTrack.length; i++) {
             blackTrack[i].setImage(null);
         }
+
+
+
+
+        //todo remove player list from here
+        //for the moment the player list it's here
+        //must move to better place in the future
+
+        //ObservableList<String> playerList = FXCollections.observableArrayList();
+
+        System.out.println("GUIMainGame.initialize");
+
+        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+            System.out.println("GUIMainGame.initialize " + GameApplication.getInstance().getRoomPlayers().get(i));
+            boardChoiceBox.getItems().add(GameApplication.getInstance().getRoomPlayers().get(i));
+        }
+
+
 
     }
 
