@@ -203,6 +203,7 @@ public class Game {
             || (lastVaticanReport==1 && maxFaith>=16)
             || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
+                    System.out.println("Game.checkVaticanReport trying to do vatican report");
                     doVaticanReport();
                 } catch (GameException e) {
                     e.printStackTrace();

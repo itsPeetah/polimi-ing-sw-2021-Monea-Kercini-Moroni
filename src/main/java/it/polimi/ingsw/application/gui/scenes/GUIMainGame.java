@@ -465,6 +465,12 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[0]==true){
             report2.setImage(report2Image);
         }
+            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[1]==true){
+                report3.setImage(report3Image);
+            }
+            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[2]==true){
+                report4.setImage(report4Image);
+            }
         });
     }
 
