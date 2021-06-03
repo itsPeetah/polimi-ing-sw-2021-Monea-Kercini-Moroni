@@ -158,11 +158,11 @@ public class Game {
             boolean eligible;
             int playersFaithPoints = p.getBoard().getFaithPoints();
             // Check eligibility
-            if (currentReport == 1 && playersFaithPoints >= 5 && playersFaithPoints <= 8)
+            if (currentReport == 1 && playersFaithPoints >= 5)
                 eligible = true;
-            else if (currentReport == 2 && playersFaithPoints >= 12 && playersFaithPoints <= 16)
+            else if (currentReport == 2 && playersFaithPoints >= 12)
                 eligible = true;
-            else if (currentReport == 3 && playersFaithPoints >= 19 && playersFaithPoints <= 24)
+            else if (currentReport == 3 && playersFaithPoints >= 19)
                 eligible = true;
             else eligible = false;
 

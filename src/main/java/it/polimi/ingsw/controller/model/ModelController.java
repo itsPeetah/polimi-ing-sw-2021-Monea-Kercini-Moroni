@@ -530,7 +530,6 @@ public class ModelController {
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
 
-
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
 
@@ -705,6 +704,9 @@ public class ModelController {
 
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+
+            //todo delow the line belwo -> it is needed only for testing the game quickly
+            player.getBoard().incrementFaithPoints(10);
 
             //remove the faith from resources
             try {

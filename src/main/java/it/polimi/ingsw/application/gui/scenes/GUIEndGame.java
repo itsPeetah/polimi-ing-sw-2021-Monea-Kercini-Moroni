@@ -1,9 +1,7 @@
 package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
-import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.player.VPObserver;
 import javafx.application.Platform;
