@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene, PacketListener {
+public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
 
     public ListView playerList;
     public ListView scoreList;
@@ -57,16 +57,6 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene, 
 
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
-
-    }
-
-    @Override
-    public void onMessage(Message message) {
-
-    }
-
-    @Override
-    public void onSystemMessage(String message) {
 
     }
 }
