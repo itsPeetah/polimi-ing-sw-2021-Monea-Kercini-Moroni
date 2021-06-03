@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.data;
 
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 import it.polimi.ingsw.view.data.player.*;
+import it.polimi.ingsw.view.observer.player.StrongboxObserver;
+import it.polimi.ingsw.view.observer.player.VPObserver;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -17,6 +19,8 @@ public class PlayerData {
     private Warehouse warehouse;
     private Strongbox strongbox;
     private LeadersToChooseFrom leadersToChooseFrom;
+
+    private VPObserver vpObserver;
 
     public synchronized LeadersToChooseFrom getLeadersToChooseFrom() {
         return leadersToChooseFrom;
@@ -49,6 +53,7 @@ public class PlayerData {
         warehouse = new Warehouse();
         strongbox = new Strongbox();
         leadersToChooseFrom = new LeadersToChooseFrom();
+        VP.set(0);
     }
 
     public synchronized String getNickname() {
@@ -60,7 +65,14 @@ public class PlayerData {
     }
 
     public void setVP(int VP) {
+
         int oldVP = this.VP.get();
         while(!this.VP.compareAndSet(oldVP, VP)) setVP(VP);
+        if(vpObserver != null) vpObserver.onVPChange();
+    }
+
+    public void setObserver(VPObserver vpObserver) {
+        this.vpObserver = vpObserver;
+        vpObserver.onVPChange();
     }
 }
