@@ -17,6 +17,7 @@ import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
+import it.polimi.ingsw.view.observer.GameDataObserver;
 import it.polimi.ingsw.view.observer.PlayerDataObserver;
 import it.polimi.ingsw.view.observer.single.LorenzoObserver;
 import javafx.application.Platform;
@@ -43,7 +44,7 @@ import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
 import static it.polimi.ingsw.model.playerboard.ProductionPowers.getBasicProduction;
 
-public class GUIMainGame implements Initializable, CommonDataObserver, PacketListener, PlayerDataObserver, GUIObserverScene, LorenzoObserver {
+public class GUIMainGame implements Initializable, GameDataObserver, PacketListener,  GUIObserverScene, LorenzoObserver {
 
     static String nickname = GameApplication.getInstance().getUserNickname();
 
@@ -416,24 +417,6 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         for (int i = 0; i < blackTrack.length; i++) {
             blackTrack[i].setImage(null);
         }
-
-
-
-
-        //todo remove player list from here
-        //for the moment the player list it's here
-        //must move to better place in the future
-
-        //ObservableList<String> playerList = FXCollections.observableArrayList();
-
-        System.out.println("GUIMainGame.initialize");
-
-        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-            System.out.println("GUIMainGame.initialize " + GameApplication.getInstance().getRoomPlayers().get(i));
-            boardChoiceBox.getItems().add(GameApplication.getInstance().getRoomPlayers().get(i));
-        }
-
-
 
     }
 
@@ -905,5 +888,21 @@ public class GUIMainGame implements Initializable, CommonDataObserver, PacketLis
         }else{
             return s;
         }
+    }
+
+    @Override
+    public void onPlayerTableChange() {
+
+        //todo remove player list from here
+        //for the moment the player list it's here
+        //must move to better place in the future
+
+        //ObservableList<String> playerList = FXCollections.observableArrayList();
+
+        for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+            System.out.println("GUIMainGame.onPlayer " + GameApplication.getInstance().getRoomPlayers().get(i));
+            boardChoiceBox.getItems().add(GameApplication.getInstance().getRoomPlayers().get(i));
+        }
+
     }
 }

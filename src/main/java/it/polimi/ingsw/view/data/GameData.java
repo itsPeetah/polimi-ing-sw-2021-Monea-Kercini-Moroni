@@ -1,5 +1,9 @@
 package it.polimi.ingsw.view.data;
 
+import it.polimi.ingsw.view.observer.CommonDataObserver;
+import it.polimi.ingsw.view.observer.GameDataObserver;
+import it.polimi.ingsw.view.observer.player.DevCardsObserver;
+
 import java.util.HashMap;
 
 /**
@@ -11,6 +15,8 @@ public class GameData {
     CommonData common;
     HashMap<String, PlayerData> playerTable;
     MomentaryData momentary;
+
+    GameDataObserver gameDataObserver;
 
     int turn;
 
@@ -33,6 +39,7 @@ public class GameData {
 
     public synchronized void addPlayer(String name){
         playerTable.put(name, new PlayerData());
+        if(gameDataObserver != null) gameDataObserver.onPlayerTableChange();
     }
 
     public synchronized PlayerData getPlayerData(String name){
@@ -45,6 +52,11 @@ public class GameData {
 
     public void turnIncrement(){
         turn++;
+    }
+
+    public void setObserver(GameDataObserver gameDataObserver) {
+        this.gameDataObserver = gameDataObserver;
+        gameDataObserver.onPlayerTableChange();
     }
 
 }
