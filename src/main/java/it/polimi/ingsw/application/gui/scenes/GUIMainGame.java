@@ -228,6 +228,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     setChooseResourceUI();
                     break;
                 case WINNER:
+                    GUIEndGame.setWin(true);
+                    setEndGameScene();
+                    break;
                 case LOSER:
                 case LOSER_MULTIPLAYER:
                     GUIEndGame.setWin(false);
