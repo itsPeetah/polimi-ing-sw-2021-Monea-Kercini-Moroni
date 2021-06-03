@@ -918,14 +918,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         Platform.runLater(() -> {
 
-        //todo remove player list from here
-        //for the moment the player list it's here
-        //must move to better place in the future
-
-        //ObservableList<String> playerList = FXCollections.observableArrayList();
-
             for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-                System.out.println("GUIMainGame.onPlayer " + GameApplication.getInstance().getRoomPlayers().get(i));
                 boardChoiceBox.getItems().add(i, GameApplication.getInstance().getRoomPlayers().get(i));
             }
         });
