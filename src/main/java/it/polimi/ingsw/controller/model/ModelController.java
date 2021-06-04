@@ -811,7 +811,6 @@ public class ModelController {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
         ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
         //Supposing the player will have to make choice
@@ -830,7 +829,6 @@ public class ModelController {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
         DevCardActionData devCardChoice = modelControllerIOHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -845,7 +843,6 @@ public class ModelController {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
         ProduceActionData produceChoice = modelControllerIOHandler.getResponseData();
 
         //Warning: May need to set the action as expecting action choice
@@ -863,7 +860,6 @@ public class ModelController {
 
     private void playLeader(Player player){
 
-        //communicationHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
@@ -871,7 +867,6 @@ public class ModelController {
 
     private void discardLeader(Player player){
 
-        //communicationHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
