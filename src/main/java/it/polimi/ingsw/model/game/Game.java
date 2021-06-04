@@ -168,9 +168,6 @@ public class Game {
 
             //current report-1 because array starts from 0 (first vatican report)
             if (eligible) {
-
-                System.out.println("Game.doVaticanReport eligible true " + p.getNickname());
-
                 p.getBoard().attendReport(currentReport - 1);
             }
         }
@@ -203,7 +200,6 @@ public class Game {
             || (lastVaticanReport==1 && maxFaith>=16)
             || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
-                    System.out.println("Game.checkVaticanReport trying to do vatican report");
                     doVaticanReport();
                 } catch (GameException e) {
                     e.printStackTrace();
