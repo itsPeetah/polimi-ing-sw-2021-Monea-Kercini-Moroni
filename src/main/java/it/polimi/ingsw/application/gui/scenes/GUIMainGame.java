@@ -72,7 +72,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public ChoiceBox boardChoiceBox;
 
     public Button chat;
-    public ImageView Lorenzo;
 
     public ImageView report2;
     public ImageView report3;
@@ -967,12 +966,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onBlackCrossChange() {
 
-        if(GameApplication.getInstance().getGameController().isSinglePlayer() == true){
-
+        if(GameApplication.getInstance().getGameController().isSinglePlayer()){
             Platform.runLater(() -> {
-
-                for (int i = 0; i < blackTrack.length; i++) {
-                    blackTrack[i].setImage(null);
+                for (ImageView imageView : blackTrack) {
+                    imageView.setImage(null);
                 }
                 blackTrack[GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross()].setImage(blackCross);
             });

@@ -89,6 +89,10 @@ public enum GUIScene {
         return loadedScene;
     }
 
+    public static void removeActiveScene() {
+        activeScene = null;
+    }
+
     public static PacketListener getActiveScene() {
         return activeScene;
     }
