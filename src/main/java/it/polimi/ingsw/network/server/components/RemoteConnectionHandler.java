@@ -54,6 +54,8 @@ public class RemoteConnectionHandler implements Runnable {
 
                 if (!backToLobby) break;
             }
+
+            System.out.println("Out of the loop");
         }
         // The remote socket has been closed
         catch (NoSuchElementException ex){

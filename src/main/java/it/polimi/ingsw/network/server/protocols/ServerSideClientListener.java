@@ -34,17 +34,22 @@ public class ServerSideClientListener {
             if(done) break;
 
             NetworkPacket np = user.receive();
+
+            if(np == null) break;
+
             switch (np.getPacketType()){
                 case SYSTEM:
-                    executorService.submit(() -> handleSystemMessage(np));
+                    handleSystemMessage(np);
                     break;
                 case DEBUG:
-                    executorService.submit(() -> handleDebugMessage(np));
+                    handleDebugMessage(np);
                     break;
                 case ACTION:
+                    // TODO thread?
                     executorService.submit(() -> handleActionPacket(np));
                     break;
                 case SOCIAL:
+                    // TODO thread?
                     executorService.submit(() -> handleSocialPacket(np));
                     break;
             }
@@ -66,6 +71,7 @@ public class ServerSideClientListener {
         }
         // LEAVE
         else if (GameLobbyMessage.LEAVE_ROOM.check(clientMessage)){
+            System.out.println("Leave room");
             user.leaveCurrentRoom();
             done = true;
             continueAfterReturning = true;
