@@ -73,7 +73,11 @@ public class GameClient {
         return socket.receive();
     }
 
+    public boolean isConnected(){
+        return !socket.getSocket().isClosed() && socket.getSocket().isConnected();
+    }
 
-
-
+    public void terminateConnection() {
+        socket.close();
+    }
 }

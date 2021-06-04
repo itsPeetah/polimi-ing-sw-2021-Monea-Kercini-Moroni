@@ -215,6 +215,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     Image report3Image;
     Image report4Image;
 
+    List<ImageView> viewsWithEffect = new ArrayList<>();
 
     @Override
     public void onMessage(Message message) {
@@ -598,41 +599,47 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @FXML
     public void discardLeader(){
-        choice = Action.DISCARD_LEADER;
+        setChoice(Action.DISCARD_LEADER);
     }
 
     @FXML
     public void lead1Click(){
-        if(choice == Action.DISCARD_LEADER){
-            discardLeader(0);
-        }
-        if(choice == Action.PlAY_LEADER){
-            playLeader(0);
-        }
-        if(choice == Action.PRODUCE){
-            produceLeader(0);
-        }
+        handleLeaderClick(0, lead1);
     }
 
     @FXML
     public void lead2Click(){
+        handleLeaderClick(1, lead2);
+    }
+
+    private void handleLeaderClick(int i, ImageView leaderImage) {
         if(choice == Action.DISCARD_LEADER){
-            discardLeader(1);
+            discardLeader(i);
         }
         if(choice == Action.PlAY_LEADER){
-            playLeader(1);
+            playLeader(i);
         }
         if(choice == Action.PRODUCE){
-            produceLeader(1);
+            produceLeader(i, leaderImage);
         }
     }
 
-    private void produceLeader(int i){
-        //if player has played the leader
-
-        if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction());
-        }
+    private void produceLeader(int i, ImageView leaderImage){
+        GUIUtility.executorService.submit(() -> {
+            //if player has played the leader
+            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
+                Production production = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction();
+                Platform.runLater(() -> {
+                    if(productionsSelected.contains(production)) {
+                        productionsSelected.remove(production);
+                        leaderImage.setEffect(null);
+                    } else {
+                        productionsSelected.add(production);
+                        addEffect(leaderImage);
+                    }
+                });
+            }
+        });
     }
 
 
@@ -661,7 +668,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
 
     public void playLeader(ActionEvent actionEvent) {
-        choice = Action.PlAY_LEADER;
+        setChoice(Action.PlAY_LEADER);
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
@@ -672,7 +679,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void acquireResources(ActionEvent actionEvent) {
-        choice = Action.RESOURCE_MARKET;
+        setChoice(Action.RESOURCE_MARKET);
     }
 
 
@@ -721,57 +728,122 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
 
     public void devClick01(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][1];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][1];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev01));
+            });
+        }
     }
 
     public void devClick02(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][2];
-
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][2];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev02));
+            });
+        }
     }
 
     public void devClick12(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][2];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][2];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev12));
+            });
+        }
     }
 
     public void devClick11(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][1];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][1];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev11));
+            });
+        }
     }
 
     public void devClick32(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][2];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][2];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev32));
+            });
+        }
     }
 
     public void devClick22(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][2];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][2];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev22));
+            });
+        }
     }
 
     public void devClick21(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][1];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][1];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev21));
+            });
+        }
     }
 
     public void devClick31(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][1];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][1];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev31));
+            });
+        }
     }
 
     public void devClick00(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][0];
-
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[0][0];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev00));
+            });
+        }
     }
 
     public void devClick10(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][0];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[1][0];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev10));
+            });
+        }
     }
 
     public void devClick20(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][0];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[2][0];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev20));
+            });
+        }
     }
 
     public void devClick30(MouseEvent mouseEvent) {
-        chosenDev = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][0];
+        if(choice == Action.DEV_CARD) {
+            GUIUtility.executorService.submit(() -> {
+                DevCard selectedDevCard = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket().getAvailableCards()[3][0];
+                Platform.runLater(() -> selectMarketCard(selectedDevCard, dev30));
+            });
+        }
+    }
+
+    private void selectMarketCard(DevCard chosenDev, ImageView imageView) {
+        this.chosenDev = chosenDev;
+        removeAllEffects();
+        addEffect(imageView);
     }
 
     public void buyDevCard(ActionEvent actionEvent) {
-        choice = Action.DEV_CARD;
+        setChoice(Action.DEV_CARD);
+        chosenDev = null;
     }
 
     private void devCardSend(DevCard devCard, int space) {
@@ -785,32 +857,38 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void prodClick1(MouseEvent mouseEvent) {
-        if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 0);
-        }
-
-        if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[0].getProduction());
-        }
+        handleProdClick(0, prod1);
     }
 
     public void prodClick2(MouseEvent mouseEvent) {
-        if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 1);
-        }
-
-        if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[1].getProduction());
-        }
+        handleProdClick(1, prod2);
     }
 
     public void prodClick3(MouseEvent mouseEvent) {
+        handleProdClick(2, prod3);
+    }
+
+    private void handleProdClick(int i, ImageView prod) {
         if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 2);
+            devCardSend(chosenDev, i);
+            removeAllEffects();
+            chosenDev = null;
         }
 
         if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[2].getProduction());
+            GUIUtility.executorService.submit(() -> {
+                Production production = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[i].getProduction();
+                Platform.runLater(() -> {
+                    // If the card was already selected, remove it
+                    if(productionsSelected.contains(production)) {
+                        productionsSelected.remove(production);
+                        prod.setEffect(null);
+                    } else {
+                        productionsSelected.add(production);
+                        addEffect(prod);
+                    }
+                });
+            });
         }
     }
 
@@ -843,10 +921,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void produce(ActionEvent actionEvent) {
-
         if(choice != Action.PRODUCE){
-
-            choice = Action.PRODUCE;
+            setChoice(Action.PRODUCE);
             productionsSelected.clear();
 
             //todo show player now he is choosing productions
@@ -861,7 +937,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
-            choice = Action.NONE;
+            setChoice(Action.NONE);
         }
     }
 
@@ -956,7 +1032,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             warehouseButton.setVisible(true);
 
         }else{
-            choice = Action.NONE;
+            setChoice(Action.NONE);
             resourcesButton.setVisible(false);
             buyButton.setVisible(false);
             produceButton.setVisible(false);
@@ -991,5 +1067,18 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }).start();
     }
 
+    private void setChoice(Action newChoice) {
+        removeAllEffects();
+        choice = newChoice;
+    }
 
+    private void addEffect(ImageView imageView) {
+        viewsWithEffect.add(imageView);
+        imageView.setEffect(GUIUtility.getGlow());
+    }
+
+    private void removeAllEffects() {
+        viewsWithEffect.forEach(imageView -> imageView.setEffect(null));
+        viewsWithEffect.clear();
+    }
 }

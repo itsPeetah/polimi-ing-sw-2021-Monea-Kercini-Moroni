@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client.protocols;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.network.client.persistence.ReconnectionInfo;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
@@ -15,11 +16,17 @@ public class ConnectionSetupProtocol {
 
     public String getUserId() {
 
+        // Check if an id from a previous connection has been stored.
+        boolean hasOldId = ReconnectionInfo.existsID();
+
         // Receive WELCOME
         serverMessage = socket.receiveSystemMessage();
 
+        // If an older ID is available, communicate it to the server.
+        String helloMsg = hasOldId ? ConnectionMessage.HELLO.addBody(ReconnectionInfo.loadID()) : ConnectionMessage.HELLO.getCode();
+
         // Send HELLO
-        socket.sendSystemMessage("HELLO");
+        socket.sendSystemMessage(helloMsg);
 
         // Receive ID
         String userId;

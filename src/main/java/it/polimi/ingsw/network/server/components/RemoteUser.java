@@ -1,18 +1,27 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.server.GameServer;
+
+import javax.sound.midi.Soundbank;
 
 /**
  * Rep class for a remote user.
  */
 public class RemoteUser {
 
+    private static final int maxMissedPings = 1;
+
     private final String id;    // Server assigned user id
     private ExSocket socket;    // Socket
 
     private String roomId, nickname;    // User's game room references
+
+    private int missedPings;
+    private boolean pingResponse, wasPinged;
 
     /**
      * Class constructor.
@@ -22,6 +31,8 @@ public class RemoteUser {
         this.socket = socket;
         this.roomId = null;
         this.nickname = null;
+        this.missedPings = 0;
+        this.pingResponse = this.wasPinged = false;
     }
 
     /**
@@ -70,7 +81,10 @@ public class RemoteUser {
      * Close the connection with the user.
      */
     public void terminateConnection() {
+        if(isInRoom()) leaveCurrentRoom();
+        socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
         socket.close();
+        GameServer.getInstance().getUserTable().removeUser(id);
     }
 
     /**
@@ -89,5 +103,26 @@ public class RemoteUser {
         }
     }
 
+    public int getMissedPings() {
+        return missedPings;
+    }
 
+    public void ping(){
+        sendSystemMessage(ConnectionMessage.PING.getCode());
+        this.wasPinged = true;
+    }
+
+    public void respondedToPing(){
+        pingResponse = true;
+    }
+
+    public boolean checkPingResponse() {
+        missedPings = pingResponse && wasPinged ? 0 : missedPings + 1;
+        if(missedPings > maxMissedPings){
+            return false;
+        }
+        wasPinged = false;
+        pingResponse = false;
+        return true;
+    }
 }

@@ -1,14 +1,13 @@
 package it.polimi.ingsw.network.server.components;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.social.SocialPacket;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.util.JSONUtility;
 
 import java.util.ArrayList;
@@ -25,8 +24,7 @@ public class GameRoom {
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
     private ModelController modelController;
-
-    // TODO Add PINGING functionalities
+    private Hashtable<String, String> miaPlayers;
 
     /**
      * Class constructor.
@@ -38,6 +36,7 @@ public class GameRoom {
         this.users = new Hashtable<String, RemoteUser>();
         this.modelControllerIOHandler = new MPModelControllerIOHandler(this);
         this.modelController = null;
+        this.miaPlayers = new Hashtable<String, String>();
     }
 
     /**
@@ -58,7 +57,9 @@ public class GameRoom {
      * @throws GameRoomException if the nickname is already taken.
      */
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
-        // TODO controllare che non ci sia una partita in corso (FAI ECCEZIONE RESILIENZA O RICONNESSIONE MAMMA TI CHIAMO TRA UN ATTIMO CIAO)
+
+        if(gameInProgress()) throw new GameRoomException("The game has already started in this room!");
+
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
             users.put(nickname, user);
@@ -70,22 +71,52 @@ public class GameRoom {
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
     }
 
-    // TODO if in game prevent from succeeding
-    // TODO if room is empty after a user has left delete it.
+    public void rejoinUser(String nickname, RemoteUser user){
+        synchronized (lock){
+            miaPlayers.remove(user.getId());
+            users.put(nickname, user);
+            user.assignRoom(roomId, nickname);
+            System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
+            // TODO: Send catch up update
+        }
+    }
+
     public boolean removeUser(String nickname){
         boolean result = false;
         synchronized (lock){
             if(users.containsKey(nickname)){
-                users.remove(nickname);
+                RemoteUser removed = users.remove(nickname);
                 result = true;
+
+                // If the game is in progress
+                if(gameInProgress()){
+                    System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
+                    markAsMIA(removed.getId(), nickname);
+                }
+            }
+
+            if(users.size() < 1) {
+                System.out.println("Removing room '" + roomId +"' since it's been left empty.");
+                GameServer.getInstance().getRoomTable().removeRoom(roomId);
             }
         }
         return result;
     }
 
-    // TODO error handling?
+    private void markAsMIA(String userId, String playerNickname) {
+        synchronized (lock) {
+            miaPlayers.put(userId, playerNickname);
+        }
+    }
+
     public void sendTo(String player, NetworkPacket packet){
-        users.get(player).send(packet);
+        synchronized (lock) {
+            if (miaPlayers.containsKey(player) && NetworkPacketType.isGameRelated(packet)){
+                // TODO: Send MIA Action
+            }
+            if(users.containsKey(player))
+                users.get(player).send(packet);
+        }
     }
 
     public void broadcast(NetworkPacket packet){
@@ -107,12 +138,12 @@ public class GameRoom {
      * @return
      */
     public boolean startGame() {
-        // TODO (X) non fare partire con solo un giocatore!
+        // Don't let the singleplayer game start online?
         /*if(users.size() < 2)
             broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, ConnectionMessage.ERR.addBody("Can't start a multiplayer game by yourself!")));*/
 
-        // TODO (X) controllare che non ci sia gia una partita in corso
-        // if(gameInProgress) return;
+         if(gameInProgress())
+             return false;
 
         // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
@@ -123,11 +154,10 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
-        String startMessage = GameLobbyMessage.START_ROOM.addBody("CIAO PIE");
+        String startMessage = GameLobbyMessage.START_ROOM.addBody("Game started");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
-        // todo check ownership
 
         return true;
     }
@@ -142,6 +172,12 @@ public class GameRoom {
             case WHISPER:
                 sendTo(socialPacket.getTo(), networkPacket);
                 break;
+        }
+    }
+
+    public String checkMIA(String userId){
+        synchronized (lock){
+            return miaPlayers.get(userId);
         }
     }
 }

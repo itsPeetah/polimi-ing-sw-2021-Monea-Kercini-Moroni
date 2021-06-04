@@ -51,7 +51,7 @@
        </GridPane>
       <HBox alignment="CENTER" layoutX="800.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="981.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="820.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="This is a long message to see what happens when long messages are sent." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="This is a long message to see what happens when long messages are sent." textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Blackadder ITC" size="16.0" />
                </font>
@@ -61,7 +61,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="100.0" prefWidth="300.0" spacing="20.0" styleClass="gameStateHBox">
+      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="100.0" prefWidth="300.0" spacing="20.0" styleClass="iconButtonHBox">
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
@@ -80,7 +80,7 @@
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="300.0" layoutY="-1.0" prefHeight="100.0" prefWidth="300.0" spacing="20.0" styleClass="gameStateHBox">
+      <HBox alignment="CENTER" layoutX="300.0" layoutY="-1.0" prefHeight="100.0" prefWidth="300.0" spacing="20.0" styleClass="iconButtonHBox">
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
@@ -99,7 +99,7 @@
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="gameStateHBox">
+      <HBox alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="iconButtonHBox">
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
@@ -424,12 +424,12 @@
       </Pane>
       <Pane layoutX="1047.0" layoutY="229.0" prefHeight="700.0" prefWidth="240.0" styleClass="leadersPane">
          <children>
-            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/cards/leadcards/lead_6.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/cards/leadcards/lead_5.png" />
                </image>
@@ -438,7 +438,7 @@
                  <children>
                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
                          <children>
-                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/resources/shield.png" />
                            </image>
@@ -447,7 +447,7 @@
                      </HBox>
                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
                          <children>
-                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/resources/shield.png" />
                            </image>
@@ -460,7 +460,7 @@
                  <children>
                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
                          <children>
-                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/resources/shield.png" />
                                  </image>
@@ -469,7 +469,7 @@
                      </HBox>
                      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
                          <children>
-                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/resources/shield.png" />
                                  </image>
@@ -488,9 +488,9 @@
       <Button fx:id="y0" layoutX="1763.0" layoutY="778.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y1" layoutX="1763.0" layoutY="738.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y2" layoutX="1763.0" layoutY="696.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="448.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="639.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="830.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="451.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="638.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="831.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="314.0" layoutY="707.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
       <Pane fx:id="strongbox" layoutX="90.0" layoutY="735.0" prefHeight="130.0" prefWidth="164.0">
          <children>

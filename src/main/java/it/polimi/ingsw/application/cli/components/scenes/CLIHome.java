@@ -60,7 +60,7 @@ public class CLIHome extends CLIScene {
 
         GameApplication.getInstance().connect(MaestriRinascimentoCLI.serverHostName, MaestriRinascimentoCLI.serverPortNumber);
         if(GameApplication.getInstance().isOnNetwork()){
-            GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+            /*GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);*/
         } else{
             show();
             error("Could not connect to the server...");

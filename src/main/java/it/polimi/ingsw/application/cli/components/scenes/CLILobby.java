@@ -45,6 +45,7 @@ public class CLILobby extends CLIScene {
         println("Use \"nick <nickname>\" to choose your nickname");
         println("Use \"room <room name>\" to choose the room you want to join");
         println("Use either \"join\" or \"create\" to join or create a room on the server.");
+        println("If you have disconnected mid-game, try using command \"rejoin\" to rejoin the previous game.");
         println("Use \"quit\" to quit the game.");
     }
 
@@ -87,6 +88,9 @@ public class CLILobby extends CLIScene {
                     GameApplication.getInstance().setRoomName(roomName);
                     makeChoice(GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
                 }
+                break;
+            case "rejoin":
+                makeChoice(GameLobbyMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
                 break;
             case "quit":
                 makeChoice(ConnectionMessage.QUIT.getCode());

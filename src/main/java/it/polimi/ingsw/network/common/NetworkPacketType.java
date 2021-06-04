@@ -9,5 +9,10 @@ public enum NetworkPacketType {
     MESSAGE,
     ACTION,
     UPDATE,
-    SOCIAL
+    SOCIAL;
+
+    public static boolean isGameRelated(NetworkPacket np){
+        NetworkPacketType npt = np.getPacketType();
+        return npt == MESSAGE || npt == ACTION || npt == UPDATE;
+    }
 }
