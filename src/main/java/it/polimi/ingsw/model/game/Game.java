@@ -75,9 +75,9 @@ public class Game {
         return pls;
     }
 
-    public boolean[][] getAllReportsAttended(){
+    public Boolean[][] getAllReportsAttended(){
 
-        boolean[][] reports = new boolean[players.size()][3];
+        Boolean[][] reports = new Boolean[players.size()][3];
 
         //adding reports
 
@@ -167,8 +167,10 @@ public class Game {
             else eligible = false;
 
             //if player has already had his report discarded he can't be eligible
-            if(p.getBoard().getReportsAttended()[currentReport-1] == false){
-                eligible = false;
+            if(p.getBoard().getReportsAttended()[currentReport-1] != null){
+                if(p.getBoard().getReportsAttended()[currentReport-1] == false) {
+                    eligible = false;
+                }
             }
 
             //current report-1 because array starts from 0 (first vatican report)
