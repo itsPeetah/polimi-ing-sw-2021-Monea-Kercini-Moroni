@@ -4,7 +4,9 @@ import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
 import it.polimi.ingsw.network.server.GameServer;
+import it.polimi.ingsw.network.server.protocols.GameLobbyProtocol;
 
 import javax.sound.midi.Soundbank;
 
@@ -100,7 +102,11 @@ public class RemoteUser {
     public void leaveCurrentRoom(){
         if(isInRoom()){
             GameServer.getInstance().getRoomTable().getRoom(roomId).removeUser(nickname);
+            this.assignRoom(null, null);
+            System.out.println("Foo");
         }
+        System.out.println("bar");
+        sendSystemMessage(GameLobbyMessage.IN_LOBBY.getCode());
     }
 
     public int getMissedPings() {

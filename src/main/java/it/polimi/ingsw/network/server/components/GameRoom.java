@@ -59,6 +59,7 @@ public class GameRoom {
     public void addUser(String nickname, RemoteUser user) throws GameRoomException{
 
         if(gameInProgress()) throw new GameRoomException("The game has already started in this room!");
+        if(nickname.contains(" ")) throw new GameRoomException("This nickname is not valid.");
 
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
@@ -88,10 +89,11 @@ public class GameRoom {
                 RemoteUser removed = users.remove(nickname);
                 result = true;
 
-                // If the game is in progress
+                // If the game is in progress save the player as MIA
                 if(gameInProgress()){
                     System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
                     markAsMIA(removed.getId(), nickname);
+                    // TODO: Send MIA Action
                 }
             }
 
