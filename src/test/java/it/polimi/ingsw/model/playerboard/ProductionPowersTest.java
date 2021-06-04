@@ -101,9 +101,10 @@ class ProductionPowersTest {
 
     @Test
     void addDevCard() {
+
         DevCard dev1 = CardManager.loadDevCardsFromJson().get(0);
         DevCard dev2 = CardManager.loadDevCardsFromJson().get(4);
-        DevCard dev3 = CardManager.loadDevCardsFromJson().get(8);
+        DevCard dev3 = CardManager.loadDevCardsFromJson().get(20);
 
         ProductionPowers pp = new ProductionPowers(3);
 
@@ -118,8 +119,5 @@ class ProductionPowersTest {
         pp.addDevCard(dev3, 0);
 
         assertEquals(pp.getVisibleDevCards()[0], dev3);
-
-
-
     }
 }
