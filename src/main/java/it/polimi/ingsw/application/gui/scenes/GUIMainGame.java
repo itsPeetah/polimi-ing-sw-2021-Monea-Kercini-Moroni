@@ -83,6 +83,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Button discardLeaderButton;
     public Button warehouseButton;
 
+    public ImageView basicProd;
+
 
     private DevCard chosenDev;
 
@@ -915,8 +917,23 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void basicProdClick(MouseEvent mouseEvent) {
+
         if(choice==Action.PRODUCE){
-            productionsSelected.add(getBasicProduction());
+
+            Production production = getBasicProduction();
+
+            GUIUtility.executorService.submit(() -> {
+               Platform.runLater(() -> {
+                    // If the card was already selected, remove it
+                    if(productionsSelected.contains(production)) {
+                        productionsSelected.remove(production);
+                        basicProd.setEffect(null);
+                    } else {
+                        productionsSelected.add(production);
+                        addEffect(basicProd);
+                    }
+                });
+            });
         }
     }
 
