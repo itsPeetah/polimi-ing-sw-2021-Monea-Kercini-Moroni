@@ -445,11 +445,13 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.setObserver(this);
         //the observers should be of this player
         String nickname = GameApplication.getInstance().getUserNickname();
-        gameData.getPlayerData(nickname).getPlayerLeaders().setObserver(this);
-        gameData.getPlayerData(nickname).getFaithTrack().setObserver(this);
-        gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
-        gameData.getPlayerData(nickname).getDevCards().setObserver(this);
-        gameData.getPlayerData(nickname).getStrongbox().setObserver(this);
+        for(String player: GameApplication.getInstance().getRoomPlayers()) {
+            gameData.getPlayerData(player).getPlayerLeaders().setObserver(this);
+            gameData.getPlayerData(player).getFaithTrack().setObserver(this);
+            gameData.getPlayerData(player).getWarehouse().setObserver(this);
+            gameData.getPlayerData(player).getDevCards().setObserver(this);
+            gameData.getPlayerData(player).getStrongbox().setObserver(this);
+        }
         // Handle chat/lorenzo box
         if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
             ((HBox)chatHBox.getParent()).getChildren().remove(chatHBox);
@@ -928,6 +930,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 DevCard visibleCard = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[i];
                 if(visibleCard != null) {
                     ownDevs.get(i).setImage(getImage(visibleCard.getCardId()));
+                } else {
+                    ownDevs.get(i).setImage(null);
                 }
             }
         });
@@ -1091,6 +1095,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         onWarehouseContentChange();
         onWarehouseExtraChange();
         onStrongboxChange();
+
     }
 
 
