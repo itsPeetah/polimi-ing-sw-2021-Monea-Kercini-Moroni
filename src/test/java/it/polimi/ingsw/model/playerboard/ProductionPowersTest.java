@@ -102,8 +102,6 @@ class ProductionPowersTest {
     @Test
     void addDevCard() {
 
-
-
         DevCard dev1 = CardManager.loadDevCardsFromJson().get(0);
         DevCard dev2 = CardManager.loadDevCardsFromJson().get(4);
         DevCard dev3 = CardManager.loadDevCardsFromJson().get(20);
@@ -112,34 +110,14 @@ class ProductionPowersTest {
 
         pp.addDevCard(dev1, 0);
 
-
-        for (int i = 0; i < pp.getOwnedDevCards().size(); i++) {
-
-            System.out.println("ProductionPowersTest.addDevCard " + pp.getOwnedDevCards().get(i).getCardId());
-
-        }
-
         assertEquals(pp.getVisibleDevCards()[0], dev1);
 
         pp.addDevCard(dev2, 0);
 
         assertEquals(pp.getVisibleDevCards()[0], dev2);
 
-
-        for (int i = 0; i < pp.getOwnedDevCards().size(); i++) {
-
-            System.out.println("-ProductionPowersTest.addDevCard " + pp.getOwnedDevCards().get(i).getCardId());
-
-        }
-
         pp.addDevCard(dev3, 0);
 
         assertEquals(pp.getVisibleDevCards()[0], dev3);
-
-        for (int i = 0; i < pp.getOwnedDevCards().size(); i++) {
-
-            System.out.println("--ProductionPowersTest.addDevCard " + pp.getOwnedDevCards().get(i).getCardId());
-
-        }
     }
 }
