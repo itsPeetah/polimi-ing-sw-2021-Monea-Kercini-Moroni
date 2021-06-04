@@ -44,6 +44,11 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
             if(!win){
                 endText.setText("Defeat");
             }
+            //if single player get the victory points of player
+            if(GameApplication.getInstance().getGameController().isSinglePlayer()){
+                playerList.getItems().add(GameApplication.getInstance().getUserNickname());
+                scoreList.getItems().add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getVP());
+            }
 
         });
 

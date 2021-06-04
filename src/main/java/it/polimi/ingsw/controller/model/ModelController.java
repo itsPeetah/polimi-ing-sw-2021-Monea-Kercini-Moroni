@@ -293,6 +293,11 @@ public class ModelController {
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
                     //Lorenzo has won the game
                     modelControllerIOHandler.sendMessage(game.getCurrentPlayer().getNickname(), Message.LOSER);
+
+                    //Updating single player points
+                    int[] VP = new int[1];
+                    VP[0] = game.getPlayers()[0].getVictoryPoints();
+                    updateVP(VP);
                 }
                 //Sending action token to view
                 updateActionToken();
@@ -704,6 +709,10 @@ public class ModelController {
 
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+
+
+            //todo remove line below
+            player.getBoard().incrementFaithPoints(10);
 
             //remove the faith from resources
             try {
