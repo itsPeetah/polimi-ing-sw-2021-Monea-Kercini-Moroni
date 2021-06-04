@@ -444,20 +444,31 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.getCommon().getLorenzo().setObserver(this);
         gameData.setObserver(this);
         //the observers should be of this player
-        String nickname = GameApplication.getInstance().getUserNickname();
-        for(String player: GameApplication.getInstance().getRoomPlayers()) {
-            gameData.getPlayerData(player).getPlayerLeaders().setObserver(this);
-            gameData.getPlayerData(player).getFaithTrack().setObserver(this);
-            gameData.getPlayerData(player).getWarehouse().setObserver(this);
-            gameData.getPlayerData(player).getDevCards().setObserver(this);
-            gameData.getPlayerData(player).getStrongbox().setObserver(this);
+        nickname = GameApplication.getInstance().getUserNickname();
+        if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
+            observePlayer(nickname);
+        } else {
+            for(String player: GameApplication.getInstance().getRoomPlayers()) {
+                observePlayer(player);
+            }
         }
+
+        
         // Handle chat/lorenzo box
         if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
             ((HBox)chatHBox.getParent()).getChildren().remove(chatHBox);
         } else {
             ((HBox)lorenzoHBox.getParent()).getChildren().remove(lorenzoHBox);
         }
+    }
+
+    private void observePlayer(String player) {
+        GameData gameData = GameApplication.getInstance().getGameController().getGameData();
+        gameData.getPlayerData(player).getPlayerLeaders().setObserver(this);
+        gameData.getPlayerData(player).getFaithTrack().setObserver(this);
+        gameData.getPlayerData(player).getWarehouse().setObserver(this);
+        gameData.getPlayerData(player).getDevCards().setObserver(this);
+        gameData.getPlayerData(player).getStrongbox().setObserver(this);
     }
 
     @Override
