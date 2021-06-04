@@ -103,12 +103,20 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
+                  <Button mnemonicParsing="false" onAction="#openSettings" styleClass="settingsButton" />
+               </children>
+            </HBox>
+            <HBox fx:id="chatHBox" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
                   <Button fx:id="chat" mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+            <HBox fx:id="lorenzoHBox" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#openSettings" styleClass="settingsButton" />
+                  <ImageView fx:id="lorenzoImageView" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/solotokens/retro cerchi.png" />
+                     </image></ImageView>
                </children>
             </HBox>
          </children>
@@ -592,7 +600,6 @@
             <Image url="@../images/frame.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="Lorenzo" fitHeight="100.0" fitWidth="100.0" layoutX="1344.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="report2" fitHeight="60.0" fitWidth="60.0" layoutX="314.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/vaticanreports/report2.png" />

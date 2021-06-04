@@ -5,40 +5,28 @@ import javafx.scene.image.Image;
 import java.io.File;
 
 public enum SoloActionTokens {
-    DISCARD_2_GREEN,
-    DISCARD_2_BLUE,
-    DISCARD_2_YELLOW,
-    DISCARD_2_PURPLE,
-    MOVE_2,
-    MOVE_1_SHUFFLE;
+    DISCARD_2_GREEN("src/main/resources/images/solotokens/green.png"),
+    DISCARD_2_BLUE("src/main/resources/images/solotokens/blue.png"),
+    DISCARD_2_YELLOW("src/main/resources/images/solotokens/purple.png"),
+    DISCARD_2_PURPLE("src/main/resources/images/solotokens/yellow.png"),
+    MOVE_2("src/main/resources/images/solotokens/shuffle.png"),
+    MOVE_1_SHUFFLE("src/main/resources/images/solotokens/faith2.png");
+
+    private final String path;
+    private Image image;
+
+    SoloActionTokens(String path) {
+        this.path = path;
+    }
 
     public Image getImage(){
+        return image;
+    }
 
-        String path = ("src/main/resources/images/solotokens/blue.png");
-
-        switch (this){
-            case DISCARD_2_BLUE:
-                 path = ("src/main/resources/images/solotokens/blue.png");
-                break;
-            case DISCARD_2_GREEN:
-                 path = ("src/main/resources/images/solotokens/green.png");
-                break;
-            case DISCARD_2_PURPLE:
-                 path = ("src/main/resources/images/solotokens/purple.png");
-                break;
-            case DISCARD_2_YELLOW:
-                 path = ("src/main/resources/images/solotokens/yellow.png");
-                break;
-            case MOVE_1_SHUFFLE:
-                path = ("src/main/resources/images/solotokens/shuffle.png");
-                break;
-            case MOVE_2:
-                path = ("src/main/resources/images/solotokens/faith2.png");
-                break;
+    public static void init() {
+        for(SoloActionTokens soloActionTokens: SoloActionTokens.values()) {
+            File file = new File(soloActionTokens.path);
+            soloActionTokens.image = new Image(file.toURI().toString());
         }
-
-        File file = new File(path);
-
-        return new Image(file.toURI().toString());
     }
 }

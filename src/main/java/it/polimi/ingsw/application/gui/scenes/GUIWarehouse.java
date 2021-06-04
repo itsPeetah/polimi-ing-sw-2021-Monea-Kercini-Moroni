@@ -375,6 +375,7 @@ public class GUIWarehouse implements Initializable {
                         if(searchedCard.isPresent()) {
                             System.out.println("GUIWarehouse.fillLeaders: activate leader");
                             int leaderIndex = leadersData.indexOf(searchedCard.get());
+                            System.out.println("GUIWarehouse.fillLeaders: activate leader index = " + leaderIndex);
                             ResourceType leaderResourceType = getResourceType(shownLeader.getAbility().getExtraWarehouseSpace());
                             HBox leaderHBox = leadersHBox.get(i);
                             leaderHBox.setVisible(true);
