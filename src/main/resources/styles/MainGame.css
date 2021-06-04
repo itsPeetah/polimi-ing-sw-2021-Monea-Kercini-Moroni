@@ -26,7 +26,7 @@
     -fx-background-color: transparent;
 }
 
-.gameStateHBox {
+.iconButtonHBox {
     -fx-background-color: rgba(0, 0, 0, 0.7);
     -fx-border-color:
             linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
@@ -35,12 +35,21 @@
             0 3 0 0;
 }
 
+.gameStateHBox {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-border-color:
+            linear-gradient(to bottom, rgba(255, 255, 255, 1), transparent);
+    -fx-border-style: solid;
+    -fx-border-width:
+            0 3 0 0;
+}
+
 .gameStateLabel {
     -fx-wrap-text: true;
     -fx-text-alignment: center;
-    -fx-font-size: 20;
+    -fx-font-size: 25;
     -fx-font-family: 'Blackadder ITC';
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 #coins, #servants, #shields, #stones {
