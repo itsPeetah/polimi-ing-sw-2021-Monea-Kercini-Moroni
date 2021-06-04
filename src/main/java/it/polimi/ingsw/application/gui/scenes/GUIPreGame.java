@@ -59,6 +59,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     public ImageView lead2;
     public ImageView lead3;
     public ImageView lead4;
+
     public Button button;
 
     private ImageView[][] devCards = new ImageView[4][3];
@@ -310,6 +311,10 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
                     break;
+                case WINNER:
+                case LOSER:
+                case LOSER_MULTIPLAYER:
+
             }
         });
     }
@@ -329,7 +334,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     private void setGameScene() {
         GUIScene.showLoadingScene();
         new Thread(() -> {
-            GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 2000);
+            GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 500);
         }).start();
     }
 

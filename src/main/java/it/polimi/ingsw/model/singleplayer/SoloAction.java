@@ -34,9 +34,8 @@ public class SoloAction {
                 soloActionTokens.add(SoloActionTokens.DISCARD_2_YELLOW);
                 soloActionTokens.add(SoloActionTokens.DISCARD_2_PURPLE);
                 soloActionTokens.add(SoloActionTokens.MOVE_2);
+                soloActionTokens.add(SoloActionTokens.MOVE_2);
                 soloActionTokens.add(SoloActionTokens.MOVE_1_SHUFFLE);
-                // I think one of the tokens was 2 times?
-                //todo confirm the number of tokens
         }
         //Shuffle tokens
         Collections.shuffle(soloActionTokens);
@@ -67,7 +66,10 @@ public class SoloAction {
 
         lastPlayedToken = soloActionTokens.get(0);
 
-        switch (soloActionTokens.get(0)){
+        //Discard this token
+        soloActionTokens.remove(0);
+
+        switch (lastPlayedToken){
 
             case DISCARD_2_BLUE:
                 win = dcm.discard2(Color.BLUE);
@@ -90,8 +92,7 @@ public class SoloAction {
                 soloActionTokens = createSoloActionDeck();
                 break;
         }
-        //Discard this token
-        soloActionTokens.remove(0);
+
 
         return win;
     }
@@ -100,7 +101,7 @@ public class SoloAction {
         return lastPlayedToken;
     }
 
-    public int getCross() {
-        return cross.getBlackFaith();
+    public BlackCross getCross() {
+        return cross;
     }
 }

@@ -75,9 +75,9 @@ public class Game {
         return pls;
     }
 
-    public boolean[][] getAllReportsAttended(){
+    public Boolean[][] getAllReportsAttended(){
 
-        boolean[][] reports = new boolean[players.size()][3];
+        Boolean[][] reports = new Boolean[players.size()][3];
 
         //adding reports
 
@@ -158,15 +158,27 @@ public class Game {
             boolean eligible;
             int playersFaithPoints = p.getBoard().getFaithPoints();
             // Check eligibility
-            if (currentReport == 1 && playersFaithPoints >= 5 && playersFaithPoints <= 8)
+            if (currentReport == 1 && playersFaithPoints >= 5)
                 eligible = true;
-            else if (currentReport == 2 && playersFaithPoints >= 12 && playersFaithPoints <= 16)
+            else if (currentReport == 2 && playersFaithPoints >= 12)
                 eligible = true;
-            else if (currentReport == 3 && playersFaithPoints >= 19 && playersFaithPoints <= 24)
+            else if (currentReport == 3 && playersFaithPoints >= 19)
                 eligible = true;
             else eligible = false;
 
-            if (eligible) p.getBoard().attendReport(currentReport);
+            //if player has already had his report discarded he can't be eligible
+            if(p.getBoard().getReportsAttended()[currentReport-1] != null){
+                if(p.getBoard().getReportsAttended()[currentReport-1] == false) {
+                    eligible = false;
+                }
+            }
+
+            //current report-1 because array starts from 0 (first vatican report)
+            if (eligible) {
+                p.getBoard().attendReport(currentReport - 1);
+            }else{
+                p.getBoard().discardReport(currentReport-1);
+            }
         }
         // Increase VR counter
         lastVaticanReport++;
@@ -177,13 +189,15 @@ public class Game {
      *
      * **NOTE this method can be changed to return a boolean so we can call
      * the doVaticanReport on controller and send a nice message to the players
+     *
+     * Black faith symbolizes lorenzo faith in single player game
      */
 
-    public void checkVaticanReport(){
+    public void checkVaticanReport(int blackFaith){
 
         //find the player who has reached furthest in the game track
 
-        int maxFaith = 0;
+        int maxFaith = blackFaith;
 
         for (Player p : players) {
             maxFaith = Math.max(maxFaith, p.getBoard().getFaithPoints());
@@ -193,7 +207,7 @@ public class Game {
 
         if((lastVaticanReport==0 && maxFaith>=8)
             || (lastVaticanReport==1 && maxFaith>=16)
-            || (lastVaticanReport==2 && maxFaith>=20)){
+            || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
                     doVaticanReport();
                 } catch (GameException e) {

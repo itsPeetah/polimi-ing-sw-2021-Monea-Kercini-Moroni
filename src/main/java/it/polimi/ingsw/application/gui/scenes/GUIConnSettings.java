@@ -86,6 +86,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
             Platform.runLater(() -> {
                 timeoutTask.cancel();
                 disableButtons(false);
+                GUIScene.removeActiveScene();
                 GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU, 1000);
             });
         }

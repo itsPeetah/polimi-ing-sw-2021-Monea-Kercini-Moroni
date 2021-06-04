@@ -83,6 +83,12 @@ public class ProductionPowers {
                     break;
                 }
             }
+
+            //the third slot
+
+            if(cardPile[i][2] != null){
+                visible[i] = cardPile[i][2];
+            }
         }
         return visible;
     }
@@ -131,7 +137,7 @@ public class ProductionPowers {
 
     public void addDevCard(DevCard devCard, int position){
 
-        cardPile[position][devCard.getLevel().getPrevious().toInteger()] = devCard;
+        cardPile[position][devCard.getLevel().toInteger()] = devCard;
     }
 
     /**

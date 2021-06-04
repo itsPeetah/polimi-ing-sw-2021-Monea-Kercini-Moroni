@@ -30,6 +30,7 @@ public class CommonData {
     public CommonData() {
         dcm = new DevCardMarket();
         mt = new MarketTray();
+        lorenzo = new Lorenzo();
     }
 
     @Override
