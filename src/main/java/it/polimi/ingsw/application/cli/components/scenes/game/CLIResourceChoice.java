@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 
-public class CLIResourceChoice extends CLIScene implements ICLIGameSubScene {
+public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
 
     Resources chosenResources;
 

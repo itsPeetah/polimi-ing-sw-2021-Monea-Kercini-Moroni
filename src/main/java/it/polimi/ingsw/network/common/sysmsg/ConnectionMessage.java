@@ -1,13 +1,14 @@
 package it.polimi.ingsw.network.common.sysmsg;
 
-public enum ConnectionMessage implements ISystemMessage {
+public enum ConnectionMessage implements SystemMessage {
     WELCOME("WELCOME"),
     HELLO("HELLO"),
     ASSIGNID("ID"),
     READY("READY"),
     QUIT("QUIT"),
     OK("OK"),
-    ERR("ERR");
+    ERR("ERR"),
+    PING("PING");
 
     public static final String welcomeMessage = WELCOME.addBody("Welcome to the server!");
     public static final String connectionReadyMessage = READY.addBody("You are now connected to the server!");
