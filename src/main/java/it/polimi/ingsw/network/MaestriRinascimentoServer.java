@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MaestriRinascimentoServer {
 
-    private static final String defaultHostName = "localhost";
+    private static final String defaultHostName = "25.75.96.19";
     private static final int defaultPortNumber = 50000;
 
     private static String hostName;
