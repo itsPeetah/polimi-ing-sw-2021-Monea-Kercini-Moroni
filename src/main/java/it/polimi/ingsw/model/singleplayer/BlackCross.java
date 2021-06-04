@@ -11,6 +11,7 @@ public class BlackCross {
      */
 
     public boolean incrementBlackFaith(int amount){
+
         blackFaith += amount;
 
         //This means that Lorenzo has won the game

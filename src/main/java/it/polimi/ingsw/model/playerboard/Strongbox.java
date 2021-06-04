@@ -27,7 +27,7 @@ public class Strongbox {
             content.remove(resources);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return resources;
     }

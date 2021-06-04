@@ -65,17 +65,17 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton" />
+                   <Button fx:id="resourcesButton" mnemonicParsing="false" onAction="#acquireResources" styleClass="acquireResourcesButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                   <Button mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton" />
+                   <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyDevCard" styleClass="buyDevCardButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#produce" styleClass="produceButton" />
+                  <Button fx:id="produceButton" mnemonicParsing="false" onAction="#produce" styleClass="produceButton" />
                </children>
             </HBox>
          </children>
@@ -84,17 +84,17 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#playLeader" styleClass="playLeaderButton" />
+                  <Button fx:id="playLeaderButton" mnemonicParsing="false" onAction="#playLeader" styleClass="playLeaderButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#discardLeader" styleClass="discardLeaderButton" />
+                  <Button fx:id="discardLeaderButton" mnemonicParsing="false" onAction="#discardLeader" styleClass="discardLeaderButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#reorganizeWarehouse" styleClass="reorganizeButton" />
+                  <Button fx:id="warehouseButton" mnemonicParsing="false" onAction="#reorganizeWarehouse" styleClass="reorganizeButton" />
                </children>
             </HBox>
          </children>
@@ -103,7 +103,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
+                  <Button fx:id="chat" mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
@@ -164,63 +164,133 @@
             <Image url="@../images/other/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
          </image>
       </ImageView>
-      <Pane layoutX="1047.0" layoutY="229.0" prefHeight="700.0" prefWidth="240.0" styleClass="leadersPane">
+      <Pane layoutX="81.0" layoutY="236.0" prefHeight="219.0" prefWidth="976.0">
          <children>
-            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="c001" fitHeight="40.0" fitWidth="40.0" layoutX="33.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/cards/leadcards/lead_6.png" />
+                  <Image url="@../images/resources/cross.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="c011" fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/cards/leadcards/lead_5.png" />
+                  <Image url="@../images/resources/cross.png" />
                </image>
             </ImageView>
-             <HBox alignment="CENTER" layoutX="65.0" layoutY="616.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
-                 <children>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/resources/shield.png" />
-                           </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/resources/shield.png" />
-                           </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                 </children>
-             </HBox>
-             <HBox alignment="CENTER" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
-                 <children>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../images/resources/shield.png" />
-                                 </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../images/resources/shield.png" />
-                                 </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                 </children>
-             </HBox>
-            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="You" />
+            <ImageView fx:id="c021" fitHeight="40.0" fitWidth="40.0" layoutX="129.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c031" fitHeight="40.0" fitWidth="40.0" layoutX="129.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c041" fitHeight="40.0" fitWidth="40.0" layoutX="129.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c051" fitHeight="40.0" fitWidth="40.0" layoutX="177.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c061" fitHeight="40.0" fitWidth="40.0" layoutX="225.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c071" fitHeight="40.0" fitWidth="40.0" layoutX="272.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c081" fitHeight="40.0" fitWidth="40.0" layoutX="319.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c091" fitHeight="40.0" fitWidth="40.0" layoutX="369.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c101" fitHeight="40.0" fitWidth="40.0" layoutX="368.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c111" fitHeight="40.0" fitWidth="40.0" layoutX="367.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c121" fitHeight="40.0" fitWidth="40.0" layoutX="416.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c201" fitHeight="40.0" fitWidth="40.0" layoutX="703.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c131" fitHeight="40.0" fitWidth="40.0" layoutX="464.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c141" fitHeight="40.0" fitWidth="40.0" layoutX="512.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c151" fitHeight="40.0" fitWidth="40.0" layoutX="559.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c161" fitHeight="40.0" fitWidth="40.0" layoutX="607.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c171" fitHeight="40.0" fitWidth="40.0" layoutX="608.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c181" fitHeight="40.0" fitWidth="40.0" layoutX="608.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c191" fitHeight="40.0" fitWidth="40.0" layoutX="656.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c211" fitHeight="40.0" fitWidth="40.0" layoutX="750.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c221" fitHeight="40.0" fitWidth="40.0" layoutX="797.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c231" fitHeight="40.0" fitWidth="40.0" layoutX="845.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="c241" fitHeight="40.0" fitWidth="40.0" layoutX="891.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/cross.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane layoutX="71.0" layoutY="226.0" prefHeight="219.0" prefWidth="976.0">
@@ -352,17 +422,76 @@
             </ImageView>
          </children>
       </Pane>
-      <Button layoutX="1562.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
-      <Button layoutX="1600.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
-      <Button layoutX="1643.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
-      <Button layoutX="1684.0" layoutY="782.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
-      <Button fx:id="y0" layoutX="1765.0" layoutY="690.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y1" layoutX="1765.0" layoutY="650.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <Button fx:id="y2" layoutX="1765.0" layoutY="608.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Pane layoutX="1047.0" layoutY="229.0" prefHeight="700.0" prefWidth="240.0" styleClass="leadersPane">
+         <children>
+            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/leadcards/lead_6.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/leadcards/lead_5.png" />
+               </image>
+            </ImageView>
+             <HBox alignment="CENTER" layoutX="65.0" layoutY="616.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
+                 <children>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/resources/shield.png" />
+                           </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/resources/shield.png" />
+                           </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                 </children>
+             </HBox>
+             <HBox alignment="CENTER" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
+                 <children>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="@../images/resources/shield.png" />
+                                 </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="@../images/resources/shield.png" />
+                                 </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                 </children>
+             </HBox>
+            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onAction="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
+         </children>
+      </Pane>
+      <Button layoutX="1560.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
+      <Button layoutX="1598.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
+      <Button layoutX="1641.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
+      <Button layoutX="1682.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX3" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x3" />
+      <Button fx:id="y0" layoutX="1763.0" layoutY="778.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y1" layoutX="1763.0" layoutY="738.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
+      <Button fx:id="y2" layoutX="1763.0" layoutY="696.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="448.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="639.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="830.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="243.0" layoutY="773.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="314.0" layoutY="707.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
       <Pane fx:id="strongbox" layoutX="90.0" layoutY="735.0" prefHeight="130.0" prefWidth="164.0">
          <children>
             <ImageView fx:id="coin" fitHeight="30.0" fitWidth="30.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
@@ -458,6 +587,22 @@
       <ImageView fitHeight="1337.0" fitWidth="831.0" layoutX="260.0" layoutY="-93.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" rotate="90.0">
          <image>
             <Image url="@../images/frame.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Lorenzo" fitHeight="100.0" fitWidth="100.0" layoutX="1344.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="report2" fitHeight="60.0" fitWidth="60.0" layoutX="314.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/vaticanreports/report2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="report3" fitHeight="60.0" fitWidth="60.0" layoutX="555.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/vaticanreports/report2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="report4" fitHeight="60.0" fitWidth="60.0" layoutX="843.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/vaticanreports/report2.png" />
          </image>
       </ImageView>
    </children>
