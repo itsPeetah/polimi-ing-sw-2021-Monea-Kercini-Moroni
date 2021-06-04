@@ -126,8 +126,10 @@ public class Warehouse{
      */
 
     public void expandWithLeader(LeadCard leader){
-        leadersExtra[leadersUsed] = leader;
-        leadersUsed++;
+        if(leader.getAbility().getExtraWarehouseSpace().getTotalAmount() > 0) {
+            leadersExtra[leadersUsed] = leader;
+            leadersUsed++;
+        }
     }
 
     /**

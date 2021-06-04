@@ -629,7 +629,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             //if player has played the leader
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
                 Production production = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction();
-                if(production != null) {
+                if(production.getInput().getTotalAmount() != 0 || production.getOutput().getTotalAmount() != 0) {
                     Platform.runLater(() -> {
                         if(productionsSelected.contains(production)) {
                             productionsSelected.remove(production);
