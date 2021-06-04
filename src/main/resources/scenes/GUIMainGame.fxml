@@ -101,9 +101,17 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="iconButtonHBox">
          <children>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+            <HBox fx:id="chatHBox" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>
                   <Button fx:id="chat" mnemonicParsing="false" onAction="#openChat" styleClass="chatButton" />
+               </children>
+            </HBox>
+            <HBox fx:id="lorenzoHBox" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="lorenzoImageView" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/solotokens/blue.png" />
+                     </image></ImageView>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">

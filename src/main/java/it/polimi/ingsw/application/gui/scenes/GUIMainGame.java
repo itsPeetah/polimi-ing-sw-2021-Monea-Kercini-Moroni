@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
+import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.GameDataObserver;
@@ -30,6 +31,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
 import java.io.File;
@@ -82,6 +84,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Button playLeaderButton;
     public Button discardLeaderButton;
     public Button warehouseButton;
+    public HBox lorenzoHBox;
+    public ImageView lorenzoImageView;
+    public HBox chatHBox;
 
 
     private DevCard chosenDev;
@@ -444,7 +449,12 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.getPlayerData(nickname).getWarehouse().setObserver(this);
         gameData.getPlayerData(nickname).getDevCards().setObserver(this);
         gameData.getPlayerData(nickname).getStrongbox().setObserver(this);
-
+        // Handle chat/lorenzo box
+        if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
+            ((HBox)chatHBox.getParent()).getChildren().remove(chatHBox);
+        } else {
+            ((HBox)lorenzoHBox.getParent()).getChildren().remove(lorenzoHBox);
+        }
     }
 
     @Override
@@ -674,6 +684,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void reorganizeWarehouse(ActionEvent actionEvent) {
+        setChoice(Action.REARRANGE_WAREHOUSE);
         NoneActionData noneActionData = new NoneActionData();
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
@@ -929,17 +940,21 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
             //todo show player now he is choosing productions
 
+            produceButton.getStyleClass().clear();
+            produceButton.getStyleClass().add("confirmProductionButton");
+        } else {
+            if(!productionsSelected.isEmpty()) {
+                ArrayList<Production> arrayList = new ArrayList<>(productionsSelected);
+                ProduceActionData produceActionData = new ProduceActionData(arrayList);
+                produceActionData.setPlayer(nickname);
 
-        }else if(choice == Action.PRODUCE){
+                ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
+                GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
-            ArrayList<Production> arrayList = new ArrayList<>(productionsSelected);
-            ProduceActionData produceActionData = new ProduceActionData(arrayList);
-            produceActionData.setPlayer(nickname);
-
-            ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
-            GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-
-            setChoice(Action.NONE);
+                produceButton.getStyleClass().clear();
+                produceButton.getStyleClass().add("produceButton");
+                setChoice(Action.NONE);
+            }
         }
     }
 
@@ -967,17 +982,14 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @Override
     public void onLastTokenChange() {
-
-        if(GameApplication.getInstance().getGameController().isSinglePlayer() == true) {
-
-            Platform.runLater(() -> {
-
-                if (GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken() != null) {
-                    Lorenzo.setImage(GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken().getImage());
-
+        GUIUtility.executorService.submit(() -> {
+            if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
+                SoloActionTokens lastToken = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken();
+                if (lastToken != null) {
+                    Platform.runLater(() -> lorenzoImageView.setImage(lastToken.getImage()));
                 }
-            });
-        }
+            }
+        });
     }
 
 
@@ -1071,6 +1083,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     private void setChoice(Action newChoice) {
         removeAllEffects();
+        produceButton.getStyleClass().clear();
+        produceButton.getStyleClass().add("produceButton");
         choice = newChoice;
     }
 

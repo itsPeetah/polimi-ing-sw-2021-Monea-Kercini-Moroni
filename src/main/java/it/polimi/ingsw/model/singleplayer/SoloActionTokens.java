@@ -13,6 +13,7 @@ public enum SoloActionTokens {
     MOVE_1_SHUFFLE;
 
     public Image getImage(){
+        // TODO DO THIS INITIALLY
 
         String path = ("src/main/resources/images/solotokens/blue.png");
 
