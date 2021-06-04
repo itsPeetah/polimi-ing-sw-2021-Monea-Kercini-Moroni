@@ -75,7 +75,7 @@ public class GUIUtility {
     public static Glow getGlow() {
         if(glow == null) {
             glow = new Glow();
-            glow.setLevel(0.8);
+            glow.setLevel(0.6);
         }
         return glow;
     }

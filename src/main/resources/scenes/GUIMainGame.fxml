@@ -488,9 +488,9 @@
       <Button fx:id="y0" layoutX="1763.0" layoutY="778.0" mnemonicParsing="false" onAction="#acquireY0" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y1" layoutX="1763.0" layoutY="738.0" mnemonicParsing="false" onAction="#acquireY1" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
       <Button fx:id="y2" layoutX="1763.0" layoutY="696.0" mnemonicParsing="false" onAction="#acquireY2" prefHeight="64.0" prefWidth="32.0" rotate="90.0" text="Button" />
-      <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="448.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="639.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="830.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="451.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="638.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="831.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="314.0" layoutY="707.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
       <Pane fx:id="strongbox" layoutX="90.0" layoutY="735.0" prefHeight="130.0" prefWidth="164.0">
          <children>

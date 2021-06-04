@@ -604,37 +604,39 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @FXML
     public void lead1Click(){
-        if(choice == Action.DISCARD_LEADER){
-            discardLeader(0);
-        }
-        if(choice == Action.PlAY_LEADER){
-            playLeader(0);
-        }
-        if(choice == Action.PRODUCE){
-            produceLeader(0);
-        }
+        handleLeaderClick(0, lead1);
     }
 
     @FXML
     public void lead2Click(){
+        handleLeaderClick(1, lead2);
+    }
+
+    private void handleLeaderClick(int i, ImageView leaderImage) {
         if(choice == Action.DISCARD_LEADER){
-            discardLeader(1);
+            discardLeader(i);
         }
         if(choice == Action.PlAY_LEADER){
-            playLeader(1);
+            playLeader(i);
         }
         if(choice == Action.PRODUCE){
-            produceLeader(1);
+            produceLeader(i, leaderImage);
         }
     }
 
-    private void produceLeader(int i){
+    private void produceLeader(int i, ImageView leaderImage){
         GUIUtility.executorService.submit(() -> {
             //if player has played the leader
             if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates()[i] == CardState.PLAYED) {
                 Production production = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i].getAbility().getProduction();
                 Platform.runLater(() -> {
-                    productionsSelected.add(production);
+                    if(productionsSelected.contains(production)) {
+                        productionsSelected.remove(production);
+                        leaderImage.setEffect(null);
+                    } else {
+                        productionsSelected.add(production);
+                        addEffect(leaderImage);
+                    }
                 });
             }
         });
@@ -855,32 +857,38 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void prodClick1(MouseEvent mouseEvent) {
-        if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 0);
-        }
-
-        if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[0].getProduction());
-        }
+        handleProdClick(0, prod1);
     }
 
     public void prodClick2(MouseEvent mouseEvent) {
-        if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 1);
-        }
-
-        if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[1].getProduction());
-        }
+        handleProdClick(1, prod2);
     }
 
     public void prodClick3(MouseEvent mouseEvent) {
+        handleProdClick(2, prod3);
+    }
+
+    private void handleProdClick(int i, ImageView prod) {
         if(choice==Action.DEV_CARD && chosenDev!=null){
-            devCardSend(chosenDev, 2);
+            devCardSend(chosenDev, i);
+            removeAllEffects();
+            chosenDev = null;
         }
 
         if(choice==Action.PRODUCE){
-            productionsSelected.add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[2].getProduction());
+            GUIUtility.executorService.submit(() -> {
+                Production production = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getDevCards().getDevCards()[i].getProduction();
+                Platform.runLater(() -> {
+                    // If the card was already selected, remove it
+                    if(productionsSelected.contains(production)) {
+                        productionsSelected.remove(production);
+                        prod.setEffect(null);
+                    } else {
+                        productionsSelected.add(production);
+                        addEffect(prod);
+                    }
+                });
+            });
         }
     }
 
