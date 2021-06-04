@@ -166,9 +166,16 @@ public class Game {
                 eligible = true;
             else eligible = false;
 
+            //if player has already had his report discarded he can't be eligible
+            if(p.getBoard().getReportsAttended()[currentReport-1] == false){
+                eligible = false;
+            }
+
             //current report-1 because array starts from 0 (first vatican report)
             if (eligible) {
                 p.getBoard().attendReport(currentReport - 1);
+            }else{
+                p.getBoard().discardReport(currentReport-1);
             }
         }
         // Increase VR counter
