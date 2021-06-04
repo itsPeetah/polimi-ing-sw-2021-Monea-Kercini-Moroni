@@ -491,7 +491,10 @@
       <ImageView fx:id="prod1" fitHeight="254.0" fitWidth="164.0" layoutX="451.0" layoutY="567.0" onMouseClicked="#prodClick1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod2" fitHeight="254.0" fitWidth="164.0" layoutX="638.0" layoutY="567.0" onMouseClicked="#prodClick2" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="prod3" fitHeight="254.0" fitWidth="164.0" layoutX="831.0" layoutY="567.0" onMouseClicked="#prodClick3" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="basicProd" fitHeight="99.0" fitWidth="111.0" layoutX="314.0" layoutY="707.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="basicProd" fitHeight="120.0" fitWidth="130.0" layoutX="305.0" layoutY="694.0" onMouseClicked="#basicProdClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Basic%20Production.png" />
+         </image></ImageView>
       <Pane fx:id="strongbox" layoutX="90.0" layoutY="735.0" prefHeight="130.0" prefWidth="164.0">
          <children>
             <ImageView fx:id="coin" fitHeight="30.0" fitWidth="30.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
