@@ -5,6 +5,7 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
 public class GUIUtility {
     public static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static Glow glow;
 
     public static void launchOrganizeWarehouseWindow(Window owner) {
         Stage stage = new Stage();
@@ -68,6 +70,13 @@ public class GUIUtility {
             timer.schedule(startCallbacksTask, delay/2);
             timer.schedule(switchTask, delay);
         }).start();
+    }
 
+    public static Glow getGlow() {
+        if(glow == null) {
+            glow = new Glow();
+            glow.setLevel(0.8);
+        }
+        return glow;
     }
 }
