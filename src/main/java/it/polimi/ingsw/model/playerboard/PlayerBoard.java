@@ -52,9 +52,11 @@ public class PlayerBoard {
      */
 
     public void attendReport(int index){
-
         reportsAttended[index] = true;
-        System.out.println("PlayerBoard.attendReport " + reportsAttended[0] + reportsAttended[1] + reportsAttended[2]);
+    }
+
+    public void discardReport(int index){
+        reportsAttended[index] = false;
     }
 
     /**

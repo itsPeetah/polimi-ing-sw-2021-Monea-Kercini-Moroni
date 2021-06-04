@@ -166,12 +166,16 @@ public class Game {
                 eligible = true;
             else eligible = false;
 
+            //if player has already had his report discarded he can't be eligible
+            if(p.getBoard().getReportsAttended()[currentReport-1] == false){
+                eligible = false;
+            }
+
             //current report-1 because array starts from 0 (first vatican report)
             if (eligible) {
-
-                System.out.println("Game.doVaticanReport eligible true " + p.getNickname());
-
                 p.getBoard().attendReport(currentReport - 1);
+            }else{
+                p.getBoard().discardReport(currentReport-1);
             }
         }
         // Increase VR counter
@@ -203,7 +207,6 @@ public class Game {
             || (lastVaticanReport==1 && maxFaith>=16)
             || (lastVaticanReport==2 && maxFaith>=24)){
                 try {
-                    System.out.println("Game.checkVaticanReport trying to do vatican report");
                     doVaticanReport();
                 } catch (GameException e) {
                     e.printStackTrace();
