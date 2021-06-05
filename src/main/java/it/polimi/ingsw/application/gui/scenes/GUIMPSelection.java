@@ -13,12 +13,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GUIMPSelection implements PacketListener {
     public Button joinButt;
     public Button createButt;
     public Button backButt;
     @FXML private TextField userTextField;
     @FXML private TextField roomTextField;
+    private TimerTask timeoutTask;
 
     @FXML
     private void onCreateClick(ActionEvent actionEvent) {
@@ -44,6 +48,22 @@ public class GUIMPSelection implements PacketListener {
     private void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
+
+        Timer timer = new Timer();
+
+        timeoutTask = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    System.out.println("GUIMPSelection: no room found");
+                    setButtonsDisabled(false);
+                    Platform.runLater(GUIScene.MP_SELECTION::load);
+                    // TODO improve by removing this task and add listener for network messages
+                });
+            }
+        };
+        timer.schedule(timeoutTask, GUIConnSettings.TIMEOUT_TIME);
+
         new Thread(() -> {
             GameApplication.getInstance().setUserNickname(username);
             GameApplication.getInstance().setRoomName(room);
@@ -67,6 +87,7 @@ public class GUIMPSelection implements PacketListener {
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
             if (newState == GameApplicationState.PREGAME) {
+                timeoutTask.cancel();
                 GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
             }
         });
