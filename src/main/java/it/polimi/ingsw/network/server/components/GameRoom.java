@@ -98,9 +98,7 @@ public class GameRoom {
                     System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
                     markAsMIA(removed.getId(), nickname);
                     // Send MIA Action to the model controller
-                    NoneActionData nad = new NoneActionData();
-                    nad.setPlayer(nickname);
-                    notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.NONE, nad.toString())));
+                    notifyMIA(nickname);
                 }
             }
 
@@ -122,9 +120,7 @@ public class GameRoom {
         synchronized (lock) {
             if (miaPlayers.containsKey(player) && NetworkPacketType.isGameRelated(packet)){
                 // Send MIA Action to the model controller
-                NoneActionData nad = new NoneActionData();
-                nad.setPlayer(player);
-                notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.NONE, nad.toString())));
+                notifyMIA(player);
             }
             if(users.containsKey(player))
                 users.get(player).send(packet);
@@ -185,5 +181,11 @@ public class GameRoom {
         synchronized (lock){
             return miaPlayers.get(userId);
         }
+    }
+
+    private void notifyMIA(String nickname){
+        NoneActionData nad = new NoneActionData();
+        nad.setPlayer(nickname);
+        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.NONE, nad.toString())));
     }
 }
