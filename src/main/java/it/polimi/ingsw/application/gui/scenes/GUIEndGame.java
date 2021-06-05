@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
 
@@ -18,10 +19,10 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
     public ListView scoreList;
     public Label endText;
 
-    private static boolean win;
+    private static final AtomicBoolean win = new AtomicBoolean();
 
     public static void setWin(boolean win) {
-        GUIEndGame.win = win;
+        GUIEndGame.win.set(win);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
                 scoreList.getItems().add(i, GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getRoomPlayers().get(i)).getVP());
             }
 
-            if(!win){
+            if(!win.get()){
                 endText.setText("Defeat");
             }
             //if single player get the victory points of player

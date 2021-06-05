@@ -332,10 +332,13 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        GUIScene.showLoadingScene();
-        new Thread(() -> {
+
+        if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
+            GUIScene.showLoadingScene();
             GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 500);
-        }).start();
+        }
+        else GUIScene.MAIN_GAME.load();
+
     }
 
     @Override
