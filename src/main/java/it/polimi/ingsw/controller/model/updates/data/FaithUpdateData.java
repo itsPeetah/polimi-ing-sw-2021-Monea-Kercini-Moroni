@@ -9,10 +9,10 @@ public class FaithUpdateData implements UpdateData {
 
     String[] players;
     int[] fp;
-    boolean[][] reportsAttended; //The first one id for the player, the second for the reports he has attended
+    Boolean[][] reportsAttended; //The first one id for the player, the second for the reports he has attended
 
 
-    public FaithUpdateData(int[] fp, String[] players, boolean[][] reports) {
+    public FaithUpdateData(int[] fp, String[] players, Boolean[][] reports) {
         this.fp = fp;
         this.players = players;
         this.reportsAttended = reports;
@@ -26,7 +26,7 @@ public class FaithUpdateData implements UpdateData {
         return players;
     }
 
-    public boolean[][] getReportsAttended() {
+    public Boolean[][] getReportsAttended() {
         return reportsAttended;
     }
 }

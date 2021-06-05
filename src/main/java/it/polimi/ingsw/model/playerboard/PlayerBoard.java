@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class PlayerBoard {
 
     private int faithPoints;
-    private boolean[] reportsAttended;
+    private Boolean[] reportsAttended;
     private Warehouse warehouse;
     private Strongbox strongbox;
     private ProductionPowers productionPowers;
@@ -55,6 +55,10 @@ public class PlayerBoard {
         reportsAttended[index] = true;
     }
 
+    public void discardReport(int index){
+        reportsAttended[index] = false;
+    }
+
     /**
      *
      * @param reportsAttended default should be 3
@@ -63,7 +67,7 @@ public class PlayerBoard {
 
     public PlayerBoard(int reportsAttended, Warehouse wh, Strongbox sb, ProductionPowers pp) {
         this.faithPoints = 0;
-        this.reportsAttended = new boolean[reportsAttended];
+        this.reportsAttended = new Boolean[reportsAttended];
         this.warehouse = wh;
         this.strongbox = sb;
         this.productionPowers = pp;
@@ -199,7 +203,7 @@ public class PlayerBoard {
         leadMarbles.add(additionalMarble);
     }
 
-    public boolean[] getReportsAttended() {
+    public Boolean[] getReportsAttended() {
         return reportsAttended;
     }
 }

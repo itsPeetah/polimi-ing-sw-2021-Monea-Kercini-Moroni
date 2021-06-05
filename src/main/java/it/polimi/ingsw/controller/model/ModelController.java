@@ -110,7 +110,6 @@ public class ModelController {
 
             //If player has less resources than he should have give other players extra faith point
 
-            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
 
             int extraFP = (wh.getResourceAmountWarehouse()+ res.getTotalAmount()) - updatedWarehouse.getResourceAmountWarehouse();
 
@@ -123,13 +122,22 @@ public class ModelController {
                 }
             }
 
-            p.getBoard().getWarehouse().copy(updatedWarehouse);
+            //In case of SP lorenzo also gets extra faith points
 
-            System.out.println("updatedWarehouse in controller model = "+ updatedWarehouse.getResourceAmountWarehouse());
+            if(singlePlayer){
+                Lorenzo.getCross().incrementBlackFaith(extraFP);
+            }
+
+            p.getBoard().getWarehouse().copy(updatedWarehouse);
 
 
             //update
             updateWarehouse(p);
+            updateFaithPoints();
+
+            if(singlePlayer) {
+                updateActionToken();
+            }
 
             //send ok to the view controller
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.OK);
@@ -197,6 +205,13 @@ public class ModelController {
         updateDevCardMarket();
 
 
+
+        //If single player game instantiate Lorenzo, the opponent
+        if(singlePlayer){
+            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
+        }
+
+
         //Getting player Leader choices and Extra resources depending on player order
 
         for (int i = 0; i< game.getPlayers().length; i++){
@@ -229,13 +244,6 @@ public class ModelController {
         }
 
 
-
-        //If single player game instantiate Lorenzo, the opponent
-        if(singlePlayer){
-            Lorenzo = new SoloAction(0); //For now the difficulty doesn't matter as there is only one
-        }
-
-
         startGame();
     }
 
@@ -255,6 +263,7 @@ public class ModelController {
 
         //Notifying players tha game has started
         for(Player p : game.getPlayers()){
+            System.out.println("ModelController.startGame");
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
         }
 
@@ -284,6 +293,11 @@ public class ModelController {
                 if (Lorenzo.playLorenzoTurn(game.getDevCardMarket())) {
                     //Lorenzo has won the game
                     modelControllerIOHandler.sendMessage(game.getCurrentPlayer().getNickname(), Message.LOSER);
+
+                    //Updating single player points
+                    int[] VP = new int[1];
+                    VP[0] = game.getPlayers()[0].getVictoryPoints();
+                    updateVP(VP);
                 }
                 //Sending action token to view
                 updateActionToken();
@@ -361,9 +375,6 @@ public class ModelController {
                     turnFinished = true;
                     break;
             }
-
-            //After each action check if the player has triggered a vatican report event
-            game.checkVaticanReport();
 
         }while(!turnFinished);
 
@@ -471,7 +482,7 @@ public class ModelController {
         //Send update of all stuff that has been updated
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
-        updateFaithPoints();
+
 
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
@@ -523,7 +534,6 @@ public class ModelController {
 
             //Withdraw the rest from strongbox
             player.getBoard().getStrongbox().withdraw(fromStrongbox);
-
 
             //Adds card in players board
             player.getBoard().getProductionPowers().addDevCard(chosenCard, position);
@@ -696,8 +706,10 @@ public class ModelController {
     private Resources faithCheck(Player player, Resources res){
 
         if (res.getAmountOf(ResourceType.FAITH) > 0) {
+
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+
             //remove the faith from resources
             try {
                 res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
@@ -795,7 +807,6 @@ public class ModelController {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
         ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
         //Supposing the player will have to make choice
@@ -814,7 +825,6 @@ public class ModelController {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.DEV_CARD, player.getNickname());
         DevCardActionData devCardChoice = modelControllerIOHandler.getResponseData();
 
         //Do this action only if the player has not used his primary action
@@ -829,7 +839,6 @@ public class ModelController {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        //communicationHandler.setExpectedAction(Action.PRODUCE, player.getNickname());
         ProduceActionData produceChoice = modelControllerIOHandler.getResponseData();
 
         //Warning: May need to set the action as expecting action choice
@@ -847,7 +856,6 @@ public class ModelController {
 
     private void playLeader(Player player){
 
-        //communicationHandler.setExpectedAction(Action.PlAY_LEADER, player.getNickname());
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
         playLeaderUpdate(player, playLeaderEventData.getChosenLeader());
@@ -855,7 +863,6 @@ public class ModelController {
 
     private void discardLeader(Player player){
 
-        //communicationHandler.setExpectedAction(Action.DISCARD_LEADER, player.getNickname());
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
         discardLeaderUpdate(player, discardLeaderEventData.getChosenLeader());
@@ -896,6 +903,14 @@ public class ModelController {
 
     private void updateFaithPoints(){
 
+        //Always before sending faith update check if any vatican report has been triggered
+        if(singlePlayer){
+            game.checkVaticanReport(Lorenzo.getCross().getBlackFaith());
+        }else{
+            game.checkVaticanReport(0);
+        }
+
+
         int fp[] = new int[4];
 
         for (int i = 0; i < game.getPlayers().length; i++) {
@@ -913,7 +928,6 @@ public class ModelController {
      */
 
     private void updateWarehouse(Player player){
-        System.out.println("ModelController.updateWarehouse: warehouse leaders count = " + Arrays.stream(player.getBoard().getWarehouse().getLeadersExtra()).filter(Objects::nonNull).count());
         WarehouseUpdateData wUp = new WarehouseUpdateData(player.getBoard().getWarehouse(), player.getBoard().getStrongbox(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.WAREHOUSE, wUp);
     }
@@ -931,10 +945,6 @@ public class ModelController {
     }
 
     private void updateProductionPowers(Player player){
-
-        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getOwnedDevCards().get(0));
-        System.out.println("ModelController.updateProductionPowers " + player.getBoard().getProductionPowers().getVisibleDevCards());
-
 
         ProductionPowersUpdateData ppUp = new ProductionPowersUpdateData(player.getBoard().getProductionPowers(), player.getNickname());
         modelControllerIOHandler.pushUpdate(Update.PRODUCTION_POWERS, ppUp);
@@ -954,8 +964,18 @@ public class ModelController {
 
     private void updateActionToken(){
 
-        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross());
+        ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross().getBlackFaith());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
+    }
+
+
+    private void updateAll(Player player){
+        updateLeaders(player);
+        updateFaithPoints();
+        updateResourceMarket();
+        updateLeaders(player);
+        updateDevCardMarket();
+        updateProductionPowers(player);
     }
 
 }

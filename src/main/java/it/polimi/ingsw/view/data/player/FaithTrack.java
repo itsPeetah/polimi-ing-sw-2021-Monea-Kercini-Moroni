@@ -7,13 +7,13 @@ public class FaithTrack {
     FaithTrackObserver faithTrackObserver;
 
     private int faith;
-    private boolean[] reportsAttended;
+    private Boolean[] reportsAttended;
 
     public int getFaith() {
         return faith;
     }
 
-    public boolean[] getReportsAttended() {
+    public Boolean[] getReportsAttended() {
         return reportsAttended;
     }
 
@@ -23,14 +23,14 @@ public class FaithTrack {
         if(faithTrackObserver != null) faithTrackObserver.onFaithChange();
     }
 
-    public synchronized void setReportsAttended(boolean[] reportsAttended) {
+    public synchronized void setReportsAttended(Boolean[] reportsAttended) {
         this.reportsAttended = reportsAttended;
         if(faithTrackObserver != null) faithTrackObserver.onReportsAttendedChange();
     }
 
     public FaithTrack() {
         this.faith = 0;
-        this.reportsAttended = new boolean[3];
+        this.reportsAttended = new Boolean[3];
     }
 
     public void setObserver(FaithTrackObserver faithTrackObserver) {

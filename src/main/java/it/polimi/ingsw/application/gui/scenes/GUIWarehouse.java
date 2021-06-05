@@ -35,7 +35,6 @@ public class GUIWarehouse implements Initializable {
     public Label stonesCount;
     public HBox lead1HBox;
     public HBox lead2HBox;
-    private Glow glow;
 
     // LEADERS
     public ImageView lead1;
@@ -69,9 +68,6 @@ public class GUIWarehouse implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        glow = new Glow();
-        glow.setLevel(0.8);
-
         coinClick(null);
 
         resources.addAll(Arrays.asList(coin, shield, servant, stone));
@@ -103,6 +99,7 @@ public class GUIWarehouse implements Initializable {
         GUIUtility.executorService.submit(() -> {
             String nickname = GameApplication.getInstance().getUserNickname();
             LeadCard[] leadCards = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
+            List<LeadCard> playerLeaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
             PutResourcesActionData putResourcesActionData = new PutResourcesActionData();
             putResourcesActionData.setPlayer(nickname);
             Warehouse sentWarehouse = new Warehouse();
@@ -118,14 +115,18 @@ public class GUIWarehouse implements Initializable {
             }
             // Create leader extra to send
             for(int i=0; i<2; i++) {
-                Resources extraResources = new Resources();
-                int resCount = (int)leadersResources.get(i).stream().filter(imageView -> imageView.getImage() != null).count();
-                ResourceType resType = leadersResourceTypes.get(i);
-                if(leadCards[i] != null) {
+                LeadCard activatedLeader = leadCards[i];
+                if(activatedLeader != null) {
+                    Optional<LeadCard> searchedCard = playerLeaders.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(activatedLeader.getCardId())).findFirst();
+                    assert searchedCard.isPresent();
+                    int leadIndex = playerLeaders.indexOf(searchedCard.get());
+                    int resCount = (int)leadersResources.get(leadIndex).stream().filter(imageView -> imageView.getImage() != null).count();
+                    ResourceType resType = leadersResourceTypes.get(leadIndex);
                     System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
+                    Resources extraResources = new Resources();
                     extraResources.add(resType, resCount);
                     sentWarehouse.deposit(extraResources,i+3);
-                    sentWarehouse.expandWithLeader(leadCards[i]);
+                    sentWarehouse.expandWithLeader(activatedLeader);
                 }
             }
             System.out.println("GUIWarehouse.onConfirmClick leaders = ");
@@ -145,33 +146,33 @@ public class GUIWarehouse implements Initializable {
 
     public void coinClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.COINS;
-        if(!glow.equals(coin.getEffect())) {
+        if(!GUIUtility.getGlow().equals(coin.getEffect())) {
             resources.forEach(image -> image.setEffect(null));
-            coin.setEffect(glow);
+            coin.setEffect(GUIUtility.getGlow());
         }
     }
 
     public void servantClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.SERVANTS;
-        if(!glow.equals(servant.getEffect())) {
+        if(!GUIUtility.getGlow().equals(servant.getEffect())) {
             resources.forEach(image -> image.setEffect(null));
-            servant.setEffect(glow);
+            servant.setEffect(GUIUtility.getGlow());
         }
     }
 
     public void shieldClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.SHIELDS;
-        if(!glow.equals(shield.getEffect())) {
+        if(!GUIUtility.getGlow().equals(shield.getEffect())) {
             resources.forEach(image -> image.setEffect(null));
-            shield.setEffect(glow);
+            shield.setEffect(GUIUtility.getGlow());
         }
     }
 
     public void stoneClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.STONES;
-        if(!glow.equals(stone.getEffect())) {
+        if(!GUIUtility.getGlow().equals(stone.getEffect())) {
             resources.forEach(image -> image.setEffect(null));
-            stone.setEffect(glow);
+            stone.setEffect(GUIUtility.getGlow());
         }
     }
 
@@ -318,7 +319,7 @@ public class GUIWarehouse implements Initializable {
         String nickname = GameApplication.getInstance().getUserNickname();
 
         new Thread(() -> {
-
+            /*
             LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
             Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
             Platform.runLater(() -> {
@@ -358,6 +359,52 @@ public class GUIWarehouse implements Initializable {
                     leaderHBox.setVisible(false);
                     leaderHBox.setDisable(true);
 
+                }
+            });*/
+
+            List<LeadCard> playerLeaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
+            List<LeadCard> leadersData = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders());
+            Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
+            Platform.runLater(() -> {
+                for(int i = 0; i < 2; i++) {
+                    LeadCard shownLeader = playerLeaders.get(i);
+                    if(shownLeader != null) {
+
+                        // Find the index in the list of leaders
+                        Optional<LeadCard> searchedCard = leadersData.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(shownLeader.getCardId())).findFirst();
+                        if(searchedCard.isPresent()) {
+                            System.out.println("GUIWarehouse.fillLeaders: activate leader");
+                            int leaderIndex = leadersData.indexOf(searchedCard.get());
+                            System.out.println("GUIWarehouse.fillLeaders: activate leader index = " + leaderIndex);
+                            ResourceType leaderResourceType = getResourceType(shownLeader.getAbility().getExtraWarehouseSpace());
+                            HBox leaderHBox = leadersHBox.get(i);
+                            leaderHBox.setVisible(true);
+                            leaderHBox.setDisable(false);
+                            // Get the current amount of extra
+                            int extraAmount = extra[leaderIndex].getAmountOf(leaderResourceType);
+                            // Update the leader image
+                            leaders.get(i).setImage(CardManager.getImage(shownLeader.getCardId()));
+                            // Update the leader resources
+                            for(int j = 0; j < extraAmount; j++) {
+                                leadersResources.get(i).get(j).setImage(leaderResourceType.getImage());
+                            }
+                            for(int j = extraAmount; j < 2; j++) {
+                                leadersResources.get(i).get(j).setImage(null);
+                            }
+                            // Update the leader resource type
+                            leadersResourceTypes.set(i, leaderResourceType);
+                        }
+                        else {
+                            System.out.println("GUIWarehouse.fillLeaders: disable leader");
+                            for(int j = 0; j < 2; j++) {
+                                leadersResources.get(i).get(j).setImage(null);
+                            }
+                            leaders.get(i).setImage(null);
+                            HBox leaderHBox = leadersHBox.get(i);
+                            leaderHBox.setVisible(false);
+                            leaderHBox.setDisable(true);
+                        }
+                    }
                 }
             });
         }).start();

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.playerleaders;
 
+import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.cards.LeadCardAbility;
 import it.polimi.ingsw.model.cards.LeadCardRequirements;
@@ -95,9 +96,9 @@ class PlayerLeadersTest {
     @Test
     void playCardWithLeadCard() {
         LeadCard[] Hand = new LeadCard[3];
-        Hand[0] = basicLC(1);
-        Hand[1] = basicLC(2);
-        Hand[2] = basicLC(5);
+        Hand[0] = CardManager.loadLeadCardsFromJson().get(0);
+        Hand[1] = CardManager.loadLeadCardsFromJson().get(1);
+        Hand[2] = CardManager.loadLeadCardsFromJson().get(2);
         //Created an Array of LeadCards
         PlayerLeaders pl = new PlayerLeaders(3);
 
@@ -113,6 +114,7 @@ class PlayerLeadersTest {
 
         try{pl.playCard(Hand[2]);
         } catch (Exception e){
+            e.printStackTrace();
             fail();
         }
 
@@ -123,8 +125,6 @@ class PlayerLeadersTest {
         //Check if played cards correspond
 
         assertArrayEquals(PlayedHand, pl.getPlayedCards().toArray(new LeadCard[0]));
-
-
 
         //Card has already been played
 
@@ -160,9 +160,9 @@ class PlayerLeadersTest {
     @Test
     void getPlayedCardVictoryPoints() {
         LeadCard[] Hand = new LeadCard[3];
-        Hand[0] = basicLC(1);
-        Hand[1] = basicLC(2);
-        Hand[2] = basicLC(5);
+        Hand[0] = CardManager.loadLeadCardsFromJson().get(0);
+        Hand[1] = CardManager.loadLeadCardsFromJson().get(1);
+        Hand[2] = CardManager.loadLeadCardsFromJson().get(2);
         //Created an Array of LeadCards
         PlayerLeaders pl = new PlayerLeaders(3);
 
@@ -182,7 +182,7 @@ class PlayerLeadersTest {
             fail();
         }
 
-        assertEquals(6, pl.getPlayedCardVictoryPoints());
+        assertEquals(4, pl.getPlayedCardVictoryPoints());
 
     }
 }

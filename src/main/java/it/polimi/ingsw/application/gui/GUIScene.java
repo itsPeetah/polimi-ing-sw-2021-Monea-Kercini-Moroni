@@ -15,6 +15,7 @@ public enum GUIScene {
     MP_ROOM("GUIMPRoom.fxml", true),
     PRE_GAME("GUIPreGame.fxml", true),
     MAIN_GAME("GUIMainGame.fxml", true),
+    END_GAME("GUIEndGame.fxml", true),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
@@ -35,7 +36,7 @@ public enum GUIScene {
     private static Parent nextLoadingRoot;
 
     /* STATIC SCENE */
-    private static final Scene scene = new Scene(new Pane());
+    private static Scene scene;
 
     /**
      * Create a new GUIScene.
@@ -88,11 +89,16 @@ public enum GUIScene {
         return loadedScene;
     }
 
+    public static void removeActiveScene() {
+        activeScene = null;
+    }
+
     public static PacketListener getActiveScene() {
         return activeScene;
     }
 
     public static void init() {
+        scene = new Scene(new Pane());
         for(GUIScene guiScene: GUIScene.values()) {
             if(guiScene.loadOnStarting) {
                 try {

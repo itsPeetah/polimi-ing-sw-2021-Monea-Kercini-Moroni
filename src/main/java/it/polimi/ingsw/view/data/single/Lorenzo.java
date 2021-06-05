@@ -16,6 +16,7 @@ public class Lorenzo {
     }
 
     public synchronized void setLastToken(SoloActionTokens lastToken) {
+        System.out.println("Lorenzo.setLastToken");
         this.lastToken = lastToken;
         if(lorenzoObserver != null) lorenzoObserver.onLastTokenChange();
     }
@@ -25,4 +26,19 @@ public class Lorenzo {
         lorenzoObserver.onLastTokenChange();
         lorenzoObserver.onBlackCrossChange();
     }
+
+    public int getBlackCross() {
+        return blackCross;
+    }
+
+    public SoloActionTokens getLastToken() {
+        return lastToken;
+    }
+
+    public Lorenzo() {
+        this.blackCross = 0;
+        this.lastToken = null;
+    }
 }
+
+
