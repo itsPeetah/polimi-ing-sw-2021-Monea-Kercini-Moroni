@@ -233,6 +233,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     setOrganizeWarehouseUI();
                     break;
                 case CHOOSE_RESOURCE:
+                    System.out.println("GUIMainGame.onMessage choose resource");
                     setChooseResourceUI();
                     break;
                 case WINNER:
@@ -986,6 +987,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         if(choice==Action.PRODUCE){
 
             Production production = getBasicProduction();
+
+            System.out.println("GUIMainGame.basicProdClick " + production);
 
             GUIUtility.executorService.submit(() -> {
                Platform.runLater(() -> {
