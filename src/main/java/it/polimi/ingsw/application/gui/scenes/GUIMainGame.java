@@ -492,22 +492,27 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onReportsAttendedChange() {
         String nickname = getCurrentUser();
-        Platform.runLater(() -> {
-            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[0]!=null) {
-                if (GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[0] == true) {
-                    report2.setImage(report2Image);
+
+        GUIUtility.executorService.submit(() -> {
+            Boolean[] repportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
+
+            Platform.runLater(() -> {
+                if(repportsAttended[0]!=null) {
+                    if (repportsAttended[0]) {
+                        report2.setImage(report2Image);
+                    }
                 }
-            }
-            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[1]!=null) {
-                if (GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[1] == true) {
-                    report3.setImage(report3Image);
+                if(repportsAttended[1]!=null) {
+                    if (repportsAttended[1]) {
+                        report3.setImage(report3Image);
+                    }
                 }
-            }
-            if(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[2]!=null) {
-                if (GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended()[2] == true) {
-                    report4.setImage(report4Image);
+                if(repportsAttended[2]!=null) {
+                    if (repportsAttended[2]) {
+                        report4.setImage(report4Image);
+                    }
                 }
-            }
+            });
         });
     }
 
