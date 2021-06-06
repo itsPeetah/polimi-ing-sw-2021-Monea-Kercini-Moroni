@@ -319,6 +319,7 @@ public class ModelController {
                 //Sending action token to view
                 updateActionToken();
                 updateDevCardMarket();
+                updateFaithPoints();
             }
 
             game.increaseTurnCounter();
@@ -729,6 +730,9 @@ public class ModelController {
 
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
+
+            //todo delete the line below
+            player.getBoard().incrementFaithPoints(10);
 
             //remove the faith from resources
             try {

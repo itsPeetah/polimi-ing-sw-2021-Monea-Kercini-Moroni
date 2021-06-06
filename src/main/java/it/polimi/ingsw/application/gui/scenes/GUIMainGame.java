@@ -420,20 +420,26 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         String nickname = getCurrentUser();
 
         GUIUtility.executorService.submit(() -> {
-            Boolean[] repportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
+            Boolean[] reportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
+
+            System.out.println("GUIMainGame.onReportsAttendedChange");
+            System.out.println(reportsAttended[0]);
+            System.out.println(reportsAttended[1]);
+            System.out.println(reportsAttended[2]);
+
             Platform.runLater(() -> {
-                if(repportsAttended[0]!=null) {
-                    if (repportsAttended[0]) {
+                if(reportsAttended[0]!=null) {
+                    if (reportsAttended[0]) {
                         report2.setImage(report2Image);
                     }
                 }
-                if(repportsAttended[1]!=null) {
-                    if (repportsAttended[1]) {
+                if(reportsAttended[1]!=null) {
+                    if (reportsAttended[1]) {
                         report3.setImage(report3Image);
                     }
                 }
-                if(repportsAttended[2]!=null) {
-                    if (repportsAttended[2]) {
+                if(reportsAttended[2]!=null) {
+                    if (reportsAttended[2]) {
                         report4.setImage(report4Image);
                     }
                 }

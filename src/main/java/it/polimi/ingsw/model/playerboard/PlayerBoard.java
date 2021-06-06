@@ -119,15 +119,18 @@ public class PlayerBoard {
 
         //victory points from reports attended
 
+        if(reportsAttended[0]!=null){
         if(reportsAttended[0]){
             faithVictoryPoints+= 2;
-        }
+        }}
+        if(reportsAttended[1]!=null){
         if(reportsAttended[1]){
             faithVictoryPoints+= 3;
-        }
+        }}
+        if(reportsAttended[2]!=null){
         if(reportsAttended[2]){
             faithVictoryPoints+= 4;
-        }
+        }}
 
         //total victory points from the board
 
