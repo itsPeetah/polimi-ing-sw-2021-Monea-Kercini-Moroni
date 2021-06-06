@@ -17,6 +17,9 @@ public enum SystemMessage {
     START_ROOM("ROOMS"),
     REJOIN_ROOM("ROOMR"),
     PLAYERS_IN_ROOM("ROOMP"),
+    IN_ROOM("INROOM"),  // ADD
+    IN_GAME("INGAME"),  // ADD
+    GAME_OVER("GAMEOVER"),
     // Ex social
     CHAT("CHAT"),
     WHISPER("WHISPER");
