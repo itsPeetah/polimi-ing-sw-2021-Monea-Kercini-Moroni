@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.client.protocols;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.network.client.persistence.ReconnectionInfo;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 public class ConnectionSetupProtocol {
@@ -23,7 +23,7 @@ public class ConnectionSetupProtocol {
         serverMessage = socket.receiveSystemMessage();
 
         // If an older ID is available, communicate it to the server.
-        String helloMsg = hasOldId ? ConnectionMessage.HELLO.addBody(ReconnectionInfo.loadID()) : ConnectionMessage.HELLO.getCode();
+        String helloMsg = hasOldId ? SystemMessage.HELLO.addBody(ReconnectionInfo.loadID()) : SystemMessage.HELLO.getCode();
 
         // Send HELLO
         socket.sendSystemMessage(helloMsg);
@@ -34,18 +34,18 @@ public class ConnectionSetupProtocol {
 
         String[] messageFields = serverMessage.split(" ", 2);
 
-        if(messageFields.length < 2 || !ConnectionMessage.ASSIGNID.check(messageFields[0]))
+        if(messageFields.length < 2 || !SystemMessage.ASSIGNID.check(messageFields[0]))
             return null;
         else {
             userId = messageFields[1];
-            socket.sendSystemMessage(ConnectionMessage.OK.addBody(userId));
+            socket.sendSystemMessage(SystemMessage.OK.addBody(userId));
         }
 
         // Receive ready
         serverMessage = socket.receiveSystemMessage();
         messageFields = serverMessage.split(" ", 2);
 
-        if(!ConnectionMessage.READY.check(messageFields[0]))
+        if(!SystemMessage.READY.check(messageFields[0]))
             return null;
         else {
             GameApplication.getInstance().setUserId(userId);

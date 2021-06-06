@@ -47,7 +47,6 @@ public class GameApplication {
     // Concurrency
     private Object lock;
 
-
     /**
      * Class constructor
      */

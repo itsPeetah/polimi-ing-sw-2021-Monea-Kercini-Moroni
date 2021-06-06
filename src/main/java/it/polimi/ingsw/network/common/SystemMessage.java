@@ -1,6 +1,6 @@
-package it.polimi.ingsw.network.common.sysmsg;
+package it.polimi.ingsw.network.common;
 
-public enum ConnectionMessage implements SystemMessage {
+public enum SystemMessage {
     WELCOME("WELCOME"),
     HELLO("HELLO"),
     ASSIGNID("ID"),
@@ -8,7 +8,22 @@ public enum ConnectionMessage implements SystemMessage {
     QUIT("QUIT"),
     OK("OK"),
     ERR("ERR"),
-    PING("PING");
+    PING("PING"),
+    // Ex lobby messages
+    IN_LOBBY("LOBBY"),
+    CREATE_ROOM("ROOMC"),
+    JOIN_ROOM("ROOMJ"),
+    LEAVE_ROOM("ROOML"),
+    START_ROOM("ROOMS"),
+    REJOIN_ROOM("ROOMR"),
+    PLAYERS_IN_ROOM("ROOMP"),
+    IN_ROOM("INROOM"),
+    IN_GAME("INGAME"),
+    GAME_OVER("GAMEOVER"),
+    CANT_JOIN("ROOMF"),
+    // Ex social
+    CHAT("CHAT"),
+    WHISPER("WHISPER");
 
     public static final String welcomeMessage = WELCOME.addBody("Welcome to the server!");
     public static final String connectionReadyMessage = READY.addBody("You are now connected to the server!");
@@ -19,22 +34,38 @@ public enum ConnectionMessage implements SystemMessage {
 
     private final String messageCode;
 
-    ConnectionMessage(String code){
+    SystemMessage(String code){
         messageCode = code;
     }
 
+    /**
+     * Message code getter.
+     */
     public String getCode() {
         return messageCode;
     }
 
+    /**
+     * Append arguments to the message code.
+     * @param body The arguments for the message.
+     * @return The full message.
+     */
     public String addBody(String body){
         return messageCode + " " + body;
     }
 
+    /**
+     * Compare message code with string.
+     */
     public boolean check(String message){
         return messageCode.equals(message);
     }
 
+    /**
+     * Compare message with string.
+     * @param arguments Expected arguments.
+     * @param message Message to compare.
+     */
     public boolean check(String arguments, String message){
         return this.addBody(arguments).equals(message);
     }

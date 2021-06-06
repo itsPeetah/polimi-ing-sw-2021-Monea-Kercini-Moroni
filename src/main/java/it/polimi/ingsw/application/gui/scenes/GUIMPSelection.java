@@ -8,7 +8,7 @@ import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,14 +30,14 @@ public class GUIMPSelection implements PacketListener {
         System.out.println("create pressed ");
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM);
+        performSelection(userTextField.getText(), roomTextField.getText(), SystemMessage.CREATE_ROOM);
     }
 
     public void onJoinClick(ActionEvent actionEvent) {
         System.out.println("join pressed ");
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
+        performSelection(userTextField.getText(), roomTextField.getText(), SystemMessage.JOIN_ROOM);
     }
 
     public void onReJoinClick(ActionEvent actionEvent) {
@@ -50,7 +50,7 @@ public class GUIMPSelection implements PacketListener {
         GUIScene.GAME_MODE_SELECTION.load();
     }
 
-    private void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
+    private void performSelection(String username, String room, SystemMessage gameLobbyMessage) {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
 

@@ -6,8 +6,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 
 public class CLILobby extends CLIScene {
 
@@ -77,7 +76,7 @@ public class CLILobby extends CLIScene {
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(GameLobbyMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
+                    makeChoice(SystemMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
                 }
                 break;
             case "join":
@@ -86,14 +85,14 @@ public class CLILobby extends CLIScene {
                 else {
                     GameApplication.getInstance().setUserNickname(nickname);
                     GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(GameLobbyMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
+                    makeChoice(SystemMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
                 }
                 break;
             case "rejoin":
-                makeChoice(GameLobbyMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
+                makeChoice(SystemMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
                 break;
             case "quit":
-                makeChoice(ConnectionMessage.QUIT.getCode());
+                makeChoice(SystemMessage.QUIT.getCode());
                 break;
             default:
                 println("Error: invalid command.");
@@ -104,7 +103,7 @@ public class CLILobby extends CLIScene {
     private void makeChoice(String choice){
         println("Processing request, please wait.");
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, choice);
-        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+        GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 }
