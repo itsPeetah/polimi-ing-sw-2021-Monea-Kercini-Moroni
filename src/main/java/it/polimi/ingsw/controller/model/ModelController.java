@@ -1011,4 +1011,17 @@ public class ModelController {
         updateProductionPowers(player);
     }
 
+    public void updateAll(String playerNickname){
+        Player player = null;
+        for(Player p : game.getPlayers()){
+            if(p.getNickname().equals(playerNickname)){
+                player = p;
+                break;
+            }
+        }
+        if(player != null){
+            updateAll(player);
+        }
+    }
+
 }

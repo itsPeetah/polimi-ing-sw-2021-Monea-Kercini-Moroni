@@ -103,9 +103,7 @@ public class RemoteUser {
         if(isInRoom()){
             GameServer.getInstance().getRoomTable().getRoom(roomId).removeUser(nickname);
             this.assignRoom(null, null);
-            System.out.println("Foo");
         }
-        System.out.println("bar");
         sendSystemMessage(GameLobbyMessage.IN_LOBBY.getCode());
     }
 

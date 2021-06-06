@@ -71,7 +71,6 @@ public class ServerSideClientListener {
         }
         // LEAVE
         else if (GameLobbyMessage.LEAVE_ROOM.check(clientMessage)){
-            System.out.println("Leave room");
             user.leaveCurrentRoom();
             done = true;
             continueAfterReturning = true;
