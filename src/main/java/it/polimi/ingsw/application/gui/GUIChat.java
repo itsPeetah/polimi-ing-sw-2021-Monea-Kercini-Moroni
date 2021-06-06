@@ -20,7 +20,7 @@ public class GUIChat {
             System.out.println("GUIChat.bindChat");
             observableChatList.clear();
             chatListView.setItems(observableChatList);
-            observableChatList.addAll(Arrays.asList("Welcome to the chat, " + GameApplication.getInstance().getUserNickname() + "!", "Insert your messages in the below field and press enter to send them.", "You can write /whisper <nickname> <message> to send a private message to another player."));
+            observableChatList.addAll(Arrays.asList("Welcome to the chat, " + GameApplication.getInstance().getUserNickname() + "!", "Insert your messages in the field below and press enter to send them.", "You can write /whisper <nickname> <message> to send a private message to another player."));
         });
     }
 
