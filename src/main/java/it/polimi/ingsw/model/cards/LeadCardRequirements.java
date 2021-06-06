@@ -23,6 +23,18 @@ public class LeadCardRequirements {
         this.resourceAmounts = resourceAmounts;
     }
 
+    public HashMap<Color, Integer> getDevCardColors() {
+        return devCardColors;
+    }
+
+    public HashMap<Color, Level> getDevCardLevels() {
+        return devCardLevels;
+    }
+
+    public Resources getResourceAmounts() {
+        return resourceAmounts;
+    }
+
     @Override
     public String toString() {
 
