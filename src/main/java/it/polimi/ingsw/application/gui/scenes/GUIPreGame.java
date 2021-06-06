@@ -29,6 +29,7 @@ import javafx.scene.shape.Sphere;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,7 +42,7 @@ import static it.polimi.ingsw.model.cards.CardManager.getImage;
  */
 
 public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToChooseFromObserver, PacketListener, GUIObserverScene {
-
+    // Dev card market
     public ImageView dev01;
     public ImageView dev02;
     public ImageView dev12;
@@ -55,88 +56,63 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     public ImageView dev20;
     public ImageView dev30;
 
+    // Leaders
     public ImageView lead1;
     public ImageView lead2;
     public ImageView lead3;
     public ImageView lead4;
 
+    // Confirm button
     public Button button;
 
-    private ImageView[][] devCards = new ImageView[4][3];
+    // Waiting marble
+    @FXML
+    private Sphere marble;
 
-    private ArrayList<ImageView> offeredLeaders = new ArrayList<ImageView>();
+    // Other marbles
+    @FXML
+    private Sphere marble00;
+    @FXML
+    private Sphere marble01;
+    @FXML
+    private Sphere marble02;
+    @FXML
+    private Sphere marble03;
+    @FXML
+    private Sphere marble10;
+    @FXML
+    private Sphere marble11;
+    @FXML
+    private Sphere marble12;
+    @FXML
+    private Sphere marble13;
+    @FXML
+    private Sphere marble20;
+    @FXML
+    private Sphere marble21;
+    @FXML
+    private Sphere marble22;
+    @FXML
+    private Sphere marble23;
 
-    private Sphere[][] marbles = new Sphere[3][4];
+    // Utility lists
+    private final List<List<ImageView>> marketDevCards = new ArrayList<>();
+    private final List<List<Sphere>> marbles = new ArrayList<>();
 
-    private ImageView image1 = new ImageView();
-
-    @FXML
-    //The marble waiting
-    private Sphere marble = new Sphere(29);
-    @FXML
-    //the other marbles
-    private Sphere marble00 = new Sphere(29);
-    @FXML
-    private Sphere marble01 = new Sphere(29);
-    @FXML
-    private Sphere marble02 = new Sphere(29);
-    @FXML
-    private Sphere marble03 = new Sphere(29);
-    @FXML
-    private Sphere marble10 = new Sphere(29);
-    @FXML
-    private Sphere marble11 = new Sphere(29);
-    @FXML
-    private Sphere marble12 = new Sphere(29);
-    @FXML
-    private Sphere marble13 = new Sphere(29);
-    @FXML
-    private Sphere marble20 = new Sphere(29);
-    @FXML
-    private Sphere marble21 = new Sphere(29);
-    @FXML
-    private Sphere marble22 = new Sphere(29);
-    @FXML
-    private Sphere marble23 = new Sphere(29);
-
-
-    //Instantiating the Glow class
-    Glow glow = new Glow();
-
+    private final boolean[] leadersSelected = new boolean[4];
+    private final List<ImageView> leaders = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //setting level of the glow effect
-        glow.setLevel(0.5);
 
-        //Connecting all marbles to matrix for simplicity
-        marbles[0][0] = marble00;
-        marbles[0][1] = marble01;
-        marbles[0][2] = marble02;
-        marbles[0][3] = marble03;
-        marbles[1][0] = marble10;
-        marbles[1][1] = marble11;
-        marbles[1][2] = marble12;
-        marbles[1][3] = marble13;
-        marbles[2][0] = marble20;
-        marbles[2][1] = marble21;
-        marbles[2][2] = marble22;
-        marbles[2][3] = marble23;
+        // Marbles
+        marbles.addAll(Arrays.asList(Arrays.asList(marble00, marble01, marble02, marble03), Arrays.asList(marble10, marble11, marble12, marble13), Arrays.asList(marble20, marble21, marble22, marble23)));
 
-        //Connecting all dev cards to matrix
+        // Dev Card Market
+        marketDevCards.addAll(Arrays.asList(Arrays.asList(dev00, dev01, dev02), Arrays.asList(dev10, dev11, dev12), Arrays.asList(dev20, dev21, dev22), Arrays.asList(dev30, dev31, dev32)));
 
-        devCards[0][0] = dev00;
-        devCards[0][1] = dev01;
-        devCards[0][2] = dev02;
-        devCards[1][0] = dev10;
-        devCards[1][1] = dev11;
-        devCards[1][2] = dev12;
-        devCards[2][0] = dev20;
-        devCards[2][1] = dev21;
-        devCards[2][2] = dev22;
-        devCards[3][0] = dev30;
-        devCards[3][1] = dev31;
-        devCards[3][2] = dev32;
+        // Leaders
+        leaders.addAll(Arrays.asList(lead1, lead2, lead3, lead4));
 
         // Make button inactive
         button.setDisable(true);
@@ -151,8 +127,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         gameData.getPlayerData(userNickname).getLeadersToChooseFrom().setObserver(this);
     }
 
-    Materials materials = new Materials();
-
     @Override
     public void onMarketTrayChange() {
         GUIUtility.executorService.submit(() -> {
@@ -163,7 +137,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 marble.setMaterial(getMaterial(waiting[0].getMarbleColor()));
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        marbles[j][i].setMaterial(getMaterial(available[j][i].getMarbleColor()));
+                        marbles.get(j).get(i).setMaterial(getMaterial(available[j][i].getMarbleColor()));
                     }
                 }
             });
@@ -179,7 +153,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             Platform.runLater(() -> {
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        devCards[i][j].setImage(getImage(availableCards[i][j].getCardId()));
+                        marketDevCards.get(i).get(j).setImage(getImage(availableCards[i][j].getCardId()));
                     }
                 }
             });
@@ -199,8 +173,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
             });
         });
     }
-
-    boolean[] leadersSelected = new boolean[4];
 
     private boolean isReadyClickable(){
         System.out.println(GameApplication.getInstance().getGameController().getCurrentState());
@@ -223,52 +195,32 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     @FXML
     public void lead1Click(){
-        if(leadersSelected[0]){
-            leadersSelected[0] = false;
-            lead1.setEffect(null);
-
-        } else if (!isReadyClickable()){
-            leadersSelected[0] = true;
-            lead1.setEffect(glow);
-        }
-        isReadyClickable();
+        handleLeadClick(0);
     }
 
     @FXML
     public void lead2Click(){
-        if(leadersSelected[1]){
-            leadersSelected[1] = false;
-            lead2.setEffect(null);
-
-        } else if (!isReadyClickable()){
-            leadersSelected[1] = true;
-            lead2.setEffect(glow);
-        }
-        isReadyClickable();
+        handleLeadClick(1);
     }
 
     @FXML
     public void lead3Click(){
-        if(leadersSelected[2]){
-            leadersSelected[2] = false;
-            lead3.setEffect(null);
-
-        } else if (!isReadyClickable()){
-            leadersSelected[2] = true;
-            lead3.setEffect(glow);
-        }
-        isReadyClickable();
+        handleLeadClick(2);
     }
 
     @FXML
     public void lead4Click(){
-        if(leadersSelected[3]){
-            leadersSelected[3] = false;
-            lead4.setEffect(null);
+        handleLeadClick(3);
+    }
+
+    private void handleLeadClick(int index) {
+        if(leadersSelected[index]){
+            leadersSelected[index] = false;
+            leaders.get(index).setEffect(null);
 
         } else if (!isReadyClickable()){
-            leadersSelected[3] = true;
-            lead4.setEffect(glow);
+            leadersSelected[index] = true;
+            leaders.get(index).setEffect(GUIUtility.getGlow());
         }
         isReadyClickable();
     }
@@ -332,13 +284,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-
-        if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
-            GUIScene.showLoadingScene();
-            GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 500);
-        }
-        else GUIScene.MAIN_GAME.load();
-
+        GUIScene.MAIN_GAME.load();
     }
 
     @Override

@@ -11,10 +11,21 @@ import java.util.ArrayList;
 
 public class ProductionPowers {
 
-    private static Production basicProduction;
-    private DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
-    private ArrayList<Production> leadProduction;
+    private static final Production basicProduction = new Production(new Resources().add(ResourceType.CHOICE, 2), new Resources().add(ResourceType.CHOICE, 1));
+
+    private final DevCard[][] cardPile;  //The first symbolizes the pile and each can have 3 cards maximum
+    private final ArrayList<Production> leadProduction;
     private final static int MAX_LEADER_PRODUCTIONS = 2;
+
+    /**
+     *
+     * @param piles in the default rules should be 3
+     */
+
+    public ProductionPowers(int piles) {
+        this.cardPile = new DevCard[piles][3];
+        this.leadProduction = new ArrayList<>();
+    }
 
     /**
      * Searches all card piles and returns the card on top of each + Production from LeadCards
@@ -24,19 +35,19 @@ public class ProductionPowers {
 
         ArrayList<Production> AvailableProductions = new ArrayList<Production>();
 
-        for (int i = 0; i < cardPile.length; i++) {
+        for (DevCard[] devCards : cardPile) {
             //If the card exists I add the production of the top card
             //Here might need to revise if we want to add cards of higher level
-            if (cardPile[i][2] != null){
-                AvailableProductions.add(cardPile[i][2].getProduction());
-            }else if (cardPile[i][1] != null){
-                AvailableProductions.add(cardPile[i][1].getProduction());
-            }else if (cardPile[i][0] != null) {
-                AvailableProductions.add(cardPile[i][0].getProduction());
+            if (devCards[2] != null) {
+                AvailableProductions.add(devCards[2].getProduction());
+            } else if (devCards[1] != null) {
+                AvailableProductions.add(devCards[1].getProduction());
+            } else if (devCards[0] != null) {
+                AvailableProductions.add(devCards[0].getProduction());
             }
         }
 
-        AvailableProductions.add(this.basicProduction);
+        AvailableProductions.add(basicProduction);
 
         AvailableProductions.addAll(leadProduction);
 
@@ -104,27 +115,15 @@ public class ProductionPowers {
 
         //if card level is 1 then we need the pile to be clear
         if(card.getLevel() == Level.LOW){
-            if(cardPile[pos][0] == null){
-                return true;
-            }else{
-                return false;
-            }
+            return cardPile[pos][0] == null;
 
         //if card level is 2 then we need the pile to have a level one card but the second one to be free
         }else if (card.getLevel() == Level.MEDIUM){
-            if(cardPile[pos][0] != null && cardPile[pos][1] == null){
-                return true;
-            }else{
-                return false;
-            }
+            return cardPile[pos][0] != null && cardPile[pos][1] == null;
 
         //if card level is 3 then we need the pile to have a level two card but the third one to be free
         }else{
-            if(cardPile[pos][1] != null && cardPile[pos][2] == null){
-                return true;
-            }else{
-                return false;
-            }
+            return cardPile[pos][1] != null && cardPile[pos][2] == null;
         }
     }
     //*note - modifying this method could be possible to check if a dev card can be placed at all, alternatively the method can be called 3 times
@@ -149,26 +148,6 @@ public class ProductionPowers {
         else throw new IndexOutOfBoundsException("Maximum productions: " + MAX_LEADER_PRODUCTIONS);
     }
 
-
-    /**
-     *
-     * @param piles in the default rules should be 3
-     */
-
-    public ProductionPowers(int piles) {
-
-        Resources inb = new Resources();
-        Resources outb = new Resources();
-
-        inb.add(ResourceType.CHOICE, 2);
-        outb.add(ResourceType.CHOICE, 1);
-
-        this.basicProduction = new Production(inb, outb);
-
-        this.cardPile = new DevCard[piles][3];
-        this.leadProduction = new ArrayList<>();
-    }
-
     /**
      *
      * @return sum of victory points all development cards you have give you
@@ -176,10 +155,10 @@ public class ProductionPowers {
 
     public int getOwnedCardsVictoryPoints(){
         int vp = 0;
-        for (int i = 0; i < cardPile.length; i++){
-            for (int j = 0; j < cardPile[i].length; j++){
-                if (cardPile[i][j] != null){
-                    vp += cardPile[i][j].getVictoryPoints();
+        for (DevCard[] devCards : cardPile) {
+            for (DevCard devCard : devCards) {
+                if (devCard != null) {
+                    vp += devCard.getVictoryPoints();
                 }
             }
         }

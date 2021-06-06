@@ -5,18 +5,17 @@ import javafx.scene.paint.PhongMaterial;
 
 public class Materials {
 
-    final static PhongMaterial red = new PhongMaterial();
-    final static PhongMaterial blue = new PhongMaterial();
-    final static PhongMaterial yellow = new PhongMaterial();
-    final static PhongMaterial white = new PhongMaterial();
-    final static PhongMaterial gray = new PhongMaterial();
-    final static PhongMaterial purple = new PhongMaterial();
+    private final static PhongMaterial red = new PhongMaterial();
+    private final static PhongMaterial blue = new PhongMaterial();
+    private final static PhongMaterial yellow = new PhongMaterial();
+    private final static PhongMaterial white = new PhongMaterial();
+    private final static PhongMaterial gray = new PhongMaterial();
+    private final static PhongMaterial purple = new PhongMaterial();
 
     /**
-     * Constructor
+     * Set the colors
      */
-    public Materials(){
-
+    public static void init() {
         blue.setDiffuseColor(Color.DEEPSKYBLUE);
         yellow.setDiffuseColor(Color.GOLD);
         white.setDiffuseColor(Color.WHITE);
