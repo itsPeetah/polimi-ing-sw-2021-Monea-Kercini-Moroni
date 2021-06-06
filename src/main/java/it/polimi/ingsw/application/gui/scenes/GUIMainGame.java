@@ -448,9 +448,12 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         GUIUtility.executorService.submit(() -> {
             LeadCard[] leadCards = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders();
+            CardState[] cardStates = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates();
             Platform.runLater(() -> {
                 lead1.setImage(getImage(leadCards[0].getCardId()));
                 lead2.setImage(getImage(leadCards[1].getCardId()));
+                handleLeaderState(cardStates[0], lead1);
+                handleLeaderState(cardStates[1], lead2);
             });
         });
     }
@@ -482,6 +485,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 break;
         }
     }
+
+
 
     @Override
     public void onStrongboxChange() {
@@ -610,10 +615,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private void everythingChanged(){
         onDevCardsChange();
         onFaithChange();
-        onDevCardMarketChange();
         onLeadersChange();
-        onLeadersStatesChange();
-        onMarketTrayChange();
         onReportsAttendedChange();
         onWarehouseContentChange();
         onWarehouseExtraChange();
@@ -1067,7 +1069,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @return true if the player selected in the choice box of the player board view is the current player
      */
     private boolean isItMe(){
-        return getCurrentUser().equals(GameApplication.getInstance().getUserNickname());
+        return getCurrentUser().equals(nickname);
     }
 
     private void addEffect(ImageView imageView) {

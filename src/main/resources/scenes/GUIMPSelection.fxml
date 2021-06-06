@@ -35,6 +35,11 @@
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Button>
+                   <Button fx:id="rejoinButt" mnemonicParsing="false" onAction="#onReJoinClick" text="Rejoin">
+                       <font>
+                           <Font name="Century Gothic" size="14.0" />
+                       </font>
+                   </Button>
                   <Button fx:id="createButt" mnemonicParsing="false" onAction="#onCreateClick" text="Create">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
