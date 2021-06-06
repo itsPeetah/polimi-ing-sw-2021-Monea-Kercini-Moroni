@@ -99,11 +99,15 @@ public class ModelController {
 
         Warehouse updatedWarehouse = wh;
 
+        modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+
         if(modelControllerIOHandler.getResponseAction() == Action.PUT_RESOURCES) {
-            modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+
+            System.out.println("ModelController.askPlayerToPutResources PUT RESOURCES");
             PutResourcesActionData data = modelControllerIOHandler.getResponseData();
             updatedWarehouse = data.getWarehouse();
         }else{
+            System.out.println("ModelController.askPlayerToPutResources PLAYER DISCONNECTED");
             //player has disconnected
         }
 
@@ -479,6 +483,8 @@ public class ModelController {
      */
     protected boolean resourceMarketUpdate(Player player, boolean row, int index) {
 
+        System.out.println("ModelController.resourceMarketUpdate");
+
         Resources res = new Resources();
 
         if (row) {
@@ -506,6 +512,7 @@ public class ModelController {
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
 
+        System.out.println("ModelController.resourceMarketUpdate Before asking player");
 
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
@@ -850,6 +857,7 @@ public class ModelController {
         ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
         //Supposing the player will have to make choice
+        System.out.println("ModelController.resourceMarket");
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
         modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
 
