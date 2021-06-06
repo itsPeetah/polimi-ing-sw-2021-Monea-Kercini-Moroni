@@ -2,9 +2,10 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.GUIScene;
-import it.polimi.ingsw.application.gui.Materials;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
@@ -34,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -697,6 +699,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void openChat(ActionEvent actionEvent) {
+        GUIUtility.launchChat();
     }
 
     public void openSettings(ActionEvent actionEvent) {
@@ -1023,6 +1026,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     private void setEndGameScene() {
         Platform.runLater(() -> {
+            Stage chatWindow = GUIChat.getChatStage();
+            if(chatWindow != null) chatWindow.close();
             GUIScene.showLoadingScene();
             GUIUtility.runSceneWithDelay(GUIScene.END_GAME, 500);
         });

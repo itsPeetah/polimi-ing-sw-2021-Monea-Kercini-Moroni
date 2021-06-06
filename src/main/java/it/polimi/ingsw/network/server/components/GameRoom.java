@@ -172,6 +172,7 @@ public class GameRoom {
                 broadcast(networkPacket);
                 break;
             case WHISPER:
+                System.out.println("Sending WHISPER message");
                 sendTo(socialPacket.getTo(), networkPacket);
                 break;
         }

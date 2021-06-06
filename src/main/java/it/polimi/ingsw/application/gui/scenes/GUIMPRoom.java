@@ -6,13 +6,14 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,16 +25,13 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.application.gui.GUIChat.observableChatList;
-
-public class GUIMPRoom implements PacketListener, GUIObserverScene {
+public class GUIMPRoom implements PacketListener, GUIObserverScene, Initializable {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
 
-    @FXML
     public Label room_name;
-
     public Button startButt;
+    public Button leaveButton;
 
     @FXML
     private ListView<String> playersListView;
@@ -44,13 +42,19 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     @FXML
     private ListView<String> chatListView;
 
-    @FXML
-    private void onStartClick() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void onStartClick() {
         setButtonsDisabled(false);
         String messageContent = GameLobbyMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
+    }
 
+    public void onLeaveClick(ActionEvent actionEvent) {
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -83,8 +87,9 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     @Override
     public void startObserver() {
+        System.out.println("GUIMPRoom.startObserver");
         playersListView.setItems(observablePlayersList);
-        chatListView.setItems(observableChatList);
+        GUIChat.bindChat(chatListView);
         room_name.setText(GameApplication.getInstance().getRoomName());
     }
 }

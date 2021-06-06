@@ -20,7 +20,8 @@ public enum GUIScene {
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
     WAREHOUSE("GUIWarehouse.fxml", false),
-    LOADING("GUILoading.fxml", false);
+    LOADING("GUILoading.fxml", false),
+    GAME_CHAT("GUIGameChat.fxml", false);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -74,26 +75,28 @@ public enum GUIScene {
             activeScene = fxmlLoader.getController();
         }
         if(fxmlLoader.getController() instanceof GUIObserverScene) {
-            new Thread(((GUIObserverScene)fxmlLoader.getController())::startObserver).start();
+            System.out.println("GUIScene.startCallbacks: starting observer");
+            GUIUtility.executorService.submit(((GUIObserverScene)fxmlLoader.getController())::startObserver);
         }
     }
 
     public Scene produceScene() {
         Scene loadedScene = null;
         try {
-            Parent loadedSceneView = new FXMLLoader(getClass().getResource(fxmlPath)).load();
-            loadedScene = new Scene(loadedSceneView);
+            fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
+            root = fxmlLoader.load();
+            loadedScene = new Scene(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return loadedScene;
     }
 
-    public static void removeActiveScene() {
+    public synchronized static void removeActiveScene() {
         activeScene = null;
     }
 
-    public static PacketListener getActiveScene() {
+    public synchronized static PacketListener getActiveScene() {
         return activeScene;
     }
 

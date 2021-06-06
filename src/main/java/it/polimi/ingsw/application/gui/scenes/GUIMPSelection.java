@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
@@ -95,14 +96,19 @@ public class GUIMPSelection implements PacketListener {
             setButtonsDisabled(false);
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
-            if (newState == GameApplicationState.PREGAME) {
-                if(timeoutTask != null) timeoutTask.cancel();
-                GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
-            }
             if (newState == GameApplicationState.INGAME) {
+                System.out.println("GUIMPSelection.onSystemMessage: OPENING MAIN_GAME");
                 if(timeoutTask != null) timeoutTask.cancel();
+                GUIScene.removeActiveScene();
                 GUIScene.MAIN_GAME.load();
+            } else {
+                if (newState == GameApplicationState.PREGAME) {
+                    System.out.println("GUIMPSelection.onSystemMessage: OPENING MP_ROOM");
+                    if (timeoutTask != null) timeoutTask.cancel();
+                    GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
+                }
             }
+
         });
     }
 
