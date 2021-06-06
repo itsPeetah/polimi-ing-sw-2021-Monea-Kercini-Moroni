@@ -650,7 +650,7 @@
       "production":{
          "input":{
             "amounts":{
-               "SERVANTS": 1
+               "SERVANTS": 2
             }
          },
          "output":{
