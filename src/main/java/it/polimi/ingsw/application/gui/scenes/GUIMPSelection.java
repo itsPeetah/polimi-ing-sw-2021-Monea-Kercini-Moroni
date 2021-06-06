@@ -96,8 +96,12 @@ public class GUIMPSelection implements PacketListener {
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
             if (newState == GameApplicationState.PREGAME) {
-                timeoutTask.cancel();
+                if(timeoutTask != null) timeoutTask.cancel();
                 GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
+            }
+            if (newState == GameApplicationState.INGAME) {
+                if(timeoutTask != null) timeoutTask.cancel();
+                GUIScene.MAIN_GAME.load();
             }
         });
     }

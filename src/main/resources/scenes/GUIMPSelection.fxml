@@ -7,19 +7,15 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MPSelection.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMPSelection">
    <center>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="30.0" />
-          <ColumnConstraints hgrow="SOMETIMES" />
-        </columnConstraints>
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" BorderPane.alignment="CENTER">
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="userTextField" GridPane.columnIndex="1"/>
-            <TextField fx:id="roomTextField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <TextField fx:id="userTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="roomTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Nickname">
                <GridPane.margin>
                   <Insets right="5.0" />
@@ -49,6 +45,10 @@
                </children>
             </HBox>
          </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
       </GridPane>
    </center>
 </BorderPane>
