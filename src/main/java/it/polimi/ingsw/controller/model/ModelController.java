@@ -68,9 +68,16 @@ public class ModelController {
         //notifying player he has to choose a resource
         modelControllerIOHandler.sendMessage(p.getNickname(), Message.CHOOSE_RESOURCE);
 
+        Resources res = new Resources();
+
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, p.getNickname());
-        ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
-        Resources res = data.getResources();
+        if(modelControllerIOHandler.getResponseAction() == Action.CHOOSE_RESOURCE) {
+            ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
+            res = data.getResources();
+        }else{
+            //player has disconnected
+            //todo maybe send nice message if a player has disconnected
+        }
 
         return res;
     }
@@ -90,9 +97,16 @@ public class ModelController {
         //Sending message
         modelControllerIOHandler.sendMessage(p.getNickname(), Message.WAREHOUSE_UNORGANIZED);
 
-        modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
-        PutResourcesActionData data = modelControllerIOHandler.getResponseData();
-        Warehouse updatedWarehouse = data.getWarehouse();
+        Warehouse updatedWarehouse = wh;
+
+        if(modelControllerIOHandler.getResponseAction() == Action.PUT_RESOURCES) {
+            modelControllerIOHandler.setExpectedAction(Action.PUT_RESOURCES, p.getNickname());
+            PutResourcesActionData data = modelControllerIOHandler.getResponseData();
+            updatedWarehouse = data.getWarehouse();
+        }else{
+            //player has disconnected
+        }
+
 
         //Checking if player hasn't hacked the game
         Resources tot = new Resources();
@@ -376,6 +390,11 @@ public class ModelController {
 
                 case END_TURN:
                     //Nothing - player just ends his turn
+                    turnFinished = true;
+                    break;
+
+                case DISCONNECTED:
+                    //Player has disconnected so we will just end his turn
                     turnFinished = true;
                     break;
             }
@@ -773,27 +792,35 @@ public class ModelController {
 
                     //asking the player to choose one of the two resources he can to substitute white
                     //notifying player he has to choose a resource
+
                     modelControllerIOHandler.sendMessage(player.getNickname(), Message.CHOOSE_REPLACEMENT);
 
                     //Maybe this line will need to be switched off in the real game, but it is necessary for testing
                     modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
 
-                    ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
-                    Resources choice = data.getResources();
+                    if (modelControllerIOHandler.getResponseAction() == Action.CHOOSE_RESOURCE) {
 
-                    //Converting the choice from resources in resource type and adding it
-                    for (ResourceType type : ResourceType.values()) {
-                        //also checking if player choice is effectively one of the types he can replace
-                        if (choice.getAmountOf(type) > 0) {
-                            //He has the leader ability
-                            if (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1))) {
-                                res.replaceWhite(type);
-                                done = true;
-                            } else {
-                                //He has chosen a resource no leader lets him replace
-                                modelControllerIOHandler.sendMessage(player.getNickname(), Message.INCORRECT_REPLACEMENT);
+                        ChooseResourceActionData data = modelControllerIOHandler.getResponseData();
+                        Resources choice = data.getResources();
+
+                        //Converting the choice from resources in resource type and adding it
+                        for (ResourceType type : ResourceType.values()) {
+                            //also checking if player choice is effectively one of the types he can replace
+                            if (choice.getAmountOf(type) > 0) {
+                                //He has the leader ability
+                                if (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1))) {
+                                    res.replaceWhite(type);
+                                    done = true;
+                                } else {
+                                    //He has chosen a resource no leader lets him replace
+                                    modelControllerIOHandler.sendMessage(player.getNickname(), Message.INCORRECT_REPLACEMENT);
+                                }
                             }
                         }
+                    }else{
+                        //player has disconnected
+                        //he will get nothing
+                        done = true;
                     }
                 }
                 break;
@@ -899,8 +926,14 @@ public class ModelController {
 
         //The player has been offered 4 leader and is choosing 2
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_2_LEADERS, game.getPlayers()[i].getNickname());
-        Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
-        game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+
+        if(modelControllerIOHandler.getResponseAction() == Action.CHOOSE_2_LEADERS) {
+            Choose2LeadersActionData data = modelControllerIOHandler.getResponseData();
+            game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
+        }else{
+            //player has disconnected
+            //todo deal with this case
+        }
 
         //Update Leaders
         updateLeaders(game.getPlayers()[i]);
