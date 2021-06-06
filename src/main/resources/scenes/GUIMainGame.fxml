@@ -51,7 +51,7 @@
        </GridPane>
       <HBox alignment="CENTER" layoutX="800.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="981.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="820.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="This is a long message to see what happens when long messages are sent." textAlignment="CENTER" wrapText="true">
+            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="Wait for your turn" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Blackadder ITC" size="16.0" />
                </font>
