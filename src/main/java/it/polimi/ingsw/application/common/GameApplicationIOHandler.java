@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.common;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
@@ -47,30 +48,41 @@ public class GameApplicationIOHandler {
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
+        String[] messageArgs = messageFields.length > 1 ? messageFields[1].split(" ") : null;
 
         int exitCode = 0;
+        // TODO Perhaps change with a switch(SystemMessage.valueOf(messageFields[0]) ?
         if (SystemMessage.QUIT.check(messageFields[0])) {
             handleQuitMessage();
             exitCode = -1;
-        } else if(SystemMessage.IN_LOBBY.check(messageFields[0])) {
+        }
+        else if(SystemMessage.IN_LOBBY.check(messageFields[0])) {
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
-        } else if(SystemMessage.PING.check(messageFields[0])) {
+        }
+        else if(SystemMessage.PING.check(messageFields[0])) {
             GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(SystemMessage.PING.getCode()));
-        } else if(SystemMessage.START_ROOM.check(messageFields[0])) {
+        }
+        else if(SystemMessage.START_ROOM.check(messageFields[0])) {
             ReconnectionInfo.saveID(GameApplication.getInstance().getUserId()); // TODO Add GAME_OVER => resetID
             GameApplication.getInstance().startMPGame();
             // Save id in case the connection is interrupted...
-        } else if(SystemMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
+        }
+        else if(SystemMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
-        } else {
-            if(SystemMessage.OK.check(messageFields[0])){
-                if(messageFields.length > 1) handleSystemOK(messageFields[1]);
-                else handleSystemOK(null);
-            } else if (SystemMessage.ERR.check(messageFields[0])){
-                if(messageFields.length > 1) handleSystemERR(messageFields[1]);
-                else handleSystemERR(null);
-            }
+        }
+        else if(SystemMessage.IN_ROOM.check(messageFields[0])){
+            GameApplication.getInstance().setRoomName(messageArgs[0]);
+            GameApplication.getInstance().setUserNickname(messageArgs[1]);
+            GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
+        } else if (SystemMessage.CANT_JOIN.check(messageFields[0])){
+            if(messageArgs != null) GameApplication.getInstance().out(messageFields[1]);
+            GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+        } else if (SystemMessage.IN_GAME.check(messageFields[0])){
+            if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startMPGame();
+            GameApplication.getInstance().setApplicationState((GameApplicationState.INGAME));
+        } else if (SystemMessage.ERR.check(messageFields[0])) {
+            System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
         }
         if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
         return exitCode;
@@ -93,7 +105,7 @@ public class GameApplicationIOHandler {
         GameApplication.getInstance().out(debugMessageNetworkPacket.getPayload());
     }
 
-    private void handleSystemOK(String args){
+    /*private void handleSystemOK(String args){
 
         String[] arguments = args.split(" ");
 
@@ -116,7 +128,7 @@ public class GameApplicationIOHandler {
                 GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
                 break;
         }
-    }
+    }*/
 
     private void handleQuitMessage() {
         System.out.println("Received quit instruction");

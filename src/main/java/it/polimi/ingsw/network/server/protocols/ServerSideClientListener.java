@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server.protocols;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.SystemMessage;
+import it.polimi.ingsw.network.server.components.GameRoom;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
 import java.util.concurrent.ExecutorService;
@@ -58,29 +59,33 @@ public class ServerSideClientListener {
     }
 
     private void handleSystemMessage(NetworkPacket packet){
-        String clientMessage = packet.getPayload();
+        String[] clientMessage = packet.getPayload().split(" ");
+        String messageCode = clientMessage[0];
 
         // QUIT
-        if(SystemMessage.QUIT.check(clientMessage)){
+        if(SystemMessage.QUIT.check(messageCode)){
             done = true;
             continueAfterReturning = false;
             return;
         }
         // LEAVE
-        else if (SystemMessage.LEAVE_ROOM.check(clientMessage)){
+        else if (SystemMessage.LEAVE_ROOM.check(messageCode)){
             user.leaveCurrentRoom();
             done = true;
             continueAfterReturning = true;
             return;
         }
         // START
-        else if (SystemMessage.START_ROOM.check(clientMessage)) {
+        else if (SystemMessage.START_ROOM.check(messageCode)) {
+
+            /*GameRoom gr = user.getRoom();
+            new Thread(() -> gr.startGame());*/
             executorService.submit(() -> user.getRoom().startGame());
             System.out.println( ANSIColor.GREEN +"[Server] Started game in room '" + user.getRoom().getId() + "'." + ANSIColor.RESET);
             return;
         }
         // PING
-        else if(SystemMessage.PING.check(clientMessage)){
+        else if(SystemMessage.PING.check(messageCode)){
             user.respondedToPing();
         }
     }

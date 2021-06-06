@@ -53,13 +53,13 @@ public class GameLobbyProtocol {
                     System.out.println(ANSIColor.CYAN + "User " + user.getId() + " created and joined room " +
                             clientMessageFields[1] + " as " + clientMessageFields[2] + ANSIColor.RESET);
                     user.sendSystemMessage(
-                            SystemMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
+                            SystemMessage.IN_ROOM.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
                 // Failure (room already exists)
                 catch (GameRoomException ex) {
-                    user.sendSystemMessage(SystemMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
                 }
             }
@@ -77,13 +77,13 @@ public class GameLobbyProtocol {
                     System.out.println(ANSIColor.CYAN + "User " + user.getId() + " joined room " +
                             clientMessageFields[1] + " as " + clientMessageFields[2] + ANSIColor.RESET);
                     user.sendSystemMessage(
-                            SystemMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
+                            SystemMessage.IN_ROOM.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
                 // Failure (either room doesn't exist or nickname already taken)
                 catch (GameRoomException ex) {
-                    user.sendSystemMessage(SystemMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
                 }
             }
@@ -95,7 +95,7 @@ public class GameLobbyProtocol {
                 try{
                     String[] roomAndNickname = rejoinRoom(clientMessageFields[1]);
                     user.sendSystemMessage(
-                            SystemMessage.OK.addBody(roomAndNickname[0] + " " + roomAndNickname[1])
+                            SystemMessage.IN_ROOM.addBody(roomAndNickname[0] + " " + roomAndNickname[1])
                     );
                     GameServer.getInstance().getRoomTable().getRoom(roomAndNickname[0]).rejoinUser(roomAndNickname[1], user);
                     return true;
@@ -103,7 +103,7 @@ public class GameLobbyProtocol {
                 // Failure: no game to rejoin available
                 catch (GameRoomException ex){
                     System.out.println(ex.getMessage());
-                    user.sendSystemMessage(SystemMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
                 }
 

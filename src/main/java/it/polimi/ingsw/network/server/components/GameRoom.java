@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.util.JSONUtility;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.util.Hashtable;
 import java.util.StringJoiner;
 
@@ -82,7 +83,7 @@ public class GameRoom {
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
         }
         // Send catch up update
-        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.START_ROOM.getCode()));
+        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_GAME.getCode()));
         modelController.updateAll(nickname);
     }
 
@@ -147,8 +148,18 @@ public class GameRoom {
      * @return
      */
     public boolean startGame() {
+
+        System.out.println("GameRoom.startGame");
+
          if(gameInProgress())
              return false;
+
+         synchronized (lock){
+             if(users.size() < 2){
+                 broadcast(NetworkPacket.buildSystemMessagePacket(SystemMessage.ERR.addBody("Can't start a multiplayer game by yourself.")));
+                 return false;
+             }
+         }
         // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
         // add players
@@ -158,6 +169,7 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
+        System.out.println("GameRoom.startGame: Game set up in room " + roomId);
         String startMessage = SystemMessage.START_ROOM.addBody("Game started");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game

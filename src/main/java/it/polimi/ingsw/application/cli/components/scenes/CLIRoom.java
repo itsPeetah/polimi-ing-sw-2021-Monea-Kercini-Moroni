@@ -54,7 +54,7 @@ public class CLIRoom extends CLIScene {
     }
 
     private void startGame(){
-        GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
+        /*GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);*/
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);

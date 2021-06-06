@@ -103,7 +103,7 @@ public class CLILobby extends CLIScene {
     private void makeChoice(String choice){
         println("Processing request, please wait.");
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, choice);
-        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+        GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 }
