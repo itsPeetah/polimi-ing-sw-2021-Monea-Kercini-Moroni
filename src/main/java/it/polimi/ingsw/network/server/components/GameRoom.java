@@ -186,6 +186,6 @@ public class GameRoom {
     private void notifyMIA(String nickname){
         NoneActionData nad = new NoneActionData();
         nad.setPlayer(nickname);
-        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.NONE, nad.toString())));
+        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, nad.toString())));
     }
 }
