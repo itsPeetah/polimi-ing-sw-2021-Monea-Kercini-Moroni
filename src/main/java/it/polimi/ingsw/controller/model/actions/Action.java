@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
  * Enum of actions to be requested to the player.
  */
 public enum Action {
+    DISCONNECTED(NoneActionData.class),
     NONE(NoneActionData.class),
     CHOOSE_RESOURCE(ChooseResourceActionData.class),
     PUT_RESOURCES(PutResourcesActionData.class),
