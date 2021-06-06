@@ -5,6 +5,7 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
@@ -22,6 +23,7 @@ import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 public class GUIUtility {
     public static final ExecutorService executorService = Executors.newCachedThreadPool();
     private static Glow glow;
+    private static ColorAdjust blackColorAdjust;
 
     public static void launchOrganizeWarehouseWindow(Window owner) {
         Stage stage = new Stage();
@@ -78,5 +80,14 @@ public class GUIUtility {
             glow.setLevel(0.6);
         }
         return glow;
+    }
+
+    public static ColorAdjust getBlackEffect() {
+        if(blackColorAdjust == null) {
+            blackColorAdjust = new ColorAdjust();
+            blackColorAdjust.setSaturation(-0.7);
+        }
+        return blackColorAdjust;
+
     }
 }
