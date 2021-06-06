@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.common;
 
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -73,7 +71,7 @@ public class ExSocket {
     public String receiveSystemMessage(){
         NetworkPacket np = receive();
         if(np == null) return null;
-        String message = np.getPacketType() == NetworkPacketType.SYSTEM ? np.getPayload() : ConnectionMessage.ERR.getCode();
+        String message = np.getPacketType() == NetworkPacketType.SYSTEM ? np.getPayload() : SystemMessage.ERR.getCode();
         return message;
     }
 

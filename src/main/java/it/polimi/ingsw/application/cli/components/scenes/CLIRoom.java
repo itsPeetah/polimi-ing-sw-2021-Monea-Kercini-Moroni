@@ -6,7 +6,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 
 public class CLIRoom extends CLIScene {
 
@@ -55,14 +55,14 @@ public class CLIRoom extends CLIScene {
 
     private void startGame(){
         GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
-        String messageContent = GameLobbyMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
+        String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
     private void leaveRoom(){
         GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
-        NetworkPacket np = NetworkPacket.buildSystemMessagePacket(GameLobbyMessage.LEAVE_ROOM.getCode());
+        NetworkPacket np = NetworkPacket.buildSystemMessagePacket(SystemMessage.LEAVE_ROOM.getCode());
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server.components;
 
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.protocols.*;
@@ -73,7 +73,7 @@ public class RemoteConnectionHandler implements Runnable {
     private void closeConnection(){
         System.out.println("Closing a connection");
         if(user == null) {
-            socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
+            socket.sendSystemMessage(SystemMessage.QUIT.addBody("Communication closed."));
             socket.close();
         }
         else{

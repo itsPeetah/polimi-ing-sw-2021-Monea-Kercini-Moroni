@@ -1,14 +1,9 @@
 package it.polimi.ingsw.network.server.components;
 
-import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.server.GameServer;
-import it.polimi.ingsw.network.server.protocols.GameLobbyProtocol;
-
-import javax.sound.midi.Soundbank;
 
 /**
  * Rep class for a remote user.
@@ -84,7 +79,7 @@ public class RemoteUser {
      */
     public void terminateConnection() {
         if(isInRoom()) leaveCurrentRoom();
-        socket.sendSystemMessage(ConnectionMessage.QUIT.addBody("Communication closed."));
+        socket.sendSystemMessage(SystemMessage.QUIT.addBody("Communication closed."));
         socket.close();
         GameServer.getInstance().getUserTable().removeUser(id);
     }
@@ -104,7 +99,7 @@ public class RemoteUser {
             GameServer.getInstance().getRoomTable().getRoom(roomId).removeUser(nickname);
             this.assignRoom(null, null);
         }
-        sendSystemMessage(GameLobbyMessage.IN_LOBBY.getCode());
+        sendSystemMessage(SystemMessage.IN_LOBBY.getCode());
     }
 
     public int getMissedPings() {
@@ -112,7 +107,7 @@ public class RemoteUser {
     }
 
     public void ping(){
-        sendSystemMessage(ConnectionMessage.PING.getCode());
+        sendSystemMessage(SystemMessage.PING.getCode());
         this.wasPinged = true;
     }
 

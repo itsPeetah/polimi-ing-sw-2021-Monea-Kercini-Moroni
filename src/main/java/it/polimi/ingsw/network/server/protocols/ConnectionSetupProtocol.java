@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server.protocols;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 
@@ -20,13 +20,13 @@ public class ConnectionSetupProtocol {
         System.out.println("New client connecting: " + socket.getSocket().getInetAddress().getHostAddress());
 
         // WELCOME
-        socket.sendSystemMessage(ConnectionMessage.welcomeMessage);
+        socket.sendSystemMessage(SystemMessage.welcomeMessage);
 
         // Expect HELLO
         clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
-        if (!ConnectionMessage.HELLO.check(clientMessageFields[0])) {
+        if (!SystemMessage.HELLO.check(clientMessageFields[0])) {
             System.out.println(ANSIColor.RED + "Client did not reply to welcome message" + ANSIColor.RESET);
-            socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
+            socket.sendSystemMessage(SystemMessage.unexpectedReplyError);
             return null;
         }
 
@@ -43,18 +43,18 @@ public class ConnectionSetupProtocol {
             checkCanReconnect = false;
         }
 
-        socket.sendSystemMessage(ConnectionMessage.ASSIGNID.addBody(id));
+        socket.sendSystemMessage(SystemMessage.ASSIGNID.addBody(id));
 
         // EXPECT OK <id>
         clientMessageFields = socket.receiveSystemMessage().split(" ", 2);
-        if(clientMessageFields.length < 2 || !ConnectionMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
-            socket.sendSystemMessage(ConnectionMessage.unexpectedReplyError);
+        if(clientMessageFields.length < 2 || !SystemMessage.OK.check(id, clientMessageFields[0] + " " + clientMessageFields[1])){
+            socket.sendSystemMessage(SystemMessage.unexpectedReplyError);
             System.out.println(ANSIColor.RED + "Client did not confirm the correct id" + ANSIColor.RESET);
             return null;
         }
 
         // Connection is ready
-        socket.sendSystemMessage(ConnectionMessage.connectionReadyMessage);
+        socket.sendSystemMessage(SystemMessage.connectionReadyMessage);
 
         ConnectionSetupResult csr = new ConnectionSetupResult(id, checkCanReconnect);
         return csr;

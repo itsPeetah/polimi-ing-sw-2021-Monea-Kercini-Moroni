@@ -1,9 +1,8 @@
 package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -124,7 +123,7 @@ public class RoomTable {
         synchronized (lock){
             GameRoom room = rooms.get(roomId);
             if(room != null){
-                room.broadcast(NetworkPacket.buildSystemMessagePacket(GameLobbyMessage.IN_LOBBY.getCode()));
+                room.broadcast(NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_LOBBY.getCode()));
                 rooms.remove(roomId);
             }
         }

@@ -9,11 +9,10 @@ import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.social.SocialPacket;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.util.JSONUtility;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringJoiner;
 
@@ -71,7 +70,7 @@ public class GameRoom {
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         for(String k: users.keySet())stringJoiner.add(k);
-        String messageContent = GameLobbyMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
+        String messageContent = SystemMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
     }
 
@@ -83,6 +82,7 @@ public class GameRoom {
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
         }
         // Send catch up update
+        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.START_ROOM.getCode()));
         modelController.updateAll(nickname);
     }
 
@@ -129,7 +129,8 @@ public class GameRoom {
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).send(packet);
+            /*users.get(player).send(packet);*/
+            sendTo(player, packet);
         }
     }
 
@@ -157,7 +158,7 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
-        String startMessage = GameLobbyMessage.START_ROOM.addBody("Game started");
+        String startMessage = SystemMessage.START_ROOM.addBody("Game started");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
@@ -186,6 +187,7 @@ public class GameRoom {
     private void notifyMIA(String nickname){
         NoneActionData nad = new NoneActionData();
         nad.setPlayer(nickname);
-        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, nad.toString())));
+        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, JSONUtility.toJson(nad, NoneActionData.class))));
+        System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");
     }
 }

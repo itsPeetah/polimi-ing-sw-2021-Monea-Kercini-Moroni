@@ -9,20 +9,16 @@ import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
-import javafx.application.Platform;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.application.gui.GUIChat.observableChatList;
 
@@ -47,7 +43,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     @FXML
     private void onStartClick() {
         setButtonsDisabled(false);
-        String messageContent = GameLobbyMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
+        String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
 
