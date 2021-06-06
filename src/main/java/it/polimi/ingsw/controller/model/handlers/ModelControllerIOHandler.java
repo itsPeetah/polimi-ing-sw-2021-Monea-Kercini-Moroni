@@ -60,8 +60,7 @@ public abstract class ModelControllerIOHandler {
             this.requestPlayer = requestPlayer;
 
             // Add the default player disconnected expected action
-            // todo mettere qui la azione di disconnessione al posto di NONE
-            addExpectedAction(NONE);
+            addExpectedAction(DISCONNECTED);
 
             // Finally, add the action
             addExpectedAction(requestedAction);
