@@ -59,6 +59,9 @@ public abstract class ModelControllerIOHandler {
             // Set the player to wait for
             this.requestPlayer = requestPlayer;
 
+            // Add the default player disconnected expected action
+            addExpectedAction(DISCONNECTED);
+
             // Finally, add the action
             addExpectedAction(requestedAction);
 

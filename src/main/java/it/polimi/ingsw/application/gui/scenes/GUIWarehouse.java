@@ -52,6 +52,7 @@ public class GUIWarehouse implements Initializable {
     public ImageView im21;
     public ImageView im22;
 
+    // HELPER LISTS
     private final List<ImageView> resources = new ArrayList<>();
     private final List<ImageView> firstRow = new ArrayList<>();
     private final List<ImageView> secondRow = new ArrayList<>();
@@ -94,6 +95,10 @@ public class GUIWarehouse implements Initializable {
         fillRemainingResources();
         fillLeaders();
     }
+
+    /* BUTTONS */
+
+    // CONFIRM
 
     public void onConfirmClick(ActionEvent actionEvent) {
         GUIUtility.executorService.submit(() -> {
@@ -143,6 +148,7 @@ public class GUIWarehouse implements Initializable {
         s.close();
     }
 
+    // RESOURCES
 
     public void coinClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.COINS;
@@ -175,6 +181,8 @@ public class GUIWarehouse implements Initializable {
             stone.setEffect(GUIUtility.getGlow());
         }
     }
+
+    // SLOTS
 
     public void onIm00Click(MouseEvent mouseEvent) {
         handleWarehouseClick(0, 0);
@@ -215,6 +223,8 @@ public class GUIWarehouse implements Initializable {
     public void onLead2Res2Click(MouseEvent mouseEvent) {
         handleLeaderClick(1, 1);
     }
+
+    /* UTILITY METHODS */
 
     private void handleWarehouseClick(int row, int column) {
         ImageView clickedImage = rows.get(row).get(column);
@@ -300,7 +310,7 @@ public class GUIWarehouse implements Initializable {
     }
 
     private void fillRemainingResources() {
-        new Thread(() -> {
+        GUIUtility.executorService.submit(() -> {
             Resources resourcesToPut = GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut().getRes();
             Platform.runLater(() -> {
                 remainingResources.forEach((resourceType, label) -> label.setText(Integer.toString(0)));
@@ -311,57 +321,13 @@ public class GUIWarehouse implements Initializable {
                     }
                 }
             });
-        }).start();
+        });
     }
 
     private void fillLeaders() {
-
         String nickname = GameApplication.getInstance().getUserNickname();
 
-        new Thread(() -> {
-            /*
-            LeadCard[] leadersData = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders();
-            Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
-            Platform.runLater(() -> {
-                int count = 0;
-                for(int i = 0; i < leadersData.length; i++) {
-                    LeadCard leader = leadersData[i];
-                    if(leader != null) {
-                        System.out.println("GUIWarehouse.fillLeaders: found leader");
-                        ResourceType leaderResourceType = getResourceType(leader.getAbility().getExtraWarehouseSpace());
-                        // If the leader has an extra space
-                        if(leaderResourceType != null) {
-                            System.out.println("GUIWarehouse.fillLeaders: activate leader");
-                            HBox leaderHBox = leadersHBox.get(i);
-                            leaderHBox.setVisible(true);
-                            leaderHBox.setDisable(false);
-                            // Get the current amount of extra
-                            int extraAmount = extra[i].getAmountOf(leaderResourceType);
-                            // Update the leader image
-                            leaders.get(count).setImage(CardManager.getImage(leader.getCardId()));
-                            // Update the leader resources
-                            for(int j = 0; j < extraAmount; j++) {
-                                leadersResources.get(count).get(j).setImage(leaderResourceType.getImage());
-                            }
-                            for(int j = extraAmount; j < 2; j++) {
-                                leadersResources.get(count).get(j).setImage(null);
-                            }
-                            // Update the leader resource type
-                            leadersResourceTypes.set(count, leaderResourceType);
-                        }
-                        count++;
-                    }
-                }
-                for(int i = count; i < 2; i++) {
-                    System.out.println("GUIWarehouse.fillLeaders: disable leader");
-                    leaders.get(i).setImage(null);
-                    HBox leaderHBox = leadersHBox.get(i);
-                    leaderHBox.setVisible(false);
-                    leaderHBox.setDisable(true);
-
-                }
-            });*/
-
+        GUIUtility.executorService.submit(() -> {
             List<LeadCard> playerLeaders = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders());
             List<LeadCard> leadersData = Arrays.asList(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getActivatedLeaders());
             Resources[] extra = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getExtra();
@@ -407,6 +373,6 @@ public class GUIWarehouse implements Initializable {
                     }
                 }
             });
-        }).start();
+        });
     }
 }

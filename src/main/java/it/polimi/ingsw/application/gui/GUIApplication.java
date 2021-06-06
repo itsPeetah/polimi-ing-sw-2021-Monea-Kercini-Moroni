@@ -1,6 +1,7 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.gui.scenes.GUIMainGame;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
 import javafx.application.Application;
@@ -20,8 +21,10 @@ public class GUIApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         CardManager.loadImages();
-        GUIScene.init();
+        Materials.init();
         SoloActionTokens.init();
+        GUIScene.init();
+        GUIMainGame.init();
         stage.setTitle("Masters of Renaissance");
         stage.setScene(GUIScene.getScene());
         GUIScene.MAIN_MENU.load();
