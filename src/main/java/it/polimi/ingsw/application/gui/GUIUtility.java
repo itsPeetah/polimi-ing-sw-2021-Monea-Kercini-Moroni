@@ -1,10 +1,7 @@
-package it.polimi.ingsw.application.gui.scenes;
+package it.polimi.ingsw.application.gui;
 
-import it.polimi.ingsw.application.gui.GUIApplication;
-import it.polimi.ingsw.application.gui.GUIScene;
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -50,6 +47,19 @@ public class GUIUtility {
         stage.setOnCloseRequest(Event::consume);
         stage.setTitle("Choose the resources");
         stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
+        stage.show();
+    }
+
+    public static void launchChat() {
+        Stage stage = new Stage();
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
+        stage.setResizable(false);
+        stage.setTitle("Chat");
+        stage.setScene(GUIScene.GAME_CHAT.produceScene());
+        GUIScene.GAME_CHAT.startCallbacks();
+        GUIChat.setChatStage(stage);
         stage.show();
     }
 

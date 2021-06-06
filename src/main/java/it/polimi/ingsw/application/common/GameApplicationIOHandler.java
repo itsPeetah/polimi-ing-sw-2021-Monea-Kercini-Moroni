@@ -45,6 +45,12 @@ public class GameApplicationIOHandler {
         gameApplication.sendNetworkPacket(networkPacket);
     }
 
+    public void pushWhisperMessage(String content, String to) {
+        GameApplication gameApplication = GameApplication.getInstance();
+        NetworkPacket networkPacket = NetworkPacket.buildWhisperPacket(content, gameApplication.getUserNickname(), to);
+        gameApplication.sendNetworkPacket(networkPacket);
+    }
+
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);

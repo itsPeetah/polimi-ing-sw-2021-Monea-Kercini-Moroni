@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.application.gui.scenes.GUIGameChat"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="600.0" stylesheets="@../styles/GameChat.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIGameChat">
+    <center>
+        <BorderPane prefHeight="1080.0" prefWidth="673.0" BorderPane.alignment="CENTER">
+            <center>
+                <ListView fx:id="chatListView" prefHeight="989.0" prefWidth="1301.0" BorderPane.alignment="CENTER">
+                    <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                    </cursor>
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+                    </BorderPane.margin></ListView>
+            </center>
+            <bottom>
+                <TextField fx:id="textField" onKeyPressed="#sendMessage" prefHeight="41.0" prefWidth="278.0" promptText="Chat here!" BorderPane.alignment="CENTER">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" left="10.0" right="10.0" />
+                    </BorderPane.margin>
+                    <font>
+                        <Font name="Bradley Hand ITC" size="20.0" />
+                    </font></TextField>
+            </bottom>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </BorderPane>
+    </center>
+</BorderPane>

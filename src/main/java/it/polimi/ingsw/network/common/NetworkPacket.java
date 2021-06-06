@@ -115,8 +115,8 @@ public class NetworkPacket {
      * Build a whisper network packet.
      */
     public static NetworkPacket buildWhisperPacket(String content, String from, String to) {
-        String payload = to + SEPARATOR + from + SEPARATOR + content;
-        return new NetworkPacket(NetworkPacketType.SOCIAL, payload);
+        SocialPacket socialPacket = new SocialPacket(to, from, content);
+        return new NetworkPacket(NetworkPacketType.SOCIAL, JSONUtility.toJson(socialPacket, SocialPacket.class));
     }
 
     /**

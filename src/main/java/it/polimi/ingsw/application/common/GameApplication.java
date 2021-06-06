@@ -141,14 +141,15 @@ public class GameApplication {
 
     public synchronized void setRoomPlayers(String stringOfPlayers) {
         List<String> newList = Arrays.asList(stringOfPlayers.split(" ").clone());
-        List<String> newPlayers = newList.stream().filter(x -> !this.roomPlayers.contains(x)).collect(Collectors.toList());
         if(outputMode == GameApplicationMode.GUI) {
             Platform.runLater(() -> {
-                GUIMPRoom.observablePlayersList.addAll(newPlayers);
+                GUIMPRoom.observablePlayersList.clear();
+                GUIMPRoom.observablePlayersList.addAll(newList);
                 GUIMPRoom.observablePlayersList.sort((String::compareTo));
             });
         }
-        this.roomPlayers.addAll(newPlayers);
+        this.roomPlayers.clear();
+        this.roomPlayers.addAll(newList);
         System.out.println(roomPlayers.toString());
 
     }
@@ -170,7 +171,7 @@ public class GameApplication {
             // TODO move to its own class
             System.out.println(ANSIColor.CYAN + from + ANSIColor.RESET + " said: " + body);
         } else {
-            Platform.runLater(() -> GUIChat.observableChatList.add(from + ": " + body));
+            GUIChat.notifyMessage(from, body);
         }
     }
 
@@ -178,7 +179,7 @@ public class GameApplication {
         if(outputMode == GameApplicationMode.CLI){
             System.out.println(ANSIColor.PURPLE + from + ANSIColor.RESET + " whispered: " + body);
         } else {
-            Platform.runLater(() -> GUIChat.observableChatList.add(from + " whispered: " + body));
+            GUIChat.notifyWhisper(from, body);
         }
     }
 

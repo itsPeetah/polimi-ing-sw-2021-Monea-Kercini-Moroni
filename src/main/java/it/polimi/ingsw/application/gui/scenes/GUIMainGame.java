@@ -2,9 +2,10 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.GUIScene;
-import it.polimi.ingsw.application.gui.Materials;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.*;
@@ -34,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -213,6 +215,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private Action choice; // This attribute is accessed only in the UI thread, so there are no concurrency problems
     private DevCard chosenDev;
     private final HashSet<Production> productionsSelected = new HashSet<>();
+    private String nickname;
 
     // Images
     private static Image cross;
@@ -291,7 +294,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @Override
     public void startObserver() {
-        String nickname = GameApplication.getInstance().getUserNickname();
+        nickname = GameApplication.getInstance().getUserNickname();
 
         new Thread(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
@@ -447,9 +450,12 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         GUIUtility.executorService.submit(() -> {
             LeadCard[] leadCards = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders();
+            CardState[] cardStates = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getStates();
             Platform.runLater(() -> {
                 lead1.setImage(getImage(leadCards[0].getCardId()));
                 lead2.setImage(getImage(leadCards[1].getCardId()));
+                handleLeaderState(cardStates[0], lead1);
+                handleLeaderState(cardStates[1], lead2);
             });
         });
     }
@@ -481,6 +487,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 break;
         }
     }
+
+
 
     @Override
     public void onStrongboxChange() {
@@ -609,10 +617,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private void everythingChanged(){
         onDevCardsChange();
         onFaithChange();
-        onDevCardMarketChange();
         onLeadersChange();
-        onLeadersStatesChange();
-        onMarketTrayChange();
         onReportsAttendedChange();
         onWarehouseContentChange();
         onWarehouseExtraChange();
@@ -679,7 +684,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         Platform.runLater(() -> {
             setChoice(Action.REARRANGE_WAREHOUSE);
             NoneActionData noneActionData = new NoneActionData();
-            noneActionData.setPlayer(getCurrentUser());
+            noneActionData.setPlayer(nickname);
             ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
         });
@@ -687,13 +692,14 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     public void bigButton(ActionEvent actionEvent) {
         NoneActionData noneActionData = new NoneActionData();
-        noneActionData.setPlayer(getCurrentUser());
+        noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
         gameStateLabel.setText("Wait for your turn");
     }
 
     public void openChat(ActionEvent actionEvent) {
+        GUIUtility.launchChat();
     }
 
     public void openSettings(ActionEvent actionEvent) {
@@ -750,7 +756,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param i 0 lead 1, 1 lead2
      */
     private void discardLeader(int i){
-        String nickname = getCurrentUser();
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(nickname);
@@ -760,7 +765,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void playLeader(int i){
-        String nickname = getCurrentUser();
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(nickname);
@@ -796,7 +800,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void acquireResPos(boolean row, int index){
         if(choice == Action.RESOURCE_MARKET){
             ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
-            resourceMarketActionData.setPlayer(getCurrentUser());
+            resourceMarketActionData.setPlayer(nickname);
 
             ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -964,7 +968,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     private void devCardSend(DevCard devCard, int space) {
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
-        devCardActionData.setPlayer(getCurrentUser());
+        devCardActionData.setPlayer(nickname);
 
         ActionPacket actionPacket = new ActionPacket(Action.DEV_CARD, JSONUtility.toJson(devCardActionData, DevCardActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -1001,7 +1005,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             if(!productionsSelected.isEmpty()) {
                 ArrayList<Production> arrayList = new ArrayList<>(productionsSelected);
                 ProduceActionData produceActionData = new ProduceActionData(arrayList);
-                produceActionData.setPlayer(getCurrentUser());
+                produceActionData.setPlayer(nickname);
 
                 ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
                 GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -1022,6 +1026,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     private void setEndGameScene() {
         Platform.runLater(() -> {
+            Stage chatWindow = GUIChat.getChatStage();
+            if(chatWindow != null) chatWindow.close();
             GUIScene.showLoadingScene();
             GUIUtility.runSceneWithDelay(GUIScene.END_GAME, 500);
         });
@@ -1068,7 +1074,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @return true if the player selected in the choice box of the player board view is the current player
      */
     private boolean isItMe(){
-        return getCurrentUser().equals(GameApplication.getInstance().getUserNickname());
+        return getCurrentUser().equals(nickname);
     }
 
     private void addEffect(ImageView imageView) {
