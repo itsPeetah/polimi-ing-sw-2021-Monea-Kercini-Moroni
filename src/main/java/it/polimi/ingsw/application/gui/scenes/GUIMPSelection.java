@@ -80,7 +80,7 @@ public class GUIMPSelection implements PacketListener {
     }
 
     private void performRejoin() {
-        NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, GameLobbyMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
+        NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, SystemMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
         GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
         GameApplication.getInstance().sendNetworkPacket(np);
     }

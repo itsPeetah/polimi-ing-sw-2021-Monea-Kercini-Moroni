@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class GUIMPRoom implements PacketListener, GUIObserverScene, Initializable {
+public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     public static ObservableList<String> observablePlayersList = FXCollections.observableArrayList();
 
@@ -38,11 +38,6 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene, Initializabl
 
     @FXML
     private ListView<String> chatListView;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     public void onStartClick() {
         setButtonsDisabled(false);
