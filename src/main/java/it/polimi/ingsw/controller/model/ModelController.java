@@ -103,11 +103,9 @@ public class ModelController {
 
         if(modelControllerIOHandler.getResponseAction() == Action.PUT_RESOURCES) {
 
-            System.out.println("ModelController.askPlayerToPutResources PUT RESOURCES");
             PutResourcesActionData data = modelControllerIOHandler.getResponseData();
             updatedWarehouse = data.getWarehouse();
         }else{
-            System.out.println("ModelController.askPlayerToPutResources PLAYER DISCONNECTED");
             //player has disconnected
         }
 
@@ -283,7 +281,6 @@ public class ModelController {
 
         //Notifying players tha game has started
         for(Player p : game.getPlayers()){
-            System.out.println("ModelController.startGame");
             modelControllerIOHandler.sendMessage(p.getNickname(), Message.GAME_HAS_STARTED);
         }
 
@@ -358,7 +355,6 @@ public class ModelController {
 
                 //Player has chosen to acquire resources from the Market tray
                 case RESOURCE_MARKET:
-                    System.out.println("ModelController.playTurn res market");
                     primaryActionUsed = resourceMarket(player, primaryActionUsed);
                     break;
 
@@ -369,7 +365,6 @@ public class ModelController {
 
                 //Player has chosen to produce
                 case PRODUCE:
-                    System.out.println("ModelController.playTurn produce");
                     primaryActionUsed = produce(player, primaryActionUsed);
                     break;
 
@@ -483,8 +478,6 @@ public class ModelController {
      */
     protected boolean resourceMarketUpdate(Player player, boolean row, int index) {
 
-        System.out.println("ModelController.resourceMarketUpdate");
-
         Resources res = new Resources();
 
         if (row) {
@@ -511,8 +504,6 @@ public class ModelController {
         //Send update of all stuff that has been updated
         updateResourceMarket();
         //updateWarehouse(player); Warehouse is already updated when player was asked to put resources
-
-        System.out.println("ModelController.resourceMarketUpdate Before asking player");
 
         //Ask player to put the gotten resources in his warehouse.
         player.getBoard().getWarehouse().copy(askPlayerToPutResources (player, res, player.getBoard().getWarehouse() ));
@@ -594,8 +585,6 @@ public class ModelController {
      */
     protected boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
 
-        System.out.println("ModelController.produceUpdate");
-
         //Check if all productions can be activated at the beginning, before any actual production has taken place
 
         //First ask the player to choose all input choices
@@ -603,14 +592,9 @@ public class ModelController {
         Resources input = new Resources();
         modelControllerIOHandler.sendMessage(player.getNickname(), Message.SELECT_INPUT);
 
-        System.out.println("ModelController.produceUpdate ho mandato select input");
-        System.out.println("ModelController.produceUpdate " + chosenProduction);
-
         //Calculate total costs
         Resources tot_cost = new Resources();
         for(Production production : chosenProduction) {
-
-            System.out.println("ModelController.produceUpdate making player choose");
 
             input = makePlayerChoose(player, production.getInput()); //If player has choice in input he has to choose here
 
@@ -718,12 +702,9 @@ public class ModelController {
         //ask player to choose resource until he has finished all choices
         while (no_choice.getAmountOf(ResourceType.CHOICE)>0) {
 
-            System.out.println("ModelController.makePlayerChoose askPlayer");
-
             no_choice.add(askPlayerToChooseResource(p));
 
             try {
-                System.out.println("ModelController.makePlayerChoose trying to remove choice");
                 no_choice.remove(ResourceType.CHOICE, 1);
             }catch (Exception e){
                 e.printStackTrace();
@@ -857,7 +838,6 @@ public class ModelController {
         ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
         //Supposing the player will have to make choice
-        System.out.println("ModelController.resourceMarket");
         modelControllerIOHandler.setExpectedAction(Action.CHOOSE_RESOURCE, player.getNickname());
         modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
 
@@ -886,8 +866,6 @@ public class ModelController {
     }
 
     private boolean produce(Player player, boolean primaryActionUsed){
-
-        System.out.println("ModelController.produce");
 
         ProduceActionData produceChoice = modelControllerIOHandler.getResponseData();
 
@@ -1023,7 +1001,6 @@ public class ModelController {
         ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross().getBlackFaith());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
     }
-
 
     private void updateAll(Player player){
         updateLeaders(player);
