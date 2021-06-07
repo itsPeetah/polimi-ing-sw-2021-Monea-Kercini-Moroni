@@ -1,5 +1,5 @@
 .root{
-    -fx-background-image: url(/images/renaissance-music_02.jpg);
+    -fx-background-image: url(/images/florence_0.jpg);
     -fx-background-size: cover;
     -fx-background-position: left;
     -fx-cursor: default;
@@ -27,9 +27,9 @@
     -fx-font-family: 'Blackadder ITC';
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-font-size: 54;
+    -fx-font-size: 60;
     -fx-pref-height: -1;
-    -fx-pref-width: 300;
+    -fx-pref-width: -1;
 }
 
 .button:hover{
@@ -59,8 +59,4 @@ HBox{
     -fx-border-style: solid;
     -fx-border-width:
             5 0 0 0;
-}
-
-.leftVbox {
-    -fx-background-color: rgba(0, 0, 0, 0.6);
 }

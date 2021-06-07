@@ -32,7 +32,7 @@ class ModelControllerTest {
     ModelControllerIOHandler modelControllerIOHandler;
     final int WAIT_TIME = 50;
     final int LONG_WAIT_TIME = 500;
-    GameRoom gr = new GameRoom("Room_1");
+    GameRoom gr = new GameRoom("Room_1", 4);
 
     @BeforeEach
     void generateHandler() {

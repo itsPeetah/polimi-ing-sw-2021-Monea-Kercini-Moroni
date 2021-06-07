@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network.client.protocols;
 
-import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
 import java.util.concurrent.ExecutorService;

@@ -1,8 +1,5 @@
 package it.polimi.ingsw.network.server.components;
 
-import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-
 public class UserPingingHandler implements Runnable{
 
     private static final int pingWaitTimeMs = 5000;

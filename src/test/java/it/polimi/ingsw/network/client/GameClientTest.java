@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 
 import java.util.Scanner;
 
@@ -20,7 +20,7 @@ class GameClientTest {
 
             if(!done) {
                 clientMessage = stdin.nextLine();
-                if (ConnectionMessage.QUIT.check(clientMessage)) {
+                if (SystemMessage.QUIT.check(clientMessage)) {
                     done = true;
                 }
                 if (clientMessage.charAt(0) == '/') {

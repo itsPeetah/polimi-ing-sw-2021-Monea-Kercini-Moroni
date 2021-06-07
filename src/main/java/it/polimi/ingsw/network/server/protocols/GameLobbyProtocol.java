@@ -1,14 +1,10 @@
 package it.polimi.ingsw.network.server.protocols;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
-import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.network.common.sysmsg.ConnectionMessage;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.server.GameServer;
-import it.polimi.ingsw.network.server.components.GameRoom;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
-import it.polimi.ingsw.network.server.components.RoomTable;
 
 public class GameLobbyProtocol {
 
@@ -23,21 +19,21 @@ public class GameLobbyProtocol {
     public boolean joinOrCreateRoom() {
         System.out.println("User " + user.getId() + " is now in the lobby.");
 
-        user.sendSystemMessage(GameLobbyMessage.IN_LOBBY.getCode());
+        user.sendSystemMessage(SystemMessage.IN_LOBBY.getCode());
 
         while (true) {
             clientMessage = user.receiveSystemMessage();
 
             if(clientMessage == null) return false;
 
-            clientMessageFields = clientMessage.split(" ", 3);
+            clientMessageFields = clientMessage.split(" ");
 
             // Client asks to close the connection.
-            if (clientMessage == null || ConnectionMessage.QUIT.check(clientMessageFields[0])) {
+            if (clientMessage == null || SystemMessage.QUIT.check(clientMessageFields[0])) {
                 return false;
             }
 
-            if(ConnectionMessage.PING.check(clientMessageFields[0])) {
+            if(SystemMessage.PING.check(clientMessageFields[0])) {
                 user.respondedToPing();
                 continue;
             }
@@ -46,33 +42,40 @@ public class GameLobbyProtocol {
 
             // The user wants to create a room.
             // Usage: ROOMCREATE <room name> <nickname>
-            if (GameLobbyMessage.CREATE_ROOM.check(clientMessageFields[0])) {
+            if (SystemMessage.CREATE_ROOM.check(clientMessageFields[0])) {
+
                 if (clientMessageFields.length < 3) {
-                    user.sendSystemMessage(ConnectionMessage.missingArgumentsError);
+                    user.sendSystemMessage(SystemMessage.missingArgumentsWhileJoiningError);
                     continue;
                 }
                 // Success
                 try {
-                    roomCreate(clientMessageFields[1], clientMessageFields[2]);
+                    int maxPlayers;
+                    if(clientMessageFields.length < 4) maxPlayers = 4;
+                    else maxPlayers = Integer.parseInt(clientMessageFields[3]);
+
+                    roomCreate(clientMessageFields[1], clientMessageFields[2], maxPlayers);
                     System.out.println(ANSIColor.CYAN + "User " + user.getId() + " created and joined room " +
                             clientMessageFields[1] + " as " + clientMessageFields[2] + ANSIColor.RESET);
                     user.sendSystemMessage(
-                            ConnectionMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
+                            SystemMessage.IN_ROOM.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
                 // Failure (room already exists)
                 catch (GameRoomException ex) {
-                    user.sendSystemMessage(ConnectionMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
+                } catch (NumberFormatException ex){
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody("Invalid \"max_players\" value."));
                 }
             }
 
             // The user wants to join a room.
             // Usage: ROOMJOIN <room name> <nickname>
-            if (GameLobbyMessage.JOIN_ROOM.check(clientMessageFields[0])) {
+            if (SystemMessage.JOIN_ROOM.check(clientMessageFields[0])) {
                 if (clientMessageFields.length < 3) {
-                    user.sendSystemMessage(ConnectionMessage.missingArgumentsError);
+                    user.sendSystemMessage(SystemMessage.missingArgumentsWhileJoiningError);
                     continue;
                 }
                 // Success
@@ -81,25 +84,25 @@ public class GameLobbyProtocol {
                     System.out.println(ANSIColor.CYAN + "User " + user.getId() + " joined room " +
                             clientMessageFields[1] + " as " + clientMessageFields[2] + ANSIColor.RESET);
                     user.sendSystemMessage(
-                            ConnectionMessage.OK.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
+                            SystemMessage.IN_ROOM.addBody(clientMessageFields[1] + " " + clientMessageFields[2])
                     );
                     return true;
                 }
                 // Failure (either room doesn't exist or nickname already taken)
                 catch (GameRoomException ex) {
-                    user.sendSystemMessage(ConnectionMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
                 }
             }
 
             // THE user wants to rejoin a game.
             // Usage: ROOM_R <id>
-            if(GameLobbyMessage.REJOIN_ROOM.check(clientMessageFields[0])){
+            if(SystemMessage.REJOIN_ROOM.check(clientMessageFields[0])){
                 // Success
                 try{
                     String[] roomAndNickname = rejoinRoom(clientMessageFields[1]);
                     user.sendSystemMessage(
-                            ConnectionMessage.OK.addBody(roomAndNickname[0] + " " + roomAndNickname[1])
+                            SystemMessage.IN_ROOM.addBody(roomAndNickname[0] + " " + roomAndNickname[1])
                     );
                     GameServer.getInstance().getRoomTable().getRoom(roomAndNickname[0]).rejoinUser(roomAndNickname[1], user);
                     return true;
@@ -107,19 +110,25 @@ public class GameLobbyProtocol {
                 // Failure: no game to rejoin available
                 catch (GameRoomException ex){
                     System.out.println(ex.getMessage());
-                    user.sendSystemMessage(ConnectionMessage.ERR.addBody(ex.getMessage()));
+                    user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
                     continue;
                 }
 
             }
+            // The user wants to quick start
+            if(SystemMessage.QUICK_START.check(clientMessageFields[1])){
+                user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
+                // TODO Check if there are any available rooms (available = not started, current_players < max_players) => try join
+                // TODO If not, create a new room -> Room name <- Room{amountOfRoomsOnTheServer}
+            }
 
             // If the code reaches here the request is not supported.
-            user.sendSystemMessage(ConnectionMessage.invalidRequestError);
+            user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
         }
     }
 
-    private void roomCreate(String roomName, String nickname) throws GameRoomException{
-        GameServer.getInstance().getRoomTable().createRoom(roomName, nickname, user);
+    private void roomCreate(String roomName, String nickname, int maxPlayers) throws GameRoomException{
+        GameServer.getInstance().getRoomTable().createRoom(roomName, nickname, user, maxPlayers);
     }
 
     private void roomJoin(String roomName, String nickname) throws GameRoomException{

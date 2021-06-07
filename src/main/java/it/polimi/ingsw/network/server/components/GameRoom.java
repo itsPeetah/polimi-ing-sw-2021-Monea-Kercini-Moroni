@@ -1,16 +1,19 @@
 package it.polimi.ingsw.network.server.components;
 
 import it.polimi.ingsw.controller.model.ModelController;
+import it.polimi.ingsw.controller.model.actions.Action;
+import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.social.SocialPacket;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.util.JSONUtility;
 
-import java.util.ArrayList;
+import java.awt.desktop.SystemSleepEvent;
 import java.util.Hashtable;
 import java.util.StringJoiner;
 
@@ -19,7 +22,8 @@ import java.util.StringJoiner;
  */
 public class GameRoom {
 
-    private String roomId;              // room id
+    private final String roomId;              // room id
+    private final int maxPlayers;
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
@@ -29,9 +33,9 @@ public class GameRoom {
     /**
      * Class constructor.
      */
-    public GameRoom(String roomId) {
+    public GameRoom(String roomId, int maxPlayers) {
         this.roomId = roomId;
-
+        this.maxPlayers = maxPlayers;
         this.lock = new Object();
         this.users = new Hashtable<String, RemoteUser>();
         this.modelControllerIOHandler = new MPModelControllerIOHandler(this);
@@ -68,18 +72,20 @@ public class GameRoom {
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         for(String k: users.keySet())stringJoiner.add(k);
-        String messageContent = GameLobbyMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
+        String messageContent = SystemMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
     }
 
-    public void rejoinUser(String nickname, RemoteUser user){
-        synchronized (lock){
+    public void rejoinUser(String nickname, RemoteUser user) {
+        synchronized (lock) {
             miaPlayers.remove(user.getId());
             users.put(nickname, user);
             user.assignRoom(roomId, nickname);
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
-            // TODO: Send catch up update
         }
+        // Send catch up update
+        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_GAME.getCode()));
+        modelController.updateAll(nickname);
     }
 
     public boolean removeUser(String nickname){
@@ -93,7 +99,8 @@ public class GameRoom {
                 if(gameInProgress()){
                     System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
                     markAsMIA(removed.getId(), nickname);
-                    // TODO: Send MIA Action
+                    // Send MIA Action to the model controller
+                    notifyMIA(nickname);
                 }
             }
 
@@ -114,7 +121,8 @@ public class GameRoom {
     public void sendTo(String player, NetworkPacket packet){
         synchronized (lock) {
             if (miaPlayers.containsKey(player) && NetworkPacketType.isGameRelated(packet)){
-                // TODO: Send MIA Action
+                // Send MIA Action to the model controller
+                notifyMIA(player);
             }
             if(users.containsKey(player))
                 users.get(player).send(packet);
@@ -123,7 +131,8 @@ public class GameRoom {
 
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
-            users.get(player).send(packet);
+            /*users.get(player).send(packet);*/
+            sendTo(player, packet);
         }
     }
 
@@ -140,13 +149,18 @@ public class GameRoom {
      * @return
      */
     public boolean startGame() {
-        // Don't let the singleplayer game start online?
-        /*if(users.size() < 2)
-            broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, ConnectionMessage.ERR.addBody("Can't start a multiplayer game by yourself!")));*/
+
+        System.out.println("GameRoom.startGame");
 
          if(gameInProgress())
              return false;
 
+         synchronized (lock){
+             if(users.size() < 2){
+                 broadcast(NetworkPacket.buildSystemMessagePacket(SystemMessage.ERR.addBody("Can't start a multiplayer game by yourself.")));
+                 return false;
+             }
+         }
         // Instantiate controller
         modelController = new ModelController(modelControllerIOHandler);
         // add players
@@ -156,7 +170,8 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
-        String startMessage = GameLobbyMessage.START_ROOM.addBody("Game started");
+        System.out.println("GameRoom.startGame: Game set up in room " + roomId);
+        String startMessage = SystemMessage.START_ROOM.addBody("Game started");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
@@ -168,10 +183,10 @@ public class GameRoom {
         SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
         switch(socialPacket.getType()) {
             case CHAT:
-                System.out.println("Sending CHAT message");
                 broadcast(networkPacket);
                 break;
             case WHISPER:
+                System.out.println("Sending WHISPER message");
                 sendTo(socialPacket.getTo(), networkPacket);
                 break;
         }
@@ -181,5 +196,12 @@ public class GameRoom {
         synchronized (lock){
             return miaPlayers.get(userId);
         }
+    }
+
+    private void notifyMIA(String nickname){
+        NoneActionData nad = new NoneActionData();
+        nad.setPlayer(nickname);
+        notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, JSONUtility.toJson(nad, NoneActionData.class))));
+        System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");
     }
 }

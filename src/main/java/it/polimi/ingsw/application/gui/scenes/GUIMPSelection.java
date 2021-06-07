@@ -4,10 +4,11 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
-import it.polimi.ingsw.network.common.sysmsg.GameLobbyMessage;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,24 +21,28 @@ public class GUIMPSelection implements PacketListener {
     public Button joinButt;
     public Button createButt;
     public Button backButt;
-    @FXML private TextField userTextField;
-    @FXML private TextField roomTextField;
+    public Button rejoinButt;
+    public TextField userTextField;
+    public TextField roomTextField;
     private TimerTask timeoutTask;
 
-    @FXML
-    private void onCreateClick(ActionEvent actionEvent) {
+    public void onCreateClick(ActionEvent actionEvent) {
         System.out.println("create pressed ");
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.CREATE_ROOM);
+        performSelection(userTextField.getText(), roomTextField.getText(), SystemMessage.CREATE_ROOM);
     }
 
-    @FXML
-    private void onJoinClick(ActionEvent actionEvent) {
+    public void onJoinClick(ActionEvent actionEvent) {
         System.out.println("join pressed ");
         GameApplication.getInstance().setRoomName(roomTextField.getText());
         GameApplication.getInstance().setUserNickname(userTextField.getText());
-        performSelection(userTextField.getText(), roomTextField.getText(), GameLobbyMessage.JOIN_ROOM);
+        performSelection(userTextField.getText(), roomTextField.getText(), SystemMessage.JOIN_ROOM);
+    }
+
+    public void onReJoinClick(ActionEvent actionEvent) {
+        System.out.println("rejoin pressed ");
+        performRejoin();
     }
 
     @FXML
@@ -45,7 +50,7 @@ public class GUIMPSelection implements PacketListener {
         GUIScene.GAME_MODE_SELECTION.load();
     }
 
-    private void performSelection(String username, String room, GameLobbyMessage gameLobbyMessage) {
+    private void performSelection(String username, String room, SystemMessage gameLobbyMessage) {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
 
@@ -64,15 +69,20 @@ public class GUIMPSelection implements PacketListener {
         };
         timer.schedule(timeoutTask, GUIConnSettings.TIMEOUT_TIME);
 
-        new Thread(() -> {
-            GameApplication.getInstance().setUserNickname(username);
-            GameApplication.getInstance().setRoomName(room);
+        GUIUtility.executorService.submit(() -> {
             GameApplication.getInstance().out("Processing request, please wait.");
             String messageContent = gameLobbyMessage.addBody(room + " " + username);
             NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
             GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
             GameApplication.getInstance().sendNetworkPacket(np);
-        }).start();
+
+        });
+    }
+
+    private void performRejoin() {
+        NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, SystemMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
+        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+        GameApplication.getInstance().sendNetworkPacket(np);
     }
 
     @Override
@@ -81,15 +91,24 @@ public class GUIMPSelection implements PacketListener {
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         Platform.runLater(() -> {
             setButtonsDisabled(false);
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println("GUIMPSelection onSystemMessage triggered, new state = " + newState);
-            if (newState == GameApplicationState.PREGAME) {
-                timeoutTask.cancel();
-                GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
+            if (newState == GameApplicationState.INGAME) {
+                System.out.println("GUIMPSelection.onSystemMessage: OPENING MAIN_GAME");
+                if(timeoutTask != null) timeoutTask.cancel();
+                GUIScene.removeActiveScene();
+                GUIScene.MAIN_GAME.load();
+            } else {
+                if (newState == GameApplicationState.PREGAME) {
+                    System.out.println("GUIMPSelection.onSystemMessage: OPENING MP_ROOM");
+                    if (timeoutTask != null) timeoutTask.cancel();
+                    GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 1000);
+                }
             }
+
         });
     }
 
@@ -98,4 +117,6 @@ public class GUIMPSelection implements PacketListener {
         createButt.setDisable(disabled);
         backButt.setDisable(disabled);
     }
+
+
 }

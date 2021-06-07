@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
@@ -11,19 +12,18 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
-import it.polimi.ingsw.application.gui.Materials;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
 
@@ -288,7 +288,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         // TODO do we need to handle system messages here?
     }
 }
