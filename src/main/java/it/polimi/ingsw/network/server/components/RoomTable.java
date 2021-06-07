@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.SystemMessage;
 
@@ -91,12 +92,15 @@ public class RoomTable {
      * @param owner Owner user reference.
      * @throws GameRoomException if there is already a room with the same name.
      */
-    public void createRoom(String roomId, String ownerNickname, RemoteUser owner) throws GameRoomException{
+    public void createRoom(String roomId, String ownerNickname, RemoteUser owner, int maxPlayers) throws GameRoomException{
+
+        if(maxPlayers < 1 || maxPlayers > 4) throw new GameRoomException("A room can only host 1-4 players.");
+
         synchronized (lock){
             // Throw exception if the room already exists.
             if(rooms.containsKey(roomId)) throw new GameRoomException("A room with name \"" + roomId + "\" already exists.");
             // Create room and add owner
-            GameRoom room = new GameRoom(roomId);
+            GameRoom room = new GameRoom(roomId, maxPlayers);
             room.addUser(ownerNickname, owner);
             add(room);
         }

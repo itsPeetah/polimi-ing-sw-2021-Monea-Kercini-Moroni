@@ -22,7 +22,8 @@ import java.util.StringJoiner;
  */
 public class GameRoom {
 
-    private String roomId;              // room id
+    private final String roomId;              // room id
+    private final int maxPlayers;
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
@@ -32,9 +33,9 @@ public class GameRoom {
     /**
      * Class constructor.
      */
-    public GameRoom(String roomId) {
+    public GameRoom(String roomId, int maxPlayers) {
         this.roomId = roomId;
-
+        this.maxPlayers = maxPlayers;
         this.lock = new Object();
         this.users = new Hashtable<String, RemoteUser>();
         this.modelControllerIOHandler = new MPModelControllerIOHandler(this);

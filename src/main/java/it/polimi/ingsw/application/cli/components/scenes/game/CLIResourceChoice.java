@@ -32,13 +32,12 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
         println("1) "+ ANSIColor.PURPLE + "SERVANTS" + ANSIColor.RESET);
         println("2) "+ ANSIColor.YELLOW + "COINS" + ANSIColor.RESET);
         println("3) "+ ANSIColor.BLUE + "SHIELDS" + ANSIColor.RESET);
-        println("1) "+ ANSIColor.WHITE_BACKGROUND + "STONES" + ANSIColor.RESET);
+        println("1) "+ ANSIColor.GREEN + "STONES" + ANSIColor.RESET);
     }
 
     @Override
     public void help() {
         println("Use command \"pick <num>\" to choose a resource (num must be between 1 and 4).");
-        println("Use command \"confirm\" or \"ok\" to confirm your selection.");
     }
 
     @Override
@@ -66,26 +65,14 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
                     }
                 }
                 break;
-            case "confirm":
-            case "ok":
-                if(chosenResources.getTotalAmount() < 1) error("Invalid action: choose one resource first.");
-                else{
-                    confirmSelection();
-                }
-                break;
         }
     }
 
     private void pickResource(ResourceType t){
-        //TODO Reset resources/allow multiple?
-        // chosenResources = new Resources();
-        chosenResources.add(t, 1);
-    }
-
-    private void confirmSelection(){
+        Resources r = new Resources().add(t, 1);
         ChooseResourceActionData actionData = new ChooseResourceActionData();
         actionData.setPlayer(GameApplication.getInstance().getUserNickname());
-        actionData.setRes(chosenResources);
+        actionData.setRes(r);
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_RESOURCE, JSONUtility.toJson(actionData, ChooseResourceActionData.class));
         GameApplicationIOHandler.getInstance().pushAction(ap);

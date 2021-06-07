@@ -13,6 +13,7 @@ public enum SystemMessage {
     IN_LOBBY("LOBBY"),
     CREATE_ROOM("ROOMC"),
     JOIN_ROOM("ROOMJ"),
+    QUICK_START("QUICKSTART"),
     LEAVE_ROOM("ROOML"),
     START_ROOM("ROOMS"),
     REJOIN_ROOM("ROOMR"),
@@ -29,8 +30,8 @@ public enum SystemMessage {
     public static final String connectionReadyMessage = READY.addBody("You are now connected to the server!");
 
     public static final String unexpectedReplyError = ERR.addBody("Connection refused: unexpected reply from client.");
-    public static final String missingArgumentsError = ERR.addBody("Invalid request: missing arguments.");
-    public static final String invalidRequestError = ERR.addBody("Invalid request: the request was not valid.");
+    public static final String invalidLobbyRequestError = CANT_JOIN.addBody("Invalid request: the request was not valid.");
+    public static final String missingArgumentsWhileJoiningError = CANT_JOIN.addBody("Invalid request: missing arguments.");
 
     private final String messageCode;
 

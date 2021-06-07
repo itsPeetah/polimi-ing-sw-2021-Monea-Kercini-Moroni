@@ -21,7 +21,7 @@ public class CLIInputReader implements Runnable {
         String command;
         String[] args;
         while (true) {
-            input = in.nextLine().split(" ", 2);
+            input = in.nextLine().trim().split(" ", 2);
             command = input[0];
             args = input.length < 2 ? null : input[1].split(" ");
 
