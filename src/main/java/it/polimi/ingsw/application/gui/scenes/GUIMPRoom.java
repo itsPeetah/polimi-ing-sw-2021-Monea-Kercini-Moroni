@@ -63,7 +63,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
         switch(gameApplicationState) {
             case INGAME:

@@ -12,7 +12,6 @@ import it.polimi.ingsw.view.data.GameData;
 import javafx.application.Platform;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameApplication {
     private static final String DEFAULT_SP_NICKNAME = "Player";
@@ -203,7 +202,7 @@ public class GameApplication {
             networkClient = null;
         else {
             isRunning = true;
-            if(outputMode == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
+            if(outputMode == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null, null);
         }
     }
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.application.common.listeners.PacketListener;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -81,7 +82,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         if(GameApplication.getInstance().isOnNetwork()) {
             System.out.println(GameApplication.getInstance().isOnNetwork());
             Platform.runLater(() -> {

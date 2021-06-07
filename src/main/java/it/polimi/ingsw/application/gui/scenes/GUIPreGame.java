@@ -12,6 +12,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
@@ -287,7 +288,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         // TODO do we need to handle system messages here?
     }
 }

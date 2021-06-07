@@ -90,7 +90,7 @@ public class GameApplicationIOHandler {
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
         }
-        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null);
+        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null , null);
         return exitCode;
     }
 

@@ -91,7 +91,7 @@ public class GUIMPSelection implements PacketListener {
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
         Platform.runLater(() -> {
             setButtonsDisabled(false);
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();

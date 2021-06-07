@@ -18,6 +18,7 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.GameDataObserver;
@@ -258,6 +259,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         // Reports
         reportImageViews.addAll(Arrays.asList(report2, report3, report4));
+        reportImages.addAll(Arrays.asList(report2Image, report3Image, report4Image));
 
 
         // Apply color adjust effect to the leader nodes
@@ -266,9 +268,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         // Clear production selected
         productionsSelected.clear();
-
-        // Clear reports
-        reportImageViews.forEach(imageView -> imageView.setImage(null));
     }
 
     public static void init() {
@@ -363,7 +362,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     @Override
-    public void onSystemMessage(String message) {
+    public void onSystemMessage(SystemMessage type, String additionalContent) {
     }
 
     /* DATA LISTENER METHODS */
@@ -423,22 +422,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         String nickname = getCurrentUser();
 
         GUIUtility.executorService.submit(() -> {
-            Boolean[] repportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
+            Boolean[] reportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
             Platform.runLater(() -> {
-                if(repportsAttended[0]!=null) {
-                    if (repportsAttended[0]) {
-                        report2.setImage(report2Image);
-                    }
-                }
-                if(repportsAttended[1]!=null) {
-                    if (repportsAttended[1]) {
-                        report3.setImage(report3Image);
-                    }
-                }
-                if(repportsAttended[2]!=null) {
-                    if (repportsAttended[2]) {
-                        report4.setImage(report4Image);
-                    }
+                for(int i = 0; i < 3; i++) {
+                    if(reportsAttended[i] != null && reportsAttended[i]) reportImageViews.get(i).setImage(reportImages.get(i));
+                    else reportImageViews.get(i).setImage(null);
                 }
             });
         });
