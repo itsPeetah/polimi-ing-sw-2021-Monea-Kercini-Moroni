@@ -115,6 +115,12 @@ public class GameLobbyProtocol {
                 }
 
             }
+            // The user wants to quick start
+            if(SystemMessage.QUICK_START.check(clientMessageFields[1])){
+                user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
+                // TODO Check if there are any available rooms (available = not started, current_players < max_players) => try join
+                // TODO If not, create a new room -> Room name <- Room{amountOfRoomsOnTheServer}
+            }
 
             // If the code reaches here the request is not supported.
             user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
