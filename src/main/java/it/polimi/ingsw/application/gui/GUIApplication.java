@@ -14,14 +14,17 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class GUIApplication extends Application {
     private static Alert oldDialog;
     public static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
+    private static final String FONT_PATH = "fonts/BITCBLKAD.ttf";
 
     @Override
     public void start(Stage stage) throws Exception {
-        Font.loadFont(getClass().getResourceAsStream("src/main/resources/fonts/BITCBLKAD.ttf"), 16);
+        // Load font
+        Font.loadFont(getClass().getClassLoader().getResourceAsStream(FONT_PATH), 16);
         CardManager.loadImages();
         Materials.init();
         SoloActionTokens.init();
