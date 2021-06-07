@@ -117,7 +117,7 @@ public class GameLobbyProtocol {
             }
 
             // If the code reaches here the request is not supported.
-            user.sendSystemMessage(SystemMessage.invalidRequestError);
+            user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
         }
     }
 

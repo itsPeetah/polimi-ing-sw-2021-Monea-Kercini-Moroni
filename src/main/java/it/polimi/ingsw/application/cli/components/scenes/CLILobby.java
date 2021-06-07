@@ -46,6 +46,9 @@ public class CLILobby extends CLIScene {
         /*println("Use either \"join\" or \"create\" to join or create a room on the server.");*/
         println("User command \"create <room_name> <max_players>\" to create a new room on the server:");
         println("User command \"join <room_name>\" to join an existing room on the server.");
+        println("Use quickstart [<nickname>] to join a random room or create one if none are available.");
+        println("\t\tIf you haven't already chosen a nickname the argument is mandatory.");
+        println("\t\tIf no available rooms are found on the server, the new one will have a 4 player capacity by default.");
         println("If you have disconnected mid-game, try using command \"rejoin\" to rejoin the previous game.");
         println("Use \"quit\" to quit the game.");
     }
@@ -53,9 +56,11 @@ public class CLILobby extends CLIScene {
     @Override
     public void execute(String command, String[] arguments) {
         switch (command) {
+            case "h":
             case "help":
                 help();
                 break;
+            case "n":
             case "nick":
                 if (arguments.length < 1) println("Error: missing arguments. Retry.");
                 else {
@@ -64,6 +69,7 @@ public class CLILobby extends CLIScene {
                     /*println("Set the nickname to " + nickname);*/
                 }
                 break;
+            case "c":
             case "create":
                 if (nickname == null)
                     error("Choose a nickname and a room name first. Retry.");
@@ -77,6 +83,7 @@ public class CLILobby extends CLIScene {
                     makeChoice(SystemMessage.CREATE_ROOM.addBody(arguments[0] + " " + nickname + " " + Integer.parseInt(arguments[1])));
                 }
                 break;
+            case "j":
             case "join":
                 if (nickname == null)
                     error("Choose a nickname and a room name first. Retry.");
@@ -88,8 +95,17 @@ public class CLILobby extends CLIScene {
                     makeChoice(SystemMessage.JOIN_ROOM.addBody(arguments[0] + " " + nickname));
                 }
                 break;
+            case "r":
             case "rejoin":
                 makeChoice(SystemMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
+                break;
+            case "qs":
+            case "quickstart":
+                if(arguments != null && arguments.length > 0)
+                    nickname = arguments[0];
+                show();
+                if(nickname == null) error("You need to choose a nickname first.");
+                else makeChoice(SystemMessage.QUICK_START.addBody(nickname));
                 break;
             case "quit":
                 makeChoice(SystemMessage.QUIT.getCode());
