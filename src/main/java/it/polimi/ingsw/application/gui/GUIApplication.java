@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -20,6 +21,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Font.loadFont(getClass().getResourceAsStream("src/main/resources/fonts/BITCBLKAD.ttf"), 16);
         CardManager.loadImages();
         Materials.init();
         SoloActionTokens.init();
