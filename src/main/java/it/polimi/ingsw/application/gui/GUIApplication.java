@@ -19,12 +19,14 @@ import java.io.InputStream;
 public class GUIApplication extends Application {
     private static Alert oldDialog;
     public static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
-    private static final String FONT_PATH = "fonts/BITCBLKAD.ttf";
+    private static final String BLACK_LADDER_FONT_PATH = "fonts/BITCBLKAD.ttf";
+    private static final String HIGH_TOWER_FONT_PATH = "fonts/HTOWERT.TTF";
 
     @Override
     public void start(Stage stage) throws Exception {
         // Load font
-        Font.loadFont(getClass().getClassLoader().getResourceAsStream(FONT_PATH), 16);
+        Font.loadFont(getClass().getClassLoader().getResourceAsStream(BLACK_LADDER_FONT_PATH), 16);
+        Font.loadFont(getClass().getClassLoader().getResourceAsStream(HIGH_TOWER_FONT_PATH), 16);
         CardManager.loadImages();
         Materials.init();
         SoloActionTokens.init();
