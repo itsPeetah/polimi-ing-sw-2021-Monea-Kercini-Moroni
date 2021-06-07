@@ -10,15 +10,13 @@ import it.polimi.ingsw.network.common.SystemMessage;
 
 public class CLILobby extends CLIScene {
 
-    private String nickname, roomName;
+    private String nickname;
+    /*private String roomName;*/
 
     public CLILobby() {
         super();
         nickname = GameApplication.getInstance().getUserNickname();
-        roomName = GameApplication.getInstance().getRoomName();
-
-        /*nickname = "Player";
-        roomName = "Room_One";*/
+        /*roomName = GameApplication.getInstance().getRoomName();*/
     }
 
     @Override
@@ -29,21 +27,25 @@ public class CLILobby extends CLIScene {
         String nickLabel = nickname == null
                 ? "[" + ANSIColor.RED + "CHOOSE NICKNAME" + ANSIColor.RESET + "]"
                 : "[" + ANSIColor.GREEN + nickname + ANSIColor.RESET + "]";
-        String roomLabel = roomName == null
+        /*String roomLabel = roomName == null
                 ? "[" + ANSIColor.RED + "CHOOSE GAME ROOM" + ANSIColor.RESET + "]"
-                : "[" + ANSIColor.GREEN + roomName + ANSIColor.RESET + "]";
+                : "[" + ANSIColor.GREEN + roomName + ANSIColor.RESET + "]";*/
 
         println("Nickname:\t" + nickLabel);
-        println("Game room:\t" + roomLabel);
+        /*println("Game room:\t" + roomLabel);*/
 
+        println("==============================");
+        help();
         println("==============================");
     }
 
     @Override
     public void help() {
         println("Use \"nick <nickname>\" to choose your nickname");
-        println("Use \"room <room name>\" to choose the room you want to join");
-        println("Use either \"join\" or \"create\" to join or create a room on the server.");
+        /*println("Use \"room <room name>\" to choose the room you want to join");*/
+        /*println("Use either \"join\" or \"create\" to join or create a room on the server.");*/
+        println("User command \"create <room_name> <max_players>\" to create a new room on the server:");
+        println("User command \"join <room_name>\" to join an existing room on the server.");
         println("If you have disconnected mid-game, try using command \"rejoin\" to rejoin the previous game.");
         println("Use \"quit\" to quit the game.");
     }
@@ -62,30 +64,28 @@ public class CLILobby extends CLIScene {
                     /*println("Set the nickname to " + nickname);*/
                 }
                 break;
-            case "room":
-                if (arguments.length < 1) println("Error: missing arguments. Retry.");
-                else {
-                    roomName = arguments[0];
-                    show();
-                    /*println("Set the room to " + roomName);*/
-                }
-                break;
             case "create":
-                if (nickname == null || roomName == null)
+                if (nickname == null)
                     error("Choose a nickname and a room name first. Retry.");
+                else if(arguments == null || arguments.length < 2)
+                    error("Missing arguments. Usage: create <room_name> <max_players>.");
+                else if(!"1234".contains(arguments[1]))
+                    error("Invalid max_players argument value.");
                 else {
-                    GameApplication.getInstance().setUserNickname(nickname);
-                    GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(SystemMessage.CREATE_ROOM.addBody(roomName + " " + nickname));
+                    /*GameApplication.getInstance().setUserNickname(nickname);
+                    GameApplication.getInstance().setRoomName(roomName);*/
+                    makeChoice(SystemMessage.CREATE_ROOM.addBody(arguments[0] + " " + nickname + " " + Integer.parseInt(arguments[1])));
                 }
                 break;
             case "join":
-                if (nickname == null || roomName == null)
+                if (nickname == null)
                     error("Choose a nickname and a room name first. Retry.");
+                else if(arguments == null || arguments.length < 1)
+                    error("Missing arguments. Usage: join <room_name>");
                 else {
-                    GameApplication.getInstance().setUserNickname(nickname);
-                    GameApplication.getInstance().setRoomName(roomName);
-                    makeChoice(SystemMessage.JOIN_ROOM.addBody(roomName + " " + nickname));
+                    /*GameApplication.getInstance().setUserNickname(nickname);
+                    GameApplication.getInstance().setRoomName(roomName);*/
+                    makeChoice(SystemMessage.JOIN_ROOM.addBody(arguments[0] + " " + nickname));
                 }
                 break;
             case "rejoin":
