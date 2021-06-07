@@ -422,11 +422,20 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         String nickname = getCurrentUser();
 
         GUIUtility.executorService.submit(() -> {
+            System.out.println("GUIMainGame.onReportsAttendedChange");
             Boolean[] reportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
             Platform.runLater(() -> {
                 for(int i = 0; i < 3; i++) {
-                    if(reportsAttended[i] != null && reportsAttended[i]) reportImageViews.get(i).setImage(reportImages.get(i));
-                    else reportImageViews.get(i).setImage(null);
+                    System.out.println("GUIMainGame.onReportsAttendedChange: iteration " + i);
+                    if(reportsAttended[i] != null && reportsAttended[i]) {
+                        reportImageViews.get(i).setImage(reportImages.get(i));
+                        System.out.println("GUIMainGame.onReportsAttendedChange");
+                        System.out.println("GUIMainGame.onReportsAttendedChange: setting image");
+                    }
+                    else {
+                        reportImageViews.get(i).setImage(null);
+                        System.out.println("GUIMainGame.onReportsAttendedChange: setting null");
+                    }
                 }
             });
         });
@@ -471,7 +480,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 break;
             case INHAND:
                 if(isItMe()) imageView.setEffect(GUIUtility.getBlackEffect());
-                else imageView.setImage(leaderBack);
+                else {
+                    imageView.setImage(leaderBack);
+                    imageView.setEffect(null);
+                }
                 break;
         }
     }

@@ -14,7 +14,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.InputStream;
 
 public class GUIApplication extends Application {
     private static Alert oldDialog;
@@ -30,8 +29,8 @@ public class GUIApplication extends Application {
         CardManager.loadImages();
         Materials.init();
         SoloActionTokens.init();
-        GUIScene.init();
         GUIMainGame.init();
+        GUIScene.init();
         stage.setTitle("Masters of Renaissance");
         stage.setScene(GUIScene.getScene());
         GUIScene.MAIN_MENU.load();
