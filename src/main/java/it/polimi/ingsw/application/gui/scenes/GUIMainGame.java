@@ -695,7 +695,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-        gameStateLabel.setText("Wait for your turn");
+        gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCurrentPlayer());
     }
 
     public void openChat(ActionEvent actionEvent) {
