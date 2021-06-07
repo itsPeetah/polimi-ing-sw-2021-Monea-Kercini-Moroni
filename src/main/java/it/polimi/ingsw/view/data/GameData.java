@@ -52,6 +52,10 @@ public class GameData {
         return playerTable.get(name);
     }
 
+    public String getCurrentPlayer(){
+        return playerTable.keySet().toArray()[playerTable.size()%4].toString();
+    }
+
     public MomentaryData getMomentary() {
         return momentary;
     }
