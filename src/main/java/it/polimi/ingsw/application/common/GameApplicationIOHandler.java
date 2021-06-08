@@ -69,9 +69,15 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(SystemMessage.PING.getCode()));
         }
         else if(SystemMessage.START_ROOM.check(messageFields[0])) {
-            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId()); // TODO Add GAME_OVER => resetID
-            GameApplication.getInstance().startMPGame();
-            // Save id in case the connection is interrupted...
+            ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
+            if(messageArgs != null && messageArgs[0].equals("sp"))
+                GameApplication.getInstance().startSPGame();
+            else
+                GameApplication.getInstance().startMPGame();
+        } else if(SystemMessage.GAME_OVER.check(messageFields[0])){
+            ReconnectionInfo.resetID();
+            // Not leaving the room as long as the end game "scene" is displayed.
+            /*GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(SystemMessage.LEAVE_ROOM.getCode()));*/
         }
         else if(SystemMessage.PLAYERS_IN_ROOM.check(messageFields[0])) {
             System.out.println(messageFields[1]);
