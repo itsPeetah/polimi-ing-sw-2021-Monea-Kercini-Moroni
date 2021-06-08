@@ -7,9 +7,8 @@ public class ASCIIDevCardMarket {
     public static void draw(DevCardMarket dcm){
 
         System.out.println("******* DEVELOPMENT CARD MARKET *******");
-        /*System.out.println("LOW TIER CARDS");*/
         for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 3; j++)
+            for(int j = 2; j >= 0; j--)
             ASCIIDevCard.draw(dcm.getAvailableCards()[i][j]);
         }
 
