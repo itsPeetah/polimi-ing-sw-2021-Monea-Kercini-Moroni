@@ -87,7 +87,7 @@ public class GameRoom {
             System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
         }
         // Send catch up update
-        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_GAME.getCode()));
+        sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_GAME.addBody(users.size() > 1 ? "mp" : "sp")));
         modelController.updateAll(nickname);
     }
 

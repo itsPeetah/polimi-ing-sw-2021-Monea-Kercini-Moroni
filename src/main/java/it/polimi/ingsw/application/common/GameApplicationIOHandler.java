@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.social.SocialPacket;
 import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
+import org.jetbrains.annotations.Nullable;
 
 public class GameApplicationIOHandler {
 
@@ -32,6 +33,11 @@ public class GameApplicationIOHandler {
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
+    }
+
+    private void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
+        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null)
+            GUIScene.getActiveScene().onSystemMessage(sysMsgType , body);
     }
 
     public void pushAction(ActionPacket actionPacket) {
@@ -64,16 +70,21 @@ public class GameApplicationIOHandler {
         }
         else if(SystemMessage.IN_LOBBY.check(messageFields[0])) {
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
+            notifySystemMessage(SystemMessage.IN_LOBBY, null);
         }
         else if(SystemMessage.PING.check(messageFields[0])) {
             GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildSystemMessagePacket(SystemMessage.PING.getCode()));
         }
         else if(SystemMessage.START_ROOM.check(messageFields[0])) {
             ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
-            if(messageArgs != null && messageArgs[0].equals("sp"))
+            if(messageArgs != null && messageArgs[0].equals("sp")) {
                 GameApplication.getInstance().startSPGame();
-            else
+                notifySystemMessage(SystemMessage.START_ROOM, "sp");
+            }
+            else {
                 GameApplication.getInstance().startMPGame();
+                notifySystemMessage(SystemMessage.START_ROOM, "mp");
+            }
         } else if(SystemMessage.GAME_OVER.check(messageFields[0])){
             ReconnectionInfo.resetID();
             // Not leaving the room as long as the end game "scene" is displayed.
@@ -87,16 +98,18 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().setRoomName(messageArgs[0]);
             GameApplication.getInstance().setUserNickname(messageArgs[1]);
             GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
+            notifySystemMessage(SystemMessage.IN_ROOM, messageArgs[0] + " " + messageArgs[1]);
         } else if (SystemMessage.CANT_JOIN.check(messageFields[0])){
             if(messageArgs != null) GameApplication.getInstance().out(messageFields[1]);
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else if (SystemMessage.IN_GAME.check(messageFields[0])){
             if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startMPGame();
             GameApplication.getInstance().setApplicationState((GameApplicationState.INGAME));
+            notifySystemMessage(SystemMessage.IN_GAME, messageArgs[0]);
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
         }
-        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null , null);
+
         return exitCode;
     }
 
@@ -117,35 +130,12 @@ public class GameApplicationIOHandler {
         GameApplication.getInstance().out(debugMessageNetworkPacket.getPayload());
     }
 
-    /*private void handleSystemOK(String args){
-
-        String[] arguments = args.split(" ");
-
-        GameApplicationState state = GameApplication.getInstance().getApplicationState();
-        switch (state){
-            case CONNECTING_TO_ROOM:
-                GameApplication.getInstance().setRoomName(arguments[0]);
-                GameApplication.getInstance().setUserNickname(arguments[1]);
-                GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
-                break;
-        }
-
-    }
-
-    private void handleSystemERR(String args){
-        GameApplicationState state = GameApplication.getInstance().getApplicationState();
-        switch (state){
-            case CONNECTING_TO_ROOM:
-                if(args != null) GameApplication.getInstance().out(args);
-                GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
-                break;
-        }
-    }*/
-
     private void handleQuitMessage() {
         System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
     }
+
+
 
 }
