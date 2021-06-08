@@ -1,8 +1,10 @@
 package it.polimi.ingsw.network.server.components;
 
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.SystemMessage;
+import it.polimi.ingsw.network.server.GameServer;
 
 import java.util.Hashtable;
 
@@ -11,6 +13,7 @@ import java.util.Hashtable;
  */
 public class RoomTable {
 
+    private static final int quickRoomRandomIdSequenceLength = 5;
     private static RoomTable instance;
 
     private Object lock;
@@ -98,7 +101,8 @@ public class RoomTable {
 
         synchronized (lock){
             // Throw exception if the room already exists.
-            if(rooms.containsKey(roomId)) throw new GameRoomException("A room with name \"" + roomId + "\" already exists.");
+            if(roomId == null) roomId = "Room" + GameServer.getInstance().getUserTable().generateId(quickRoomRandomIdSequenceLength);
+            if(rooms.containsKey(roomId)) throw new GameRoomException("A room with name \"" + roomId + "\" already exists. Please, try again.");
             // Create room and add owner
             GameRoom room = new GameRoom(roomId, maxPlayers);
             room.addUser(ownerNickname, owner);
@@ -120,6 +124,25 @@ public class RoomTable {
             // Add user to the room
             GameRoom room = rooms.get(roomId);
             room.addUser(nickname, user);
+        }
+    }
+
+    public void joinRandomRoom(String nickname, RemoteUser user) throws GameRoomException{
+        synchronized (lock){
+
+                boolean hasJoined = false;
+            for(String roomID : rooms.keySet()){
+                if(!rooms.get(roomID).isFull()) {
+                    try {
+                        joinRoom(roomID, nickname, user);
+                        hasJoined = true;
+                        break;
+                    } catch (GameRoomException ex){
+                        System.out.println(ANSIColor.YELLOW + "[QUICK START] User " + user.getId() + " tried to access room " + roomID + " as " + nickname + " but failed.");
+                    }
+                }
+            }
+            if(!hasJoined) createRoom(null, nickname, user, 4);
         }
     }
 
@@ -145,4 +168,5 @@ public class RoomTable {
             throw new GameRoomException("There is no room user expecting the given id.");
         }
     }
+
 }
