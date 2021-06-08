@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
+import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIDevCardMarket;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIILeadCard;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIMarketTray;
 import it.polimi.ingsw.application.cli.components.CLIScene;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
+import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 
@@ -28,6 +30,7 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
     @Override
     public void show() {
         ASCIIMarketTray.draw(getMarketTray());
+        ASCIIDevCardMarket.draw(getDevCardMarket());
         println("CHOOSE YOUR LEADER CARDS:"); println("");
         for(LeadCard lc : getLeadersToChooseFrom().getLeaders()){
             ASCIILeadCard.draw(lc);
@@ -61,6 +64,10 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(actionData, Choose2LeadersActionData.class));
         GameApplicationIOHandler.getInstance().pushAction(ap);
+    }
+
+    public DevCardMarket getDevCardMarket(){
+        return GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
     }
 
     public MarketTray getMarketTray(){
