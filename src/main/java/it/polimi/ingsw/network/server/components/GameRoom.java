@@ -22,7 +22,7 @@ import java.util.StringJoiner;
  */
 public class GameRoom {
 
-    private final String roomId;              // room id
+    private final String roomId;        // room id
     private final int maxPlayers;
     private Object lock;                // concurrency-safe table lock
     private Hashtable<String, RemoteUser> users;
@@ -65,10 +65,13 @@ public class GameRoom {
         if(gameInProgress()) throw new GameRoomException("The game has already started in this room!");
         if(nickname.contains(" ")) throw new GameRoomException("This nickname is not valid.");
 
+        boolean startGame = false;
         synchronized (lock) {
             if(users.containsKey(nickname)) throw new GameRoomException("The nickname \"" + nickname +"\" is already taken in this room.");
+            if(users.size() >= maxPlayers) throw new GameRoomException("The room is currently full.");
             users.put(nickname, user);
             user.assignRoom(roomId, nickname);
+            if (users.size() >= maxPlayers) startGame = true;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         for(String k: users.keySet())stringJoiner.add(k);
@@ -101,6 +104,11 @@ public class GameRoom {
                     markAsMIA(removed.getId(), nickname);
                     // Send MIA Action to the model controller
                     notifyMIA(nickname);
+                } else {
+                    StringJoiner stringJoiner = new StringJoiner(" ");
+                    for(String k: users.keySet())stringJoiner.add(k);
+                    String messageContent = SystemMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
+                    broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
                 }
             }
 
@@ -155,10 +163,10 @@ public class GameRoom {
          if(gameInProgress())
              return false;
 
+         boolean mp = true;
          synchronized (lock){
              if(users.size() < 2){
-                 broadcast(NetworkPacket.buildSystemMessagePacket(SystemMessage.ERR.addBody("Can't start a multiplayer game by yourself.")));
-                 return false;
+                 mp = false;
              }
          }
         // Instantiate controller
@@ -171,7 +179,7 @@ public class GameRoom {
         modelController.getGame().shufflePlayers();
         // Send start
         System.out.println("GameRoom.startGame: Game set up in room " + roomId);
-        String startMessage = SystemMessage.START_ROOM.addBody("Game started");
+        String startMessage = SystemMessage.START_ROOM.addBody(mp ? "mp" : "sp");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
@@ -203,5 +211,11 @@ public class GameRoom {
         nad.setPlayer(nickname);
         notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, JSONUtility.toJson(nad, NoneActionData.class))));
         System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");
+    }
+
+    public boolean isFull() {
+        synchronized (lock) {
+            return maxPlayers <= users.size();
+        }
     }
 }

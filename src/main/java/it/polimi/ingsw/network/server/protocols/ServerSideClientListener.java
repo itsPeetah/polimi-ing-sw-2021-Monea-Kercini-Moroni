@@ -28,6 +28,9 @@ public class ServerSideClientListener {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
+        if(user.getRoom().isFull())
+            executorService.submit(()->user.getRoom().startGame());
+
         while (true){
             if(done) break;
 
