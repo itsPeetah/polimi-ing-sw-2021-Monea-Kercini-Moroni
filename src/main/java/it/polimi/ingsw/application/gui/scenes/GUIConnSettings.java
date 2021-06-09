@@ -66,21 +66,19 @@ public class GUIConnSettings implements Initializable, PacketListener {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        if(type != null) {
-            Platform.runLater(() -> {
-                switch(type) {
-                    case IN_LOBBY:
-                        disableButtons(false);
-                        GUIScene.removeActiveScene();
-                        GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU, 500);
-                        break;
-                    case ERR:
-                        disableButtons(false);
-                        GUIScene.CONN_SETTINGS.load();
-                        GUIApplication.showDialog(additionalContent);
-                }
-            });
-        }
+        Platform.runLater(() -> {
+            switch(type) {
+                case IN_LOBBY:
+                    disableButtons(false);
+                    GUIScene.removeActiveScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU, 500);
+                    break;
+                case ERR:
+                    disableButtons(false);
+                    GUIScene.CONN_SETTINGS.load();
+                    GUIApplication.showDialog(additionalContent);
+            }
+        });
     }
 
     private void disableButtons(boolean disabled) {
