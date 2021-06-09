@@ -53,6 +53,7 @@ public class CLIHome extends CLIScene {
 
     private void selectSinglePlayerMode(){
         println(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
+        GameApplication.getInstance().startSPGame();
     }
 
     private void selectMultiplayerMode(){

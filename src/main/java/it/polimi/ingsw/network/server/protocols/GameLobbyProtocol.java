@@ -116,10 +116,21 @@ public class GameLobbyProtocol {
 
             }
             // The user wants to quick start
-            if(SystemMessage.QUICK_START.check(clientMessageFields[1])){
-                user.sendSystemMessage(SystemMessage.invalidLobbyRequestError);
-                // TODO Check if there are any available rooms (available = not started, current_players < max_players) => try join
-                // TODO If not, create a new room -> Room name <- Room{amountOfRoomsOnTheServer}
+            if(SystemMessage.QUICK_START.check(clientMessageFields[0])) {
+                if (clientMessageFields.length < 2) {
+                    user.sendSystemMessage(SystemMessage.missingArgumentsWhileJoiningError);
+                } else {
+                    try {
+                        GameServer.getInstance().getRoomTable().joinRandomRoom(clientMessageFields[1], user);
+                        user.sendSystemMessage(
+                                SystemMessage.IN_ROOM.addBody(user.getRoom().getId() + " " + clientMessageFields[1])
+                        );
+                        return true;
+                    } catch (GameRoomException ex){
+                        user.sendSystemMessage(SystemMessage.CANT_JOIN.addBody(ex.getMessage()));
+                        continue;
+                    }
+                }
             }
 
             // If the code reaches here the request is not supported.
