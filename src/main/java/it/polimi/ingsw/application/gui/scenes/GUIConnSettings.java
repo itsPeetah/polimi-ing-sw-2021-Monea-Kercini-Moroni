@@ -34,17 +34,18 @@ public class GUIConnSettings implements Initializable, PacketListener {
     }
 
     public void onConnectClick(ActionEvent actionEvent) {
-        if(GameApplication.getInstance().isOnNetwork()) return;
         disableButtons(true);
         address = addressTextField.getText();
         String portString = portTextField.getText().equals("") ? "0" : portTextField.getText();
         port = Integer.parseInt(portString);
-
         GUIScene.showLoadingScene();
 
-        // Start the connection on a new thread
-        GUIUtility.executorService.submit(() -> GameApplication.getInstance().connect(address, port));
+        GUIUtility.executorService.submit(() -> {
+            // If client was previously connected, remove current connection
+            if(GameApplication.getInstance().isOnNetwork()) GameApplication.getInstance().closeConnectionWithServer();
 
+            GameApplication.getInstance().connect(address, port);
+        });
     }
 
     @Override
@@ -56,11 +57,6 @@ public class GUIConnSettings implements Initializable, PacketListener {
                 portTextField.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
-
-    }
-
-    @Override
-    public void onMessage(Message message) {
 
     }
 

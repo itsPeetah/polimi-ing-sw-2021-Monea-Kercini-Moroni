@@ -46,3 +46,39 @@ HBox{
     -fx-background-position: left;
     -fx-cursor: default;
 }
+
+.cb {
+    -fx-mark-color: white ;
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+
+}
+
+.cb .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.cb .context-menu {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.cb .menu-item {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cb .menu-item .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+}
+
+.cb .menu-item:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.cb .menu-item:focused .label {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: black;
+    -fx-font-size: 25;
+}
