@@ -158,8 +158,6 @@ public class GameRoom {
      */
     public boolean startGame() {
 
-        System.out.println("GameRoom.startGame");
-
          if(gameInProgress())
              return false;
 
@@ -178,7 +176,6 @@ public class GameRoom {
         // randomize order
         modelController.getGame().shufflePlayers();
         // Send start
-        System.out.println("GameRoom.startGame: Game set up in room " + roomId);
         String startMessage = SystemMessage.START_ROOM.addBody(mp ? "mp" : "sp");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
