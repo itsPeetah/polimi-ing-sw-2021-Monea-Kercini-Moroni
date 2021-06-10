@@ -8,6 +8,6 @@ public class ASCIIResourcesToPut {
     public static void draw(ResourcesToPut rtp){
         System.out.println("Resources to organize in the warehouse: ");
         ASCIIResources.draw(rtp.getRes());
-        System.out.println("---------------------------------------");
+        System.out.println("\n---------------------------------------");
     }
 }
