@@ -15,17 +15,17 @@ public class ASCIIWarehouse {
         System.out.println("::::: WAREHOUSE CONTENT :::::");
         // Top row
         System.out.print("[");
-        if (content[2] != null && content[2].getTotalAmount() < 1) ASCIIResources.draw(content[2]);
+        if (content[2] != null && content[2].getTotalAmount() > 0) ASCIIResources.draw(content[2]);
         else System.out.print("Top row: empty");
         System.out.print("]\n");
         // Mid row
         System.out.print("[");
-        if(content[1] != null && content[1].getTotalAmount() < 1) ASCIIResources.draw(content[1]);
+        if(content[1] != null && content[1].getTotalAmount() > 0) ASCIIResources.draw(content[1]);
         else System.out.print("Mid row: empty");
         System.out.print("]\n");
         // Bottom row
         System.out.print("[");
-        if(content[0] != null && content[0].getTotalAmount() < 1) ASCIIResources.draw(content[0]);
+        if(content[0] != null && content[0].getTotalAmount() > 0) ASCIIResources.draw(content[0]);
         else System.out.print("Bot row: empty");
         System.out.print("]\n");
         System.out.println("::::::: EXTRA SPACES ::::::::");
