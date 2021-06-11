@@ -338,8 +338,9 @@ public class ModelController {
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
 
-        modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
         updateCurrentPlayer();
+        modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
+
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {

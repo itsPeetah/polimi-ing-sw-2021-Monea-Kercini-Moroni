@@ -12,6 +12,12 @@ public class CommonData {
     //including single player data
     private Lorenzo lorenzo;
 
+    private String currentPlayer;
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public DevCardMarket getDevCardMarket() {
         return dcm;
     }
