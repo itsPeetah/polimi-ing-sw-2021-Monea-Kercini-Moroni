@@ -391,6 +391,12 @@ public class ModelController {
                 case END_TURN:
                     //Nothing - player just ends his turn
                     turnFinished = true;
+
+                    //game turn increments
+                    for (int i = 0; i < game.getPlayers().length; i++) {
+                        modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.TURN_PASSED);
+                    }
+
                     break;
 
                 case DISCONNECTED:

@@ -5,6 +5,7 @@ public enum Message {
     OK("Action executed correctly."),
     SETTING_UP_GAME("The players are making their choices, please wait for your turn."),
     GAME_HAS_STARTED("The game has begun!"),
+    TURN_PASSED("A player has ended his turn."),
     CHOOSE_LEADERS("Choose your 2 leaders to keep in your hand."),
     CHOOSE_RESOURCE("Please choose a resource of your choice."),
     CHOOSE_REPLACEMENT("Please choose a resource of your choice."),
