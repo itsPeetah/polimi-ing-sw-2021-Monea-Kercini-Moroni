@@ -899,8 +899,6 @@ public class ModelController {
 
     private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
 
-
-
         //notifying player he has to choose 2 leaders
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
 
