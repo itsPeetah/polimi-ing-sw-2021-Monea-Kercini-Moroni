@@ -739,9 +739,6 @@ public class ModelController {
             //increase the faith points
             player.getBoard().incrementFaithPoints(res.getAmountOf(ResourceType.FAITH));
 
-            //todo delete the line below
-            player.getBoard().incrementFaithPoints(10);
-
             //remove the faith from resources
             try {
                 res.remove(ResourceType.FAITH, res.getAmountOf(ResourceType.FAITH));
