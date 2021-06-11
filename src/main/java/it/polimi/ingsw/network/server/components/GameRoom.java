@@ -181,8 +181,6 @@ public class GameRoom {
         // Start the game
         modelController.setupGame();
 
-        // TODO FIX ORDER!!!
-
         return true;
     }
 

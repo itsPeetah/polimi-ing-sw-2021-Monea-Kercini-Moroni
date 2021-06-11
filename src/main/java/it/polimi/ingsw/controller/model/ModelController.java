@@ -179,6 +179,10 @@ public class ModelController {
 
 
         gamePhase = GamePhase.START;
+        //Updating the view with the current Market Tray and DevCard market
+        //This might influence player choice on the leader and extra resources
+        updateResourceMarket();
+        updateDevCardMarket();
 
         /*
 
@@ -201,10 +205,6 @@ public class ModelController {
         //Initialize leader cards
         ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
 
-        //Updating the view with the current Market Tray and DevCard market
-        //This might influence player choice on the leader and extra resources
-        updateResourceMarket();
-        updateDevCardMarket();
 
         //shuffle leadCards
         Collections.shuffle(leadCards);
