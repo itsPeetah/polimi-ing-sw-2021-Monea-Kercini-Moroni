@@ -358,7 +358,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     setEndGameScene();
                     break;
                 case TURN_PASSED:
-                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer() + "is playing his turn.");
+                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer() + " is playing his turn.");
             }
         });
     }
