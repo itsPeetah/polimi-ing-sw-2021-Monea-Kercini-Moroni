@@ -358,7 +358,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     setEndGameScene();
                     break;
                 case TURN_PASSED:
-                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCurrentPlayer() + "is playing his turn.");
+                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer() + "is playing his turn.");
             }
         });
     }
@@ -697,7 +697,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-        gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCurrentPlayer());
     }
 
     public void openChat(ActionEvent actionEvent) {
