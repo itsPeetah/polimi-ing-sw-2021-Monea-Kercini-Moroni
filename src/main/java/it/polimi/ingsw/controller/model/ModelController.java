@@ -339,6 +339,7 @@ public class ModelController {
         boolean turnFinished = false;
 
         modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
+        updateCurrentPlayer();
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
@@ -1010,6 +1011,11 @@ public class ModelController {
 
         ActionTokenUpdateData ATUp = new ActionTokenUpdateData(Lorenzo.getLastPlayedToken(), Lorenzo.getCross().getBlackFaith());
         modelControllerIOHandler.pushUpdate(Update.SOLO_ACTION, ATUp);
+    }
+
+    private void updateCurrentPlayer(){
+        CurrentPlayerUpdateData cp = new CurrentPlayerUpdateData(game.getCurrentPlayer().getNickname());
+        modelControllerIOHandler.pushUpdate(Update.CURRENT_PLAYER, cp);
     }
 
     private void updateAll(Player player){
