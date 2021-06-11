@@ -18,6 +18,10 @@ public class CommonData {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public DevCardMarket getDevCardMarket() {
         return dcm;
     }

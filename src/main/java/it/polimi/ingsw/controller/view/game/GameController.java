@@ -159,6 +159,11 @@ public class GameController {
                 ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
                 gameData.getMomentary().getResourcesToPut().setRes(rUP.getRes());
                 break;
+
+            case CURRENT_PLAYER:
+                CurrentPlayerUpdateData cp = update.getUpdateData(updateDataString);
+                gameData.getCommon().setCurrentPlayer(cp.getCurrentPlayer());
+                break;
         }
     }
 
