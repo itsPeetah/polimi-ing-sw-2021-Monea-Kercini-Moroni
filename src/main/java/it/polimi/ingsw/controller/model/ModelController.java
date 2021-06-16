@@ -76,6 +76,7 @@ public class ModelController {
             res = data.getResources();
         }else{
             //player has disconnected
+            //we will give him an empty resource
             //todo maybe send nice message if a player has disconnected
         }
 
@@ -108,6 +109,7 @@ public class ModelController {
             updatedWarehouse = data.getWarehouse();
         }else{
             //player has disconnected
+            //the resources he has to put will be discarded
         }
 
 
@@ -965,7 +967,8 @@ public class ModelController {
             game.getPlayers()[i].getLeaders().setCards(data.getLeaders());
         }else{
             //player has disconnected
-            //todo deal with this case
+            //we give him the first two leaders
+            game.getPlayers()[i].getLeaders().setCards(leadCards.subList(i*4, i*4+2).toArray(LeadCard[]::new));
         }
 
         //Update Leaders
