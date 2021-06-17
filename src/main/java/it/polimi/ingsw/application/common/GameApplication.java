@@ -8,10 +8,14 @@ import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.NetworkPacketType;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.view.data.GameData;
 import javafx.application.Platform;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GameApplication {
     private static final String DEFAULT_SP_NICKNAME = "Player";
@@ -29,38 +33,32 @@ public class GameApplication {
     }
 
     // State
-    private GameApplicationState applicationState;
-    private String userId, userNickname, roomName;
-    private boolean isRunning;
+    private final AtomicReference<GameApplicationState> applicationState;
+    private String userId;
+    private final AtomicReference<String> userNickname, roomName;
+    private final AtomicBoolean isRunning;
 
     // Components
     private GameClient networkClient;
-    private GameController gameController;
+    private AtomicReference<GameController> gameController;
 
     // Lobby
     private final List<String> roomPlayers;
-
-    // Remove?
-    /*protected GameApplicationIOHandler ioHandler;*/
-
-    // Concurrency
-    private Object lock;
 
     /**
      * Class constructor
      */
     public GameApplication(){
-        this.isRunning = false;
-        this.applicationState = GameApplicationState.STARTUP;
+        this.isRunning = new AtomicBoolean(false);
+        this.applicationState = new AtomicReference<>(GameApplicationState.STARTUP);
         this.networkClient = null;
-        this.gameController = null;
-        this.lock = new Object();
+        this.gameController = new AtomicReference<>(null);
 
         this.userId = null;
-        this.userNickname = null;
-        this.roomName = null;
+        this.userNickname = new AtomicReference<>();
+        this.roomName = new AtomicReference<>();
 
-        this.roomPlayers = new ArrayList<>();
+        this.roomPlayers = Collections.synchronizedList(new ArrayList<>());
 
         instance = this;
     }
@@ -71,24 +69,20 @@ public class GameApplication {
      * Application state getter.
      */
     public GameApplicationState getApplicationState(){
-        synchronized (lock){
-            return applicationState;
-        }
+        return applicationState.get();
     }
 
     /**
      * Application state setter.
      */
     public void setApplicationState(GameApplicationState state){
-        synchronized (lock){
-            this.applicationState = state;
-        }
+        applicationState.set(state);
     }
 
     /**
      * Is running getter.
      */
-    public boolean isRunning(){ return isRunning; }
+    public boolean isRunning(){ return isRunning.get(); }
 
     /**
      * Has the networking been initialized?
@@ -107,11 +101,11 @@ public class GameApplication {
      */
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
         if(gameController == null) throw new NullPointerException();
-        return gameController.getGameControllerIOHandler();
+        return gameController.get().getGameControllerIOHandler();
     }
 
     public GameController getGameController() {
-        return gameController;
+        return gameController.get();
     }
 
     public String getUserId() {
@@ -123,19 +117,20 @@ public class GameApplication {
     }
 
     public String getUserNickname() {
-        return userNickname;
+        return userNickname.get();
     }
 
     public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
+        this.userNickname.set(userNickname);
     }
 
     public String getRoomName() {
-        return roomName;
+        return roomName.get();
     }
 
     public void setRoomName(String roomName) {
-        this.roomName = roomName;
+        String currentRoom = this.roomName.get();
+        if(!this.roomName.compareAndSet(currentRoom, roomName)) setRoomName(roomName);
     }
 
     public synchronized void setRoomPlayers(String stringOfPlayers) {
@@ -149,7 +144,7 @@ public class GameApplication {
         }
         this.roomPlayers.clear();
         this.roomPlayers.addAll(newList);
-        System.out.println(roomPlayers.toString());
+        System.out.println(roomPlayers);
 
     }
 
@@ -192,17 +187,14 @@ public class GameApplication {
      * @throws GameApplicationException if trying
      */
     public void connect(String hostName, int portNumber){
-        synchronized (lock) {
-            if (isOnNetwork())
-                return;
-        }
+        if (isOnNetwork())
+            return;
 
         networkClient = new GameClient(hostName, portNumber);
         if(!networkClient.start())
             networkClient = null;
         else {
-            isRunning = true;
-            if(outputMode == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(null, null);
+            isRunning.set(true);
         }
     }
 
@@ -215,9 +207,9 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startSPGame() {
-        userNickname = (userNickname==null ? userNickname=DEFAULT_SP_NICKNAME : userNickname);
-        gameController = new GameController(new GameData(), userNickname);
-        //gameController.getGameData().addPlayer(userId);
+        if(userNickname.get() == null) setUserNickname(DEFAULT_SP_NICKNAME);
+        gameController.set(new GameController(new GameData(), userNickname.get()));
+
         setApplicationState(GameApplicationState.INGAME);
     }
 
@@ -225,9 +217,22 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startMPGame() {
-        gameController = new GameController(new GameData());
-        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
+        gameController.set(new GameController(new GameData()));
+        getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
+    }
+
+    /**
+     * Leave the current game.
+     */
+    public void leaveGame() {
+        if(gameController.get() == null || !gameController.get().isSinglePlayer()) {
+            String messageContent = SystemMessage.LEAVE_ROOM.getCode();
+            NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
+            GameApplication.getInstance().sendNetworkPacket(np);
+        }
+        if(gameController.get() != null && getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
+        else setApplicationState(GameApplicationState.LOBBY);
     }
 
     public void closeConnectionWithServer() {

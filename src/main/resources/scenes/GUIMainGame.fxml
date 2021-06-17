@@ -51,7 +51,7 @@
        </GridPane>
       <HBox alignment="CENTER" layoutX="800.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateHBox" AnchorPane.bottomAnchor="981.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="820.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="Wait for your turn" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="gameStateLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" styleClass="gameStateLabel" text="It's your turn!" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Blackadder ITC" size="16.0" />
                </font>
@@ -99,7 +99,7 @@
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="iconButtonHBox">
+      <HBox fx:id="LCHbox" alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" styleClass="iconButtonHBox">
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                <children>

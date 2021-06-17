@@ -40,13 +40,14 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     private ListView<String> chatListView;
 
     public void onStartClick() {
-        setButtonsDisabled(false);
+        setButtonsDisabled(true);
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
     public void onLeaveClick(ActionEvent actionEvent) {
+        GUIUtility.handleLeaveGame();
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -64,21 +65,29 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
-        switch(gameApplicationState) {
-            case INGAME:
-                setButtonsDisabled(false);
-                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME, 1000);
+        switch(type) {
+            case QUIT:
+                GUIUtility.handleServerQuit();
+                break;
+            case START_ROOM:
+                GUIScene.showLoadingScene();
+                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                break;
+            case IN_GAME:
+                GUIScene.showLoadingScene();
+                GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
                 break;
         }
     }
 
     private void setButtonsDisabled(boolean disabled) {
         startButt.setDisable(disabled);
+        leaveButton.setDisable(disabled);
     }
 
     @Override
     public void startObserver() {
+        setButtonsDisabled(false);
         System.out.println("GUIMPRoom.startObserver");
         playersListView.setItems(observablePlayersList);
         GUIChat.bindChat(chatListView);

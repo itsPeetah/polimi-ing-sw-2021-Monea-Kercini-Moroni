@@ -1125,7 +1125,7 @@
          },
          "output": {
             "amounts": {
-               "FAITH": 2,
+               "FAITH": 1,
                "COINS": 2,
                "SHIELDS": 2
             }

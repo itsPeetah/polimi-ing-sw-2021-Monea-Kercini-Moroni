@@ -32,7 +32,7 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
         println("1) "+ ANSIColor.PURPLE + "SERVANTS" + ANSIColor.RESET);
         println("2) "+ ANSIColor.YELLOW + "COINS" + ANSIColor.RESET);
         println("3) "+ ANSIColor.BLUE + "SHIELDS" + ANSIColor.RESET);
-        println("1) "+ ANSIColor.GREEN + "STONES" + ANSIColor.RESET);
+        println("4) "+ ANSIColor.GREEN + "STONES" + ANSIColor.RESET);
     }
 
     @Override

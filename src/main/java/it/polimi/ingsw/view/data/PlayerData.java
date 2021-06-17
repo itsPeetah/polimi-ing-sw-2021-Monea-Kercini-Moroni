@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PlayerData {
 
     private String nickname;
-    private AtomicInteger VP = new AtomicInteger(0);
+    private final AtomicInteger VP = new AtomicInteger(0);
 
     private DevCards devCards;
     private FaithTrack faithTrack;
@@ -72,8 +72,8 @@ public class PlayerData {
         if(vpObserver != null) vpObserver.onVPChange();
     }
 
-    public AtomicInteger getVP() {
-        return VP;
+    public int getVP() {
+        return VP.get();
     }
 
     public void setObserver(VPObserver vpObserver) {

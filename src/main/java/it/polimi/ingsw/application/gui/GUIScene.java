@@ -1,12 +1,17 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.scenes.GUIChooseResource;
+import it.polimi.ingsw.application.gui.scenes.GUIEndGame;
+import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
+import it.polimi.ingsw.application.gui.scenes.GUIMainGame;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public enum GUIScene {
     MAIN_MENU("GUIMainMenu.fxml", true),
@@ -18,10 +23,11 @@ public enum GUIScene {
     END_GAME("GUIEndGame.fxml", true),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
-    CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
+    CHOOSE_RESOURCE("GUIChooseResource.fxml", true),
     WAREHOUSE("GUIWarehouse.fxml", false),
     LOADING("GUILoading.fxml", false),
-    GAME_CHAT("GUIGameChat.fxml", false);
+    GAME_CHAT("GUIGameChat.fxml", false),
+    GAME_SETTINGS("GUIGameSettings.fxml", true);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -33,11 +39,16 @@ public enum GUIScene {
     private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
-    private static PacketListener activeScene;
+    private static AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
     private static Parent nextLoadingRoot;
 
-    /* STATIC SCENE */
+    /* STATIC SCENES */
     private static Scene scene;
+    private static Scene chooseResourcesScene;
+
+    /* STATIC CONTROLLERS */
+    private static GUIChooseResource guiChooseResourceController;
+    private static GUIEndGame guiEndGameController;
 
     /**
      * Create a new GUIScene.
@@ -66,13 +77,25 @@ public enum GUIScene {
         return scene;
     }
 
+    public static Scene getChooseResourcesScene() {
+        return chooseResourcesScene;
+    }
+
+    public static GUIChooseResource getChooseResourcesController() {
+        return guiChooseResourceController;
+    }
+
+    public static GUIEndGame getGuiEndGameController() {
+        return guiEndGameController;
+    }
+
     public Parent getRoot() {
         return root;
     }
 
     public void startCallbacks() {
         if(fxmlLoader.getController() instanceof PacketListener) {
-            activeScene = fxmlLoader.getController();
+            activeScene.set(fxmlLoader.getController());
         }
         if(fxmlLoader.getController() instanceof GUIObserverScene) {
             System.out.println("GUIScene.startCallbacks: starting observer");
@@ -93,11 +116,11 @@ public enum GUIScene {
     }
 
     public synchronized static void removeActiveScene() {
-        activeScene = null;
+        activeScene.set(null);
     }
 
     public synchronized static PacketListener getActiveScene() {
-        return activeScene;
+        return activeScene.get();
     }
 
     public static void init() {
@@ -119,6 +142,13 @@ public enum GUIScene {
                 }
             }
         }
+
+        // Initialize GUI Choose Resource scene
+        chooseResourcesScene = new Scene(CHOOSE_RESOURCE.getRoot());
+        guiChooseResourceController = CHOOSE_RESOURCE.fxmlLoader.getController();
+
+        // Initialize GUI End Game controller
+        guiEndGameController = END_GAME.fxmlLoader.getController();
     }
 
     public static void showLoadingScene() {

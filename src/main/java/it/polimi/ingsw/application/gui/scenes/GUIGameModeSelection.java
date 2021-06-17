@@ -37,7 +37,7 @@ public class GUIGameModeSelection {
             /*while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println(newState);*/
-            GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME, 1000);
+            GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
         }).start();
     }
 

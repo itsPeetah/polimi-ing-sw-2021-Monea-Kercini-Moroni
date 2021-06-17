@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
@@ -28,40 +29,23 @@ public class GUIConnSettings implements Initializable, PacketListener {
     public TextField addressTextField;
     public TextField portTextField;
 
-    private TimerTask timeoutTask;
-
     public void onBackButton(ActionEvent actionEvent) {
         GUIScene.SETTINGS.load();
     }
 
     public void onConnectClick(ActionEvent actionEvent) {
-        if(GameApplication.getInstance().isOnNetwork()) return;
         disableButtons(true);
         address = addressTextField.getText();
         String portString = portTextField.getText().equals("") ? "0" : portTextField.getText();
         port = Integer.parseInt(portString);
-
-        // Setup animation
-        Timer timer = new Timer();
-
-        timeoutTask = new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    disableButtons(false);
-                    System.out.println("GUIConnSettings.run: Oops, make sure the server is online and the address and port are correct!");
-                    GameApplication.getInstance().out("Oops, make sure the server is online and the address and port are correct!");
-                    Platform.runLater(GUIScene.CONN_SETTINGS::load);
-                });
-            }
-        };
-        timer.schedule(timeoutTask, TIMEOUT_TIME);
-
         GUIScene.showLoadingScene();
 
-        // Start the connection on a new thread
-        new Thread(() -> GameApplication.getInstance().connect(address, port)).start();
+        GUIUtility.executorService.submit(() -> {
+            // If client was previously connected, remove current connection
+            if(GameApplication.getInstance().isOnNetwork()) GameApplication.getInstance().closeConnectionWithServer();
 
+            GameApplication.getInstance().connect(address, port);
+        });
     }
 
     @Override
@@ -77,21 +61,22 @@ public class GUIConnSettings implements Initializable, PacketListener {
     }
 
     @Override
-    public void onMessage(Message message) {
-
-    }
-
-    @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        if(GameApplication.getInstance().isOnNetwork()) {
-            System.out.println(GameApplication.getInstance().isOnNetwork());
-            Platform.runLater(() -> {
-                timeoutTask.cancel();
-                disableButtons(false);
-                GUIScene.removeActiveScene();
-                GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU, 1000);
-            });
-        }
+        Platform.runLater(() -> {
+            switch(type) {
+                case IN_LOBBY:
+                    disableButtons(false);
+                    GUIScene.removeActiveScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
+                    break;
+                case ERR:
+                case CANT_JOIN:
+                    disableButtons(false);
+                    GUIScene.CONN_SETTINGS.load();
+                    GUIApplication.showDialog(additionalContent);
+                    break;
+            }
+        });
     }
 
     private void disableButtons(boolean disabled) {

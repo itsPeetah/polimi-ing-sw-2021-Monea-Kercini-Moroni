@@ -24,7 +24,33 @@
 
 .label{
     -fx-font-size: 182;
-    -fx-font-family: "Old English Text MT";
+    -fx-font-family: "Blackadder ITC";
     -fx-effect: dropshadow(gaussian, white, 30, 0, 0, 0);
     -fx-text-fill: black;
+}
+
+.button{
+    -fx-font-family: 'Blackadder ITC';
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 40;
+    -fx-pref-height: 100;
+    -fx-pref-width: 310;
+}
+
+.button:hover{
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+VBox{
+    -fx-pref-height: -1;
+    -fx-pref-width: 310;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-border-color:
+            linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+    -fx-border-style: solid;
+    -fx-border-width:
+            5 0 0 0;
 }

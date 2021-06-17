@@ -1,7 +1,14 @@
 package it.polimi.ingsw.application.gui;
 
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationMode;
+import it.polimi.ingsw.application.common.GameApplicationState;
+import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
+import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -19,43 +26,26 @@ import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
 public class GUIUtility {
     public static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final int DELAY = 1000;
     private static Glow glow;
     private static ColorAdjust blackColorAdjust;
 
     public static void launchOrganizeWarehouseWindow(Window owner) {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.initOwner(owner);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
+        Stage stage = prepareStage(false, owner);
         stage.setTitle("Reorganize your warehouse");
         stage.setScene(GUIScene.WAREHOUSE.produceScene());
         stage.show();
     }
 
     public static void launchPickResourceWindow(Window owner) {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.initOwner(owner);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
+        Stage stage = prepareStage(false, owner);
         stage.setTitle("Choose the resources");
-        stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
+        stage.setScene(GUIScene.getChooseResourcesScene());
         stage.show();
     }
 
     public static void launchChat() {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.setResizable(false);
+        Stage stage = prepareStage(true, null);
         stage.setTitle("Chat");
         stage.setScene(GUIScene.GAME_CHAT.produceScene());
         GUIScene.GAME_CHAT.startCallbacks();
@@ -63,8 +53,43 @@ public class GUIUtility {
         stage.show();
     }
 
-    public static void runSceneWithDelay(GUIScene guiScene, int delay) {
-        new Thread(() -> {
+    public static void handleLeaveGame() {
+        System.out.println("GUIUtility.handleLeaveGame");
+
+        GUIScene.showLoadingScene();
+
+        GUIScene.getChooseResourcesController().setMessage(Message.CHOOSE_RESOURCE);
+        GUIScene.removeActiveScene();
+
+        GameApplication.getInstance().leaveGame();
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
+    }
+
+    public static void handleServerQuit() {
+        System.out.println("GUIUtility.handleServerQuit");
+        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
+        GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
+        if(gameApplicationState == GameApplicationState.INGAME) {
+            GUIUtility.handleLeaveGame();
+        }
+    }
+
+    private static Stage prepareStage(boolean canBeClosed, Window owner) {
+        Stage stage = new Stage();
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
+        stage.setResizable(false);
+        if(!canBeClosed) {
+            stage.initOwner(owner);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setOnCloseRequest(Event::consume);
+        }
+        return stage;
+    }
+
+    public static void runSceneWithDelay(GUIScene guiScene) {
+        GUIUtility.executorService.submit(() -> {
             // Start the listeners and observers so the scene can show the correct data
             Timer timer = new Timer();
             TimerTask startCallbacksTask = new TimerTask() {
@@ -79,9 +104,9 @@ public class GUIUtility {
                     Platform.runLater(() -> GUIScene.getScene().setRoot(guiScene.getRoot()));
                 }
             };
-            timer.schedule(startCallbacksTask, delay/2);
-            timer.schedule(switchTask, delay);
-        }).start();
+            timer.schedule(startCallbacksTask, DELAY/2);
+            timer.schedule(switchTask, DELAY);
+        });
     }
 
     public static Glow getGlow() {

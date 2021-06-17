@@ -26,6 +26,11 @@ public class ClientSideServerListener {
         while (!done) {
 
             NetworkPacket np = socket.receive();
+
+            if(np == null){
+                break;
+            }
+
             switch (np.getPacketType()) {
                 case SYSTEM:
                     handleSystemMessage(np);

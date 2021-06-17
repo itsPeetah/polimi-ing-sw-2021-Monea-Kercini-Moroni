@@ -2,65 +2,95 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.player.VPObserver;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
-public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
+public class GUIEndGame implements VPObserver, GUIObserverScene {
 
-    public ListView playerList;
-    public ListView scoreList;
+    public ListView<String> playerList;
+    public ListView<Integer> scoreList;
+
+    @FXML
     public Label endText;
 
     private static final AtomicBoolean win = new AtomicBoolean();
 
-    public static void setWin(boolean win) {
+    public void setWin(boolean win) {
         GUIEndGame.win.set(win);
+        if(win) {
+            endText.setText("Victory");
+        }
+        else {
+            endText.setText("Defeat");
+        }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
 
     @Override
     public void onVPChange() {
+        GUIUtility.executorService.submit(() -> {
+            GameData gameData = GameApplication.getInstance().getGameController().getGameData();
+            boolean isSinglePlayer = GameApplication.getInstance().getGameController().isSinglePlayer();
 
-        Platform.runLater(() -> {
+            if(!isSinglePlayer) {
+                // MP DATA
+                Map<String, Integer> unsortedPlayersVP = new HashMap<>();
+                List<String> players = GameApplication.getInstance().getRoomPlayers();
 
-            for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+                // Load the players scores
+                for(String player: players) {
+                    unsortedPlayersVP.put(player, gameData.getPlayerData(player).getVP());
+                }
 
-                playerList.getItems().add(i, GameApplication.getInstance().getRoomPlayers().get(i));
-                scoreList.getItems().add(i, GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getRoomPlayers().get(i)).getVP());
+                Map<String, Integer> playersVP = new HashMap<>();
+
+                // Fill sorted map
+                unsortedPlayersVP.entrySet().stream()
+                        .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+                        .forEach(k -> playersVP.entrySet().add(k));
+
+                Platform.runLater(() -> {
+                    for (Map.Entry<String, Integer> entry: playersVP.entrySet()) {
+                        playerList.getItems().add(entry.getKey());
+                        scoreList.getItems().add(entry.getValue());
+                    }
+                });
+            } else {
+                // SP DATA
+                String singlePlayerNickname = GameApplication.getInstance().getUserNickname();
+                int singlePlayerVP = gameData.getPlayerData(singlePlayerNickname).getVP();
+
+                Platform.runLater(() -> {
+                    playerList.getItems().add(singlePlayerNickname);
+                    scoreList.getItems().add(singlePlayerVP);
+                });
             }
-
-            if(!win.get()){
-                endText.setText("Defeat");
-            }
-            //if single player get the victory points of player
-            if(GameApplication.getInstance().getGameController().isSinglePlayer()){
-                playerList.getItems().add(GameApplication.getInstance().getUserNickname());
-                scoreList.getItems().add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getVP());
-            }
-
         });
-
     }
+
+
 
 
     @Override
     public void startObserver() {
-
+        playerList.getItems().clear();
+        scoreList.getItems().clear();
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
+    }
 
+    public void onExitClick(ActionEvent actionEvent) {
+        GUIUtility.handleLeaveGame();
     }
 }

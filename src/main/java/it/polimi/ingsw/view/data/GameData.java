@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view.data;
 
-import it.polimi.ingsw.view.observer.CommonDataObserver;
+
 import it.polimi.ingsw.view.observer.GameDataObserver;
-import it.polimi.ingsw.view.observer.player.DevCardsObserver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +55,7 @@ public class GameData {
         return momentary;
     }
 
-    public void turnIncrement(){
+    public synchronized void turnIncrement(){
         turn++;
     }
 

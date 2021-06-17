@@ -19,4 +19,22 @@ HBox{
 .button:hover{
     -fx-cursor: hand;
     -fx-text-fill: black;
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.buttonVBox {
+    -fx-pref-height: -1;
+    -fx-pref-width: 400;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-border-color:
+            linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+    -fx-border-style: solid;
+    -fx-border-width:
+            5 0 0 0;
+}
+
+.leadHBox {
+    -fx-background-color: transparent;
+    -fx-pref-width: 260;
+    -fx-pref-height: 330;
 }

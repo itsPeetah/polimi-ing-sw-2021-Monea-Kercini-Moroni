@@ -28,6 +28,9 @@ public class ServerSideClientListener {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
+        if(user.getRoom().isFull())
+            executorService.submit(()->user.getRoom().startGame());
+
         while (true){
             if(done) break;
 
@@ -43,15 +46,15 @@ public class ServerSideClientListener {
                     handleDebugMessage(np);
                     break;
                 case ACTION:
-                    // TODO thread?
                     executorService.submit(() -> handleActionPacket(np));
                     break;
                 case SOCIAL:
-                    // TODO thread?
                     executorService.submit(() -> handleSocialPacket(np));
                     break;
             }
         }
+
+        // TODO Using two executors -> ONLY NEED 1
 
         executorService.shutdown();
 

@@ -12,7 +12,6 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
-import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
@@ -113,18 +112,24 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
         // Leaders
         leaders.addAll(Arrays.asList(lead1, lead2, lead3, lead4));
-
-        // Make button inactive
-        button.setDisable(true);
     }
 
     @Override
     public void startObserver() {
+        // Make button inactive
+        button.setDisable(true);
+
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         String userNickname = GameApplication.getInstance().getUserNickname();
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(userNickname).getLeadersToChooseFrom().setObserver(this);
+
+        // Clean view from old games
+        Platform.runLater(() -> {
+            Arrays.fill(leadersSelected, false);
+            leaders.forEach(imageView -> imageView.setEffect(null));
+        });
     }
 
     @Override
@@ -263,10 +268,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
                     break;
-                case WINNER:
-                case LOSER:
-                case LOSER_MULTIPLAYER:
-
             }
         });
     }
@@ -284,12 +285,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        GUIScene.MAIN_GAME.load();
-    }
-
-    @Override
-    public void onSystemMessage(SystemMessage type, String additionalContent) {
-        // TODO do we need to handle system messages here?
+        GUIScene.showLoadingScene();
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
     }
 }
 

@@ -78,7 +78,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Label shields;
 
     // Board choice box
-    public ChoiceBox boardChoiceBox;
+    public ChoiceBox<String> boardChoiceBox;
 
     // Reports
     public ImageView report2;
@@ -94,7 +94,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Button warehouseButton;
     public Button chat;
     public HBox lorenzoHBox;
+    public HBox LCHbox;
     public ImageView lorenzoImageView;
+    private static Image lorenzoImage;
     public HBox chatHBox;
 
     // Leaders
@@ -226,7 +228,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private static Image report3Image;
     private static Image report4Image;
 
-    /* INITIALIZE METHODS */
+    /* INITIALIZATION METHODS */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -289,13 +291,19 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         file = new File("src/main/resources/images/vaticanreports/report4.png");
         report4Image = new Image(file.toURI().toString());
+
+        file = new File("src/main/resources/images/solotokens/retro cerchi.png");
+        lorenzoImage = new Image(file.toURI().toString());
     }
 
     @Override
     public void startObserver() {
         nickname = GameApplication.getInstance().getUserNickname();
 
-        new Thread(() -> {
+        // Clear choice box
+        boardChoiceBox.getItems().clear();
+
+        GUIUtility.executorService.submit(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             gameData.getCommon().getMarketTray().setObserver(this);
             gameData.getCommon().getDevCardMarket().setObserver(this);
@@ -309,7 +317,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     observePlayer(player);
                 }
             }
-        }).start();
+        });
 
 
         Platform.runLater(() -> {
@@ -319,9 +327,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
             // Handle chat/lorenzo box
             if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
-                ((HBox)chatHBox.getParent()).getChildren().remove(chatHBox);
+                LCHbox.getChildren().remove(chatHBox);
+                LCHbox.getChildren().set(1, lorenzoHBox);
             } else {
-                ((HBox)lorenzoHBox.getParent()).getChildren().remove(lorenzoHBox);
+                LCHbox.getChildren().remove(lorenzoHBox);
+                LCHbox.getChildren().set(1, chatHBox);
             }
         });
     }
@@ -333,6 +343,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.getPlayerData(player).getWarehouse().setObserver(this);
         gameData.getPlayerData(player).getDevCards().setObserver(this);
         gameData.getPlayerData(player).getStrongbox().setObserver(this);
+        gameData.getCommon().setObserver(this);
     }
 
     /* PACKET LISTENER METHODS */
@@ -340,29 +351,40 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onMessage(Message message) {
         Platform.runLater(() -> {
-            gameStateLabel.setText(message.toString());
             switch(message) {
+                case REQUIREMENTS_NOT_MET:
+                case ILLEGAL_CARD_PLACE:
+                case NOT_ENOUGH_RESOURCES:
+                case INCORRECT_REPLACEMENT:
+                case ALREADY_USED_PRIMARY_ACTION:
+                case ERROR:
+                case OK:
+                case START_TURN:
+                    gameStateLabel.setText(message.toString());
+                    break;
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseScene();
                     break;
+                case SELECT_OUTPUT:
+                case SELECT_INPUT:
+                    GUIScene.getChooseResourcesController().setMessage(message);
+                    break;
+                case CHOOSE_REPLACEMENT:
+                    GUIScene.getChooseResourcesController().setMessage(message);
                 case CHOOSE_RESOURCE:
                     setChooseResourceScene();
                     break;
                 case WINNER:
-                    GUIEndGame.setWin(true);
+                    GUIScene.getGuiEndGameController().setWin(true);
                     setEndGameScene();
                     break;
                 case LOSER:
                 case LOSER_MULTIPLAYER:
-                    GUIEndGame.setWin(false);
+                    GUIScene.getGuiEndGameController().setWin(false);
                     setEndGameScene();
                     break;
             }
         });
-    }
-
-    @Override
-    public void onSystemMessage(SystemMessage type, String additionalContent) {
     }
 
     /* DATA LISTENER METHODS */
@@ -407,7 +429,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onFaithChange() {
         GUIUtility.executorService.submit(() -> {
-            int faithPos = GameApplication.getInstance().getGameController().getGameData().getPlayerData(getCurrentUser()).getFaithTrack().getFaith();
+            int tempFaithPos = GameApplication.getInstance().getGameController().getGameData().getPlayerData(getCurrentUser()).getFaithTrack().getFaith();
+            int faithPos = Math.min(tempFaithPos, 24);
             Platform.runLater(() -> {
                 for(ImageView faithTrackCell: faithTrack) {
                     faithTrackCell.setImage(null);
@@ -628,7 +651,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void onBlackCrossChange() {
         if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
             GUIUtility.executorService.submit(() -> {
-                int crossPos = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross();
+                int tempCrossPos = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross();
+                int crossPos = Math.min(tempCrossPos, 24);
                 Platform.runLater(() -> {
                     for (ImageView imageView : blackTrack) {
                         imageView.setImage(null);
@@ -646,6 +670,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 SoloActionTokens lastToken = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken();
                 if (lastToken != null) {
                     Platform.runLater(() -> lorenzoImageView.setImage(lastToken.getImage()));
+                } else {
+                    Platform.runLater(() -> lorenzoImageView.setImage(lorenzoImage));
                 }
             }
         });
@@ -661,6 +687,18 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     boardChoiceBox.getItems().add(i, playersList.get(i));
                 }
             });
+        });
+    }
+
+    @Override
+    public void onCurrentPlayerChange() {
+        System.out.println("GUIMainGame.onCurrentPlayerChance");
+        String currentPlayer = GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer();
+        Platform.runLater(() -> {
+            if(!currentPlayer.equals(nickname)) {
+                System.out.println("GUIMainGame.onCurrentPlayerChance: " + "It's " + currentPlayer + " turn, please wait");
+                gameStateLabel.setText("It's " + currentPlayer + " turn, please wait");
+            }
         });
     }
 
@@ -695,7 +733,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-        gameStateLabel.setText("Wait for your turn");
     }
 
     public void openChat(ActionEvent actionEvent) {
@@ -703,6 +740,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void openSettings(ActionEvent actionEvent) {
+        GUIScene.GAME_SETTINGS.load();
     }
 
     // LEADERS
@@ -1029,7 +1067,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             Stage chatWindow = GUIChat.getChatStage();
             if(chatWindow != null) chatWindow.close();
             GUIScene.showLoadingScene();
-            GUIUtility.runSceneWithDelay(GUIScene.END_GAME, 500);
+            GUIUtility.runSceneWithDelay(GUIScene.END_GAME);
         });
     }
 
@@ -1041,7 +1079,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         GUIUtility.launchOrganizeWarehouseWindow(c0.getScene().getWindow());
     }
 
-    /* UTILITY METHODS */
     private void setChoice(Action newChoice) {
         Platform.runLater(() -> {
             if(isItMe()) {
@@ -1065,7 +1102,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     private String getCurrentUser() {
-        String temp = (String)boardChoiceBox.getValue();
+        String temp = boardChoiceBox.getValue();
         return temp == null ? GameApplication.getInstance().getUserNickname() : temp;
     }
 
