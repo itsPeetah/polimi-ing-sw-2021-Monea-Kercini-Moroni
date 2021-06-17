@@ -47,6 +47,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     }
 
     public void onLeaveClick(ActionEvent actionEvent) {
+        GUIUtility.handleLeaveGame();
     }
 
     public void sendMessage(KeyEvent keyEvent) {
@@ -66,13 +67,15 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     public void onSystemMessage(SystemMessage type, String additionalContent) {
         switch(type) {
             case QUIT:
-                setButtonsDisabled(false);
                 GUIUtility.handleServerQuit();
                 break;
             case START_ROOM:
                 GUIScene.showLoadingScene();
-                setButtonsDisabled(false);
                 GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                break;
+            case IN_GAME:
+                GUIScene.showLoadingScene();
+                GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
                 break;
         }
     }
@@ -84,6 +87,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     @Override
     public void startObserver() {
+        setButtonsDisabled(false);
         System.out.println("GUIMPRoom.startObserver");
         playersListView.setItems(observablePlayersList);
         GUIChat.bindChat(chatListView);

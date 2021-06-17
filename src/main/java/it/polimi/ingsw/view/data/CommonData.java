@@ -3,23 +3,38 @@ package it.polimi.ingsw.view.data;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.single.Lorenzo;
+import it.polimi.ingsw.view.observer.GameDataObserver;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CommonData {
 
-    private DevCardMarket dcm;
-    private MarketTray mt;
+    private final DevCardMarket dcm;
+    private final MarketTray mt;
 
     //including single player data
-    private Lorenzo lorenzo;
+    private final Lorenzo lorenzo;
 
-    private String currentPlayer;
+    private final AtomicReference<String> currentPlayer;
+
+    private final AtomicReference<GameDataObserver> gameDataObserver;
+
+
+    public CommonData() {
+        dcm = new DevCardMarket();
+        mt = new MarketTray();
+        lorenzo = new Lorenzo();
+        currentPlayer = new AtomicReference<>();
+        gameDataObserver = new AtomicReference<>(null);
+    }
 
     public String getCurrentPlayer() {
-        return currentPlayer;
+        return currentPlayer.get();
     }
 
     public void setCurrentPlayer(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
+        this.currentPlayer.set(currentPlayer);
+        if(gameDataObserver.get() != null) gameDataObserver.get().onCurrentPlayerChange();
     }
 
     public DevCardMarket getDevCardMarket() {
@@ -34,13 +49,9 @@ public class CommonData {
         return lorenzo;
     }
 
-    //for quickly constructing empty classes
-
-
-    public CommonData() {
-        dcm = new DevCardMarket();
-        mt = new MarketTray();
-        lorenzo = new Lorenzo();
+    public void setObserver(GameDataObserver gameDataObserver) {
+        this.gameDataObserver.set(gameDataObserver);
+        gameDataObserver.onCurrentPlayerChange();
     }
 
     @Override

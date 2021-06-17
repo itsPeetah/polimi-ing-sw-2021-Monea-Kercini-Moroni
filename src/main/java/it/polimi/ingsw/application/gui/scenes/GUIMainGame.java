@@ -343,6 +343,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         gameData.getPlayerData(player).getWarehouse().setObserver(this);
         gameData.getPlayerData(player).getDevCards().setObserver(this);
         gameData.getPlayerData(player).getStrongbox().setObserver(this);
+        gameData.getCommon().setObserver(this);
     }
 
     /* PACKET LISTENER METHODS */
@@ -350,8 +351,17 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onMessage(Message message) {
         Platform.runLater(() -> {
-            gameStateLabel.setText(message.toString());
             switch(message) {
+                case REQUIREMENTS_NOT_MET:
+                case ILLEGAL_CARD_PLACE:
+                case NOT_ENOUGH_RESOURCES:
+                case INCORRECT_REPLACEMENT:
+                case ALREADY_USED_PRIMARY_ACTION:
+                case ERROR:
+                case OK:
+                case START_TURN:
+                    gameStateLabel.setText(message.toString());
+                    break;
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseScene();
                     break;
@@ -373,8 +383,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     GUIScene.getGuiEndGameController().setWin(false);
                     setEndGameScene();
                     break;
-                case TURN_PASSED:
-                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer() + " is playing his turn.");
             }
         });
     }
@@ -421,7 +429,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onFaithChange() {
         GUIUtility.executorService.submit(() -> {
-            int faithPos = GameApplication.getInstance().getGameController().getGameData().getPlayerData(getCurrentUser()).getFaithTrack().getFaith();
+            int tempFaithPos = GameApplication.getInstance().getGameController().getGameData().getPlayerData(getCurrentUser()).getFaithTrack().getFaith();
+            int faithPos = Math.min(tempFaithPos, 24);
             Platform.runLater(() -> {
                 for(ImageView faithTrackCell: faithTrack) {
                     faithTrackCell.setImage(null);
@@ -642,7 +651,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void onBlackCrossChange() {
         if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
             GUIUtility.executorService.submit(() -> {
-                int crossPos = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross();
+                int tempCrossPos = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getBlackCross();
+                int crossPos = Math.min(tempCrossPos, 24);
                 Platform.runLater(() -> {
                     for (ImageView imageView : blackTrack) {
                         imageView.setImage(null);
@@ -677,6 +687,18 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     boardChoiceBox.getItems().add(i, playersList.get(i));
                 }
             });
+        });
+    }
+
+    @Override
+    public void onCurrentPlayerChange() {
+        System.out.println("GUIMainGame.onCurrentPlayerChance");
+        String currentPlayer = GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer();
+        Platform.runLater(() -> {
+            if(!currentPlayer.equals(nickname)) {
+                System.out.println("GUIMainGame.onCurrentPlayerChance: " + "It's " + currentPlayer + " turn, please wait");
+                gameStateLabel.setText("It's " + currentPlayer + " turn, please wait");
+            }
         });
     }
 
@@ -1080,7 +1102,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     private String getCurrentUser() {
-        String temp = (String)boardChoiceBox.getValue();
+        String temp = boardChoiceBox.getValue();
         return temp == null ? GameApplication.getInstance().getUserNickname() : temp;
     }
 

@@ -128,7 +128,10 @@ public class GameRoom {
 
     public void sendTo(String player, NetworkPacket packet){
         synchronized (lock) {
-            if (miaPlayers.containsKey(player) && NetworkPacketType.isGameRelated(packet)){
+            System.out.println("GameRoom.sendTo: miaPlayers.containsValue(player) = " + miaPlayers.containsValue(player));
+            System.out.println("GameRoom.sendTo: NetworkPacketType.isGameRelated(packet) = " + NetworkPacketType.isGameRelated(packet));
+            if (miaPlayers.containsValue(player) && NetworkPacketType.isGameRelated(packet)){
+                System.out.println("GameRoom.sendTo: // Send MIA Action to the model controller");
                 // Send MIA Action to the model controller
                 notifyMIA(player);
             }

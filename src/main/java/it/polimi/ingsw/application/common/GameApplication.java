@@ -226,13 +226,13 @@ public class GameApplication {
      * Leave the current game.
      */
     public void leaveGame() {
-        if(getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
-        else {
-            setApplicationState(GameApplicationState.LOBBY);
+        if(gameController.get() == null || !gameController.get().isSinglePlayer()) {
             String messageContent = SystemMessage.LEAVE_ROOM.getCode();
             NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
             GameApplication.getInstance().sendNetworkPacket(np);
         }
+        if(gameController.get() != null && getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
+        else setApplicationState(GameApplicationState.LOBBY);
     }
 
     public void closeConnectionWithServer() {

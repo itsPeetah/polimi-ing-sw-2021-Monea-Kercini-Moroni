@@ -18,6 +18,8 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GUIMPSelection implements PacketListener, Initializable {
     public Button joinButt;
@@ -26,7 +28,8 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public Button rejoinButt;
     public TextField userTextField;
     public TextField roomTextField;
-    public ChoiceBox numberChoiceBox;
+    public ChoiceBox<Integer> numberChoiceBox;
+    private final Timer startRoomTimer = new Timer();;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,12 +90,23 @@ public class GUIMPSelection implements PacketListener, Initializable {
         System.out.println("GUIMPSelection.onSystemMessage: " + type);
         Platform.runLater(() -> {
             setButtonsDisabled(false);
+            GUIScene.showLoadingScene();
             switch(type) {
-                case IN_ROOM:
-                    GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
-                    break;
                 case IN_GAME:
+                    startRoomTimer.cancel();
                     GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
+                    break;
+                case START_ROOM:
+                    startRoomTimer.cancel();
+                    GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                    break;
+                case IN_ROOM:
+                    startRoomTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
+                        }
+                    }, 1000);
                     break;
                 case QUIT:
                     GUIUtility.handleServerQuit();

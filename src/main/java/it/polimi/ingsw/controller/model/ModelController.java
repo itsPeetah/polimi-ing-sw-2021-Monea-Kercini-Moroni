@@ -338,9 +338,8 @@ public class ModelController {
 
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
+        boolean firstTime = true;
 
-        updateCurrentPlayer();
-        modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
 
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
@@ -354,6 +353,11 @@ public class ModelController {
             modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
             modelControllerIOHandler.addExpectedAction(Action.END_TURN);
 
+            if(firstTime) {
+                firstTime = false;
+                updateCurrentPlayer();
+                modelControllerIOHandler.sendMessage(player.getNickname(), Message.START_TURN);
+            }
 
             switch (modelControllerIOHandler.getResponseAction()) {
 
@@ -1059,6 +1063,7 @@ public class ModelController {
         updateLeaders(player);
         updateDevCardMarket();
         updateProductionPowers(player);
+        updateCurrentPlayer();
     }
 
     public void updateAll(String playerNickname){

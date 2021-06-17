@@ -54,6 +54,8 @@ public class GUIUtility {
     }
 
     public static void handleLeaveGame() {
+        System.out.println("GUIUtility.handleLeaveGame");
+
         GUIScene.showLoadingScene();
 
         GUIScene.getChooseResourcesController().setMessage(Message.CHOOSE_RESOURCE);
@@ -87,7 +89,7 @@ public class GUIUtility {
     }
 
     public static void runSceneWithDelay(GUIScene guiScene) {
-        new Thread(() -> {
+        GUIUtility.executorService.submit(() -> {
             // Start the listeners and observers so the scene can show the correct data
             Timer timer = new Timer();
             TimerTask startCallbacksTask = new TimerTask() {
@@ -104,7 +106,7 @@ public class GUIUtility {
             };
             timer.schedule(startCallbacksTask, DELAY/2);
             timer.schedule(switchTask, DELAY);
-        }).start();
+        });
     }
 
     public static Glow getGlow() {
