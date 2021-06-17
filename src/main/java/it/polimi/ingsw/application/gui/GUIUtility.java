@@ -1,5 +1,6 @@
 package it.polimi.ingsw.application.gui;
 
+import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.effect.ColorAdjust;
@@ -23,44 +24,40 @@ public class GUIUtility {
     private static ColorAdjust blackColorAdjust;
 
     public static void launchOrganizeWarehouseWindow(Window owner) {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.initOwner(owner);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
+        Stage stage = prepareStage(false, owner);
         stage.setTitle("Reorganize your warehouse");
         stage.setScene(GUIScene.WAREHOUSE.produceScene());
         stage.show();
     }
 
     public static void launchPickResourceWindow(Window owner) {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.initOwner(owner);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(Event::consume);
+        Stage stage = prepareStage(false, owner);
         stage.setTitle("Choose the resources");
         stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
         stage.show();
     }
 
     public static void launchChat() {
-        Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
-        stage.getIcons().add(iconImage);
-        stage.setResizable(false);
+        Stage stage = prepareStage(true, null);
         stage.setTitle("Chat");
         stage.setScene(GUIScene.GAME_CHAT.produceScene());
         GUIScene.GAME_CHAT.startCallbacks();
         GUIChat.setChatStage(stage);
         stage.show();
+    }
+
+    private static Stage prepareStage(boolean canBeClosed, Window owner) {
+        Stage stage = new Stage();
+        File file = new File(ICON_PATH);
+        Image iconImage = new Image(file.toURI().toString());
+        stage.getIcons().add(iconImage);
+        stage.setResizable(false);
+        if(!canBeClosed) {
+            stage.initOwner(owner);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setOnCloseRequest(Event::consume);
+        }
+        return stage;
     }
 
     public static void runSceneWithDelay(GUIScene guiScene, int delay) {

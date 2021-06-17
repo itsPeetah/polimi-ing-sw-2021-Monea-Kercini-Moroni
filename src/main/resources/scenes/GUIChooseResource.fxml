@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ChooseResource.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIChooseResource">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="140.0" prefWidth="589.0" text="Please pick a resource of your choice." textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="140.0" prefWidth="589.0" text="REQUEST" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Blackadder ITC" size="35.0" />
          </font>

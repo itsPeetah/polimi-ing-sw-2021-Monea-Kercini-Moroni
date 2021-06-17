@@ -2,56 +2,82 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.gui.GUIObserverScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.player.VPObserver;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GUIEndGame implements Initializable, VPObserver, GUIObserverScene {
+public class GUIEndGame implements VPObserver, GUIObserverScene {
 
-    public ListView playerList;
-    public ListView scoreList;
-    public Label endText;
+    public ListView<String> playerList;
+    public ListView<Integer> scoreList;
+
+    @FXML
+    public static Label endText;
 
     private static final AtomicBoolean win = new AtomicBoolean();
 
     public static void setWin(boolean win) {
         GUIEndGame.win.set(win);
+        if(win) {
+            endText.setText("Victory");
+        }
+        else {
+            endText.setText("Defeat");
+        }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
 
     @Override
     public void onVPChange() {
+        GUIUtility.executorService.submit(() -> {
+            GameData gameData = GameApplication.getInstance().getGameController().getGameData();
 
-        Platform.runLater(() -> {
+            // MP DATA
+            List<String> players = GameApplication.getInstance().getRoomPlayers();
+            List<Integer> playersVP = new ArrayList<>();
 
-            for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+            // SP DATA
+            String singlePlayerNickname = GameApplication.getInstance().getUserNickname();
 
-                playerList.getItems().add(i, GameApplication.getInstance().getRoomPlayers().get(i));
-                scoreList.getItems().add(i, GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getRoomPlayers().get(i)).getVP());
+            boolean isSinglePlayer = GameApplication.getInstance().getGameController().isSinglePlayer();
+
+            int tempSinglePlayerVP = 0;
+            if(!isSinglePlayer) {
+                // Load the players scores
+                for(String player: players) {
+                    playersVP.add(gameData.getPlayerData(player).getVP());
+                }
+            } else {
+                tempSinglePlayerVP = gameData.getPlayerData(singlePlayerNickname).getVP();
             }
 
-            if(!win.get()){
-                endText.setText("Defeat");
-            }
-            //if single player get the victory points of player
-            if(GameApplication.getInstance().getGameController().isSinglePlayer()){
-                playerList.getItems().add(GameApplication.getInstance().getUserNickname());
-                scoreList.getItems().add(GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getVP());
-            }
+            final int singlePlayerVP = tempSinglePlayerVP;
 
+            Platform.runLater(() -> {
+                if(!isSinglePlayer) {
+                    for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
+                        playerList.getItems().add(i, players.get(i));
+                        scoreList.getItems().add(i, playersVP.get(i));
+                    }
+                }
+                else {
+                    playerList.getItems().add(singlePlayerNickname);
+                    scoreList.getItems().add(singlePlayerVP);
+                }
+            });
         });
+
+
 
     }
 

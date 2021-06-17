@@ -4,21 +4,41 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
+import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class GUIChooseResource {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class GUIChooseResource implements Initializable {
+    private final static Message DEFAULT_MESSAGE = Message.CHOOSE_RESOURCE;
 
     public ImageView coin;
     public ImageView servant;
     public ImageView shield;
     public ImageView stone;
 
-    private Resources res = new Resources();
+    @FXML
+    private static Label messageLabel;
+
+    private final Resources res = new Resources();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setMessage(DEFAULT_MESSAGE);
+    }
+
+    public static void setMessage(Message message) {
+        Platform.runLater(() -> messageLabel.setText(message.toString()));
+    }
 
     private void sendResource(Resources res){
         ChooseResourceActionData chooseResourceActionData = new ChooseResourceActionData();
@@ -30,6 +50,7 @@ public class GUIChooseResource {
 
         Stage s = (Stage) coin.getScene().getWindow();
         s.close();
+        setMessage(DEFAULT_MESSAGE);
     }
 
 

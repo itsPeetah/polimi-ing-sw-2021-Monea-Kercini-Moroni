@@ -125,6 +125,12 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         gameData.getCommon().getMarketTray().setObserver(this);
         gameData.getCommon().getDevCardMarket().setObserver(this);
         gameData.getPlayerData(userNickname).getLeadersToChooseFrom().setObserver(this);
+
+        // Clean view from old games
+        Platform.runLater(() -> {
+            Arrays.fill(leadersSelected, false);
+            leaders.forEach(imageView -> imageView.setEffect(null));
+        });
     }
 
     @Override
@@ -284,7 +290,8 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
     private void setGameScene() {
-        GUIScene.MAIN_GAME.load();
+        GUIScene.showLoadingScene();
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 1000);
     }
 
     @Override

@@ -94,7 +94,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Button warehouseButton;
     public Button chat;
     public HBox lorenzoHBox;
+    public HBox LCHbox;
     public ImageView lorenzoImageView;
+    private static Image lorenzoImage;
     public HBox chatHBox;
 
     // Leaders
@@ -289,6 +291,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         file = new File("src/main/resources/images/vaticanreports/report4.png");
         report4Image = new Image(file.toURI().toString());
+
+        file = new File("src/main/resources/images/solotokens/retro cerchi.png");
+        lorenzoImage = new Image(file.toURI().toString());
     }
 
     @Override
@@ -319,9 +324,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
             // Handle chat/lorenzo box
             if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
-                ((HBox)chatHBox.getParent()).getChildren().remove(chatHBox);
+                LCHbox.getChildren().remove(chatHBox);
+                LCHbox.getChildren().set(1, lorenzoHBox);
             } else {
-                ((HBox)lorenzoHBox.getParent()).getChildren().remove(lorenzoHBox);
+                LCHbox.getChildren().remove(lorenzoHBox);
+                LCHbox.getChildren().set(1, chatHBox);
             }
         });
     }
@@ -345,6 +352,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseScene();
                     break;
+                case SELECT_OUTPUT:
+                case SELECT_INPUT:
+                case CHOOSE_REPLACEMENT:
+                    GUIChooseResource.setMessage(message);
                 case CHOOSE_RESOURCE:
                     setChooseResourceScene();
                     break;
@@ -646,6 +657,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 SoloActionTokens lastToken = GameApplication.getInstance().getGameController().getGameData().getCommon().getLorenzo().getLastToken();
                 if (lastToken != null) {
                     Platform.runLater(() -> lorenzoImageView.setImage(lastToken.getImage()));
+                } else {
+                    Platform.runLater(() -> lorenzoImageView.setImage(lorenzoImage));
                 }
             }
         });
@@ -703,6 +716,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     public void openSettings(ActionEvent actionEvent) {
+        GUIScene.GAME_SETTINGS.load();
     }
 
     // LEADERS

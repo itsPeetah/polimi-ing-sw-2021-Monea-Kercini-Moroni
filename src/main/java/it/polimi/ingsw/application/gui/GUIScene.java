@@ -1,12 +1,14 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public enum GUIScene {
     MAIN_MENU("GUIMainMenu.fxml", true),
@@ -21,7 +23,8 @@ public enum GUIScene {
     CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
     WAREHOUSE("GUIWarehouse.fxml", false),
     LOADING("GUILoading.fxml", false),
-    GAME_CHAT("GUIGameChat.fxml", false);
+    GAME_CHAT("GUIGameChat.fxml", false),
+    GAME_SETTINGS("GUIGameSettings.fxml", true);
 
     /* FXML ATTRIBUTES */
     private static final String FXML_DIRECTORY = "/scenes/";
@@ -33,7 +36,7 @@ public enum GUIScene {
     private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
-    private static PacketListener activeScene;
+    private static AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
     private static Parent nextLoadingRoot;
 
     /* STATIC SCENE */
@@ -72,7 +75,7 @@ public enum GUIScene {
 
     public void startCallbacks() {
         if(fxmlLoader.getController() instanceof PacketListener) {
-            activeScene = fxmlLoader.getController();
+            activeScene.set(fxmlLoader.getController());
         }
         if(fxmlLoader.getController() instanceof GUIObserverScene) {
             System.out.println("GUIScene.startCallbacks: starting observer");
@@ -93,11 +96,11 @@ public enum GUIScene {
     }
 
     public synchronized static void removeActiveScene() {
-        activeScene = null;
+        activeScene.set(null);
     }
 
     public synchronized static PacketListener getActiveScene() {
-        return activeScene;
+        return activeScene.get();
     }
 
     public static void init() {
