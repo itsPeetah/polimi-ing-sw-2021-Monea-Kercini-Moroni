@@ -58,6 +58,7 @@ public class GameApplicationIOHandler {
     }
 
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
+        System.out.println("GameApplicationIOHandler.handleSystemMessage");
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
         String[] messageArgs = messageFields.length > 1 ? messageFields[1].split(" ") : null;
@@ -101,6 +102,7 @@ public class GameApplicationIOHandler {
             notifySystemMessage(SystemMessage.IN_ROOM, messageArgs[0] + " " + messageArgs[1]);
         } else if (SystemMessage.CANT_JOIN.check(messageFields[0])){
             if(messageArgs != null) GameApplication.getInstance().out(messageFields[1]);
+            notifySystemMessage(SystemMessage.CANT_JOIN, null);
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else if (SystemMessage.IN_GAME.check(messageFields[0])){
             if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startMPGame();
@@ -108,6 +110,7 @@ public class GameApplicationIOHandler {
             notifySystemMessage(SystemMessage.IN_GAME, messageArgs[0]);
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
+            notifySystemMessage(SystemMessage.ERR, null);
         }
 
         return exitCode;
@@ -134,6 +137,7 @@ public class GameApplicationIOHandler {
         System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
+        notifySystemMessage(SystemMessage.QUIT, null);
     }
 
 

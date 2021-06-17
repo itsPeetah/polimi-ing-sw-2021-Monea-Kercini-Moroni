@@ -12,7 +12,6 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
-import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
@@ -113,13 +112,13 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
         // Leaders
         leaders.addAll(Arrays.asList(lead1, lead2, lead3, lead4));
-
-        // Make button inactive
-        button.setDisable(true);
     }
 
     @Override
     public void startObserver() {
+        // Make button inactive
+        button.setDisable(true);
+
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         String userNickname = GameApplication.getInstance().getUserNickname();
         gameData.getCommon().getMarketTray().setObserver(this);
@@ -269,10 +268,6 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
                 case WAREHOUSE_UNORGANIZED:
                     setOrganizeWarehouseUI();
                     break;
-                case WINNER:
-                case LOSER:
-                case LOSER_MULTIPLAYER:
-
             }
         });
     }

@@ -70,9 +70,11 @@ public class GUIConnSettings implements Initializable, PacketListener {
                     GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
                     break;
                 case ERR:
+                case CANT_JOIN:
                     disableButtons(false);
                     GUIScene.CONN_SETTINGS.load();
                     GUIApplication.showDialog(additionalContent);
+                    break;
             }
         });
     }

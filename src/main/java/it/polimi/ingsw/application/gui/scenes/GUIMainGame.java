@@ -78,7 +78,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public Label shields;
 
     // Board choice box
-    public ChoiceBox boardChoiceBox;
+    public ChoiceBox<String> boardChoiceBox;
 
     // Reports
     public ImageView report2;
@@ -300,7 +300,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void startObserver() {
         nickname = GameApplication.getInstance().getUserNickname();
 
-        new Thread(() -> {
+        // Clear choice box
+        boardChoiceBox.getItems().clear();
+
+        GUIUtility.executorService.submit(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             gameData.getCommon().getMarketTray().setObserver(this);
             gameData.getCommon().getDevCardMarket().setObserver(this);
@@ -314,7 +317,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     observePlayer(player);
                 }
             }
-        }).start();
+        });
 
 
         Platform.runLater(() -> {
@@ -372,10 +375,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     break;
             }
         });
-    }
-
-    @Override
-    public void onSystemMessage(SystemMessage type, String additionalContent) {
     }
 
     /* DATA LISTENER METHODS */

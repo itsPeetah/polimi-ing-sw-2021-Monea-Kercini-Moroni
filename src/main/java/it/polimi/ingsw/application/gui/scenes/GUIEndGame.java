@@ -6,6 +6,7 @@ import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.player.VPObserver;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -79,11 +80,17 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
     }
 
 
+
+
     @Override
     public void startObserver() {
         playerList.getItems().clear();
         scoreList.getItems().clear();
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
+    }
+
+    public void onExitClick(ActionEvent actionEvent) {
+        GUIUtility.handleLeaveGame();
     }
 }

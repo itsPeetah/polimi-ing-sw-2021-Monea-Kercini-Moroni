@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,29 +11,30 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.650278293135436" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="1080.0" prefWidth="1920.0" scaleShape="false" stylesheets="@../styles/PreGame.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
-  <items>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" scaleShape="false" stylesheets="@../styles/PreGame.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIPreGame">
+    <children>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="600.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000e5" height="318.0" layoutX="1435.0" layoutY="79.0" scaleZ="-1.0" stroke="BLACK" strokeType="INSIDE" translateZ="-1.0" width="379.0" />
-            <GridPane layoutX="27.0" layoutY="-2.0" prefHeight="704.0" prefWidth="839.0">
+            <GridPane alignment="CENTER" layoutX="181.0" layoutY="6.0" prefHeight="670.0" prefWidth="1000.0">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fx:id="dev01" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="dev01" fitHeight="220.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
                   <ImageView fx:id="dev02" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="dev12" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                   <ImageView fx:id="dev11" fitHeight="220.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -86,43 +86,72 @@
             </ImageView>
             <Sphere fx:id="marble" layoutX="1479.0" layoutY="128.0" radius="29.0" />
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+    <AnchorPane AnchorPane.bottomAnchor="0.0">
          <children>
-            <HBox prefHeight="388.0" prefWidth="1921.0">
+            <HBox alignment="CENTER" fillHeight="false" prefHeight="388.0" prefWidth="1920.0" spacing="20.0">
                <children>
-                  <ImageView fx:id="lead1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" styleClass="leadHBox" HBox.hgrow="NEVER">
+                     <children>
+                        <ImageView fx:id="lead1" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" nodeOrientation="INHERIT" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+                        <Insets left="70.0" />
                      </HBox.margin>
-                  </ImageView>
-                  <ImageView fx:id="lead2" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" styleClass="leadHBox" HBox.hgrow="NEVER">
+                     <children>
+                        <ImageView fx:id="lead2" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" nodeOrientation="INHERIT" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+                        <Insets />
                      </HBox.margin>
-                  </ImageView>
-                  <ImageView fx:id="lead3" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead3Click" pickOnBounds="true" preserveRatio="true">
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" styleClass="leadHBox" HBox.hgrow="NEVER">
+                     <children>
+                        <ImageView fx:id="lead3" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" nodeOrientation="INHERIT" onMouseClicked="#lead3Click" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" styleClass="leadHBox" HBox.hgrow="NEVER">
+                     <children>
+                        <ImageView fx:id="lead4" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" nodeOrientation="INHERIT" onMouseClicked="#lead4Click" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+                        <Insets right="220.0" />
                      </HBox.margin>
-                  </ImageView>
-                  <ImageView fx:id="lead4" accessibleRole="CHECK_BOX" fitHeight="330.0" fitWidth="260.0" onMouseClicked="#lead4Click" pickOnBounds="true" preserveRatio="true">
+                  </HBox>
+                  <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="buttonVBox">
+                     <children>
+                        <Button fx:id="button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ready" prefHeight="225.0" prefWidth="623.0" text="Ready" textAlignment="CENTER">
+                           <font>
+                              <Font size="96.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+                        <Insets right="40.0" />
                      </HBox.margin>
-                  </ImageView>
-                  <Button fx:id="button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ready" prefHeight="345.0" prefWidth="623.0" text="Ready" textAlignment="CENTER">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Button>
+                  </VBox>
                </children>
             </HBox>
          </children></AnchorPane>
-  </items>
-</SplitPane>
+  </children>
+</AnchorPane>

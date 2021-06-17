@@ -18,12 +18,9 @@ public interface PacketListener extends GameMessageListener, SystemMessageListen
 
     @Override
     default void onSystemMessage(SystemMessage type, @Nullable String additionalContent) {
-        if(type == SystemMessage.QUIT) {
-            GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
-            GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
-            if(GameApplication.getOutputMode() == GameApplicationMode.GUI && gameApplicationState == GameApplicationState.INGAME) {
-                GUIUtility.handleLeaveGame();
-            }
+        System.out.println("PacketListener.onSystemMessage: " + type);
+        if(type == SystemMessage.QUIT && GameApplication.getOutputMode() == GameApplicationMode.GUI) {
+            GUIUtility.handleServerQuit();
         }
     }
 }

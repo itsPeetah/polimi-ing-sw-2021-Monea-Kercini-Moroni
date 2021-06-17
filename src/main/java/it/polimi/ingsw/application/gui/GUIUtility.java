@@ -1,8 +1,11 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationMode;
+import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
 import it.polimi.ingsw.controller.model.messages.Message;
+import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.Scene;
@@ -58,6 +61,15 @@ public class GUIUtility {
 
         GameApplication.getInstance().leaveGame();
         GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
+    }
+
+    public static void handleServerQuit() {
+        System.out.println("GUIUtility.handleServerQuit");
+        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
+        GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
+        if(gameApplicationState == GameApplicationState.INGAME) {
+            GUIUtility.handleLeaveGame();
+        }
     }
 
     private static Stage prepareStage(boolean canBeClosed, Window owner) {

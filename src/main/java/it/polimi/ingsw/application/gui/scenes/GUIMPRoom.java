@@ -40,7 +40,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     private ListView<String> chatListView;
 
     public void onStartClick() {
-        setButtonsDisabled(false);
+        setButtonsDisabled(true);
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
         GameApplication.getInstance().sendNetworkPacket(np);
@@ -64,9 +64,13 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
-        switch(gameApplicationState) {
-            case INGAME:
+        switch(type) {
+            case QUIT:
+                setButtonsDisabled(false);
+                GUIUtility.handleServerQuit();
+                break;
+            case START_ROOM:
+                GUIScene.showLoadingScene();
                 setButtonsDisabled(false);
                 GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
                 break;
@@ -75,6 +79,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     private void setButtonsDisabled(boolean disabled) {
         startButt.setDisable(disabled);
+        leaveButton.setDisable(disabled);
     }
 
     @Override
