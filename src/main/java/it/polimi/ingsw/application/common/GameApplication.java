@@ -8,6 +8,8 @@ import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.network.common.NetworkPacketType;
+import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.view.data.GameData;
 import javafx.application.Platform;
 
@@ -38,7 +40,7 @@ public class GameApplication {
 
     // Components
     private GameClient networkClient;
-    private GameController gameController;
+    private AtomicReference<GameController> gameController;
 
     // Lobby
     private final List<String> roomPlayers;
@@ -50,7 +52,7 @@ public class GameApplication {
         this.isRunning = new AtomicBoolean(false);
         this.applicationState = new AtomicReference<>(GameApplicationState.STARTUP);
         this.networkClient = null;
-        this.gameController = null;
+        this.gameController = new AtomicReference<>(null);
 
         this.userId = null;
         this.userNickname = new AtomicReference<>();
@@ -99,11 +101,11 @@ public class GameApplication {
      */
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
         if(gameController == null) throw new NullPointerException();
-        return gameController.getGameControllerIOHandler();
+        return gameController.get().getGameControllerIOHandler();
     }
 
     public GameController getGameController() {
-        return gameController;
+        return gameController.get();
     }
 
     public String getUserId() {
@@ -206,7 +208,7 @@ public class GameApplication {
      */
     public void startSPGame() {
         if(userNickname.get() == null) setUserNickname(DEFAULT_SP_NICKNAME);
-        gameController = new GameController(new GameData(), userNickname.get());
+        gameController.set(new GameController(new GameData(), userNickname.get()));
 
         setApplicationState(GameApplicationState.INGAME);
     }
@@ -215,9 +217,22 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startMPGame() {
-        gameController = new GameController(new GameData());
-        getRoomPlayers().forEach(x -> gameController.getGameData().addPlayer(x));
+        gameController.set(new GameController(new GameData()));
+        getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
+    }
+
+    /**
+     * Leave the current game.
+     */
+    public void leaveGame() {
+        if(getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
+        else {
+            setApplicationState(GameApplicationState.LOBBY);
+            String messageContent = SystemMessage.LEAVE_ROOM.getCode();
+            NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
+            GameApplication.getInstance().sendNetworkPacket(np);
+        }
     }
 
     public void closeConnectionWithServer() {

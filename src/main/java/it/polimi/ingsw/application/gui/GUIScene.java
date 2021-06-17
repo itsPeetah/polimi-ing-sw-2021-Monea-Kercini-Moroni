@@ -1,7 +1,10 @@
 package it.polimi.ingsw.application.gui;
 
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.scenes.GUIChooseResource;
+import it.polimi.ingsw.application.gui.scenes.GUIEndGame;
 import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
+import it.polimi.ingsw.application.gui.scenes.GUIMainGame;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +23,7 @@ public enum GUIScene {
     END_GAME("GUIEndGame.fxml", true),
     SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
-    CHOOSE_RESOURCE("GUIChooseResource.fxml", false),
+    CHOOSE_RESOURCE("GUIChooseResource.fxml", true),
     WAREHOUSE("GUIWarehouse.fxml", false),
     LOADING("GUILoading.fxml", false),
     GAME_CHAT("GUIGameChat.fxml", false),
@@ -39,8 +42,13 @@ public enum GUIScene {
     private static AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
     private static Parent nextLoadingRoot;
 
-    /* STATIC SCENE */
+    /* STATIC SCENES */
     private static Scene scene;
+    private static Scene chooseResourcesScene;
+
+    /* STATIC CONTROLLERS */
+    private static GUIChooseResource guiChooseResourceController;
+    private static GUIEndGame guiEndGameController;
 
     /**
      * Create a new GUIScene.
@@ -67,6 +75,18 @@ public enum GUIScene {
 
     public static Scene getScene() {
         return scene;
+    }
+
+    public static Scene getChooseResourcesScene() {
+        return chooseResourcesScene;
+    }
+
+    public static GUIChooseResource getChooseResourcesController() {
+        return guiChooseResourceController;
+    }
+
+    public static GUIEndGame getGuiEndGameController() {
+        return guiEndGameController;
     }
 
     public Parent getRoot() {
@@ -122,6 +142,13 @@ public enum GUIScene {
                 }
             }
         }
+
+        // Initialize GUI Choose Resource scene
+        chooseResourcesScene = new Scene(CHOOSE_RESOURCE.getRoot());
+        guiChooseResourceController = CHOOSE_RESOURCE.fxmlLoader.getController();
+
+        // Initialize GUI End Game controller
+        guiEndGameController = END_GAME.fxmlLoader.getController();
     }
 
     public static void showLoadingScene() {

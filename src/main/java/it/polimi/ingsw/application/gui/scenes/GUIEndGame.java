@@ -12,10 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class GUIEndGame implements VPObserver, GUIObserverScene {
 
@@ -23,11 +22,11 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
     public ListView<Integer> scoreList;
 
     @FXML
-    public static Label endText;
+    public Label endText;
 
     private static final AtomicBoolean win = new AtomicBoolean();
 
-    public static void setWin(boolean win) {
+    public void setWin(boolean win) {
         GUIEndGame.win.set(win);
         if(win) {
             endText.setText("Victory");
@@ -41,52 +40,50 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
     public void onVPChange() {
         GUIUtility.executorService.submit(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
-
-            // MP DATA
-            List<String> players = GameApplication.getInstance().getRoomPlayers();
-            List<Integer> playersVP = new ArrayList<>();
-
-            // SP DATA
-            String singlePlayerNickname = GameApplication.getInstance().getUserNickname();
-
             boolean isSinglePlayer = GameApplication.getInstance().getGameController().isSinglePlayer();
 
-            int tempSinglePlayerVP = 0;
             if(!isSinglePlayer) {
+                // MP DATA
+                Map<String, Integer> unsortedPlayersVP = new HashMap<>();
+                List<String> players = GameApplication.getInstance().getRoomPlayers();
+
                 // Load the players scores
                 for(String player: players) {
-                    playersVP.add(gameData.getPlayerData(player).getVP());
+                    unsortedPlayersVP.put(player, gameData.getPlayerData(player).getVP());
                 }
-            } else {
-                tempSinglePlayerVP = gameData.getPlayerData(singlePlayerNickname).getVP();
-            }
 
-            final int singlePlayerVP = tempSinglePlayerVP;
+                Map<String, Integer> playersVP = new HashMap<>();
 
-            Platform.runLater(() -> {
-                if(!isSinglePlayer) {
-                    for (int i = 0; i < GameApplication.getInstance().getRoomPlayers().size(); i++) {
-                        playerList.getItems().add(i, players.get(i));
-                        scoreList.getItems().add(i, playersVP.get(i));
+                // Fill sorted map
+                unsortedPlayersVP.entrySet().stream()
+                        .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+                        .forEach(k -> playersVP.entrySet().add(k));
+
+                Platform.runLater(() -> {
+                    for (Map.Entry<String, Integer> entry: playersVP.entrySet()) {
+                        playerList.getItems().add(entry.getKey());
+                        scoreList.getItems().add(entry.getValue());
                     }
-                }
-                else {
+                });
+            } else {
+                // SP DATA
+                String singlePlayerNickname = GameApplication.getInstance().getUserNickname();
+                int singlePlayerVP = gameData.getPlayerData(singlePlayerNickname).getVP();
+
+                Platform.runLater(() -> {
                     playerList.getItems().add(singlePlayerNickname);
                     scoreList.getItems().add(singlePlayerVP);
-                }
-            });
+                });
+            }
         });
-
-
-
     }
 
 
     @Override
     public void startObserver() {
-
+        playerList.getItems().clear();
+        scoreList.getItems().clear();
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
-
     }
 }

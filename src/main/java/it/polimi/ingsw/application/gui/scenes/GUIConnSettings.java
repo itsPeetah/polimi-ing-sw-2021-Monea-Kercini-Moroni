@@ -67,7 +67,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
                 case IN_LOBBY:
                     disableButtons(false);
                     GUIScene.removeActiveScene();
-                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU, 500);
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
                     break;
                 case ERR:
                     disableButtons(false);

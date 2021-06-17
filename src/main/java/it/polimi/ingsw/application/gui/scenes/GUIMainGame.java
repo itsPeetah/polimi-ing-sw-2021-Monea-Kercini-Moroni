@@ -228,7 +228,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private static Image report3Image;
     private static Image report4Image;
 
-    /* INITIALIZE METHODS */
+    /* INITIALIZATION METHODS */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -354,18 +354,20 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     break;
                 case SELECT_OUTPUT:
                 case SELECT_INPUT:
+                    GUIScene.getChooseResourcesController().setMessage(message);
+                    break;
                 case CHOOSE_REPLACEMENT:
-                    GUIChooseResource.setMessage(message);
+                    GUIScene.getChooseResourcesController().setMessage(message);
                 case CHOOSE_RESOURCE:
                     setChooseResourceScene();
                     break;
                 case WINNER:
-                    GUIEndGame.setWin(true);
+                    GUIScene.getGuiEndGameController().setWin(true);
                     setEndGameScene();
                     break;
                 case LOSER:
                 case LOSER_MULTIPLAYER:
-                    GUIEndGame.setWin(false);
+                    GUIScene.getGuiEndGameController().setWin(false);
                     setEndGameScene();
                     break;
             }
@@ -1043,7 +1045,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             Stage chatWindow = GUIChat.getChatStage();
             if(chatWindow != null) chatWindow.close();
             GUIScene.showLoadingScene();
-            GUIUtility.runSceneWithDelay(GUIScene.END_GAME, 500);
+            GUIUtility.runSceneWithDelay(GUIScene.END_GAME);
         });
     }
 
@@ -1055,7 +1057,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         GUIUtility.launchOrganizeWarehouseWindow(c0.getScene().getWindow());
     }
 
-    /* UTILITY METHODS */
     private void setChoice(Action newChoice) {
         Platform.runLater(() -> {
             if(isItMe()) {

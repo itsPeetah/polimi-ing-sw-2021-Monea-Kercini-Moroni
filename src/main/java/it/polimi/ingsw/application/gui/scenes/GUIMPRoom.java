@@ -68,7 +68,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         switch(gameApplicationState) {
             case INGAME:
                 setButtonsDisabled(false);
-                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME, 1000);
+                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
                 break;
         }
     }

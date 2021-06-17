@@ -69,21 +69,6 @@ public class GUIMPSelection implements PacketListener, Initializable {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
 
-        Timer timer = new Timer();
-
-        timeoutTask = new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    System.out.println("GUIMPSelection: no room found");
-                    setButtonsDisabled(false);
-                    Platform.runLater(GUIScene.MP_SELECTION::load);
-                    // TODO improve by removing this task and add listener for network messages
-                });
-            }
-        };
-        timer.schedule(timeoutTask, GUIConnSettings.TIMEOUT_TIME);
-
         GUIUtility.executorService.submit(() -> {
             GameApplication.getInstance().out("Processing request, please wait.");
             String messageContent = gameLobbyMessage.addBody(room + " " + username + (gameLobbyMessage == SystemMessage.CREATE_ROOM ? " " + playersNumber : ""));
@@ -111,10 +96,10 @@ public class GUIMPSelection implements PacketListener, Initializable {
             setButtonsDisabled(false);
             switch(type) {
                 case IN_ROOM:
-                    GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM, 500);
+                    GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
                     break;
                 case IN_GAME:
-                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 500);
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
                     break;
             }
         });

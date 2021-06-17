@@ -291,12 +291,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
     private void setGameScene() {
         GUIScene.showLoadingScene();
-        GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME, 1000);
-    }
-
-    @Override
-    public void onSystemMessage(SystemMessage type, String additionalContent) {
-        // TODO do we need to handle system messages here?
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
     }
 }
 

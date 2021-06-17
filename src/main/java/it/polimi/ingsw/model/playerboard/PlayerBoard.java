@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,7 @@ public class PlayerBoard {
     public PlayerBoard(int reportsAttended, Warehouse wh, Strongbox sb, ProductionPowers pp) {
         this.faithPoints = 0;
         this.reportsAttended = new Boolean[reportsAttended];
+        //Arrays.fill(this.reportsAttended, false);
         this.warehouse = wh;
         this.strongbox = sb;
         this.productionPowers = pp;
@@ -119,14 +121,10 @@ public class PlayerBoard {
 
         //victory points from reports attended
 
-        if(reportsAttended[0]){
-            faithVictoryPoints+= 2;
-        }
-        if(reportsAttended[1]){
-            faithVictoryPoints+= 3;
-        }
-        if(reportsAttended[2]){
-            faithVictoryPoints+= 4;
+        for(int i = 0; i < 3; i++) {
+            if(reportsAttended[i]!=null && reportsAttended[i]){
+                faithVictoryPoints+= i + 2;
+            }
         }
 
         //total victory points from the board

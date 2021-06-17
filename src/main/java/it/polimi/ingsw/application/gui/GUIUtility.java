@@ -1,8 +1,11 @@
 package it.polimi.ingsw.application.gui;
 
+import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
+import it.polimi.ingsw.controller.model.messages.Message;
 import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -20,6 +23,7 @@ import static it.polimi.ingsw.application.gui.GUIApplication.ICON_PATH;
 
 public class GUIUtility {
     public static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final int DELAY = 1000;
     private static Glow glow;
     private static ColorAdjust blackColorAdjust;
 
@@ -33,7 +37,7 @@ public class GUIUtility {
     public static void launchPickResourceWindow(Window owner) {
         Stage stage = prepareStage(false, owner);
         stage.setTitle("Choose the resources");
-        stage.setScene(GUIScene.CHOOSE_RESOURCE.produceScene());
+        stage.setScene(GUIScene.getChooseResourcesScene());
         stage.show();
     }
 
@@ -44,6 +48,16 @@ public class GUIUtility {
         GUIScene.GAME_CHAT.startCallbacks();
         GUIChat.setChatStage(stage);
         stage.show();
+    }
+
+    public static void handleLeaveGame() {
+        GUIScene.showLoadingScene();
+
+        GUIScene.getChooseResourcesController().setMessage(Message.CHOOSE_RESOURCE);
+        GUIScene.removeActiveScene();
+
+        GameApplication.getInstance().leaveGame();
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
     }
 
     private static Stage prepareStage(boolean canBeClosed, Window owner) {
@@ -60,7 +74,7 @@ public class GUIUtility {
         return stage;
     }
 
-    public static void runSceneWithDelay(GUIScene guiScene, int delay) {
+    public static void runSceneWithDelay(GUIScene guiScene) {
         new Thread(() -> {
             // Start the listeners and observers so the scene can show the correct data
             Timer timer = new Timer();
@@ -76,8 +90,8 @@ public class GUIUtility {
                     Platform.runLater(() -> GUIScene.getScene().setRoot(guiScene.getRoot()));
                 }
             };
-            timer.schedule(startCallbacksTask, delay/2);
-            timer.schedule(switchTask, delay);
+            timer.schedule(startCallbacksTask, DELAY/2);
+            timer.schedule(switchTask, DELAY);
         }).start();
     }
 
