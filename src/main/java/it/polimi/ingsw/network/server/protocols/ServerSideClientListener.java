@@ -46,15 +46,15 @@ public class ServerSideClientListener {
                     handleDebugMessage(np);
                     break;
                 case ACTION:
-                    // TODO thread?
                     executorService.submit(() -> handleActionPacket(np));
                     break;
                 case SOCIAL:
-                    // TODO thread?
                     executorService.submit(() -> handleSocialPacket(np));
                     break;
             }
         }
+
+        // TODO Using two executors -> ONLY NEED 1
 
         executorService.shutdown();
 

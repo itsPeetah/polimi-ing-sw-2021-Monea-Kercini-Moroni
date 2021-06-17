@@ -179,6 +179,10 @@ public class ModelController {
 
 
         gamePhase = GamePhase.START;
+        //Updating the view with the current Market Tray and DevCard market
+        //This might influence player choice on the leader and extra resources
+        updateResourceMarket();
+        updateDevCardMarket();
 
         /*
 
@@ -201,12 +205,9 @@ public class ModelController {
         //Initialize leader cards
         ArrayList<LeadCard> leadCards = CardManager.loadLeadCardsFromJson();
 
+
         //shuffle leadCards
         Collections.shuffle(leadCards);
-
-        //shuffle player order
-        //game.shufflePlayers();
-
         for (int i = 0; i< game.getPlayers().length; i++) {
 
             //Getting 4 leaders (already shuffled)
@@ -216,13 +217,6 @@ public class ModelController {
             DisposableLeadersUpdateData leaders = new DisposableLeadersUpdateData(leadersToChooseFrom, game.getPlayers()[i].getNickname());
             modelControllerIOHandler.pushUpdate(Update.LEADERS_TO_CHOOSE_FROM, leaders);
         }
-
-        //Updating the view with the current Market Tray and DevCard market
-        //This might influence player choice on the leader and extra resources
-        updateResourceMarket();
-        updateDevCardMarket();
-
-
 
         //If single player game instantiate Lorenzo, the opponent
         if(singlePlayer){
@@ -904,8 +898,6 @@ public class ModelController {
      */
 
     private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
-
-
 
         //notifying player he has to choose 2 leaders
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);

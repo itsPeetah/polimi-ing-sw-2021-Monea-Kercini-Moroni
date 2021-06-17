@@ -55,7 +55,7 @@ public class ASCIILeadCard {
         }
         if(replacement!=ResourceType.BLANK){
 
-            String color = replacement==ResourceType.STONES ? ANSIColor.WHITE_BACKGROUND :
+            String color = replacement==ResourceType.STONES ? ANSIColor.GREEN :
                     replacement == ResourceType.SHIELDS.SHIELDS ? ANSIColor.BLUE :
                     replacement == ResourceType.SERVANTS ? ANSIColor.PURPLE :
                     replacement == ResourceType.COINS ? ANSIColor.YELLOW : ANSIColor.RESET;
