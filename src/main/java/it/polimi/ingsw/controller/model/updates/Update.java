@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 
 public enum Update {
     EMPTY(EmptyUpdateData.class),
+    CURRENT_PLAYER(CurrentPlayerUpdateData.class),
     RESOURCE_MARKET(ResourceMarketUpdateData.class),
     WAREHOUSE(WarehouseUpdateData.class),
     FAITH(FaithUpdateData.class),

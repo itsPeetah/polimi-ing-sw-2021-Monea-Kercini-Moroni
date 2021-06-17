@@ -373,6 +373,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     GUIScene.getGuiEndGameController().setWin(false);
                     setEndGameScene();
                     break;
+                case TURN_PASSED:
+                    gameStateLabel.setText(GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer() + " is playing his turn.");
             }
         });
     }
@@ -709,7 +711,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-        gameStateLabel.setText("Wait for your turn");
     }
 
     public void openChat(ActionEvent actionEvent) {

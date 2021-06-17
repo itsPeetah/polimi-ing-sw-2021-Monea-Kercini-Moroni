@@ -12,6 +12,16 @@ public class CommonData {
     //including single player data
     private Lorenzo lorenzo;
 
+    private String currentPlayer;
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public DevCardMarket getDevCardMarket() {
         return dcm;
     }
