@@ -220,8 +220,6 @@ public class GameApplication {
         System.out.println("GameApplication.startServerGame");
         gameController.set(new GameController(new GameData()));
         gameController.get().setSinglePlayer(singlePlayer);
-        if(singlePlayer) gameController.get().getGameData().addPlayer(userNickname.get());
-        else getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
 
         setApplicationState(GameApplicationState.INGAME);
     }

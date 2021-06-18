@@ -311,13 +311,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             gameData.getCommon().setObserver(this);
             gameData.setObserver(this);
 
-            if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
-                System.out.println("GUIMainGame.startObserver: nickname = " + nickname);
-                observePlayer(nickname);
-            } else {
-                for(String player: GameApplication.getInstance().getRoomPlayers()) {
-                    observePlayer(player);
-                }
+            for(String player: GameApplication.getInstance().getGameController().getGameData().getPlayersList()) {
+                System.out.println("GUIMainGame.startObserver: player = " + player);
+                observePlayer(player);
             }
         }).start();
 
@@ -682,7 +678,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onPlayerTableChange() {
         GUIUtility.executorService.submit(() -> {
-            List<String> playersList = GameApplication.getInstance().getRoomPlayers();
+            List<String> playersList = GameApplication.getInstance().getGameController().getGameData().getPlayersList();
 
             Platform.runLater(() -> {
                 for (int i = 0; i < playersList.size(); i++) {

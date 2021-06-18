@@ -107,18 +107,21 @@ public class GameController {
                 //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
                 System.out.println(pp.getProductionPowers().getOwnedDevCards().get(0).getCardId());
+                if(!gameData.getPlayersList().contains(pp.getPlayer())) gameData.addPlayer(pp.getPlayer());
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;
 
             case LEADERS:
                 //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
+                if(!gameData.getPlayersList().contains(pl.getP())) gameData.addPlayer(pl.getP());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setStates(pl.getPlayerLeaders().getCardStates());
                 break;
 
             case WAREHOUSE:
                 WarehouseUpdateData wh = update.getUpdateData(updateDataString);
+                if(!gameData.getPlayersList().contains(wh.getPlayer())) gameData.addPlayer(wh.getPlayer());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setContent(wh.getWarehouse().getContent());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setExtra(wh.getWarehouse().getLeaderExtraUsed());
                 gameData.getPlayerData(wh.getPlayer()).getWarehouse().setActivatedLeaders(wh.getWarehouse().getLeadersExtra());
@@ -130,6 +133,7 @@ public class GameController {
 
                 //Adding to each player their corresponding victory points
                 for (int i = 0; i < vp.getPlayers().length; i++) {
+                    if(!gameData.getPlayersList().contains(vp.getPlayers()[i])) gameData.addPlayer(vp.getPlayers()[i]);
                     gameData.getPlayerData(vp.getPlayers()[i]).setVP(vp.getVP()[i]);
                 }
                 break;
@@ -139,6 +143,7 @@ public class GameController {
                 FaithUpdateData fp = update.getUpdateData(updateDataString);
 
                 for (int i = 0; i < fp.getPlayers().length; i++) {
+                    if(!gameData.getPlayersList().contains(fp.getPlayers()[i])) gameData.addPlayer(fp.getPlayers()[i]);
 
                     //adding to each player the corresponding faith points
                     gameData.getPlayerData(fp.getPlayers()[i]).getFaithTrack().setFaith(fp.getFp()[i]);
@@ -156,11 +161,13 @@ public class GameController {
 
             case LEADERS_TO_CHOOSE_FROM:
                 DisposableLeadersUpdateData lUP = update.getUpdateData(updateDataString);
+                if(!gameData.getPlayersList().contains(lUP.getP())) gameData.addPlayer(lUP.getP());
                 gameData.getPlayerData(lUP.getP()).getLeadersToChooseFrom().setLeaders(lUP.getLeaders());
                 break;
 
             case RESOURCES_TO_PUT:
                 ResourcesToPutUpdateData rUP = update.getUpdateData(updateDataString);
+
                 gameData.getMomentary().getResourcesToPut().setRes(rUP.getRes());
                 break;
 
