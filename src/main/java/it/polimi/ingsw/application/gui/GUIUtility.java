@@ -67,11 +67,13 @@ public class GUIUtility {
 
     public static void handleServerQuit() {
         System.out.println("GUIUtility.handleServerQuit");
-        GameApplicationState gameApplicationState = GameApplication.getInstance().getApplicationState();
-        GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
-        if(gameApplicationState == GameApplicationState.INGAME) {
-            GUIUtility.handleLeaveGame();
-        }
+
+        GUIScene.showLoadingScene();
+
+        GUIScene.getChooseResourcesController().setMessage(Message.CHOOSE_RESOURCE);
+        GUIScene.removeActiveScene();
+
+        GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
     }
 
     private static Stage prepareStage(boolean canBeClosed, Window owner) {

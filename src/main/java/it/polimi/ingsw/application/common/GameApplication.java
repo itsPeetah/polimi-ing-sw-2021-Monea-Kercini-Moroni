@@ -40,7 +40,7 @@ public class GameApplication {
 
     // Components
     private GameClient networkClient;
-    private AtomicReference<GameController> gameController;
+    private final AtomicReference<GameController> gameController;
 
     // Lobby
     private final List<String> roomPlayers;
@@ -93,14 +93,14 @@ public class GameApplication {
     /**
      * Has the game been set up?
      */
-    public boolean gameExists(){return gameController != null; }
+    public boolean gameExists(){return gameController.get() != null; }
 
     /**
      * Game controller IO Handler getter.
      * @throws NullPointerException if the game has not been initialized.
      */
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
-        if(gameController == null) throw new NullPointerException();
+        if(gameController.get() == null) throw new NullPointerException();
         return gameController.get().getGameControllerIOHandler();
     }
 
@@ -206,8 +206,8 @@ public class GameApplication {
     /**
      * Start a SP game.
      */
-    public void startSPGame() {
-        if(userNickname.get() == null) setUserNickname(DEFAULT_SP_NICKNAME);
+    public void startLocalGame() {
+        setUserNickname(DEFAULT_SP_NICKNAME);
         gameController.set(new GameController(new GameData(), userNickname.get()));
 
         setApplicationState(GameApplicationState.INGAME);
@@ -216,9 +216,11 @@ public class GameApplication {
     /**
      * Start a MP game.
      */
-    public void startMPGame() {
+    public void startServerGame(boolean singlePlayer) {
+        System.out.println("GameApplication.startServerGame");
         gameController.set(new GameController(new GameData()));
-        getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
+        gameController.get().setSinglePlayer(singlePlayer);
+
         setApplicationState(GameApplicationState.INGAME);
     }
 
@@ -226,13 +228,11 @@ public class GameApplication {
      * Leave the current game.
      */
     public void leaveGame() {
-        if(gameController.get() == null || !gameController.get().isSinglePlayer()) {
+        if(isOnNetwork()) {
             String messageContent = SystemMessage.LEAVE_ROOM.getCode();
             NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
             GameApplication.getInstance().sendNetworkPacket(np);
         }
-        if(gameController.get() != null && getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
-        else setApplicationState(GameApplicationState.LOBBY);
     }
 
     public void closeConnectionWithServer() {

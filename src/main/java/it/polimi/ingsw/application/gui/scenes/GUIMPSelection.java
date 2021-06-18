@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GUIMPSelection implements PacketListener, Initializable {
     public Button joinButt;
@@ -29,7 +30,7 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public TextField userTextField;
     public TextField roomTextField;
     public ChoiceBox<Integer> numberChoiceBox;
-    private final Timer startRoomTimer = new Timer();;
+    private final AtomicReference<Timer> startRoomTimer = new AtomicReference<>(new Timer());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,12 +40,12 @@ public class GUIMPSelection implements PacketListener, Initializable {
 
     public void onCreateClick(ActionEvent actionEvent) {
         System.out.println("create pressed ");
-        performSelection(SystemMessage.CREATE_ROOM);
+        if(roomTextField.getText().length() > 0 && userTextField.getText().length() > 0) performSelection(SystemMessage.CREATE_ROOM);
     }
 
     public void onJoinClick(ActionEvent actionEvent) {
         System.out.println("join pressed ");
-        performSelection(SystemMessage.JOIN_ROOM);
+        if(userTextField.getText().length() > 0) performSelection(SystemMessage.JOIN_ROOM);
     }
 
     public void onReJoinClick(ActionEvent actionEvent) {
@@ -89,19 +90,24 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public void onSystemMessage(SystemMessage type, String additionalContent) {
         System.out.println("GUIMPSelection.onSystemMessage: " + type);
         Platform.runLater(() -> {
+            if(joinButt.isDisable()) GUIScene.showLoadingScene();
             setButtonsDisabled(false);
-            GUIScene.showLoadingScene();
             switch(type) {
+                case CANT_JOIN:
+                    GUIScene.MP_SELECTION.load();
+                    break;
                 case IN_GAME:
-                    startRoomTimer.cancel();
+                    startRoomTimer.get().cancel();
+                    startRoomTimer.set(new Timer());
                     GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
                     break;
                 case START_ROOM:
-                    startRoomTimer.cancel();
+                    startRoomTimer.get().cancel();
+                    startRoomTimer.set(new Timer());
                     GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
                     break;
                 case IN_ROOM:
-                    startRoomTimer.schedule(new TimerTask() {
+                    startRoomTimer.get().schedule(new TimerTask() {
                         @Override
                         public void run() {
                             GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);

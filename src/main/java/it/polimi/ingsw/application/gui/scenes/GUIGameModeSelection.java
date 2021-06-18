@@ -33,7 +33,7 @@ public class GUIGameModeSelection {
     private void onSPClick() {
         GUIScene.showLoadingScene();
         new Thread(() -> {
-            GameApplication.getInstance().startSPGame();
+            GameApplication.getInstance().startLocalGame();
             /*while (GameApplication.getInstance().getApplicationState() == GameApplicationState.PREGAME) {}
             GameApplicationState newState = GameApplication.getInstance().getApplicationState();
             System.out.println(newState);*/

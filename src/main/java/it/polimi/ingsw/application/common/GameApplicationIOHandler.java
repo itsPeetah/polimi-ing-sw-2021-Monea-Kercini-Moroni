@@ -31,11 +31,12 @@ public class GameApplicationIOHandler {
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
+        System.out.println("GameApplicationIOHandler.notifyUpdate");
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
-    private void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
+    public void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
         if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null)
             GUIScene.getActiveScene().onSystemMessage(sysMsgType , body);
     }
@@ -79,11 +80,11 @@ public class GameApplicationIOHandler {
         else if(SystemMessage.START_ROOM.check(messageFields[0])) {
             ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
             if(messageArgs != null && messageArgs[0].equals("sp")) {
-                GameApplication.getInstance().startSPGame();
+                GameApplication.getInstance().startServerGame(true);
                 notifySystemMessage(SystemMessage.START_ROOM, "sp");
             }
             else {
-                GameApplication.getInstance().startMPGame();
+                GameApplication.getInstance().startServerGame(false);
                 notifySystemMessage(SystemMessage.START_ROOM, "mp");
             }
         } else if(SystemMessage.GAME_OVER.check(messageFields[0])){
@@ -96,6 +97,7 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
         }
         else if(SystemMessage.IN_ROOM.check(messageFields[0])){
+            System.out.println("GameApplicationIOHandler.handleSystemMessage: messageArgs[0] = " + messageArgs[0] + " messageArgs[1] = " + messageArgs[1]);
             GameApplication.getInstance().setRoomName(messageArgs[0]);
             GameApplication.getInstance().setUserNickname(messageArgs[1]);
             GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
@@ -105,8 +107,8 @@ public class GameApplicationIOHandler {
             notifySystemMessage(SystemMessage.CANT_JOIN, null);
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else if (SystemMessage.IN_GAME.check(messageFields[0])){
-            if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startMPGame();
             GameApplication.getInstance().setApplicationState((GameApplicationState.INGAME));
+            GameApplication.getInstance().startServerGame(messageArgs[0].equals("sp"));
             notifySystemMessage(SystemMessage.IN_GAME, messageArgs[0]);
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
@@ -137,7 +139,6 @@ public class GameApplicationIOHandler {
         System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
-        notifySystemMessage(SystemMessage.QUIT, null);
     }
 
 

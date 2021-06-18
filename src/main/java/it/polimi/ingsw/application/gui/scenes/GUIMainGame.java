@@ -303,21 +303,19 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         // Clear choice box
         boardChoiceBox.getItems().clear();
 
-        GUIUtility.executorService.submit(() -> {
+        new Thread(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             gameData.getCommon().getMarketTray().setObserver(this);
             gameData.getCommon().getDevCardMarket().setObserver(this);
             gameData.getCommon().getLorenzo().setObserver(this);
+            gameData.getCommon().setObserver(this);
             gameData.setObserver(this);
 
-            if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
-                observePlayer(nickname);
-            } else {
-                for(String player: GameApplication.getInstance().getRoomPlayers()) {
-                    observePlayer(player);
-                }
+            for(String player: GameApplication.getInstance().getGameController().getGameData().getPlayersList()) {
+                System.out.println("GUIMainGame.startObserver: player = " + player);
+                observePlayer(player);
             }
-        });
+        }).start();
 
 
         Platform.runLater(() -> {
@@ -680,7 +678,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     @Override
     public void onPlayerTableChange() {
         GUIUtility.executorService.submit(() -> {
-            List<String> playersList = GameApplication.getInstance().getRoomPlayers();
+            List<String> playersList = GameApplication.getInstance().getGameController().getGameData().getPlayersList();
 
             Platform.runLater(() -> {
                 for (int i = 0; i < playersList.size(); i++) {

@@ -2,10 +2,12 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.network.client.protocols.ClientSideServerListener;
 import it.polimi.ingsw.network.client.protocols.ConnectionSetupProtocol;
 import it.polimi.ingsw.network.common.ExSocket;
+import it.polimi.ingsw.network.common.SystemMessage;
 
 public class ClientConnectionHandler implements Runnable {
 
@@ -30,5 +32,6 @@ public class ClientConnectionHandler implements Runnable {
         GameApplication.getInstance().out(ANSIColor.YELLOW + "Connection with the server closed." + ANSIColor.RESET);
         client.stop();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
+        GameApplicationIOHandler.getInstance().notifySystemMessage(SystemMessage.QUIT, null);
     }
 }

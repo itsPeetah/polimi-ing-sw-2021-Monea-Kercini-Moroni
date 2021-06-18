@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.model.updates.data;
 import it.polimi.ingsw.controller.model.updates.UpdateData;
 
 public class CurrentPlayerUpdateData implements UpdateData {
-    String currentPlayer;
+    private String currentPlayer;
 
     public CurrentPlayerUpdateData(String currentPlayer) {
         this.currentPlayer = currentPlayer;

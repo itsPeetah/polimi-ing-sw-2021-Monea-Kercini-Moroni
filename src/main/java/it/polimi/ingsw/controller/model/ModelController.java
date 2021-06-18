@@ -63,7 +63,6 @@ public class ModelController {
      */
     private Resources askPlayerToChooseResource(Player p){
 
-        System.out.println("ModelController.askPlayerToChooseResource");
 
         //notifying player he has to choose a resource
         modelControllerIOHandler.sendMessage(p.getNickname(), Message.CHOOSE_RESOURCE);
@@ -90,7 +89,6 @@ public class ModelController {
      * @param wh warehouse that will be updated
      */
     private Warehouse askPlayerToPutResources(Player p, Resources res, Warehouse wh){
-        System.out.println("ModelController.askPlayerToPutResources");
 
         //Sending to him the resources he needs to put (the warehouse should be already available to him)
         ResourcesToPutUpdateData resUP = new ResourcesToPutUpdateData(res);
@@ -180,7 +178,6 @@ public class ModelController {
      */
     public void setupGame(){
 
-        System.out.println("ModelController.setupGame");
 
 
         gamePhase = GamePhase.START;
@@ -334,7 +331,6 @@ public class ModelController {
 
     private void playTurn(Player player){
 
-        System.out.println("ModelController.playTurn");
 
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
@@ -408,7 +404,10 @@ public class ModelController {
 
                 case DISCONNECTED:
                     //Player has disconnected so we will just end his turn
-                    turnFinished = true;
+                    if(!isSinglePlayer()) {
+                        turnFinished = true;
+
+                    }
                     break;
             }
 
@@ -423,7 +422,6 @@ public class ModelController {
 
     public void endGame(){
 
-        System.out.println("ModelController.endGame");
 
         gamePhase = GamePhase.END;
 
@@ -471,7 +469,6 @@ public class ModelController {
 
     private int getWinner( int[] array ) {
 
-        System.out.println("ModelController.getWinner");
 
         int winner = 0;
         for ( int i = 1; i < array.length; i++ )
@@ -497,7 +494,6 @@ public class ModelController {
      */
     protected boolean resourceMarketUpdate(Player player, boolean row, int index) {
 
-        System.out.println("ModelController.resourceMarketUpdate");
 
         Resources res = new Resources();
 
@@ -544,7 +540,6 @@ public class ModelController {
      */
     protected boolean devCardMarketUpdate(Player player, DevCard chosenCard, int position){
 
-        System.out.println("ModelController.devCardMarketUpdate");
 
         //check if affordable
         if(!chosenCard.affordable(player)){
@@ -608,7 +603,6 @@ public class ModelController {
      */
     protected boolean produceUpdate(Player player, ArrayList<Production> chosenProduction){
 
-        System.out.println("ModelController.produceUpdate");
 
         //Check if all productions can be activated at the beginning, before any actual production has taken place
 
@@ -683,7 +677,6 @@ public class ModelController {
      */
     private void playLeaderUpdate(Player player, LeadCard chosenLeader){
 
-        System.out.println("ModelController.playLeaderUpdate");
 
         if(chosenLeader.affordable(player)){
             chosenLeader.play(player);
@@ -705,7 +698,6 @@ public class ModelController {
      */
     private void discardLeaderUpdate(Player player, LeadCard chosenLeader){
 
-        System.out.println("ModelController.discardLeaderUpdate");
 
         chosenLeader.discard(player);
 
@@ -725,7 +717,6 @@ public class ModelController {
      */
     private Resources makePlayerChoose(Player p, Resources r){
 
-        System.out.println("ModelController.makePlayerChoose");
 
         Resources no_choice = new Resources();
         no_choice.add(r);
@@ -756,7 +747,6 @@ public class ModelController {
 
     private Resources faithCheck(Player player, Resources res){
 
-        System.out.println("ModelController.faithCheck");
 
         if (res.getAmountOf(ResourceType.FAITH) > 0) {
 
@@ -786,7 +776,6 @@ public class ModelController {
 
     protected Resources checkWhite(Player player, Resources res){
 
-        System.out.println("ModelController.checkWhite");
 
         int whiteReplacements = 0;
         ArrayList<ResourceType> replaceTypes = new ArrayList<>();
@@ -808,7 +797,6 @@ public class ModelController {
                 break;
             case 2:
 
-                System.out.println("ModelController.checkWhite case 2");
 
                 //Keep asking player until he chooses a correct replace type
                 boolean done = false;
@@ -872,7 +860,6 @@ public class ModelController {
 
     private boolean resourceMarket(Player player, boolean primaryActionUsed){
 
-        System.out.println("ModelController.resourceMarket");
 
         ResourceMarketActionData playerChoice = modelControllerIOHandler.getResponseData();
 
@@ -892,7 +879,6 @@ public class ModelController {
 
     private boolean devCardMarket(Player player, boolean primaryActionUsed){
 
-        System.out.println("ModelController.devCardMarket");
 
         DevCardActionData devCardChoice = modelControllerIOHandler.getResponseData();
 
@@ -908,7 +894,6 @@ public class ModelController {
 
     private boolean produce(Player player, boolean primaryActionUsed){
 
-        System.out.println("ModelController.produce");
 
         ProduceActionData produceChoice = modelControllerIOHandler.getResponseData();
 
@@ -927,7 +912,6 @@ public class ModelController {
 
     private void playLeader(Player player){
 
-        System.out.println("ModelController.playLeader");
 
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
@@ -936,7 +920,6 @@ public class ModelController {
 
     private void discardLeader(Player player){
 
-        System.out.println("ModelController.discardLeader");
 
         ChooseLeaderActionData discardLeaderEventData = modelControllerIOHandler.getResponseData();
 
@@ -951,7 +934,6 @@ public class ModelController {
      */
 
     private void dealLeadersToPlayer(ArrayList<LeadCard> leadCards, int i){
-        System.out.println("ModelController.dealLeadersToPlayer");
 
         //notifying player he has to choose 2 leaders
         modelControllerIOHandler.sendMessage(game.getPlayers()[i].getNickname(), Message.CHOOSE_LEADERS);
@@ -984,7 +966,6 @@ public class ModelController {
 
     private void updateFaithPoints(){
 
-        System.out.println("ModelController.updateFaithPoints");
 
         //Always before sending faith update check if any vatican report has been triggered
         if(singlePlayer){
@@ -1056,27 +1037,25 @@ public class ModelController {
         modelControllerIOHandler.pushUpdate(Update.CURRENT_PLAYER, cp);
     }
 
-    private void updateAll(Player player){
-        updateLeaders(player);
+    private void updateAllPlayer(Player player){
         updateFaithPoints();
         updateResourceMarket();
         updateLeaders(player);
         updateDevCardMarket();
         updateProductionPowers(player);
         updateCurrentPlayer();
+        updateWarehouse(player);
+        if(singlePlayer) updateActionToken();
     }
 
-    public void updateAll(String playerNickname){
-        Player player = null;
-        for(Player p : game.getPlayers()){
-            if(p.getNickname().equals(playerNickname)){
-                player = p;
-                break;
-            }
-        }
-        if(player != null){
-            updateAll(player);
+    public void updateAll() {
+        updateFaithPoints();
+        updateResourceMarket();
+        updateDevCardMarket();
+        updateCurrentPlayer();
+        if(singlePlayer) updateActionToken();
+        for (int i = 0; i < game.getPlayers().length; i++) {
+            updateAllPlayer(game.getPlayers()[i]);
         }
     }
-
 }
