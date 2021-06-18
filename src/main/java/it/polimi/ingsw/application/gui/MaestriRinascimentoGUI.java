@@ -4,9 +4,6 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationMode;
 
 public class MaestriRinascimentoGUI {
-    /* Visualization attributes */
-    public static final int LENGTH = 600;
-    public static final int HEIGHT = 250;
 
     public static void main(String[] args){
 

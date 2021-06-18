@@ -27,6 +27,7 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public Button createButt;
     public Button backButt;
     public Button rejoinButt;
+    public Button quickJoinButt;
     public TextField userTextField;
     public TextField roomTextField;
     public ChoiceBox<Integer> numberChoiceBox;
@@ -39,18 +40,19 @@ public class GUIMPSelection implements PacketListener, Initializable {
     }
 
     public void onCreateClick(ActionEvent actionEvent) {
-        System.out.println("create pressed ");
         if(roomTextField.getText().length() > 0 && userTextField.getText().length() > 0) performSelection(SystemMessage.CREATE_ROOM);
     }
 
     public void onJoinClick(ActionEvent actionEvent) {
-        System.out.println("join pressed ");
         if(userTextField.getText().length() > 0) performSelection(SystemMessage.JOIN_ROOM);
     }
 
     public void onReJoinClick(ActionEvent actionEvent) {
-        System.out.println("rejoin pressed ");
         performRejoin();
+    }
+
+    public void onQuickJoinClick(ActionEvent actionEvent) {
+        if(userTextField.getText().length() > 0) performQuickJoin();
     }
 
     @FXML
@@ -81,7 +83,21 @@ public class GUIMPSelection implements PacketListener, Initializable {
     }
 
     private void performRejoin() {
+        setButtonsDisabled(true);
+        GUIScene.showLoadingScene();
+
         NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, SystemMessage.REJOIN_ROOM.addBody(GameApplication.getInstance().getUserId()));
+        GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
+        GameApplication.getInstance().sendNetworkPacket(np);
+    }
+
+    private void performQuickJoin() {
+        setButtonsDisabled(true);
+        GUIScene.showLoadingScene();
+
+        String username = userTextField.getText();
+
+        NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, SystemMessage.QUICK_START.addBody(username));
         GameApplication.getInstance().setApplicationState(GameApplicationState.CONNECTING_TO_ROOM);
         GameApplication.getInstance().sendNetworkPacket(np);
     }
@@ -90,7 +106,6 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public void onSystemMessage(SystemMessage type, String additionalContent) {
         System.out.println("GUIMPSelection.onSystemMessage: " + type);
         Platform.runLater(() -> {
-            if(joinButt.isDisable()) GUIScene.showLoadingScene();
             setButtonsDisabled(false);
             switch(type) {
                 case CANT_JOIN:
@@ -125,5 +140,6 @@ public class GUIMPSelection implements PacketListener, Initializable {
         createButt.setDisable(disabled);
         backButt.setDisable(disabled);
         rejoinButt.setDisable(disabled);
+        quickJoinButt.setDisable(disabled);
     }
 }
