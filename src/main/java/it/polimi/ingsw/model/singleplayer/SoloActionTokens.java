@@ -9,8 +9,8 @@ public enum SoloActionTokens {
     DISCARD_2_BLUE("src/main/resources/images/solotokens/blue.png"),
     DISCARD_2_YELLOW("src/main/resources/images/solotokens/purple.png"),
     DISCARD_2_PURPLE("src/main/resources/images/solotokens/yellow.png"),
-    MOVE_2("src/main/resources/images/solotokens/shuffle.png"),
-    MOVE_1_SHUFFLE("src/main/resources/images/solotokens/faith2.png");
+    MOVE_2("src/main/resources/images/solotokens/faith2.png"),
+    MOVE_1_SHUFFLE("src/main/resources/images/solotokens/shuffle.png");
 
     private final String path;
     private Image image;
