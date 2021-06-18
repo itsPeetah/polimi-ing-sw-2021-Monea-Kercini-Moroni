@@ -90,8 +90,8 @@ public class GUIMPSelection implements PacketListener, Initializable {
     public void onSystemMessage(SystemMessage type, String additionalContent) {
         System.out.println("GUIMPSelection.onSystemMessage: " + type);
         Platform.runLater(() -> {
+            if(joinButt.isDisable()) GUIScene.showLoadingScene();
             setButtonsDisabled(false);
-            GUIScene.showLoadingScene();
             switch(type) {
                 case CANT_JOIN:
                     GUIScene.MP_SELECTION.load();
