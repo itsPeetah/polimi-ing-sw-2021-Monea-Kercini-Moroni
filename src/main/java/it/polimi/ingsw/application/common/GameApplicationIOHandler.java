@@ -35,7 +35,7 @@ public class GameApplicationIOHandler {
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
-    private void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
+    public void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
         if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null)
             GUIScene.getActiveScene().onSystemMessage(sysMsgType , body);
     }
@@ -79,12 +79,12 @@ public class GameApplicationIOHandler {
         else if(SystemMessage.START_ROOM.check(messageFields[0])) {
             ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
             if(messageArgs != null && messageArgs[0].equals("sp")) {
-                GameApplication.getInstance().startSPGame();
                 notifySystemMessage(SystemMessage.START_ROOM, "sp");
+                GameApplication.getInstance().startServerGame(true);
             }
             else {
-                GameApplication.getInstance().startMPGame();
                 notifySystemMessage(SystemMessage.START_ROOM, "mp");
+                GameApplication.getInstance().startServerGame(false);
             }
         } else if(SystemMessage.GAME_OVER.check(messageFields[0])){
             ReconnectionInfo.resetID();
@@ -105,9 +105,9 @@ public class GameApplicationIOHandler {
             notifySystemMessage(SystemMessage.CANT_JOIN, null);
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else if (SystemMessage.IN_GAME.check(messageFields[0])){
-            if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startMPGame();
             GameApplication.getInstance().setApplicationState((GameApplicationState.INGAME));
             notifySystemMessage(SystemMessage.IN_GAME, messageArgs[0]);
+            if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startServerGame(messageArgs[0].equals("sp"));
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
             notifySystemMessage(SystemMessage.ERR, null);
@@ -137,7 +137,6 @@ public class GameApplicationIOHandler {
         System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();
         GameApplication.getInstance().setApplicationState(GameApplicationState.STARTED);
-        notifySystemMessage(SystemMessage.QUIT, null);
     }
 
 

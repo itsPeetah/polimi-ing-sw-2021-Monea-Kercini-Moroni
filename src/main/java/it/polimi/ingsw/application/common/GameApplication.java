@@ -100,7 +100,7 @@ public class GameApplication {
      * @throws NullPointerException if the game has not been initialized.
      */
     public GameControllerIOHandler getGameControllerIO() throws NullPointerException{
-        if(gameController == null) throw new NullPointerException();
+        if(gameController.get() == null) throw new NullPointerException();
         return gameController.get().getGameControllerIOHandler();
     }
 
@@ -206,7 +206,7 @@ public class GameApplication {
     /**
      * Start a SP game.
      */
-    public void startSPGame() {
+    public void startLocalGame() {
         if(userNickname.get() == null) setUserNickname(DEFAULT_SP_NICKNAME);
         gameController.set(new GameController(new GameData(), userNickname.get()));
 
@@ -216,8 +216,9 @@ public class GameApplication {
     /**
      * Start a MP game.
      */
-    public void startMPGame() {
+    public void startServerGame(boolean singlePlayer) {
         gameController.set(new GameController(new GameData()));
+        gameController.get().setSinglePlayer(singlePlayer);
         getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
         setApplicationState(GameApplicationState.INGAME);
     }
@@ -226,13 +227,11 @@ public class GameApplication {
      * Leave the current game.
      */
     public void leaveGame() {
-        if(gameController.get() == null || !gameController.get().isSinglePlayer()) {
+        if(isOnNetwork()) {
             String messageContent = SystemMessage.LEAVE_ROOM.getCode();
             NetworkPacket np = new NetworkPacket(NetworkPacketType.SYSTEM, messageContent);
             GameApplication.getInstance().sendNetworkPacket(np);
         }
-        if(gameController.get() != null && getGameController().isSinglePlayer()) setApplicationState(GameApplicationState.PREGAME);
-        else setApplicationState(GameApplicationState.LOBBY);
     }
 
     public void closeConnectionWithServer() {

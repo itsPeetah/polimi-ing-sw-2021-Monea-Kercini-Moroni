@@ -334,7 +334,7 @@ public class ModelController {
 
     private void playTurn(Player player){
 
-        System.out.println("ModelController.playTurn");
+        System.out.println("ModelController.playTurn: started");
 
         boolean primaryActionUsed = false;
         boolean turnFinished = false;
@@ -344,6 +344,7 @@ public class ModelController {
 
         //Player may keep doing as many actions as he wants as long as he doesn't end his turn
         do {
+            System.out.println("ModelController.playTurn: inside while: isSinglePlayer() = " + isSinglePlayer());
 
             modelControllerIOHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
             modelControllerIOHandler.addExpectedAction(Action.DEV_CARD);
@@ -407,8 +408,12 @@ public class ModelController {
                     break;
 
                 case DISCONNECTED:
+                    System.out.println("ModelController.playTurn: disconnected: isSinglePlayer() = " + isSinglePlayer());
                     //Player has disconnected so we will just end his turn
-                    turnFinished = true;
+                    if(!isSinglePlayer()) {
+                        turnFinished = true;
+
+                    }
                     break;
             }
 

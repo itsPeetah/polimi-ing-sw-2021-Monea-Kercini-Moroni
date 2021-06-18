@@ -4,7 +4,6 @@ import it.polimi.ingsw.application.cli.MaestriRinascimentoCLI;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationState;
 
 public class CLIHome extends CLIScene {
 
@@ -53,7 +52,7 @@ public class CLIHome extends CLIScene {
 
     private void selectSinglePlayerMode(){
         println(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
-        GameApplication.getInstance().startSPGame();
+        GameApplication.getInstance().startLocalGame();
     }
 
     private void selectMultiplayerMode(){

@@ -73,6 +73,10 @@ public class GameController {
         return singlePlayer;
     }
 
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;
+    }
+
     /**
      * Method that reacts to an update by sending it to the view "model"
      * @param update

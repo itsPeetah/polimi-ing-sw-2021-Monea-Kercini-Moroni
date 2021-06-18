@@ -16,6 +16,8 @@ import it.polimi.ingsw.util.JSONUtility;
 import java.awt.desktop.SystemSleepEvent;
 import java.util.Hashtable;
 import java.util.StringJoiner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Framework class for a game room.
@@ -28,6 +30,7 @@ public class GameRoom {
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
     private ModelController modelController;
+    private final AtomicBoolean mp = new AtomicBoolean(false);
     private Hashtable<String, String> miaPlayers;
 
     /**
@@ -112,7 +115,7 @@ public class GameRoom {
                 }
             }
 
-            if(users.size() < 1) {
+            if(users.size() < 1 && mp.get()) {
                 System.out.println("Removing room '" + roomId +"' since it's been left empty.");
                 GameServer.getInstance().getRoomTable().removeRoom(roomId);
             }
@@ -164,10 +167,10 @@ public class GameRoom {
          if(gameInProgress())
              return false;
 
-         boolean mp = true;
+         mp.set(true);
          synchronized (lock){
              if(users.size() < 2){
-                 mp = false;
+                 mp.set(false);
              }
          }
         // Instantiate controller
@@ -176,10 +179,15 @@ public class GameRoom {
         for(String player: users.keySet()) {
             modelController.addPlayer(player);
         }
-        // randomize order
-        modelController.getGame().shufflePlayers();
+        if(mp.get()) {
+            // randomize order
+            modelController.getGame().shufflePlayers();
+        } else {
+            modelController.setSinglePlayer(true);
+        }
+
         // Send start
-        String startMessage = SystemMessage.START_ROOM.addBody(mp ? "mp" : "sp");
+        String startMessage = SystemMessage.START_ROOM.addBody(mp.get() ? "mp" : "sp");
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, startMessage));
         // Start the game
         modelController.setupGame();
