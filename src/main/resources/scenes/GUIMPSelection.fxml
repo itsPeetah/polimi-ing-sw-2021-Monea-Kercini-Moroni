@@ -49,6 +49,11 @@
                            <Font name="Century Gothic" size="14.0" />
                        </font>
                    </Button>
+                  <Button fx:id="quickJoinButt" mnemonicParsing="false" onAction="#onQuickJoinClick" text="Quick Join">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </Button>
                   <Button fx:id="backButt" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
                </children>
                <GridPane.margin>
