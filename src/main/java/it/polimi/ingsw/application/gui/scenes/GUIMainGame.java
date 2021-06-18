@@ -303,21 +303,23 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         // Clear choice box
         boardChoiceBox.getItems().clear();
 
-        GUIUtility.executorService.submit(() -> {
+        new Thread(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             gameData.getCommon().getMarketTray().setObserver(this);
             gameData.getCommon().getDevCardMarket().setObserver(this);
             gameData.getCommon().getLorenzo().setObserver(this);
+            gameData.getCommon().setObserver(this);
             gameData.setObserver(this);
 
             if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
+                System.out.println("GUIMainGame.startObserver: nickname = " + nickname);
                 observePlayer(nickname);
             } else {
                 for(String player: GameApplication.getInstance().getRoomPlayers()) {
                     observePlayer(player);
                 }
             }
-        });
+        }).start();
 
 
         Platform.runLater(() -> {

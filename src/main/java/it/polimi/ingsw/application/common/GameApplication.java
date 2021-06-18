@@ -40,7 +40,7 @@ public class GameApplication {
 
     // Components
     private GameClient networkClient;
-    private AtomicReference<GameController> gameController;
+    private final AtomicReference<GameController> gameController;
 
     // Lobby
     private final List<String> roomPlayers;
@@ -93,7 +93,7 @@ public class GameApplication {
     /**
      * Has the game been set up?
      */
-    public boolean gameExists(){return gameController != null; }
+    public boolean gameExists(){return gameController.get() != null; }
 
     /**
      * Game controller IO Handler getter.
@@ -207,7 +207,7 @@ public class GameApplication {
      * Start a SP game.
      */
     public void startLocalGame() {
-        if(userNickname.get() == null) setUserNickname(DEFAULT_SP_NICKNAME);
+        setUserNickname(DEFAULT_SP_NICKNAME);
         gameController.set(new GameController(new GameData(), userNickname.get()));
 
         setApplicationState(GameApplicationState.INGAME);
@@ -217,9 +217,12 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startServerGame(boolean singlePlayer) {
+        System.out.println("GameApplication.startServerGame");
         gameController.set(new GameController(new GameData()));
         gameController.get().setSinglePlayer(singlePlayer);
-        getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
+        if(singlePlayer) gameController.get().getGameData().addPlayer(userNickname.get());
+        else getRoomPlayers().forEach(x -> gameController.get().getGameData().addPlayer(x));
+
         setApplicationState(GameApplicationState.INGAME);
     }
 

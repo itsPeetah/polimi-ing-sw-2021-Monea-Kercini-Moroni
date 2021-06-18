@@ -31,6 +31,7 @@ public class GameApplicationIOHandler {
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
+        System.out.println("GameApplicationIOHandler.notifyUpdate");
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
@@ -79,12 +80,12 @@ public class GameApplicationIOHandler {
         else if(SystemMessage.START_ROOM.check(messageFields[0])) {
             ReconnectionInfo.saveID(GameApplication.getInstance().getUserId());
             if(messageArgs != null && messageArgs[0].equals("sp")) {
-                notifySystemMessage(SystemMessage.START_ROOM, "sp");
                 GameApplication.getInstance().startServerGame(true);
+                notifySystemMessage(SystemMessage.START_ROOM, "sp");
             }
             else {
-                notifySystemMessage(SystemMessage.START_ROOM, "mp");
                 GameApplication.getInstance().startServerGame(false);
+                notifySystemMessage(SystemMessage.START_ROOM, "mp");
             }
         } else if(SystemMessage.GAME_OVER.check(messageFields[0])){
             ReconnectionInfo.resetID();
@@ -96,6 +97,7 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
         }
         else if(SystemMessage.IN_ROOM.check(messageFields[0])){
+            System.out.println("GameApplicationIOHandler.handleSystemMessage: messageArgs[0] = " + messageArgs[0] + " messageArgs[1] = " + messageArgs[1]);
             GameApplication.getInstance().setRoomName(messageArgs[0]);
             GameApplication.getInstance().setUserNickname(messageArgs[1]);
             GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
@@ -106,8 +108,8 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().setApplicationState(GameApplicationState.LOBBY);
         } else if (SystemMessage.IN_GAME.check(messageFields[0])){
             GameApplication.getInstance().setApplicationState((GameApplicationState.INGAME));
+            GameApplication.getInstance().startServerGame(messageArgs[0].equals("sp"));
             notifySystemMessage(SystemMessage.IN_GAME, messageArgs[0]);
-            if(!GameApplication.getInstance().gameExists()) GameApplication.getInstance().startServerGame(messageArgs[0].equals("sp"));
         } else if (SystemMessage.ERR.check(messageFields[0])) {
             System.out.println(ANSIColor.RED+ "[ERR] " + messageFields[1] + ANSIColor.RESET);
             notifySystemMessage(SystemMessage.ERR, null);

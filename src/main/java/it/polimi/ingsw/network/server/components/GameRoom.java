@@ -30,8 +30,8 @@ public class GameRoom {
     private Hashtable<String, RemoteUser> users;
     private final ModelControllerIOHandler modelControllerIOHandler;
     private ModelController modelController;
-    private final AtomicBoolean mp = new AtomicBoolean(false);
     private Hashtable<String, String> miaPlayers;
+    private final AtomicBoolean mp;
 
     /**
      * Class constructor.
@@ -44,6 +44,7 @@ public class GameRoom {
         this.modelControllerIOHandler = new MPModelControllerIOHandler(this);
         this.modelController = null;
         this.miaPlayers = new Hashtable<String, String>();
+        this.mp = new AtomicBoolean(false);
     }
 
     /**

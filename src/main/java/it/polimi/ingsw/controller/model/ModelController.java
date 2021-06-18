@@ -1062,6 +1062,7 @@ public class ModelController {
     }
 
     private void updateAll(Player player){
+        System.out.println("ModelController.updateAll");
         updateLeaders(player);
         updateFaithPoints();
         updateResourceMarket();
@@ -1069,6 +1070,8 @@ public class ModelController {
         updateDevCardMarket();
         updateProductionPowers(player);
         updateCurrentPlayer();
+        updateWarehouse(player);
+        if(singlePlayer) updateActionToken();
     }
 
     public void updateAll(String playerNickname){
