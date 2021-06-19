@@ -33,6 +33,7 @@ public class GameApplicationIOHandler {
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
         System.out.println("GameApplicationIOHandler.notifyUpdate");
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
+        /*System.out.println(ANSIColor.YELLOW + "RECEIVED UPDATE " + updatePacket.getData() + ANSIColor.RESET);*/
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
