@@ -116,7 +116,7 @@ public class GameRoom {
                 }
             }
 
-            if(users.size() < 1 && mp.get()) {
+            if(users.size() < 1 && (!gameInProgress() || mp.get())) {
                 System.out.println("Removing room '" + roomId +"' since it's been left empty.");
                 GameServer.getInstance().getRoomTable().removeRoom(roomId);
             }
@@ -132,10 +132,10 @@ public class GameRoom {
 
     public void sendTo(String player, NetworkPacket packet){
         synchronized (lock) {
-            System.out.println("GameRoom.sendTo: miaPlayers.containsValue(player) = " + miaPlayers.containsValue(player));
-            System.out.println("GameRoom.sendTo: NetworkPacketType.isGameRelated(packet) = " + NetworkPacketType.isGameRelated(packet));
+            /*System.out.println("GameRoom.sendTo: miaPlayers.containsValue(player) = " + miaPlayers.containsValue(player));*/
+            /*System.out.println("GameRoom.sendTo: NetworkPacketType.isGameRelated(packet) = " + NetworkPacketType.isGameRelated(packet));*/
             if (miaPlayers.containsValue(player) && NetworkPacketType.isGameRelated(packet)){
-                System.out.println("GameRoom.sendTo: // Send MIA Action to the model controller");
+                /*System.out.println("GameRoom.sendTo: // Send MIA Action to the model controller");*/
                 // Send MIA Action to the model controller
                 notifyMIA(player);
             }
@@ -203,7 +203,7 @@ public class GameRoom {
                 broadcast(networkPacket);
                 break;
             case WHISPER:
-                System.out.println("Sending WHISPER message");
+                /*System.out.println("Sending WHISPER message");*/
                 sendTo(socialPacket.getTo(), networkPacket);
                 break;
         }
@@ -219,7 +219,7 @@ public class GameRoom {
         NoneActionData nad = new NoneActionData();
         nad.setPlayer(nickname);
         notify(NetworkPacket.buildActionPacket(new ActionPacket(Action.DISCONNECTED, JSONUtility.toJson(nad, NoneActionData.class))));
-        System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");
+        /*System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");*/
     }
 
     public boolean isFull() {

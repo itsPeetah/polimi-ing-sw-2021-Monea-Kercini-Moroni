@@ -217,7 +217,7 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startServerGame(boolean singlePlayer) {
-        System.out.println("GameApplication.startServerGame");
+        /*System.out.println("GameApplication.startServerGame");*/
         gameController.set(new GameController(new GameData()));
         gameController.get().setSinglePlayer(singlePlayer);
 
