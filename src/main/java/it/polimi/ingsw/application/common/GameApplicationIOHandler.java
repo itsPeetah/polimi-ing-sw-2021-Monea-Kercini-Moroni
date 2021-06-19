@@ -31,7 +31,7 @@ public class GameApplicationIOHandler {
     }
 
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
-        System.out.println("GameApplicationIOHandler.notifyUpdate");
+        /*System.out.println("GameApplicationIOHandler.notifyUpdate");*/
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         /*System.out.println(ANSIColor.YELLOW + "RECEIVED UPDATE " + updatePacket.getData() + ANSIColor.RESET);*/
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
@@ -60,7 +60,7 @@ public class GameApplicationIOHandler {
     }
 
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
-        System.out.println("GameApplicationIOHandler.handleSystemMessage");
+        /*System.out.println("GameApplicationIOHandler.handleSystemMessage");*/
         String serverMessage = systemMessageNetworkPacket.getPayload();
         String[] messageFields = serverMessage.split(" ", 2);
         String[] messageArgs = messageFields.length > 1 ? messageFields[1].split(" ") : null;
@@ -98,7 +98,7 @@ public class GameApplicationIOHandler {
             GameApplication.getInstance().setRoomPlayers(messageFields[1]);
         }
         else if(SystemMessage.IN_ROOM.check(messageFields[0])){
-            System.out.println("GameApplicationIOHandler.handleSystemMessage: messageArgs[0] = " + messageArgs[0] + " messageArgs[1] = " + messageArgs[1]);
+            /*System.out.println("GameApplicationIOHandler.handleSystemMessage: messageArgs[0] = " + messageArgs[0] + " messageArgs[1] = " + messageArgs[1]);*/
             GameApplication.getInstance().setRoomName(messageArgs[0]);
             GameApplication.getInstance().setUserNickname(messageArgs[1]);
             GameApplication.getInstance().setApplicationState(GameApplicationState.PREGAME);
