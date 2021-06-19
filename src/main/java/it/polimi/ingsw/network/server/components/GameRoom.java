@@ -116,7 +116,7 @@ public class GameRoom {
                 }
             }
 
-            if(users.size() < 1 && mp.get()) {
+            if(users.size() < 1 && (!gameInProgress() || mp.get())) {
                 System.out.println("Removing room '" + roomId +"' since it's been left empty.");
                 GameServer.getInstance().getRoomTable().removeRoom(roomId);
             }
