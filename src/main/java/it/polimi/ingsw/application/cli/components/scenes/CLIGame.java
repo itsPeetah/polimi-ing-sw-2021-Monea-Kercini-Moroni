@@ -10,11 +10,8 @@ import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 public class CLIGame extends CLIScene {
 
     private CLIGameSubScene board = new CLIBoard();
-    /*private CLIDevCardMarket devCardMarket = new CLIDevCardMarket();
-    private CLIFaithTrack faithTrack = new CLIFaithTrack();*/
     private CLIGameSubScene leadChoice = new CLILeadChoice();
     private CLIGameSubScene resourceChoice = new CLIResourceChoice();
-    /*private CLIResourceMarket resourceMarket = new CLIResourceMarket();*/
     private CLIGameSubScene warehouseOrganizing = new CLIWarehouseOrganizing();
 
     private GameController gameController;
