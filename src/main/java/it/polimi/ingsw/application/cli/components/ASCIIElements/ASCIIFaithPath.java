@@ -1,9 +1,11 @@
 package it.polimi.ingsw.application.cli.components.ASCIIElements;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
+import it.polimi.ingsw.view.data.CommonData;
+import it.polimi.ingsw.view.data.GameData;
 
 public class ASCIIFaithPath {
-    public static void draw(String[] players, int[] faithTrack){
+    public static void draw(GameData gameData){
 
         for(int i = 0; i <= 24; i++){
 
