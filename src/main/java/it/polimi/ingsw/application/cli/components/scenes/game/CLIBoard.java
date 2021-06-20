@@ -113,7 +113,8 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
                 printDevCardMarket();
                 break;
             case "ft":
-                ASCIIFaithPath.draw(GameApplication.getInstance().getGameController().getGameData());
+                ASCIIFaithPath.draw(GameApplication.getInstance().getGameController().getGameData(),
+                        GameApplication.getInstance().getGameController().isSinglePlayer());
                 break;
             case "leaders":
                 printLeaders(args.length < 2 ? args[1] : null);
