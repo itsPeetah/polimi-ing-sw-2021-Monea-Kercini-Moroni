@@ -4,8 +4,8 @@ import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIDevCardMark
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIILeadCard;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIMarketTray;
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
@@ -63,7 +63,8 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         actionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(actionData, Choose2LeadersActionData.class));
-        GameApplicationIOHandler.getInstance().pushAction(ap);
+        /*GameApplicationIOHandler.getInstance().pushAction(ap);*/
+        CLIGame.pushAction(ap);
     }
 
     public DevCardMarket getDevCardMarket(){
