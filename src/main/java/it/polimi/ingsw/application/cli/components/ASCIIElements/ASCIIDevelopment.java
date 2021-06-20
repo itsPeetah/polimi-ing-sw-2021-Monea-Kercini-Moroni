@@ -11,7 +11,10 @@ public class ASCIIDevelopment {
 
         System.out.println(player + "'s productions:");
         for(int i = 0; i < dcs.length; i++){
+            System.out.print("Stack #" + i + ": ");
             if(dcs[i] != null) ASCIIProduction.draw(dcs[i].getProduction());
+            else System.out.print("empty");
+            System.out.print("\n");
         }
         System.out.println("____________________");
 
