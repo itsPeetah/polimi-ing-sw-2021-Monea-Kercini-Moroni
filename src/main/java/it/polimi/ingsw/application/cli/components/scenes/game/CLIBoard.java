@@ -68,10 +68,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
                 onProduce(arguments);
                 break;
             case "activate":
-                onActivate(arguments);
+                onPlayLeader(arguments, true);
                 break;
             case "discard":
-
+                onPlayLeader(arguments, false);
                 break;
             case "end":
             case "endturn":
@@ -311,7 +311,7 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
-    private void onActivate(String[] args){
+    private void onPlayLeader(String[] args, boolean activate){
         int leader;
         try {
             leader=Integer.parseInt(args[0]) - 1;
@@ -330,10 +330,15 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
             return;
         }
 
+
         ChooseLeaderActionData clad = new ChooseLeaderActionData(pls.getLeaders()[leader]);
         clad.setPlayer(GameApplication.getInstance().getUserNickname());
 
-        ActionPacket ap = new ActionPacket(Action.PLAY_LEADER, JSONUtility.toJson(clad, ChooseLeaderActionData.class));
+        Action action = activate ? Action.PLAY_LEADER : Action.DISCARD_LEADER;
+
+        ActionPacket ap = new ActionPacket(action, JSONUtility.toJson(clad, ChooseLeaderActionData.class));
         CLIGame.pushAction(ap);
     }
+
+
 }
