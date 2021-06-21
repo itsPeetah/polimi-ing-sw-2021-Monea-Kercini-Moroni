@@ -43,8 +43,8 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         println("\tExample usage: \"produce 0 1 2 3\" to activate all production.");
         println("\tExample usage: \"produce 0\" to only activate the default production.");
         println("\tExample usage: \"produce 1 4\" to only activate the productions in the first stack and the first active leader.");
-        println("Use \"activate <index>\" to activate a leader.");
-        println("Use \"discard <index>\" to discard a leader.");
+        println("Use \"activate <1|2>\" to activate a leader.");
+        println("Use \"discard <1|2>\" to discard a leader.");
         println("User \"endturn\" to end your turn.");
     }
 

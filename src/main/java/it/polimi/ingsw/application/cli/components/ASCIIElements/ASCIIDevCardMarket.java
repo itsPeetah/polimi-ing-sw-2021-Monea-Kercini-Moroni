@@ -9,8 +9,9 @@ public class ASCIIDevCardMarket {
         System.out.println("******* DEVELOPMENT CARD MARKET *******");
         for(int i = 0; i < 4; i++){
             for(int j = 2; j >= 0; j--) {
-                if(dcm.getAvailableCards()[i][j] != null){}
+                if(dcm.getAvailableCards()[i][j] != null) {
                     ASCIIDevCard.draw(dcm.getAvailableCards()[i][j]);
+                }
             }
         }
 
