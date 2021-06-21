@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
+import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.util.JSONUtility;
@@ -21,6 +22,7 @@ import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.player.DevCards;
+import it.polimi.ingsw.view.data.player.PlayerLeaders;
 import it.polimi.ingsw.view.data.player.Strongbox;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
@@ -45,10 +47,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         println("Use \"get <'row'|'col'> <index>\" to acquire resources from the market tray.");
         println("Use \"buy <color> <tier> <stack_index>\" to buy a development card.");
         println("\tColors: b (blue), g (green), p (purple), y (yellow), tiers: 1, 2, 3, stack_indices: 1, 2, 3");
-        println("Use \"produce <indices>\" to activate your productions.");
+        println("Use \"produce <indices>\" to activate your productions (indices: 0 for default, 1-3 for dev cards, 4-5 for leaders).");
         println("\tExample usage: \"produce 0 1 2 3\" to activate all production.");
         println("\tExample usage: \"produce 0\" to only activate the default production.");
-        println("\tExample usage: \"produce 1 3\" to only activate the productions in the first and third stack.");
+        println("\tExample usage: \"produce 1 4\" to only activate the productions in the first stack and the first active leader.");
         println("Use \"activate <index>\" to activate a leader.");
         println("Use \"discard <index>\" to discard a leader.");
         println("User \"endturn\" to end your turn.");
@@ -265,18 +267,29 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
             try{
                 prods[i] = Integer.parseInt(args[i]);
             } catch (NumberFormatException ex){
-                error("Invalid arguments. Please insert only numbers between 0 and 3.");
+                error("Invalid arguments. Please insert only numbers between 0 and 3 (4-5 for leaders).");
                 return;
             }
         }
 
         DevCard[] dcs = GameApplication.getInstance().getGameController().getGameData()
                 .getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards();
-
+        PlayerLeaders pls = GameApplication.getInstance().getGameController().getGameData()
+                .getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders();
         ArrayList<Production> chosenProductions = new ArrayList<Production>();
 
         for(int p : prods){
-            if(p > 0){
+            if(p > 5){
+                error("Please insert only numbers between 0 and 3 (4-5 for leaders).");
+                return;
+            } else if (p > 3) {
+                int leader = p - 4;
+                if(pls.getStates()[leader] != CardState.PLAYED || pls.getLeaders()[leader].getAbility().getProduction() == null){
+                    error("You can't play this leader now.");
+                    return;
+                }
+                chosenProductions.add(pls.getLeaders()[leader].getAbility().getProduction());
+            } else if(p > 0){
                 if(dcs[p-1] == null){
                     error("That production is not available at the moment.");
                     return;
