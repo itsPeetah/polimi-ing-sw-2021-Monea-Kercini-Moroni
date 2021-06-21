@@ -6,27 +6,19 @@ import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
-import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
-import it.polimi.ingsw.controller.model.actions.data.ProduceActionData;
-import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
+import it.polimi.ingsw.controller.model.actions.data.*;
 import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.model.playerleaders.CardState;
-import it.polimi.ingsw.network.common.NetworkPacket;
-import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
-import it.polimi.ingsw.view.data.player.DevCards;
 import it.polimi.ingsw.view.data.player.PlayerLeaders;
 import it.polimi.ingsw.view.data.player.Strongbox;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class CLIBoard extends CLIScene implements CLIGameSubScene {
@@ -76,7 +68,7 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
                 onProduce(arguments);
                 break;
             case "activate":
-
+                onActivate(arguments);
                 break;
             case "discard":
 
@@ -316,6 +308,32 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         nad.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket ap = new ActionPacket(Action.END_TURN, JSONUtility.toJson(nad, NoneActionData.class));
 
+        CLIGame.pushAction(ap);
+    }
+
+    private void onActivate(String[] args){
+        int leader;
+        try {
+            leader=Integer.parseInt(args[0]) - 1;
+        } catch (NumberFormatException ex){
+            error("Invalid argument. Accepted values: 1, 2");
+            return;
+        }
+        if(leader < 0 || leader > 1){
+            error("Please select a valid leader (1, 2)");
+            return;
+        }
+        PlayerLeaders pls = GameApplication.getInstance().getGameController().getGameData()
+                .getPlayerData(GameApplication.getInstance().getUserNickname()).getPlayerLeaders();
+        if(pls.getStates()[leader] != CardState.INHAND){
+            error("You can't activate this leader!");
+            return;
+        }
+
+        ChooseLeaderActionData clad = new ChooseLeaderActionData(pls.getLeaders()[leader]);
+        clad.setPlayer(GameApplication.getInstance().getUserNickname());
+
+        ActionPacket ap = new ActionPacket(Action.PLAY_LEADER, JSONUtility.toJson(clad, ChooseLeaderActionData.class));
         CLIGame.pushAction(ap);
     }
 }
