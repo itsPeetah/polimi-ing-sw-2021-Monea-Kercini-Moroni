@@ -6,9 +6,11 @@ import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
 import it.polimi.ingsw.controller.model.actions.data.ProduceActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.network.common.NetworkPacket;
@@ -21,6 +23,7 @@ import it.polimi.ingsw.view.data.player.DevCards;
 import it.polimi.ingsw.view.data.player.Strongbox;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class CLIBoard extends CLIScene implements CLIGameSubScene {
@@ -55,7 +58,6 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
             error("Missing arguments.");
         }
 
-
         switch (command) {
             case "view":
                 onView(arguments);
@@ -64,7 +66,7 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
                 getResources(arguments);
                 break;
             case "buy":
-
+                onBuy(arguments);
                 break;
             case "produce":
                 onProduce(arguments);
@@ -194,6 +196,62 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    private void onBuy(String[] args){
+        if(args.length < 3){
+            error("Missing arguments.");
+            return;
+        }
+        if(!"bgpy".contains(args[0]) && !"blue green purple yellow".contains(args[0])){
+            error("Please specify a correct dev card color.");
+            return;
+        }
+        if(!"123".contains(args[1])){
+            error("Please specify a correct dev card tier.");
+            return;
+        }
+        if(!"123".contains(args[2])){
+            error("Please specify a correct production stack number.");
+            return;
+        }
+
+        int tier = Integer.parseInt(args[1]) - 1;
+        int stack = Integer.parseInt(args[2]);
+        int color = -1;
+        switch (args[0]){
+            case "b":
+            case "blue":
+                color = 0;
+                break;
+            case "p":
+            case "purple":
+                color = 1;
+                break;
+            case "g":
+            case "green":
+                color = 2;
+                break;
+            case "y":
+            case "yellow":
+                color = 3;
+                break;
+        }
+
+        DevCardMarket dcm = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
+        try{
+            DevCard chosen = dcm.getAvailableCards()[color][tier];
+
+            DevCardActionData dcad = new DevCardActionData(chosen, stack - 1);
+            dcad.setPlayer(GameApplication.getInstance().getUserNickname());
+            ActionPacket ap = new ActionPacket(Action.DEV_CARD, JSONUtility.toJson(dcad, DevCardActionData.class));
+
+            CLIGame.pushAction(ap);
+        } catch (NullPointerException ex){
+            error("The card is not available.");
+            return;
+        }
+
+    }
+
     private void onProduce(String[] args){
         int[] prods = new int[args.length];
 
@@ -211,7 +269,6 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
 
         ArrayList<Production> chosenProductions = new ArrayList<Production>();
 
-        boolean defaultProduction = false;
         for(int p : prods){
             if(p > 0){
                 if(dcs[p-1] == null){
@@ -225,7 +282,6 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
             else{
                 chosenProductions.add(ProductionPowers.getBasicProduction());
                 println("Selected default production.");
-                defaultProduction = true;
             }
         }
 
