@@ -152,9 +152,6 @@ public class PlayerBoard {
         Resources available = new Resources();
         available.add(warehouse.getResourcesAvailable());
         available.add(strongbox.getResourcesAvailable());
-
-        System.out.println("getResources available tot amount: " + available.getTotalAmount());
-
         return available;
     }
 
