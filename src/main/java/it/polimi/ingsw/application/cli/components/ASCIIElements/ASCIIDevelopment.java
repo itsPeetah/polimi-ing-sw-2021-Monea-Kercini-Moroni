@@ -15,7 +15,7 @@ public class ASCIIDevelopment {
         System.out.print("Default production: ");
         ASCIIProduction.draw(ProductionPowers.getBasicProduction());
         for(int i = 0; i < dcs.length; i++){
-            System.out.print("Stack #" + i + ": ");
+            System.out.print("Stack #" + (i+1) + ": ");
             if(dcs[i] != null) ASCIIProduction.draw(dcs[i].getProduction());
             else System.out.print("empty\n");
         }
