@@ -6,13 +6,18 @@ import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
+import it.polimi.ingsw.controller.model.actions.data.ProduceActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
+import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.general.Production;
+import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
+import it.polimi.ingsw.view.data.player.DevCards;
 import it.polimi.ingsw.view.data.player.Strongbox;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
@@ -62,7 +67,7 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
 
                 break;
             case "produce":
-
+                onProduce(arguments);
                 break;
             case "activate":
 
@@ -186,6 +191,48 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         ResourceMarketActionData rmad = new ResourceMarketActionData(row, index - 1);
         rmad.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket ap = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(rmad, ResourceMarketActionData.class));
+        CLIGame.pushAction(ap);
+    }
+
+    private void onProduce(String[] args){
+        int[] prods = new int[args.length];
+
+        for(int i = 0; i < args.length; i++){
+            try{
+                prods[i] = Integer.parseInt(args[i]);
+            } catch (NumberFormatException ex){
+                error("Invalid arguments. Please insert only numbers between 0 and 3.");
+                return;
+            }
+        }
+
+        DevCard[] dcs = GameApplication.getInstance().getGameController().getGameData()
+                .getPlayerData(GameApplication.getInstance().getUserNickname()).getDevCards().getDevCards();
+
+        ArrayList<Production> chosenProductions = new ArrayList<Production>();
+
+        boolean defaultProduction = false;
+        for(int p : prods){
+            if(p > 0){
+                if(dcs[p-1] == null){
+                    error("That production is not available at the moment.");
+                    return;
+                } else {
+                    chosenProductions.add(dcs[p-1].getProduction());
+                    println("Selected production in stack #" + p);
+                }
+            }
+            else{
+                chosenProductions.add(ProductionPowers.getBasicProduction());
+                println("Selected default production.");
+                defaultProduction = true;
+            }
+        }
+
+        ProduceActionData pad = new ProduceActionData(chosenProductions);
+        pad.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket ap = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(pad, ProduceActionData.class));
+
         CLIGame.pushAction(ap);
     }
 }
