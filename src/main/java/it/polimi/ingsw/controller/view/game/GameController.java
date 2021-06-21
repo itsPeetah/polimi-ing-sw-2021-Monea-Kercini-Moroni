@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.view.game;
 
 import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationMode;
 import it.polimi.ingsw.controller.model.ModelController;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -221,6 +222,11 @@ public class GameController {
 
             case NOT_ENOUGH_RESOURCES:
                 //This is triggered whether by trying to produce without having the necessary input or not enough to
+                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
+                    moveToState(GameState.TURN_CHOICE);
+                }
+                GameApplication.getInstance().out(messageContent);
+                break;
             case ILLEGAL_CARD_PLACE:
                 // when buying a devCard
             case REQUIREMENTS_NOT_MET:
@@ -265,7 +271,13 @@ public class GameController {
                 break;
 
             case SELECT_INPUT:
+                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
+                    moveToState(GameState.PICK_RESOURCES);
+                }
             case SELECT_OUTPUT:
+                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
+                    moveToState(GameState.PICK_RESOURCES);
+                }
                 //No need for changing game state here
                 //These messages are just for helping player understand what is he choosing for when he is producing
                 GameApplication.getInstance().out(messageContent);
