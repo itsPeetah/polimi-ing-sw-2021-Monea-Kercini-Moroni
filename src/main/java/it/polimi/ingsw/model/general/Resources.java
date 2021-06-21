@@ -102,8 +102,10 @@ public class Resources {
      * @param other resources to be added to this.
      */
     public Resources add(Resources other) {
-        for(ResourceType resource: other.amounts.keySet()) {
-            add(resource, other.getAmountOf(resource));
+        if(other != null) {
+            for (ResourceType resource : other.amounts.keySet()) {
+                add(resource, other.getAmountOf(resource));
+            }
         }
         return this;
     }
