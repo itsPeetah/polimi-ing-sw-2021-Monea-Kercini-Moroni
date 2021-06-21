@@ -4,6 +4,7 @@ import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResources;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResourcesToPut;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIWarehouse;
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
@@ -50,7 +51,9 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     public void show() {
         println("Organize your warehouse:");
         ASCIIWarehouse.draw(tempWarehouse);
-        ASCIIResources.draw(queuedResources);
+        if(queuedResources.getTotalAmount() > 0)
+            ASCIIResources.draw(queuedResources);
+        else println("No resources remaining");
         print("\n");
         println("+-------------------------------------------------+");
         println("| Choose resource type:                           |");
@@ -69,7 +72,8 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     @Override
     public void help() {
         println("Use command \"put <res> <cell>\" to put a resource in a warehouse cell.");
-        println("Use command \"take <cell>\" to remove a resource from the specified cell.");
+        /*println("Use command \"take <cell>\" to remove a resource from the specified cell.");*/
+        println("User command \"reset\" to reset the warehouse and start over.");
         println("Use command \"confirm\" or \"ok\" to confirm and submit.");
     }
 
@@ -96,7 +100,7 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
                 }
                 tryPut(res, cell);
                 break;
-            case "take":
+            /*case "take":
                 if(arguments.length < 1) {
                     error("Missing argument. Type \"help\" for further information.");
                     break;
@@ -112,6 +116,10 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
                     break;
                 }
                 tryTake(cell);
+                break;*/
+            case "reset":
+                resetWH();
+                show();
                 break;
             case "confirm":
             case "ok":
@@ -180,6 +188,18 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
         }
     }
 
+    private void resetWH(){
+        for(Resources r : tempWarehouse.getContent()){
+            if(r != null)
+                queuedResources.add(r);
+        }
+        for(Resources r: tempWarehouse.getExtra()){
+            if(r != null)
+                queuedResources.add(r);
+        }
+        tempWarehouse = new Warehouse();
+    }
+
     private void tryTake(int cell){
         int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
         boolean extra = cell > 6;
@@ -237,39 +257,20 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
 
 
     private void confirm(){
-        /*it.polimi.ingsw.model.playerboard.Warehouse sentWarehouse = new it.polimi.ingsw.model.playerboard.Warehouse();
-        // Create warehouse to send
-        for(int i=0; i<3; i++) {
-            Resources floorResources = new Resources();
-            int resCount = (int)rows.get(2-i).stream().filter(imageView -> imageView.getImage() != null).count();
-            ResourceType resType = rowsResourceTypes.get(2-i);
-            if(resCount > 0) {
-                floorResources.add(resType, resCount);
-            }
-            sentWarehouse.deposit(floorResources,i);
-        }
-        // Create leader extra to send
-        for(int i=0; i<2; i++) {
-            LeadCard activatedLeader = leadCards[i];
-            if(activatedLeader != null) {
-                Optional<LeadCard> searchedCard = playerLeaders.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(activatedLeader.getCardId())).findFirst();
-                assert searchedCard.isPresent();
-                int leadIndex = playerLeaders.indexOf(searchedCard.get());
-                int resCount = (int)leadersResources.get(leadIndex).stream().filter(imageView -> imageView.getImage() != null).count();
-                ResourceType resType = leadersResourceTypes.get(leadIndex);
-                System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
-                Resources extraResources = new Resources();
-                extraResources.add(resType, resCount);
-                sentWarehouse.deposit(extraResources,i+3);
-                sentWarehouse.expandWithLeader(activatedLeader);
-            }
-        }*/
 
-        Action a = Action.PUT_RESOURCES;
-        PutResourcesActionData ad = new PutResourcesActionData();
-        ad.setPlayer(GameApplication.getInstance().getUserNickname());
-        ad.setWh(new it.polimi.ingsw.model.playerboard.Warehouse());
-        GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildActionPacket(new ActionPacket(a, JSONUtility.toJson(ad, PutResourcesActionData.class))));
+        it.polimi.ingsw.model.playerboard.Warehouse wh = new it.polimi.ingsw.model.playerboard.Warehouse();
+        wh.deposit(tempWarehouse.getContent()[0],0);
+        wh.deposit(tempWarehouse.getContent()[1],1);
+        wh.deposit(tempWarehouse.getContent()[2],2);
+        wh.deposit(tempWarehouse.getExtra()[0], 3);
+        wh.deposit(tempWarehouse.getExtra()[1], 4 );
+
+        PutResourcesActionData prad = new PutResourcesActionData();
+        prad.setWh(wh);
+        prad.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket ap = new ActionPacket(Action.PUT_RESOURCES, JSONUtility.toJson(prad, PutResourcesActionData.class));
+
+        CLIGame.pushAction(ap);
     }
 
 
