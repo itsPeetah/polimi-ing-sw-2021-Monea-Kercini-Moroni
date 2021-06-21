@@ -43,6 +43,7 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         if (command == null) error("Could not parse the command.");
         else if (!command.equals("pick")) error("Invalid command.");
         else if(command.length() < 3) error("Error: missing arguments.");
+        else if(arguments == null || arguments.length < 2) error("Error: missing arguments.");
         else{
             int arg1 = Integer.parseInt(arguments[0]); int arg2 = Integer.parseInt(arguments[1]);
             if(arg1 == arg2) error("Please insert two different numbers.");
