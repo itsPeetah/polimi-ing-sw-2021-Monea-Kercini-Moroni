@@ -7,6 +7,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.DevCardActionData;
+import it.polimi.ingsw.controller.model.actions.data.NoneActionData;
 import it.polimi.ingsw.controller.model.actions.data.ProduceActionData;
 import it.polimi.ingsw.controller.model.actions.data.ResourceMarketActionData;
 import it.polimi.ingsw.model.cards.DevCard;
@@ -50,11 +51,12 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         println("\tExample usage: \"produce 1 3\" to only activate the productions in the first and third stack.");
         println("Use \"activate <index>\" to activate a leader.");
         println("Use \"discard <index>\" to discard a leader.");
+        println("User \"endturn\" to end your turn.");
     }
 
     @Override
     public void execute(String command, String[] arguments) {
-        if ((arguments == null || arguments.length < 1) && !command.equals("help")) {
+        if ((arguments == null || arguments.length < 1) && ( !"end endturn help".contains(command))) {
             error("Missing arguments.");
         }
 
@@ -76,6 +78,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
                 break;
             case "discard":
 
+                break;
+            case "end":
+            case "endturn":
+                onEndTurn();
                 break;
             case "help":
                 help();
@@ -288,6 +294,14 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         ProduceActionData pad = new ProduceActionData(chosenProductions);
         pad.setPlayer(GameApplication.getInstance().getUserNickname());
         ActionPacket ap = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(pad, ProduceActionData.class));
+
+        CLIGame.pushAction(ap);
+    }
+
+    private void onEndTurn(){
+        NoneActionData nad = new NoneActionData();
+        nad.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket ap = new ActionPacket(Action.END_TURN, JSONUtility.toJson(nad, NoneActionData.class));
 
         CLIGame.pushAction(ap);
     }

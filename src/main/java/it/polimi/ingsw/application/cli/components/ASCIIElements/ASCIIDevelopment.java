@@ -17,8 +17,7 @@ public class ASCIIDevelopment {
         for(int i = 0; i < dcs.length; i++){
             System.out.print("Stack #" + i + ": ");
             if(dcs[i] != null) ASCIIProduction.draw(dcs[i].getProduction());
-            else System.out.print("empty");
-            System.out.print("\n");
+            else System.out.print("empty\n");
         }
         System.out.println("____________________");
 
