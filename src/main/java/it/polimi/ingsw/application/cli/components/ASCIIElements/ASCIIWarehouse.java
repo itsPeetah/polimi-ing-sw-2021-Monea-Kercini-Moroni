@@ -4,8 +4,14 @@ import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
+/**
+ * ASCII Warehouse drawing class
+ */
 public class ASCIIWarehouse {
 
+    /**
+     * Draw a Warehouse to the screen
+     */
     public static void draw(Warehouse wh) {
 
         Resources[] content = wh.getContent();

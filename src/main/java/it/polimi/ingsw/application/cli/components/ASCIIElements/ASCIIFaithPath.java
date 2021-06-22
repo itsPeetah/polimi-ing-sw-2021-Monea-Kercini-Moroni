@@ -5,7 +5,14 @@ import it.polimi.ingsw.view.data.CommonData;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.player.FaithTrack;
 
+/**
+ * ASCII Faith Path drawing class
+ */
 public class ASCIIFaithPath {
+
+    /**
+     * Draw the faith path for all players to the screen
+     */
     public static void draw(GameData gameData, boolean isSinglePlayer){
 
         System.out.println("Faith track:");
@@ -39,10 +46,17 @@ public class ASCIIFaithPath {
 
     }
 
+    /**
+     * Draw a single cell of the faith track
+     * @param i index of the cell to draw
+     */
     private static void drawCell(int i){
         String color = ANSIColor.RESET;
+        // Vatican report range
         if((i >= 5 && i <= 7) || (i >= 12 && i <= 15) || i >= 19) color = ANSIColor.YELLOW;
+        // Vatican report
         if(i % 8 == 0 && i > 0) color = ANSIColor.RED;
+        // VP milestone
         if(i % 3 == 0 && i > 0) color = ANSIColor.GREEN;
         System.out.print(color + "["+ i + "]" + ANSIColor.RESET);
     }

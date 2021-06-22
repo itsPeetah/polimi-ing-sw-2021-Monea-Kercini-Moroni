@@ -9,7 +9,14 @@ import it.polimi.ingsw.model.general.*;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+/**
+ * ASCII Leader Card drawing class
+ */
 public class ASCIILeadCard {
+
+    /**
+     * Draw a LeadCard to the screen
+     */
     public static void draw(LeadCard card){
         System.out.println("=== LEAD CARD ===");
         System.out.println("ID: " + card.getCardId());

@@ -4,7 +4,14 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.view.data.player.PlayerLeaders;
 
+/**
+ * ASCII Player Leaders drawing class
+ */
 public class ASCIIPlayerLeaders {
+
+    /**
+     * Draw the leader cards owned by a player
+     */
     public static void draw(String player){
         PlayerLeaders pls = GameApplication.getInstance().getGameController().getGameData().getPlayerData(player).getPlayerLeaders();
 
