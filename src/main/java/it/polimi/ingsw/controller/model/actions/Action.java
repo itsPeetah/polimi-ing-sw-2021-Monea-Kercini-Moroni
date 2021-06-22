@@ -17,7 +17,7 @@ public enum Action {
     RESOURCE_MARKET(ResourceMarketActionData.class),
     DEV_CARD(DevCardActionData.class),
     PRODUCE(ProduceActionData.class),
-    PlAY_LEADER(ChooseLeaderActionData.class),
+    PLAY_LEADER(ChooseLeaderActionData.class),
     DISCARD_LEADER(ChooseLeaderActionData.class),
     REARRANGE_WAREHOUSE(NoneActionData.class),
     END_TURN(NoneActionData.class);

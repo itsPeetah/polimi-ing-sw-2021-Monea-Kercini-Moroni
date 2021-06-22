@@ -56,14 +56,12 @@ public class LeadCardRequirements {
         /* Check resource amounts */
         if (!player.getBoard().getResourcesAvailable().isGreaterThan(resourceAmounts)) return false;
 
-        System.out.println("LeadCardRequirements.check: passed resources check");
         /* Check dev card colors requirements */
         for(Color colReq: devCardColors.keySet()) {
             if(devCardColors.get(colReq) > playerCards.parallelStream().filter(dc -> dc.getColor() == colReq).count()) return false;
         }
 
         /* Check dev card levels requirements */
-        System.out.println("LeadCardRequirements.check: passed color check");
         for(Color colReq: devCardLevels.keySet()) {
             if(playerCards.parallelStream().noneMatch(lc -> lc.getColor().equals(colReq) && lc.getLevel().equals(devCardLevels.get(colReq)))) return false;
         }

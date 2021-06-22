@@ -155,14 +155,12 @@ public class GameApplication {
     // Output
     public void out(String output){
         if(outputMode == GameApplicationMode.CLI){
-            // TODO move to its own class
             System.out.println(output);
         }
     }
 
     public void outChat(String from, String body) {
         if(outputMode == GameApplicationMode.CLI){
-            // TODO move to its own class
             System.out.println(ANSIColor.CYAN + from + ANSIColor.RESET + " said: " + body);
         } else {
             GUIChat.notifyMessage(from, body);

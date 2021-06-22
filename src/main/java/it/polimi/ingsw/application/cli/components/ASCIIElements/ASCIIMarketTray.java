@@ -16,9 +16,10 @@ public class ASCIIMarketTray {
                 ASCIIResources.draw(tray.getAvailable()[y][x].getValue());
                 System.out.print("]");
             }
-            System.out.print(" <\n");
+            System.out.print(" < "+ (y+1) + "\n");
         }
         System.out.println(" ^  ^  ^  ^");
+        System.out.println(" 1  2  3  4");
         System.out.println("============================");
     }
 
