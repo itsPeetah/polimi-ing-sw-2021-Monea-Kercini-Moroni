@@ -100,6 +100,9 @@ public class CLIGame extends CLIScene {
     }
 
     public static void pushAction(ActionPacket ap) {
+
+        GameApplication.getInstance().getGameController().moveToState(GameState.IDLE);
+
         if (GameApplication.getInstance().getGameController().isSinglePlayer() && !GameApplication.getInstance().isOnNetwork()) {
             GameApplication.getInstance().getGameControllerIO().notifyAction(ap);
         } else {
