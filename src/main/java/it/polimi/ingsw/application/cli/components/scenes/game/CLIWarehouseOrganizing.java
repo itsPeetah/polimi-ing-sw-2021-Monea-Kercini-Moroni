@@ -16,6 +16,9 @@ import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
+/**
+ * CLIScene for organizing the warehouse
+ */
 public class CLIWarehouseOrganizing extends CLIScene  {
 
     private Warehouse tempWarehouse;
@@ -108,14 +111,25 @@ public class CLIWarehouseOrganizing extends CLIScene  {
         }
     }
 
+    /**
+     * Retrieve the player's WH from the current GameData
+     */
     private Warehouse getWarehouse() {
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
     }
 
+    /**
+     * Retrieve the ResourcesToPut from the temporary data
+     */
     private ResourcesToPut getResourcesToPut() {
         return GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut();
     }
 
+    /**
+     * Try putting resources in the warehouse
+     * @param res resources to put in the warehouse
+     * @param cell cell of the warehouse to put the resources in
+     */
     private void tryPut(int res, int cell) {
         int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
         boolean extra = cell > 6;
@@ -169,6 +183,9 @@ public class CLIWarehouseOrganizing extends CLIScene  {
         }
     }
 
+    /**
+     * Empty the warehouse
+     */
     private void resetWH() {
         for (Resources r : tempWarehouse.getContent()) {
             if (r != null)
@@ -181,15 +198,23 @@ public class CLIWarehouseOrganizing extends CLIScene  {
         tempWarehouse = new Warehouse();
     }
 
+    /**
+     * Check if a row is empty
+     */
     private boolean rowEmpty(Resources row) {
         return row.getTotalAmount() < 1;
     }
 
+    /**
+     * Check if a row contains a certain type of resources
+     */
     private boolean rowContainsType(Resources row, ResourceType type) {
         return row.getAmountOf(type) > 0;
     }
 
-
+    /**
+     * Confirm the warehouse selection
+     */
     private void confirm() {
 
         it.polimi.ingsw.model.playerboard.Warehouse wh = new it.polimi.ingsw.model.playerboard.Warehouse();

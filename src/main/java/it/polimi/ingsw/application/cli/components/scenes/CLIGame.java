@@ -9,6 +9,9 @@ import it.polimi.ingsw.controller.view.game.GameController;
 import it.polimi.ingsw.controller.view.game.GameState;
 import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 
+/**
+ * Parent CLIScene for the game phase
+ */
 public class CLIGame extends CLIScene {
 
     private CLIScene board = new CLIBoard();
@@ -86,6 +89,9 @@ public class CLIGame extends CLIScene {
         }
     }
 
+    /**
+     * Select the current game subscene depending on the current game state
+     */
     private CLIScene selectCurrentView(GameState currentState) {
         switch (currentState) {
             case CHOOSE_LEADERS:
@@ -99,6 +105,9 @@ public class CLIGame extends CLIScene {
         }
     }
 
+    /**
+     * Push the action packet to the game controller (either local or remote)
+     */
     public static void pushAction(ActionPacket ap) {
 
         GameApplication.getInstance().getGameController().moveToState(GameState.IDLE);

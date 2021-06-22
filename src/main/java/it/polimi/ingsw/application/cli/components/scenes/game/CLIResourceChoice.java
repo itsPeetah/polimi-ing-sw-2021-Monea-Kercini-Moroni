@@ -11,6 +11,9 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
 
+/**
+ * CLIScene for the choice of resources
+ */
 public class CLIResourceChoice extends CLIScene {
 
     Resources chosenResources;
@@ -67,6 +70,9 @@ public class CLIResourceChoice extends CLIScene {
         }
     }
 
+    /**
+     * Procedure for choosing a resource
+     */
     private void pickResource(ResourceType t){
         Resources r = new Resources().add(t, 1);
         ChooseResourceActionData actionData = new ChooseResourceActionData();

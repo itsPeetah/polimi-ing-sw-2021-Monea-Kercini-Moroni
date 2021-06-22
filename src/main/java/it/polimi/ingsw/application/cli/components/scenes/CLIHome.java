@@ -5,6 +5,9 @@ import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 
+/**
+ * CLIScene for the game's home screen
+ */
 public class CLIHome extends CLIScene {
 
     public CLIHome() {
@@ -50,11 +53,17 @@ public class CLIHome extends CLIScene {
         }
     }
 
+    /**
+     * Start the game in single player mode
+     */
     private void selectSinglePlayerMode(){
         println(ANSIColor.YELLOW + "Selected Single Player Mode" + ANSIColor.RESET);
         GameApplication.getInstance().startLocalGame();
     }
 
+    /**
+     * Start the game in multiplayer mode
+     */
     private void selectMultiplayerMode(){
         println(ANSIColor.YELLOW + "Selected Multi Player Mode" + ANSIColor.RESET);
 

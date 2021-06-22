@@ -4,6 +4,9 @@ import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 
+/**
+ * Title screen for the game
+ */
 public class CLITitle extends CLIScene {
 
     public CLITitle() {

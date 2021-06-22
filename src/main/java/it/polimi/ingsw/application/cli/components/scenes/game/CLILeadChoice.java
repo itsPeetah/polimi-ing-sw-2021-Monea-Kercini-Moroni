@@ -15,6 +15,9 @@ import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 
+/**
+ * CLIScene for choosing
+ */
 public class CLILeadChoice extends CLIScene {
 
     public CLILeadChoice()
@@ -47,6 +50,9 @@ public class CLILeadChoice extends CLIScene {
         }
     }
 
+    /**
+     * Procedure to choose leader cards
+     */
     private void chooseLeaders(int index1, int index2){
 
         LeadCard[] chosen = new LeadCard[]{
@@ -63,14 +69,25 @@ public class CLILeadChoice extends CLIScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Retrieve the DCM from the GameData
+     */
     public DevCardMarket getDevCardMarket(){
         return GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
     }
 
+    /**
+     * Retrieve the MT from the GameData
+     * @return
+     */
     public MarketTray getMarketTray(){
         return GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray();
     }
 
+    /**
+     * Get the LTCF from the GameData
+     * @return
+     */
     public LeadersToChooseFrom getLeadersToChooseFrom(){
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom();
     }
