@@ -49,6 +49,10 @@ public class GUIApplication extends Application {
         launch();
     }
 
+    /**
+     * Show a dialog with a certain message.
+     * @param message message to notify to the user.
+     */
     public static void showDialog(String message) {
         Platform.runLater(() -> {
             if(oldDialog != null) {
