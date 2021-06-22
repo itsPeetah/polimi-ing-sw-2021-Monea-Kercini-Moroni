@@ -302,7 +302,7 @@ public class GameController {
     }
 
 
-    protected void moveToState(GameState nextState) {
+    public void moveToState(GameState nextState) {
         currentState = nextState;
     }
 
