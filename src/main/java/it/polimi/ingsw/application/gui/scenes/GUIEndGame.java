@@ -27,6 +27,10 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
 
     private static final AtomicBoolean win = new AtomicBoolean();
 
+    /**
+     * Set the text with Victory or Defeat message
+     * @param win true if the user is the winner, false otherwise.
+     */
     public void setWin(boolean win) {
         GUIEndGame.win.set(win);
         if(win) {
@@ -90,6 +94,10 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
     }
 
+    /**
+     * On exit button click.
+     * @param actionEvent
+     */
     public void onExitClick(ActionEvent actionEvent) {
         GUIUtility.handleLeaveGame();
     }

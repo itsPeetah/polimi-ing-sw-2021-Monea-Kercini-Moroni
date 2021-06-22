@@ -37,11 +37,18 @@ public class GUIChooseResource implements Initializable {
         setMessage(DEFAULT_MESSAGE);
     }
 
+    /**
+     * Change the message shown to the user.
+     * @param message message to be shown.
+     */
     public void setMessage(Message message) {
         System.out.println("GUIChooseResource.setMessage: " + message.toString());
         Platform.runLater(() -> messageLabel.setText(message.toString()));
     }
 
+    /**
+     * Send the resources to the to the controller.
+     */
     private void sendResource(){
         ChooseResourceActionData chooseResourceActionData = new ChooseResourceActionData();
         chooseResourceActionData.setPlayer(GameApplication.getInstance().getUserNickname());
@@ -60,25 +67,36 @@ public class GUIChooseResource implements Initializable {
     }
 
 
-
+    /**
+     * On coin icon click
+     */
     @FXML
     public void coinClick(){
         res.add(ResourceType.COINS, 1);
         sendResource();
     }
 
+    /**
+     * On servant icon click
+     */
     @FXML
     public void servantClick(){
         res.add(ResourceType.SERVANTS, 1);
         sendResource();
     }
 
+    /**
+     * On shield icon click
+     */
     @FXML
     public void shieldClick(){
         res.add(ResourceType.SHIELDS, 1);
         sendResource();
     }
 
+    /**
+     * On stone icon click
+     */
     @FXML
     public void stoneClick(){
         res.add(ResourceType.STONES, 1);

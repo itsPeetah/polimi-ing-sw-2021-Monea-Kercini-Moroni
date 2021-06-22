@@ -39,27 +39,51 @@ public class GUIMPSelection implements PacketListener, Initializable {
         numberChoiceBox.setValue(4);
     }
 
+    /**
+     * On create button click.
+     * @param actionEvent
+     */
     public void onCreateClick(ActionEvent actionEvent) {
         if(roomTextField.getText().length() > 0 && userTextField.getText().length() > 0) performSelection(SystemMessage.CREATE_ROOM);
     }
 
+    /**
+     * On join button click.
+     * @param actionEvent
+     */
     public void onJoinClick(ActionEvent actionEvent) {
         if(userTextField.getText().length() > 0) performSelection(SystemMessage.JOIN_ROOM);
     }
 
+    /**
+     * On re join button click.
+     * @param actionEvent
+     */
     public void onReJoinClick(ActionEvent actionEvent) {
         performRejoin();
     }
 
+    /**
+     * On quick join button click.
+     * @param actionEvent
+     */
     public void onQuickJoinClick(ActionEvent actionEvent) {
         if(userTextField.getText().length() > 0) performQuickJoin();
     }
 
+    /**
+     * On back button click.
+     * @param actionEvent
+     */
     @FXML
     public void onBackButton(ActionEvent actionEvent) {
         GUIScene.GAME_MODE_SELECTION.load();
     }
 
+    /**
+     * Handle join and create actions.
+     * @param gameLobbyMessage
+     */
     private void performSelection(SystemMessage gameLobbyMessage) {
         String username = userTextField.getText();
         String room = roomTextField.getText();
@@ -82,6 +106,9 @@ public class GUIMPSelection implements PacketListener, Initializable {
         });
     }
 
+    /**
+     * Handle rejoin action.
+     */
     private void performRejoin() {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
@@ -91,6 +118,9 @@ public class GUIMPSelection implements PacketListener, Initializable {
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
+    /**
+     * Handle quick join action.
+     */
     private void performQuickJoin() {
         setButtonsDisabled(true);
         GUIScene.showLoadingScene();
@@ -135,6 +165,11 @@ public class GUIMPSelection implements PacketListener, Initializable {
         });
     }
 
+    /**
+     /**
+     * Set the disable effect of the buttons.
+     * @param disabled if true the buttons will be disabled, otherwise they would be clickable.
+     */
     private void setButtonsDisabled(boolean disabled) {
         joinButt.setDisable(disabled);
         createButt.setDisable(disabled);

@@ -123,7 +123,7 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="1100.0" prefHeight="100.0" prefWidth="100.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#bigButton" styleClass="arrowButton" />
+            <Button mnemonicParsing="false" onAction="#endTurn" styleClass="arrowButton" />
          </children>
       </HBox>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000cc" height="219.0" layoutX="1497.0" layoutY="647.0" stroke="BLACK" strokeType="INSIDE" width="265.0" />

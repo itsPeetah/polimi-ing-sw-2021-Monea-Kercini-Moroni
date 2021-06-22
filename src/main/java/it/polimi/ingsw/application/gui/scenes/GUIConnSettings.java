@@ -29,10 +29,18 @@ public class GUIConnSettings implements Initializable, PacketListener {
     public TextField addressTextField;
     public TextField portTextField;
 
+    /**
+     * On back button click
+     * @param actionEvent
+     */
     public void onBackButton(ActionEvent actionEvent) {
-        GUIScene.SETTINGS.load();
+        GUIScene.MAIN_MENU.load();
     }
 
+    /**
+     * On connect button click
+     * @param actionEvent
+     */
     public void onConnectClick(ActionEvent actionEvent) {
         disableButtons(true);
         address = addressTextField.getText();
@@ -79,6 +87,10 @@ public class GUIConnSettings implements Initializable, PacketListener {
         });
     }
 
+    /**
+     * Set the disable effect of the buttons.
+     * @param disabled if true the buttons will be disabled, otherwise they would be clickable.
+     */
     private void disableButtons(boolean disabled) {
         connButton.setDisable(disabled);
         backButton.setDisable(disabled);

@@ -12,6 +12,9 @@ import java.util.Optional;
 
 public class GUIGameModeSelection {
 
+    /**
+     * On MP button click.
+     */
     @FXML
     private void onMPClick() {
         if(!GameApplication.getInstance().isOnNetwork()) {
@@ -29,6 +32,9 @@ public class GUIGameModeSelection {
         }
     }
 
+    /**
+     * On SP button click.
+     */
     @FXML
     private void onSPClick() {
         GUIScene.showLoadingScene();
@@ -41,6 +47,9 @@ public class GUIGameModeSelection {
         }).start();
     }
 
+    /**
+     * On back button click.
+     */
     @FXML
     private void onBackClick() {
         GUIScene.MAIN_MENU.load();

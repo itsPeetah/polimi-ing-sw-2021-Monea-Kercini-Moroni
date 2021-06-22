@@ -21,7 +21,6 @@ public enum GUIScene {
     PRE_GAME("GUIPreGame.fxml", true),
     MAIN_GAME("GUIMainGame.fxml", true),
     END_GAME("GUIEndGame.fxml", true),
-    SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", true),
     WAREHOUSE("GUIWarehouse.fxml", false),
@@ -39,7 +38,7 @@ public enum GUIScene {
     private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
-    private static AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
+    private static final AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
     private static Parent nextLoadingRoot;
 
     /* STATIC SCENES */

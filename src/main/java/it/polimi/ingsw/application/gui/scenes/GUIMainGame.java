@@ -210,7 +210,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private final List<ImageView> ownDevs = new ArrayList<>();
     private final List<List<ImageView>> leadersResources = new ArrayList<>();
     private final List<ImageView> viewsWithEffect = new ArrayList<>();
-    private final List<Button> actionButtons = new ArrayList<>();
     private final List<ImageView> reportImageViews = new ArrayList<>();
     private final List<Image> reportImages = new ArrayList<>();
 
@@ -236,9 +235,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         rows.addAll(Arrays.asList(Collections.singletonList(im00), Arrays.asList(im10, im11), Arrays.asList(im20, im21, im22)));
         leadersResources.addAll(Arrays.asList(Arrays.asList(lead1res1, lead1res2), Arrays.asList(lead2res1, lead2res2)));
 
-        // Action buttons
-        actionButtons.addAll(Arrays.asList(resourcesButton, buyButton, produceButton, playLeaderButton, discardLeaderButton, warehouseButton));
-
         // Own devs
         ownDevs.addAll(Arrays.asList(prod1, prod2, prod3));
 
@@ -263,7 +259,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         reportImageViews.addAll(Arrays.asList(report2, report3, report4));
         reportImages.addAll(Arrays.asList(report2Image, report3Image, report4Image));
 
-
         // Apply color adjust effect to the leader nodes
         lead1.setEffect(GUIUtility.getBlackEffect());
         lead2.setEffect(GUIUtility.getBlackEffect());
@@ -272,6 +267,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         productionsSelected.clear();
     }
 
+    /**
+     * Load the images from the files.
+     */
     public static void init() {
         // Retrieve images
         File file = new File("src/main/resources/images/resources/cross.png");
@@ -303,7 +301,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         // Clear choice box
         boardChoiceBox.getItems().clear();
 
-        new Thread(() -> {
+        GUIUtility.executorService.submit(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             gameData.getCommon().getMarketTray().setObserver(this);
             gameData.getCommon().getDevCardMarket().setObserver(this);
@@ -312,10 +310,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             gameData.setObserver(this);
 
             for(String player: GameApplication.getInstance().getGameController().getGameData().getPlayersList()) {
-                System.out.println("GUIMainGame.startObserver: player = " + player);
                 observePlayer(player);
             }
-        }).start();
+        });
 
 
         Platform.runLater(() -> {
@@ -334,6 +331,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Start observing a player.
+     * @param player nickname of the player to observe.
+     */
     private void observePlayer(String player) {
         GameData gameData = GameApplication.getInstance().getGameController().getGameData();
         gameData.getPlayerData(player).getPlayerLeaders().setObserver(this);
@@ -491,6 +492,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Handle the state of a leader and apply the right effect to the corresponding image view.
+     * @param cardState state of the leader.
+     * @param imageView image view of the leader.
+     */
     private void handleLeaderState(CardState cardState, ImageView imageView) {
         switch(cardState) {
             case PLAYED:
@@ -543,6 +549,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Fill a warehouse row.
+     * @param resources resources to put in the row.
+     * @param row row to fill.
+     */
     private void fillRow(Resources resources, List<ImageView> row) {
         ResourceType resourceType = getResourceType(resources);
         if(resourceType != null) {
@@ -554,6 +565,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * Get the type of resource of a <code>Resources</code> object.
+     * @param resources object containing a single type of resource.
+     * @return the resource type contained in the object.
+     */
     private ResourceType getResourceType(Resources resources) {
         for(ResourceType resourceType: ResourceType.values()) {
             int resCount = resources.getAmountOf(resourceType);
@@ -621,6 +637,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * React to a change to the player choice box by showing the new current user player board.
+     */
     public void boardChanged(){
         String nickname = getCurrentUser();
 
@@ -635,6 +654,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Update all the player board views.
+     */
     private void everythingChanged(){
         onDevCardsChange();
         onFaithChange();
@@ -704,18 +726,33 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     // TOP MENU
 
+    /**
+     * On play leader icon click.
+     * @param actionEvent
+     */
     public void playLeader(ActionEvent actionEvent) {
         setChoice(Action.PlAY_LEADER);
     }
 
+    /**
+     * On discard leader icon click.
+     */
     public void discardLeader() {
         setChoice(Action.DISCARD_LEADER);
     }
 
+    /**
+     * On acquire resources icon click.
+     * @param actionEvent
+     */
     public void acquireResources(ActionEvent actionEvent) {
         setChoice(Action.RESOURCE_MARKET);
     }
 
+    /**
+     * On reorganize warehouse icon click.
+     * @param actionEvent
+     */
     public void reorganizeWarehouse(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             setChoice(Action.REARRANGE_WAREHOUSE);
@@ -726,33 +763,56 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
-    public void bigButton(ActionEvent actionEvent) {
+    /**
+     * On end turn icon click.
+     * @param actionEvent
+     */
+    public void endTurn(ActionEvent actionEvent) {
         NoneActionData noneActionData = new NoneActionData();
         noneActionData.setPlayer(nickname);
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    /**
+     * On open chat icon click.
+     * @param actionEvent
+     */
     public void openChat(ActionEvent actionEvent) {
         GUIUtility.launchChat();
     }
 
+    /**
+     * On open settings icon click.
+     * @param actionEvent
+     */
     public void openSettings(ActionEvent actionEvent) {
         GUIScene.GAME_SETTINGS.load();
     }
 
     // LEADERS
 
+    /**
+     * On first leader click.
+     */
     @FXML
     public void lead1Click(){
         handleLeaderClick(0, lead1);
     }
 
+    /**
+     * On second leader click.
+     */
     @FXML
     public void lead2Click(){
         handleLeaderClick(1, lead2);
     }
 
+    /**
+     * Handle a leader click according to the current selected action.
+     * @param i index of the leader.
+     * @param leaderImage image view of the leader.
+     */
     private void handleLeaderClick(int i, ImageView leaderImage) {
         if(choice == Action.DISCARD_LEADER){
             discardLeader(i);
@@ -765,6 +825,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * Handle a leader click with production as selected action.
+     * @param i index of the leader.
+     * @param leaderImage image view of the leader.
+     */
     private void produceLeader(int i, ImageView leaderImage){
         String nickname = getCurrentUser();
 
@@ -788,8 +853,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     }
 
     /**
-     * Method for discarding leader
-     * @param i 0 lead 1, 1 lead2
+     * Handle a leader click with discard leader as selected action.
+     * @param i index of the leader.
      */
     private void discardLeader(int i){
 
@@ -800,6 +865,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
+    /**
+     * Handle a leader click with play leader as selected action.
+     * @param i index of the leader.
+     */
     public void playLeader(int i){
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
@@ -811,28 +880,67 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     // MARKET TRAY
 
+    /**
+     * On get MT column 0 click.
+     * @param actionEvent
+     */
     public void acquireX0(ActionEvent actionEvent) {
         acquireResPos(false, 0);
     }
+
+    /**
+     * On get MT column 1 click.
+     * @param actionEvent
+     */
     public void acquireX1(ActionEvent actionEvent) {
         acquireResPos(false, 1);
     }
+
+    /**
+     * On get MT column 2 click.
+     * @param actionEvent
+     */
     public void acquireX2(ActionEvent actionEvent) {
         acquireResPos(false, 2);
     }
+
+    /**
+     * On get MT column 3 click.
+     * @param actionEvent
+     */
     public void acquireX3(ActionEvent actionEvent) {
         acquireResPos(false, 3);
     }
+
+    /**
+     * On get MT row 0 click.
+     * @param actionEvent
+     */
     public void acquireY0(ActionEvent actionEvent) {
         acquireResPos(true, 2);
     }
+
+    /**
+     * On get MT row 1 click.
+     * @param actionEvent
+     */
     public void acquireY1(ActionEvent actionEvent) {
         acquireResPos(true, 1);
     }
+
+    /**
+     * On get MT row 2 click.
+     * @param actionEvent
+     */
     public void acquireY2(ActionEvent actionEvent) {
         acquireResPos(true, 0);
     }
 
+    /**
+     * Acquire a line of the MT.
+     * @param row whether the index corresponds to a row or to a column index.
+     * @param index index of the row/column to acquire.
+     */
     public void acquireResPos(boolean row, int index){
         if(choice == Action.RESOURCE_MARKET){
             ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
@@ -845,6 +953,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     // DEV CARD MARKET
 
+    /**
+     * On dev card (0, 1) click.
+     * @param mouseEvent
+     */
     public void devClick01(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -854,6 +966,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (0, 2) click.
+     * @param mouseEvent
+     */
     public void devClick02(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -863,6 +979,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (1, 2) click.
+     * @param mouseEvent
+     */
     public void devClick12(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -872,6 +992,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (1, 1) click.
+     * @param mouseEvent
+     */
     public void devClick11(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -881,6 +1005,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (3, 2) click.
+     * @param mouseEvent
+     */
     public void devClick32(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -890,6 +1018,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (2, 2) click.
+     * @param mouseEvent
+     */
     public void devClick22(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -899,6 +1031,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (2, 1) click.
+     * @param mouseEvent
+     */
     public void devClick21(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -908,6 +1044,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (3, 1) click.
+     * @param mouseEvent
+     */
     public void devClick31(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -917,6 +1057,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (0, 0) click.
+     * @param mouseEvent
+     */
     public void devClick00(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -926,6 +1070,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (1, 0) click.
+     * @param mouseEvent
+     */
     public void devClick10(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -935,6 +1083,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (2, 0) click.
+     * @param mouseEvent
+     */
     public void devClick20(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -944,6 +1096,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On dev card (3, 0) click.
+     * @param mouseEvent
+     */
     public void devClick30(MouseEvent mouseEvent) {
         if(choice == Action.DEV_CARD) {
             GUIUtility.executorService.submit(() -> {
@@ -953,12 +1109,21 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * Apply the effects after a dev card click.
+     * @param chosenDev
+     * @param imageView
+     */
     private void selectMarketCard(DevCard chosenDev, ImageView imageView) {
         this.chosenDev = chosenDev;
         removeAllEffects();
         addEffect(imageView);
     }
 
+    /**
+     * On buy dev card icon click.
+     * @param actionEvent
+     */
     public void buyDevCard(ActionEvent actionEvent) {
         setChoice(Action.DEV_CARD);
         chosenDev = null;
@@ -966,18 +1131,35 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     // OWN DEV CARDS
 
+    /**
+     * On first production click.
+     * @param mouseEvent
+     */
     public void prodClick1(MouseEvent mouseEvent) {
         handleProdClick(0, prod1);
     }
 
+    /**
+     * On second production click.
+     * @param mouseEvent
+     */
     public void prodClick2(MouseEvent mouseEvent) {
         handleProdClick(1, prod2);
     }
 
+    /**
+     * On third production click.
+     * @param mouseEvent
+     */
     public void prodClick3(MouseEvent mouseEvent) {
         handleProdClick(2, prod3);
     }
 
+    /**
+     * Handle a production click.
+     * @param i index of the production.
+     * @param prod image view of the production.
+     */
     private void handleProdClick(int i, ImageView prod) {
         if(choice==Action.DEV_CARD && chosenDev!=null){
             devCardSend(chosenDev, i);
@@ -1002,6 +1184,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * Perform a buy dev card action by sending it to the controller.
+     * @param devCard
+     * @param space
+     */
     private void devCardSend(DevCard devCard, int space) {
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
         devCardActionData.setPlayer(nickname);
@@ -1010,14 +1197,15 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
 
-
-
+    /**
+     * On basic production click.
+     * @param mouseEvent
+     */
     public void basicProdClick(MouseEvent mouseEvent) {
 
         if(choice==Action.PRODUCE){
             GUIUtility.executorService.submit(() -> {
                 Production production = getBasicProduction();
-                System.out.println("GUIMainGame.basicProdClick");
                 Platform.runLater(() -> {
                     // If the card was already selected, remove it
                     if(productionsSelected.contains(production)) {
@@ -1032,6 +1220,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * On produce icon click.
+     * @param actionEvent
+     */
     public void produce(ActionEvent actionEvent) {
         if(choice != Action.PRODUCE){
             setChoice(Action.PRODUCE);
@@ -1052,6 +1244,10 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         }
     }
 
+    /**
+     * Change the icon of the produce button.
+     * @param newStyle style class to be applied to the produce button.
+     */
     private void changeProduceButtonImage(String newStyle) {
         System.out.println("GUIMainGame.changeProduceButtonImage. New style = " + newStyle);
         produceButton.getStyleClass().clear();
@@ -1060,6 +1256,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     /* SET SCENE METHODS */
 
+    /**
+     * Set the end game scene.
+     */
     private void setEndGameScene() {
         Platform.runLater(() -> {
             Stage chatWindow = GUIChat.getChatStage();
@@ -1069,14 +1268,24 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Show the choose resource window.
+     */
     private void setChooseResourceScene() {
         GUIUtility.launchPickResourceWindow(c0.getScene().getWindow());
     }
 
+    /**
+     * Show the set organize warehouse window.
+     */
     private void setOrganizeWarehouseScene() {
         GUIUtility.launchOrganizeWarehouseWindow(c0.getScene().getWindow());
     }
 
+    /**
+     * Set the current choice.
+     * @param newChoice new choice to set.
+     */
     private void setChoice(Action newChoice) {
         Platform.runLater(() -> {
             if(isItMe()) {
@@ -1099,24 +1308,35 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         });
     }
 
+    /**
+     * Get the current user of the GUI, i.e. the user whose player board is currently shown.
+     * @return nickname of the current user.
+     */
     private String getCurrentUser() {
         String temp = boardChoiceBox.getValue();
         return temp == null ? GameApplication.getInstance().getUserNickname() : temp;
     }
 
     /**
-     *
+     * Check if the current shown user matches the user who is playing.
      * @return true if the player selected in the choice box of the player board view is the current player
      */
     private boolean isItMe(){
         return getCurrentUser().equals(nickname);
     }
 
+    /**
+     * Add a glow effect to an image view.
+     * @param imageView image view to which apply the effect.
+     */
     private void addEffect(ImageView imageView) {
         viewsWithEffect.add(imageView);
         imageView.setEffect(GUIUtility.getGlow());
     }
 
+    /**
+     * Remove all the effects to the image views with effects.
+     */
     private void removeAllEffects() {
         viewsWithEffect.forEach(imageView -> imageView.setEffect(null));
         viewsWithEffect.clear();

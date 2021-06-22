@@ -39,6 +39,9 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     @FXML
     private ListView<String> chatListView;
 
+    /**
+     * On start button click.
+     */
     public void onStartClick() {
         setButtonsDisabled(true);
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
@@ -46,21 +49,24 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
+    /**
+     * On leave button click.
+     * @param actionEvent
+     */
     public void onLeaveClick(ActionEvent actionEvent) {
         GUIUtility.handleLeaveGame();
     }
 
+    /**
+     * Send the message after enter is pressed.
+     * @param keyEvent
+     */
     public void sendMessage(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = textField.getText();
             textField.clear();
             GUIChat.sendMessage(message);
         }
-    }
-
-    @Override
-    public void onMessage(Message message) {
-
     }
 
     @Override
@@ -80,6 +86,10 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         }
     }
 
+    /**
+     * Set the disable effect of the buttons.
+     * @param disabled if true the buttons will be disabled, otherwise they would be clickable.
+     */
     private void setButtonsDisabled(boolean disabled) {
         startButt.setDisable(disabled);
         leaveButton.setDisable(disabled);

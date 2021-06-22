@@ -9,23 +9,28 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIMainMenu implements Initializable {
+public class GUIMainMenu {
 
+    /**
+     * On play button click.
+     * @param actionEvent
+     */
     @FXML
-    private void onPlayClick(ActionEvent actionEvent) throws IOException {
+    private void onPlayClick(ActionEvent actionEvent) {
         GUIScene.GAME_MODE_SELECTION.load();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
+    /**
+     * On exit button click.
+     * @param actionEvent
+     */
     @FXML
     public void onExitClick(ActionEvent actionEvent) {
         Platform.exit();
     }
 
-    public void onSettingsClick(ActionEvent actionEvent) {
-        GUIScene.SETTINGS.load();
+
+    public void onConnectionClick(ActionEvent actionEvent) {
+        GUIScene.CONN_SETTINGS.load();
     }
 }
