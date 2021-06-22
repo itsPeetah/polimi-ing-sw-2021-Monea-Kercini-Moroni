@@ -97,9 +97,6 @@ public abstract class ModelControllerIOHandler {
      */
     private void notify(ActionPacket actionPacket) {
 
-        System.out.println("---------------");
-        System.out.println(actionPacket);
-
         Action responseAction = actionPacket.getAction();
         ActionData responseData = responseAction.fromJsonToData(actionPacket.getData());
 

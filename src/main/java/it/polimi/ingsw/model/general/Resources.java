@@ -58,7 +58,6 @@ public class Resources {
         for(ResourceType resource: ResourceType.values()) {
             if(resource != ResourceType.CHOICE && getAmountOf(resource) < other.getAmountOf(resource)) {
                 // checking that ONLY normal resources are in a greater amount
-                System.out.println("Resources.isGreaterThan: resource not present = " + resource.toString());
                 return false;
             }
             additional_amounts += getAmountOf(resource) - other.getAmountOf(resource); // removing CHOICE amount
@@ -103,8 +102,10 @@ public class Resources {
      * @param other resources to be added to this.
      */
     public Resources add(Resources other) {
-        for(ResourceType resource: other.amounts.keySet()) {
-            add(resource, other.getAmountOf(resource));
+        if(other != null) {
+            for (ResourceType resource : other.amounts.keySet()) {
+                add(resource, other.getAmountOf(resource));
+            }
         }
         return this;
     }

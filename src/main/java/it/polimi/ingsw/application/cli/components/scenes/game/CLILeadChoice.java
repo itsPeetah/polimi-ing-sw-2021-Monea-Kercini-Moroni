@@ -4,8 +4,8 @@ import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIDevCardMark
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIILeadCard;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIMarketTray;
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
@@ -43,6 +43,7 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         if (command == null) error("Could not parse the command.");
         else if (!command.equals("pick")) error("Invalid command.");
         else if(command.length() < 3) error("Error: missing arguments.");
+        else if(arguments == null || arguments.length < 2) error("Error: missing arguments.");
         else{
             int arg1 = Integer.parseInt(arguments[0]); int arg2 = Integer.parseInt(arguments[1]);
             if(arg1 == arg2) error("Please insert two different numbers.");
@@ -63,7 +64,8 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         actionData.setPlayer(GameApplication.getInstance().getUserNickname());
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(actionData, Choose2LeadersActionData.class));
-        GameApplicationIOHandler.getInstance().pushAction(ap);
+        /*GameApplicationIOHandler.getInstance().pushAction(ap);*/
+        CLIGame.pushAction(ap);
     }
 
     public DevCardMarket getDevCardMarket(){

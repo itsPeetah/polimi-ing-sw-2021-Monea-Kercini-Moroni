@@ -18,7 +18,7 @@ public class ASCIIFaithPath {
         FaithTrack ft;
         for(String p : gameData.getPlayersList()){
             ft = gameData.getPlayerData(p).getFaithTrack();
-            System.out.println(p + "'s faith progress:");
+            System.out.println("\n" + p + "'s faith progress:");
             System.out.println("FPs: " + ft.getFaith());
             String reports = "Reports attended:";
             int count = 0;
@@ -34,6 +34,7 @@ public class ASCIIFaithPath {
         }
         if(isSinglePlayer){
             System.out.println("Lorenzo's faith progress: " + gameData.getCommon().getLorenzo().getBlackCross());
+            System.out.println("____________");
         }
 
     }

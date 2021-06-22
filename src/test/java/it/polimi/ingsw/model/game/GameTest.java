@@ -66,7 +66,6 @@ class GameTest {
             ge.printStackTrace();
         }
         // Perform reports
-        // Todo this needs to be thought over lol
         for (int i = 0; i <= Game.MAX_VATICAN_REPORTS; i++) {
             try {
                 g.doVaticanReport();
