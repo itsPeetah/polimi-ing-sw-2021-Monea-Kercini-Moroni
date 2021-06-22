@@ -29,7 +29,7 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     private Resources queuedResources;
     private Resources leaderResources;
 
-    public CLIWarehouseOrganizing(){
+    public CLIWarehouseOrganizing() {
         super();
     }
 
@@ -51,7 +51,7 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     public void show() {
         println("Organize your warehouse:");
         ASCIIWarehouse.draw(tempWarehouse);
-        if(queuedResources.getTotalAmount() > 0)
+        if (queuedResources.getTotalAmount() > 0)
             ASCIIResources.draw(queuedResources);
         else println("No resources remaining");
         print("\n");
@@ -79,44 +79,29 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
 
     @Override
     public void execute(String command, String[] arguments) {
-                int res, cell;
-        switch (command){
-            case "help": help(); break;
+        int res, cell;
+        switch (command) {
+            case "help":
+                help();
+                break;
             case "put":
-                if(arguments == null || arguments.length < 2) {
+                if (arguments == null || arguments.length < 2) {
                     error("Missing arguments. Type \"help\" for further information.");
                     break;
                 }
-                try{
+                try {
                     res = Integer.parseInt(arguments[0]);
                     cell = Integer.parseInt(arguments[1]);
-                } catch(NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     error(ex.getMessage());
                     break;
                 }
-                if(res < 1 || res > 4 || cell < 1 || cell > 10){
+                if (res < 1 || res > 4 || cell < 1 || cell > 10) {
                     error("Resource must be within 1 and 4, cell must be withing 1 and 10");
                     break;
                 }
                 tryPut(res, cell);
                 break;
-            /*case "take":
-                if(arguments.length < 1) {
-                    error("Missing argument. Type \"help\" for further information.");
-                    break;
-                }
-                try{
-                    cell = Integer.parseInt(arguments[1]);
-                } catch(NumberFormatException ex){
-                    error("NumberFormatException: " + ex.getMessage());
-                    break;
-                }
-                if(cell < 1 || cell > 6){
-                    error("Cell must be withing 1 and 6");
-                    break;
-                }
-                tryTake(cell);
-                break;*/
             case "reset":
                 resetWH();
                 show();
@@ -125,38 +110,41 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
             case "ok":
                 confirm();
                 break;
+            default:
+                error("invalid command");
+                break;
         }
     }
 
-    private Warehouse getWarehouse(){
+    private Warehouse getWarehouse() {
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
     }
 
-    private ResourcesToPut getResourcesToPut(){
+    private ResourcesToPut getResourcesToPut() {
         return GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut();
     }
 
-    private void tryPut(int res, int cell){
+    private void tryPut(int res, int cell) {
         int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
         boolean extra = cell > 6;
         int leader = cell > 8 ? 1 : 0;
         ResourceType rt = res == 1 ? ResourceType.SERVANTS : res == 2 ? ResourceType.COINS : res == 3 ? ResourceType.SHIELDS : ResourceType.STONES;
-        if(!extra){
-            if(tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
+        if (!extra) {
+            if (tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
 
-            if(rowEmpty(tempWarehouse.getContent()[row]) || rowContainsType(tempWarehouse.getContent()[row], rt)){
+            if (rowEmpty(tempWarehouse.getContent()[row]) || rowContainsType(tempWarehouse.getContent()[row], rt)) {
                 int rowAmount = tempWarehouse.getContent()[row].getTotalAmount();
                 boolean rowFull = (row == 2 && rowAmount > 0) || (row == 1 && rowAmount > 1) || (row == 2 && rowAmount > 2);
-                if(rowFull){
+                if (rowFull) {
                     error("That row is full. Remove the resources and try again.");
                     return;
                 }
-                try{
+                try {
                     queuedResources.remove(rt, 1);
                     tempWarehouse.getContent()[row].add(rt, 1);
                     println("Successfully deposited resources");
                     show();
-                } catch (ResourcesException ex){
+                } catch (ResourcesException ex) {
                     error(ex.getMessage());
                     return;
                 }
@@ -165,105 +153,59 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
                 return;
             }
         } else {
-            if(tempWarehouse.getActivatedLeaders()[leader] == null){
+            if (tempWarehouse.getActivatedLeaders()[leader] == null) {
                 error("This space is not available.");
                 return;
-            } else if(tempWarehouse.getActivatedLeaders()[leader].getAbility().getExtraWarehouseSpace().getAmountOf(rt) < 1){
+            } else if (tempWarehouse.getActivatedLeaders()[leader].getAbility().getExtraWarehouseSpace().getAmountOf(rt) < 1) {
                 error("This space is not reserved for that kind of resource.");
                 return;
-            } else if(tempWarehouse.getExtra()[leader].getTotalAmount() > 1){
+            } else if (tempWarehouse.getExtra()[leader].getTotalAmount() > 1) {
                 error("The extra space granted from this leader card is full.");
                 return;
-            } try{
+            }
+            try {
                 if (tempWarehouse.getExtra()[leader] == null) tempWarehouse.getExtra()[leader] = new Resources();
 
                 queuedResources.remove(rt, 1);
                 tempWarehouse.getExtra()[leader].add(rt, 1);
                 println("Successfully deposited resources");
                 show();
-            } catch(ResourcesException ex){
+            } catch (ResourcesException ex) {
                 error(ex.getMessage());
                 return;
             }
         }
     }
 
-    private void resetWH(){
-        for(Resources r : tempWarehouse.getContent()){
-            if(r != null)
+    private void resetWH() {
+        for (Resources r : tempWarehouse.getContent()) {
+            if (r != null)
                 queuedResources.add(r);
         }
-        for(Resources r: tempWarehouse.getExtra()){
-            if(r != null)
+        for (Resources r : tempWarehouse.getExtra()) {
+            if (r != null)
                 queuedResources.add(r);
         }
         tempWarehouse = new Warehouse();
     }
 
-    private void tryTake(int cell){
-        int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
-        boolean extra = cell > 6;
-        int leader = cell > 8 ? 1 : 0;
-        if(!extra){
-            if(tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
-
-            if(!rowEmpty(tempWarehouse.getContent()[row])){
-                int rowAmount = tempWarehouse.getContent()[row].getTotalAmount();
-                boolean rowFull = (row == 2 && rowAmount > 0) || (row == 1 && rowAmount > 1) || (row == 2 && rowAmount > 2);
-                if(rowFull){
-                    error("That row is full. Remove the resources and try again.");
-                    return;
-                }
-               /* try{
-                    queuedResources.remove(rt, 1);
-                    tempWarehouse.getContent()[row].add(rt, 1);
-                    println("Successfully deposited resources");
-                    show();
-                } catch (ResourcesException ex){
-                    error(ex.getMessage());
-                    return;
-                }*/
-            } else {
-                error("That space is already empty.");
-                return;
-            }
-        } else {
-            if(tempWarehouse.getActivatedLeaders()[leader] == null) {
-                error("This space is not available.");
-                return;
-            } else if(tempWarehouse.getExtra()[leader].getTotalAmount() < 1){
-                error("The extra space granted from this leader card is empty.");
-                return;
-            } /*try{
-                if (tempWarehouse.getExtra()[leader] == null) tempWarehouse.getExtra()[leader] = new Resources();
-                // TODO Fix
-                queuedResources.remove(rt, 1);
-                tempWarehouse.getExtra()[leader].add(rt, 1);
-                println("Successfully deposited resources");
-                show();
-            } catch(ResourcesException ex){
-                error(ex.getMessage());
-                return;
-            }*/
-        }
-    }
-
     private boolean rowEmpty(Resources row) {
         return row.getTotalAmount() < 1;
     }
-    private boolean rowContainsType(Resources row, ResourceType type){
+
+    private boolean rowContainsType(Resources row, ResourceType type) {
         return row.getAmountOf(type) > 0;
     }
 
 
-    private void confirm(){
+    private void confirm() {
 
         it.polimi.ingsw.model.playerboard.Warehouse wh = new it.polimi.ingsw.model.playerboard.Warehouse();
-        wh.deposit(tempWarehouse.getContent()[0],0);
-        wh.deposit(tempWarehouse.getContent()[1],1);
-        wh.deposit(tempWarehouse.getContent()[2],2);
+        wh.deposit(tempWarehouse.getContent()[0], 0);
+        wh.deposit(tempWarehouse.getContent()[1], 1);
+        wh.deposit(tempWarehouse.getContent()[2], 2);
         wh.deposit(tempWarehouse.getExtra()[0], 3);
-        wh.deposit(tempWarehouse.getExtra()[1], 4 );
+        wh.deposit(tempWarehouse.getExtra()[1], 4);
 
         PutResourcesActionData prad = new PutResourcesActionData();
         prad.setWh(wh);
@@ -272,7 +214,6 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
 
         CLIGame.pushAction(ap);
     }
-
 
 
 }
