@@ -3,6 +3,7 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
+import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
@@ -134,12 +135,21 @@ public class GUIMPSelection implements PacketListener, Initializable {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        System.out.println("GUIMPSelection.onSystemMessage: " + type);
         Platform.runLater(() -> {
             setButtonsDisabled(false);
             switch(type) {
                 case CANT_JOIN:
-                    GUIScene.MP_SELECTION.load();
+                    TimerTask timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            Platform.runLater(() -> {
+                                GUIScene.MP_SELECTION.load();
+                                GUIApplication.showDialog("It is not possible to join the room.\nTry to use another nickname or connect to another room.");
+                            });
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(timerTask, 500);
                     break;
                 case IN_GAME:
                     startRoomTimer.get().cancel();
@@ -157,7 +167,7 @@ public class GUIMPSelection implements PacketListener, Initializable {
                         public void run() {
                             GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
                         }
-                    }, 1000);
+                    }, 2000);
                     break;
                 case QUIT:
                     GUIUtility.handleServerQuit();

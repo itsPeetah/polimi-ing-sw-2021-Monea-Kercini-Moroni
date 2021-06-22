@@ -191,8 +191,12 @@ public class GameApplication {
             return;
 
         networkClient = new GameClient(hostName, portNumber);
-        if(!networkClient.start())
+        if(!networkClient.start()) {
             networkClient = null;
+
+            // Notify the GUI active scene, if there is one
+            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(SystemMessage.ERR, "It is not possible to establish a connection to the server.");
+        }
         else {
             isRunning.set(true);
         }
@@ -217,7 +221,6 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startServerGame(boolean singlePlayer) {
-        System.out.println("GameApplication.startServerGame");
         gameController.set(new GameController(new GameData()));
         gameController.get().setSinglePlayer(singlePlayer);
 

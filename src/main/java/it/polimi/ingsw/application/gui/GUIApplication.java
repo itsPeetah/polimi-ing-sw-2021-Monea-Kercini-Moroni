@@ -63,6 +63,9 @@ public class GUIApplication extends Application {
             alert.setTitle(null);
             alert.setHeaderText(null);
             alert.setContentText(message);
+            File file = new File(ICON_PATH);
+            Image iconImage = new Image(file.toURI().toString());
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(iconImage);
             alert.show();
             oldDialog = alert;
         });
