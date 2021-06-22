@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.common;
 
+/**
+ * Enumeration for System Message (SYSTEM) NP types.
+ */
 public enum SystemMessage {
     WELCOME("WELCOME"),
     HELLO("HELLO"),

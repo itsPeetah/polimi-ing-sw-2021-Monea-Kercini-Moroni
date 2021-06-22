@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.server.protocols;
 
+/**
+ * Result for the CSP
+ */
 public class ConnectionSetupResult {
 
     private final String userID;

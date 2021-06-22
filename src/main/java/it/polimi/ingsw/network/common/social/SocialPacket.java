@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.common.social;
 
+/**
+ * Class representing social NPs (whispers/chat messages).
+ */
 public class SocialPacket {
     private SocialPacketType type;
     private String to;
@@ -8,6 +11,9 @@ public class SocialPacket {
 
     public SocialPacket() {}
 
+    /**
+     * Chat message constructor.
+     */
     public SocialPacket(String from, String body) {
         this.from = from;
         this.body = body;
@@ -15,6 +21,9 @@ public class SocialPacket {
         this.to = null;
     }
 
+    /**
+     * Whisper message constructor.
+     */
     public SocialPacket(String to, String from, String body) {
         this.to = to;
         this.from = from;

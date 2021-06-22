@@ -11,6 +11,9 @@ public enum NetworkPacketType {
     UPDATE,
     SOCIAL;
 
+    /**
+     * Check if a NP is either a MESSAGE, ACTION or UPDATE packet
+     */
     public static boolean isGameRelated(NetworkPacket np){
         NetworkPacketType npt = np.getPacketType();
         return npt == MESSAGE || npt == ACTION || npt == UPDATE;

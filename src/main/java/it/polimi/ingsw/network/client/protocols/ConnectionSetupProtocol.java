@@ -5,11 +5,18 @@ import it.polimi.ingsw.network.client.persistence.ReconnectionInfo;
 import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 
+/**
+ * Class that handles the Connection Setup Protocol (CSP)
+ */
 public class ConnectionSetupProtocol {
 
     private ExSocket socket;
     private String serverMessage;
 
+    /**
+     * Class constructor.
+     * @param socket Client (ex)socket.
+     */
     public  ConnectionSetupProtocol(ExSocket socket){
         this.socket = socket;
     }

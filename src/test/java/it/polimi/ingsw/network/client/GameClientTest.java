@@ -31,6 +31,6 @@ class GameClientTest {
             }
         }
 
-        client.stop();
+        client.terminateConnection();
     }
 }

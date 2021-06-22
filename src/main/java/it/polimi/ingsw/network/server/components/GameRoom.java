@@ -83,25 +83,36 @@ public class GameRoom {
         broadcast(new NetworkPacket(NetworkPacketType.SYSTEM, messageContent));
     }
 
+    /**
+     * Rejoin a user to the room.
+     * @param nickname Nickname of the user to rejoin.
+     * @param user the user's new RemoteUser reference.
+     */
     public void rejoinUser(String nickname, RemoteUser user) {
         synchronized (lock) {
+            // Move the user from the MIA players to the room's user table
             miaPlayers.remove(user.getId());
             users.put(nickname, user);
+            // Assign the room to the user
             user.assignRoom(roomId, nickname);
-            System.out.println("User " + user.getId() + " rejoined room " + roomId + " as " + nickname + "!");
+            System.out.println("User " + user.getId() + " REjoined room " + roomId + " as " + nickname + "!");
         }
         // Send catch up update
         sendTo(nickname, NetworkPacket.buildSystemMessagePacket(SystemMessage.IN_GAME.addBody(users.size() > 1 ? "mp" : "sp")));
         modelController.updateAll();
     }
 
+    /**
+     * Remove a user from the room.
+     * @param nickname In-Room nickname of the user to remove.
+     * @return whether the operation was successfully completed.
+     */
     public boolean removeUser(String nickname){
         boolean result = false;
         synchronized (lock){
             if(users.containsKey(nickname)){
                 RemoteUser removed = users.remove(nickname);
                 result = true;
-
                 // If the game is in progress save the player as MIA
                 if(gameInProgress()){
                     System.out.println("[Room " + roomId + "] Player " + nickname + " (" + removed.getId()+ ") is MIA.");
@@ -109,6 +120,7 @@ public class GameRoom {
                     // Send MIA Action to the model controller
                     notifyMIA(nickname);
                 } else {
+                    // Update the player list for everyone.
                     StringJoiner stringJoiner = new StringJoiner(" ");
                     for(String k: users.keySet())stringJoiner.add(k);
                     String messageContent = SystemMessage.PLAYERS_IN_ROOM.addBody(stringJoiner.toString());
@@ -124,19 +136,24 @@ public class GameRoom {
         return result;
     }
 
+    /**
+     * Mark a user as missing in action (MIA).
+     * @param userId ID of the user.
+     * @param playerNickname In-game nickname of the user.
+     */
     private void markAsMIA(String userId, String playerNickname) {
         synchronized (lock) {
             miaPlayers.put(userId, playerNickname);
         }
     }
 
+    /**
+     * Send a NP to a specific user in the room
+     */
     public void sendTo(String player, NetworkPacket packet){
         synchronized (lock) {
-            /*System.out.println("GameRoom.sendTo: miaPlayers.containsValue(player) = " + miaPlayers.containsValue(player));*/
-            /*System.out.println("GameRoom.sendTo: NetworkPacketType.isGameRelated(packet) = " + NetworkPacketType.isGameRelated(packet));*/
             if (miaPlayers.containsValue(player) && NetworkPacketType.isGameRelated(packet)){
-                /*System.out.println("GameRoom.sendTo: // Send MIA Action to the model controller");*/
-                // Send MIA Action to the model controller
+                // Send MIA Action to the model controller if the NP is game related
                 notifyMIA(player);
             }
             if(users.containsKey(player))
@@ -144,6 +161,10 @@ public class GameRoom {
         }
     }
 
+    /**
+     * Broadcast a NP to all users in the room
+     * @param packet
+     */
     public void broadcast(NetworkPacket packet){
         for (String player: users.keySet()){
             /*users.get(player).send(packet);*/
@@ -152,7 +173,7 @@ public class GameRoom {
     }
 
     /**
-     * Notify an action packet to the room's IOHandler
+     * Notify an action packet to the room's ModelControllerIOHandler
      * @param packet (ActionPacket) Network Packet to handle.
      */
     public void notify(NetworkPacket packet) {
@@ -160,8 +181,8 @@ public class GameRoom {
     }
 
     /**
-     * Start the game
-     * @return
+     * Start the game in the room.
+     * @return whether the operation could complete.
      */
     public boolean startGame() {
 
@@ -196,6 +217,10 @@ public class GameRoom {
         return true;
     }
 
+    /**
+     * Handle a social packet by either broadcasting it (CHAT) or sending it to the recipient (WHISPER).
+     * @param networkPacket
+     */
     public void handleSocialPacket(NetworkPacket networkPacket) {
         SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
         switch(socialPacket.getType()) {
@@ -203,18 +228,25 @@ public class GameRoom {
                 broadcast(networkPacket);
                 break;
             case WHISPER:
-                /*System.out.println("Sending WHISPER message");*/
                 sendTo(socialPacket.getTo(), networkPacket);
                 break;
         }
     }
 
+    /**
+     * Check if a player is Missing In Action.
+     * @return the nickname of the player who's missing.
+     */
     public String checkMIA(String userId){
         synchronized (lock){
             return miaPlayers.get(userId);
         }
     }
 
+    /**
+     * Tell the room's ModelControllerIOHandler that the player is not in the room atm.
+     * @param nickname In-Game nickname of the player.
+     */
     private void notifyMIA(String nickname){
         NoneActionData nad = new NoneActionData();
         nad.setPlayer(nickname);
@@ -222,6 +254,9 @@ public class GameRoom {
         /*System.out.println("GameRoom.notifyMIA player " + nickname + " is not in the room");*/
     }
 
+    /**
+     * Check if the room can host any more players.
+     */
     public boolean isFull() {
         synchronized (lock) {
             return maxPlayers <= users.size();
