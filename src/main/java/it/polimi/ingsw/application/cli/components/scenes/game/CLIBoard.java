@@ -20,6 +20,7 @@ import it.polimi.ingsw.view.data.player.Strongbox;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CLIBoard extends CLIScene implements CLIGameSubScene {
 
@@ -56,6 +57,9 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         }
 
         switch (command) {
+            case "players":
+                printPlayerList();
+                break;
             case "view":
                 onView(arguments);
                 break;
@@ -340,5 +344,15 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    private void printPlayerList(){
+        List<String> players = GameApplication.getInstance().getGameController().getGameData().getPlayersList();
+        println("Players in the room:");
+        for(String s:players){
+            if(s.equals(GameApplication.getInstance().getUserNickname()))
+                println("> " + s + "(you)");
+            else println("> " + s);
+        }
+        println("--------------------");
+    }
 
 }

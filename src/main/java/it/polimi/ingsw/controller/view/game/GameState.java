@@ -7,5 +7,8 @@ public enum GameState {
     ORGANIZE_WAREHOUSE,
     CHOOSE_LEADERS,
     PICK_RESOURCES,
-    ENDGAME;
+    ENDGAME,
+    GAME_LOST,
+    GAME_WON
+    // TODO Implement different screens
 }
