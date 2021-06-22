@@ -10,9 +10,8 @@ import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 
-public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
+public class CLIResourceChoice extends CLIScene {
 
     Resources chosenResources;
 
@@ -22,7 +21,7 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
     }
 
     @Override
-    public void update(GameData data) {
+    public void update() {
         chosenResources = new Resources();
     }
 

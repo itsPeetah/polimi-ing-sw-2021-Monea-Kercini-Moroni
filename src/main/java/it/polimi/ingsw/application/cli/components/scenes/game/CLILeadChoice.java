@@ -11,20 +11,15 @@ import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 
-public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
+public class CLILeadChoice extends CLIScene {
 
     public CLILeadChoice()
     {
         super();
-    }
-
-    @Override
-    public void update(GameData data) {
     }
 
     @Override

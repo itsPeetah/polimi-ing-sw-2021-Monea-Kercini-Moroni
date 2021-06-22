@@ -1,40 +1,32 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResources;
-import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResourcesToPut;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIWarehouse;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
-import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
-import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
-import java.util.Optional;
-
-public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene {
+public class CLIWarehouseOrganizing extends CLIScene  {
 
     private Warehouse tempWarehouse;
     private Resources queuedResources;
-    private Resources leaderResources;
 
     public CLIWarehouseOrganizing() {
         super();
     }
 
     @Override
-    public void update(GameData data) {
+    public void update() {
 
         Warehouse gameWarehouse = getWarehouse();
 

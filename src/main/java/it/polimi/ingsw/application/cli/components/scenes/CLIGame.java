@@ -11,15 +11,15 @@ import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
 
 public class CLIGame extends CLIScene {
 
-    private CLIGameSubScene board = new CLIBoard();
-    private CLIGameSubScene leadChoice = new CLILeadChoice();
-    private CLIGameSubScene resourceChoice = new CLIResourceChoice();
-    private CLIGameSubScene warehouseOrganizing = new CLIWarehouseOrganizing();
+    private CLIScene board = new CLIBoard();
+    private CLIScene leadChoice = new CLILeadChoice();
+    private CLIScene resourceChoice = new CLIResourceChoice();
+    private CLIScene warehouseOrganizing = new CLIWarehouseOrganizing();
 
     private GameController gameController;
     private GameControllerIOHandler gameControllerIO;
 
-    private CLIGameSubScene currentView;
+    private CLIScene currentView;
 
     private GameState currentGameState, previousGameState;
 
@@ -59,7 +59,7 @@ public class CLIGame extends CLIScene {
             println("Please wait...");
             println("");
         } else {
-            currentView.update(gameController.getGameData());
+            currentView.update();
             currentView.show();
         }
         println("====================================================");
@@ -86,7 +86,7 @@ public class CLIGame extends CLIScene {
         }
     }
 
-    private CLIGameSubScene selectCurrentView(GameState currentState) {
+    private CLIScene selectCurrentView(GameState currentState) {
         switch (currentState) {
             case CHOOSE_LEADERS:
                 return leadChoice;
