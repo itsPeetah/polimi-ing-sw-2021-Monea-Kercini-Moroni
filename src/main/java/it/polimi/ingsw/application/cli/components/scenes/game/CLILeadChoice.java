@@ -11,20 +11,18 @@ import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 
-public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
+/**
+ * CLIScene for choosing
+ */
+public class CLILeadChoice extends CLIScene {
 
     public CLILeadChoice()
     {
         super();
-    }
-
-    @Override
-    public void update(GameData data) {
     }
 
     @Override
@@ -52,6 +50,9 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         }
     }
 
+    /**
+     * Procedure to choose leader cards
+     */
     private void chooseLeaders(int index1, int index2){
 
         LeadCard[] chosen = new LeadCard[]{
@@ -68,14 +69,25 @@ public class CLILeadChoice extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Retrieve the DCM from the GameData
+     */
     public DevCardMarket getDevCardMarket(){
         return GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
     }
 
+    /**
+     * Retrieve the MT from the GameData
+     * @return
+     */
     public MarketTray getMarketTray(){
         return GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray();
     }
 
+    /**
+     * Get the LTCF from the GameData
+     * @return
+     */
     public LeadersToChooseFrom getLeadersToChooseFrom(){
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getLeadersToChooseFrom();
     }

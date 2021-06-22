@@ -3,8 +3,14 @@ package it.polimi.ingsw.application.cli.components.ASCIIElements;
 import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.view.data.common.MarketTray;
 
+/**
+ * ASCII Market tray drawing class
+ */
 public class ASCIIMarketTray {
 
+    /**
+     * Draw a MarketTray to the screen
+     */
     public static void draw(MarketTray tray){
         System.out.println("=== RESOURCE MARKET TRAY ===");
         System.out.print("[");

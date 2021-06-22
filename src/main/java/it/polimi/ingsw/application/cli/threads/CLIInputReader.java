@@ -6,6 +6,9 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 
 import java.util.Scanner;
 
+/**
+ * Runnable class to handle user CLI input
+ */
 public class CLIInputReader implements Runnable {
 
     private Scanner in;

@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.data.player.PlayerLeaders;
@@ -22,12 +21,10 @@ import it.polimi.ingsw.view.data.player.Warehouse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLIBoard extends CLIScene implements CLIGameSubScene {
-
-    @Override
-    public void update(GameData data) {
-
-    }
+/**
+ * CLIScene representing the main game board
+ */
+public class CLIBoard extends CLIScene {
 
     @Override
     public void help() {
@@ -90,16 +87,25 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         }
     }
 
+    /**
+     * Print the dev card market to the screen
+     */
     public void printDevCardMarket() {
         DevCardMarket dcm = GameApplication.getInstance().getGameController().getGameData().getCommon().getDevCardMarket();
         ASCIIDevCardMarket.draw(dcm);
     }
 
+    /**
+     * Print the market tray to the screen
+     */
     public void printMarketTray() {
         MarketTray mt = GameApplication.getInstance().getGameController().getGameData().getCommon().getMarketTray();
         ASCIIMarketTray.draw(mt);
     }
 
+    /**
+     * Print a player's resources (WH+SB) to the screen
+     */
     private void printResources(String player) {
         if (player == null) player = GameApplication.getInstance().getUserNickname();
         if (!GameApplication.getInstance().getGameController().getGameData().getPlayersList().contains(player)) {
@@ -112,6 +118,9 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         ASCIIStrongbox.draw(sb);
     }
 
+    /**
+     * Print the production powers of a player to the screen
+     */
     private void printProductions(String player) {
         if (player == null) player = GameApplication.getInstance().getUserNickname();
         if (!GameApplication.getInstance().getGameController().getGameData().getPlayersList().contains(player)) {
@@ -121,6 +130,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         ASCIIDevelopment.draw(player);
     }
 
+    /**
+     * Print a player's leader cards to the screen
+     * @param player
+     */
     private void printLeaders(String player) {
         if (player == null) player = GameApplication.getInstance().getUserNickname();
         if (!GameApplication.getInstance().getGameController().getGameData().getPlayersList().contains(player)) {
@@ -130,6 +143,9 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         ASCIIPlayerLeaders.draw(player);
     }
 
+    /**
+     * Process the "view" command
+     */
     private void onView(String[] args) {
         switch (args[0]) {
             case "mt":
@@ -157,6 +173,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         }
     }
 
+    /**
+     * Procedure for getting resources from the MT
+     * @param args command arguments
+     */
     private void getResources(String[] args) {
         // Missing args
         if (args.length < 2) {
@@ -200,6 +220,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Procedure for buying a DevCard from the DCM
+     * @param args command arguments
+     */
     private void onBuy(String[] args){
         if(args.length < 3){
             error("Missing arguments.");
@@ -256,6 +280,10 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
 
     }
 
+    /**
+     * Procedure to activate productions
+     * @param args command arguments
+     */
     private void onProduce(String[] args){
         int[] prods = new int[args.length];
 
@@ -307,6 +335,9 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Procedure to end the player's turn
+     */
     private void onEndTurn(){
         NoneActionData nad = new NoneActionData();
         nad.setPlayer(GameApplication.getInstance().getUserNickname());
@@ -315,6 +346,11 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Pricedure to activate/discard a leader
+     * @param args command arguments
+     * @param activate if true -> activate the leader, if false -> discard
+     */
     private void onPlayLeader(String[] args, boolean activate){
         int leader;
         try {
@@ -344,6 +380,9 @@ public class CLIBoard extends CLIScene implements CLIGameSubScene {
         CLIGame.pushAction(ap);
     }
 
+    /**
+     * Print the player list to the screen
+     */
     private void printPlayerList(){
         List<String> players = GameApplication.getInstance().getGameController().getGameData().getPlayersList();
         println("Players in the room:");

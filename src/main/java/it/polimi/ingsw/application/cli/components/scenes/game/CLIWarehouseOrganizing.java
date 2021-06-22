@@ -1,40 +1,35 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResources;
-import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResourcesToPut;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIWarehouse;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
-import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
-import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
-import java.util.Optional;
-
-public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene {
+/**
+ * CLIScene for organizing the warehouse
+ */
+public class CLIWarehouseOrganizing extends CLIScene  {
 
     private Warehouse tempWarehouse;
     private Resources queuedResources;
-    private Resources leaderResources;
 
     public CLIWarehouseOrganizing() {
         super();
     }
 
     @Override
-    public void update(GameData data) {
+    public void update() {
 
         Warehouse gameWarehouse = getWarehouse();
 
@@ -116,14 +111,25 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
         }
     }
 
+    /**
+     * Retrieve the player's WH from the current GameData
+     */
     private Warehouse getWarehouse() {
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
     }
 
+    /**
+     * Retrieve the ResourcesToPut from the temporary data
+     */
     private ResourcesToPut getResourcesToPut() {
         return GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut();
     }
 
+    /**
+     * Try putting resources in the warehouse
+     * @param res resources to put in the warehouse
+     * @param cell cell of the warehouse to put the resources in
+     */
     private void tryPut(int res, int cell) {
         int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
         boolean extra = cell > 6;
@@ -177,6 +183,9 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
         }
     }
 
+    /**
+     * Empty the warehouse
+     */
     private void resetWH() {
         for (Resources r : tempWarehouse.getContent()) {
             if (r != null)
@@ -189,15 +198,23 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
         tempWarehouse = new Warehouse();
     }
 
+    /**
+     * Check if a row is empty
+     */
     private boolean rowEmpty(Resources row) {
         return row.getTotalAmount() < 1;
     }
 
+    /**
+     * Check if a row contains a certain type of resources
+     */
     private boolean rowContainsType(Resources row, ResourceType type) {
         return row.getAmountOf(type) > 0;
     }
 
-
+    /**
+     * Confirm the warehouse selection
+     */
     private void confirm() {
 
         it.polimi.ingsw.model.playerboard.Warehouse wh = new it.polimi.ingsw.model.playerboard.Warehouse();

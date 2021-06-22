@@ -3,6 +3,9 @@ package it.polimi.ingsw.application.cli.components.scenes;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 
+/**
+ * CLIScene for when the application is terminated
+ */
 public class CLIStop extends CLIScene {
 
     public CLIStop() {

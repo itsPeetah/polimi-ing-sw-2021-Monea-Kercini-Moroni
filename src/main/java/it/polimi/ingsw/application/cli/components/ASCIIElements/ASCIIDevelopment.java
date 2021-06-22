@@ -11,7 +11,14 @@ import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.player.PlayerLeaders;
 
+/**
+ * ASCII Player Development/Production Powers drawing class
+ */
 public class ASCIIDevelopment {
+
+    /**
+     * Draw the production powers for a player in the current game data instance to the screen
+     */
     public static void draw(String player){
 
         GameData gd = GameApplication.getInstance().getGameController().getGameData();
@@ -19,14 +26,6 @@ public class ASCIIDevelopment {
         PlayerLeaders pls = gd.getPlayerData(player).getPlayerLeaders();
 
         System.out.println(player + "'s productions:");
-        /*for(DevCard dc : dcs){
-            if(dc==null) continue;
-            String color = dc.getColor() == Color.BLUE ? ANSIColor.BLUE :
-                    dc.getColor() == Color.GREEN ? ANSIColor.GREEN :
-                            dc.getColor() == Color.YELLOW ? ANSIColor.YELLOW :
-                                    dc.getColor() == Color.PURPLE ? ANSIColor.PURPLE : ANSIColor.RESET;
-            System.out.println("> " + color + dc.getColor().toString() + " " + dc.getLevel().toString() +ANSIColor.RESET + " (VP: " + dc.getVictoryPoints() +")");
-        }*/
         System.out.println("Productions:");
         System.out.print("(0) Default production: ");
         ASCIIProduction.draw(ProductionPowers.getBasicProduction());
