@@ -676,9 +676,10 @@ public class ModelController {
      * @param chosenLeader
      */
     private void playLeaderUpdate(Player player, LeadCard chosenLeader){
-
+        System.out.println("ModelController.playLeaderUpdate");
 
         if(chosenLeader.affordable(player)){
+            System.out.println("ModelController.playLeaderUpdate: affordable");
             chosenLeader.play(player);
 
             //update
@@ -686,6 +687,7 @@ public class ModelController {
             updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
+            System.out.println("ModelController.playLeaderUpdate: not affordable");
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
     }
@@ -911,7 +913,7 @@ public class ModelController {
     }
 
     private void playLeader(Player player){
-
+        System.out.println("ModelController.playLeader");
 
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
