@@ -3,6 +3,7 @@ package it.polimi.ingsw.application.common;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
 import it.polimi.ingsw.controller.view.GameController;
 import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
@@ -195,7 +196,9 @@ public class GameApplication {
             networkClient = null;
 
             // Notify the GUI active scene, if there is one
-            if(GUIScene.getActiveScene() != null) GUIScene.getActiveScene().onSystemMessage(SystemMessage.ERR, "It is not possible to establish a connection to the server.");
+            if(GUIScene.getActiveScene() != null) {
+                GUIUtility.executorService.submit(() -> GUIScene.getActiveScene().onSystemMessage(SystemMessage.ERR, "It is not possible to establish a connection to the server."));
+            }
         }
         else {
             isRunning.set(true);

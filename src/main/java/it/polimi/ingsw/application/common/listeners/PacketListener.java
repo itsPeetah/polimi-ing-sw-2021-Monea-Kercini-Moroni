@@ -6,6 +6,7 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.SystemMessage;
+import javafx.application.Platform;
 import org.jetbrains.annotations.Nullable;
 
 public interface PacketListener extends GameMessageListener, SystemMessageListener {
@@ -20,7 +21,7 @@ public interface PacketListener extends GameMessageListener, SystemMessageListen
     default void onSystemMessage(SystemMessage type, @Nullable String additionalContent) {
         System.out.println("PacketListener.onSystemMessage: " + type);
         if(type == SystemMessage.QUIT && GameApplication.getOutputMode() == GameApplicationMode.GUI) {
-            GUIUtility.handleServerQuit();
+            Platform.runLater(GUIUtility::handleServerQuit);
         }
     }
 }

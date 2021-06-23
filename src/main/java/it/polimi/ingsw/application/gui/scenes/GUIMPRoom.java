@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.SystemMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -71,19 +72,21 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        switch(type) {
-            case QUIT:
-                GUIUtility.handleServerQuit();
-                break;
-            case START_ROOM:
-                GUIScene.showLoadingScene();
-                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
-                break;
-            case IN_GAME:
-                GUIScene.showLoadingScene();
-                GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
-                break;
-        }
+        Platform.runLater(() -> {
+            switch(type) {
+                case QUIT:
+                    GUIUtility.handleServerQuit();
+                    break;
+                case START_ROOM:
+                    GUIScene.showLoadingScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                    break;
+                case IN_GAME:
+                    GUIScene.showLoadingScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
+                    break;
+            }
+        });
     }
 
     /**

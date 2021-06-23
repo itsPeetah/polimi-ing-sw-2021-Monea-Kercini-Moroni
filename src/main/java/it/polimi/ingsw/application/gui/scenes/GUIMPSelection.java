@@ -133,44 +133,42 @@ public class GUIMPSelection implements PacketListener, Initializable {
 
     @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        Platform.runLater(() -> {
-            setButtonsDisabled(false);
-            switch(type) {
-                case CANT_JOIN:
-                    TimerTask timerTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            Platform.runLater(() -> {
-                                GUIScene.MP_SELECTION.load();
-                                GUIUtility.showDialog("It is not possible to join the room.\nTry to use another nickname or connect to another room.");
-                            });
-                        }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(timerTask, 500);
-                    break;
-                case IN_GAME:
-                    startRoomTimer.get().cancel();
-                    startRoomTimer.set(new Timer());
-                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
-                    break;
-                case START_ROOM:
-                    startRoomTimer.get().cancel();
-                    startRoomTimer.set(new Timer());
-                    GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
-                    break;
-                case IN_ROOM:
-                    startRoomTimer.get().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
-                        }
-                    }, 1000);
-                    break;
-                case QUIT:
-                    GUIUtility.handleServerQuit();
-            }
-        });
+        setButtonsDisabled(false);
+        switch(type) {
+            case CANT_JOIN:
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(() -> {
+                            GUIScene.MP_SELECTION.load();
+                            GUIUtility.showDialog("It is not possible to join the room.\nTry to use another nickname or connect to another room.");
+                        });
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(timerTask, 500);
+                break;
+            case IN_GAME:
+                startRoomTimer.get().cancel();
+                startRoomTimer.set(new Timer());
+                GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
+                break;
+            case START_ROOM:
+                startRoomTimer.get().cancel();
+                startRoomTimer.set(new Timer());
+                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                break;
+            case IN_ROOM:
+                startRoomTimer.get().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
+                    }
+                }, 1000);
+                break;
+            case QUIT:
+                GUIUtility.handleServerQuit();
+        }
     }
 
     /**

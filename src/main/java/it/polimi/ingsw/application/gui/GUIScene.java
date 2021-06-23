@@ -148,7 +148,7 @@ public enum GUIScene {
     /**
      * Remove the current active scene, so that new messages will be not listened by anyone.
      */
-    public synchronized static void removeActiveScene() {
+    public static void removeActiveScene() {
         activeScene.set(null);
     }
 
@@ -156,7 +156,7 @@ public enum GUIScene {
      * Get the current active scene.
      * @return packet listener corresponding to the current active scene.
      */
-    public synchronized static PacketListener getActiveScene() {
+    public static PacketListener getActiveScene() {
         return activeScene.get();
     }
 
