@@ -43,7 +43,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
 
     @Override
     public void onVPChange() {
-        GUIUtility.executorService.submit(() -> {
+        new Thread(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             boolean isSinglePlayer = GameApplication.getInstance().getGameController().isSinglePlayer();
 
@@ -62,7 +62,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                 // Fill sorted map
                 unsortedPlayersVP.entrySet().stream()
                         .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
-                        .forEach(k -> playersVP.entrySet().add(k));
+                        .forEach(k -> playersVP.put(k.getKey(), k.getValue()));
 
                 Platform.runLater(() -> {
                     for (Map.Entry<String, Integer> entry: playersVP.entrySet()) {
@@ -80,7 +80,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                     scoreList.getItems().add(singlePlayerVP);
                 });
             }
-        });
+        }).start();
     }
 
 
