@@ -3,10 +3,8 @@ package it.polimi.ingsw.application.gui.scenes;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationState;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
-import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
-import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.SystemMessage;
@@ -144,7 +142,7 @@ public class GUIMPSelection implements PacketListener, Initializable {
                         public void run() {
                             Platform.runLater(() -> {
                                 GUIScene.MP_SELECTION.load();
-                                GUIApplication.showDialog("It is not possible to join the room.\nTry to use another nickname or connect to another room.");
+                                GUIUtility.showDialog("It is not possible to join the room.\nTry to use another nickname or connect to another room.");
                             });
                         }
                     };

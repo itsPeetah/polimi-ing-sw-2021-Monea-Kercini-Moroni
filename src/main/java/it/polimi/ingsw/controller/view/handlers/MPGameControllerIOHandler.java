@@ -1,11 +1,8 @@
-package it.polimi.ingsw.controller.view.game.handlers;
+package it.polimi.ingsw.controller.view.handlers;
 
-import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
-import it.polimi.ingsw.controller.model.handlers.ModelControllerIOHandler;
-import it.polimi.ingsw.controller.view.game.GameController;
-import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.controller.view.GameController;
 
 public class MPGameControllerIOHandler extends  GameControllerIOHandler{
 

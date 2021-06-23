@@ -2,10 +2,8 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
-import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
-import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -84,7 +82,7 @@ public class GUIConnSettings implements Initializable, PacketListener {
                             Platform.runLater(() -> {
                                 disableButtons(false);
                                 GUIScene.CONN_SETTINGS.load();
-                                GUIApplication.showDialog(additionalContent);
+                                GUIUtility.showDialog(additionalContent);
                             });
                         }
                     };

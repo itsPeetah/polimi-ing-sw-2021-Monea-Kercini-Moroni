@@ -430,65 +430,6 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="1047.0" layoutY="229.0" prefHeight="700.0" prefWidth="240.0" styleClass="leadersPane">
-         <children>
-            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cards/leadcards/lead_6.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cards/leadcards/lead_5.png" />
-               </image>
-            </ImageView>
-             <HBox alignment="CENTER" layoutX="65.0" layoutY="616.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
-                 <children>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/resources/shield.png" />
-                           </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/resources/shield.png" />
-                           </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                 </children>
-             </HBox>
-             <HBox alignment="CENTER" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
-                 <children>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../images/resources/shield.png" />
-                                 </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
-                         <children>
-                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../images/resources/shield.png" />
-                                 </image>
-                        </ImageView>
-                         </children>
-                     </HBox>
-                 </children>
-             </HBox>
-            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onAction="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
-         </children>
-      </Pane>
       <Button layoutX="1560.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX0" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x0" />
       <Button layoutX="1598.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX1" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x1" />
       <Button layoutX="1641.0" layoutY="870.0" mnemonicParsing="false" onAction="#acquireX2" prefHeight="64.0" prefWidth="32.0" text="Button" fx:id="x2" />
@@ -615,5 +556,64 @@
             <Image url="@../images/vaticanreports/report2.png" />
          </image>
       </ImageView>
+      <Pane layoutX="1047.0" layoutY="229.0" prefHeight="700.0" prefWidth="240.0" styleClass="leadersPane">
+         <children>
+            <ImageView fx:id="lead2" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="403.0" onMouseClicked="#lead2Click" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/leadcards/lead_6.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="lead1" fitHeight="283.0" fitWidth="178.0" layoutX="26.0" layoutY="118.0" onMouseClicked="#lead1Click" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cards/leadcards/lead_5.png" />
+               </image>
+            </ImageView>
+             <HBox alignment="CENTER" layoutX="65.0" layoutY="616.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
+                 <children>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead2res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/resources/shield.png" />
+                           </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead2res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/resources/shield.png" />
+                           </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                 </children>
+             </HBox>
+             <HBox alignment="CENTER" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="50.0" spacing="30.0">
+                 <children>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead1res1" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="@../images/resources/shield.png" />
+                                 </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0" styleClass="warehouseCell">
+                         <children>
+                             <ImageView fx:id="lead1res2" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="@../images/resources/shield.png" />
+                                 </image>
+                        </ImageView>
+                         </children>
+                     </HBox>
+                 </children>
+             </HBox>
+            <ChoiceBox fx:id="boardChoiceBox" layoutX="15.0" layoutY="25.0" onAction="#boardChanged" prefHeight="64.0" prefWidth="200.0" styleClass="cb" value="Player" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -9,6 +9,8 @@ import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -29,6 +31,7 @@ public class GUIUtility {
     private static final int DELAY = 1000;
     private static Glow glow;
     private static ColorAdjust blackColorAdjust;
+    private static Alert oldDialog;
 
     /**
      * Open a new organize warehouse window.
@@ -158,5 +161,27 @@ public class GUIUtility {
         }
         return blackColorAdjust;
 
+    }
+
+    /**
+     * Show a dialog with a certain message.
+     * @param message message to notify to the user.
+     */
+    public static void showDialog(String message) {
+        Platform.runLater(() -> {
+            if(oldDialog != null) {
+                oldDialog.close();
+            }
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            alert.setTitle(null);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            File file = new File(ICON_PATH);
+            Image iconImage = new Image(file.toURI().toString());
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(iconImage);
+            alert.show();
+            oldDialog = alert;
+        });
     }
 }

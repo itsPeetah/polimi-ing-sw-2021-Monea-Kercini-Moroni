@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class GUIApplication extends Application {
-    private static Alert oldDialog;
     public static final String ICON_PATH = "src/main/resources/images/other/calamaio.png";
     private static final String BLACK_LADDER_FONT_PATH = "fonts/BITCBLKAD.ttf";
     private static final String HIGH_TOWER_FONT_PATH = "fonts/HTOWERT.TTF";
@@ -49,25 +48,4 @@ public class GUIApplication extends Application {
         launch();
     }
 
-    /**
-     * Show a dialog with a certain message.
-     * @param message message to notify to the user.
-     */
-    public static void showDialog(String message) {
-        Platform.runLater(() -> {
-            if(oldDialog != null) {
-                oldDialog.close();
-            }
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            alert.setTitle(null);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            File file = new File(ICON_PATH);
-            Image iconImage = new Image(file.toURI().toString());
-            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(iconImage);
-            alert.show();
-            oldDialog = alert;
-        });
-    }
 }

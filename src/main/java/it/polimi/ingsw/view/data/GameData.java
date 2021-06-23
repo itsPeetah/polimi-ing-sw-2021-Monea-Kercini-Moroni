@@ -39,7 +39,6 @@ public class GameData {
     }
 
     public synchronized void addPlayer(String name){
-        System.out.println("GameData.addPlayer: added " + name);
         playerTable.put(name, new PlayerData());
         if(gameDataObserver != null) gameDataObserver.onPlayerTableChange();
     }

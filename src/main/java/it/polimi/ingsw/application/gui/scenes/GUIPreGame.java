@@ -9,7 +9,7 @@ import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.controller.view.game.GameState;
+import it.polimi.ingsw.controller.view.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
 import it.polimi.ingsw.util.JSONUtility;

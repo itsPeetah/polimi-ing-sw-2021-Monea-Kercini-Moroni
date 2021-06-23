@@ -4,8 +4,8 @@ import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
-import it.polimi.ingsw.controller.view.game.GameController;
-import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.GameController;
+import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
@@ -55,7 +55,7 @@ public class GameApplication {
         this.gameController = new AtomicReference<>(null);
 
         this.userId = null;
-        this.userNickname = new AtomicReference<>();
+        this.userNickname = new AtomicReference<>(DEFAULT_SP_NICKNAME);
         this.roomName = new AtomicReference<>();
 
         this.roomPlayers = Collections.synchronizedList(new ArrayList<>());

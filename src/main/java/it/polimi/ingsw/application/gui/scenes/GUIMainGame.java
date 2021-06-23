@@ -716,8 +716,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         String currentPlayer = GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer();
         Platform.runLater(() -> {
             if(!currentPlayer.equals(nickname)) {
-                System.out.println("GUIMainGame.onCurrentPlayerChance: " + "It's " + currentPlayer + " turn, please wait");
-                gameStateLabel.setText("It's " + currentPlayer + " turn, please wait");
+                gameStateLabel.setText("It's " + currentPlayer + "'s turn, please wait");
             }
         });
     }
@@ -814,6 +813,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param leaderImage image view of the leader.
      */
     private void handleLeaderClick(int i, ImageView leaderImage) {
+        System.out.println("GUIMainGame.handleLeaderClick");
         if(choice == Action.DISCARD_LEADER){
             discardLeader(i);
         }
@@ -870,12 +870,17 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param i index of the leader.
      */
     public void playLeader(int i){
+        System.out.println("GUIMainGame.playLeader");
+        System.out.println("GUIMainGame.playLeader. nickname = " + nickname);
+        System.out.println("GUIMainGame.playLeader. i = " + i);
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(nickname);
 
         ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
+
+        System.out.println("GUIMainGame.playLeader");
     }
 
     // MARKET TRAY

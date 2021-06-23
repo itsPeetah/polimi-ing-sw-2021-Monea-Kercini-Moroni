@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.view.game;
+package it.polimi.ingsw.controller.view;
 
 public enum GameState {
     UNKNOWN,

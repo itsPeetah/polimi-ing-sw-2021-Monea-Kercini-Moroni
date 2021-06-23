@@ -3,9 +3,9 @@ package it.polimi.ingsw.application.cli.components.scenes;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.game.*;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.controller.view.game.GameController;
-import it.polimi.ingsw.controller.view.game.GameState;
-import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.GameController;
+import it.polimi.ingsw.controller.view.GameState;
+import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
 
 public class CLIGame extends CLIScene {
 
