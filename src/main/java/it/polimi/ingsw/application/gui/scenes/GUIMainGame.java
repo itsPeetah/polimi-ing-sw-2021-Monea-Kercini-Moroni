@@ -715,7 +715,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         System.out.println("GUIMainGame.onCurrentPlayerChance");
         String currentPlayer = GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer();
         Platform.runLater(() -> {
-            if(!currentPlayer.equals(nickname)) {
+            if(currentPlayer != null && !currentPlayer.equals(nickname)) {
                 gameStateLabel.setText("It's " + currentPlayer + "'s turn, please wait");
             }
         });
