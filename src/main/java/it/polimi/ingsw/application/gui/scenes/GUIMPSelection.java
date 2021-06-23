@@ -165,7 +165,7 @@ public class GUIMPSelection implements PacketListener, Initializable {
                         public void run() {
                             GUIUtility.runSceneWithDelay(GUIScene.MP_ROOM);
                         }
-                    }, 3000);
+                    }, 1000);
                     break;
                 case QUIT:
                     GUIUtility.handleServerQuit();
