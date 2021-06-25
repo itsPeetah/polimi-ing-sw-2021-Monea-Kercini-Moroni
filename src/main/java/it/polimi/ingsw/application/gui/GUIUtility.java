@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -78,8 +79,8 @@ public class GUIUtility {
 
     private static Stage prepareStage(boolean canBeClosed, Window owner) {
         Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
+        InputStream is = GUIUtility.class.getClassLoader().getResourceAsStream(ICON_PATH);
+        Image iconImage = new Image(is);
         stage.getIcons().add(iconImage);
         stage.setResizable(false);
         if(!canBeClosed) {
