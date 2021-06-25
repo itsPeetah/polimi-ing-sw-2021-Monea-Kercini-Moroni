@@ -11,9 +11,9 @@ import java.util.HashMap;
 
 public class CardManager {
     /* PATH CONSTANTS */
-    public static final String DEV_CARDS_PATH = "src/main/resources/devcards.json";
+    public static final String DEV_CARDS_PATH = "devcards.json";
     public static final int DEV_CARDS_SIZE = 48;
-    public static final String LEAD_CARDS_PATH = "src/main/resources/leadcards.json";
+    public static final String LEAD_CARDS_PATH = "leadcards.json";
     public static final int LEAD_CARDS_SIZE = 16;
 
     /* JAVA FX CONSTANTS */
@@ -32,12 +32,11 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-        try {
-            jsonFile = new JsonReader(new FileReader(DEV_CARDS_PATH));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+
+        //adding input stream
+        InputStreamReader is = new InputStreamReader(CardManager.class.getClassLoader().getResourceAsStream(DEV_CARDS_PATH));
+        jsonFile = new JsonReader(is);
+
 
         // Read and return the cards
         ArrayList<DevCard> devCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
@@ -60,12 +59,10 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-        try {
-            jsonFile = new JsonReader(new FileReader(LEAD_CARDS_PATH));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+
+        //adding input stream
+        InputStreamReader is = new InputStreamReader(CardManager.class.getClassLoader().getResourceAsStream(LEAD_CARDS_PATH));
+        jsonFile = new JsonReader(is);
 
         // Read and return the cards
         ArrayList<LeadCard> leadCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<LeadCard>>(){}.getType());
