@@ -1,14 +1,8 @@
 package it.polimi.ingsw.application.gui;
-
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationMode;
-import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -16,7 +10,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;

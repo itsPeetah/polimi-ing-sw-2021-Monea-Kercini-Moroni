@@ -28,7 +28,7 @@ public enum ResourceType {
 
     public Image getImage() {
         String resourceImagePath = RESOURCES_IMAGES_PATH + imagePath;
-        InputStream is = GUIApplication.class.getClassLoader().getResourceAsStream(resourceImagePath);
+        InputStream is = ResourceType.class.getClassLoader().getResourceAsStream(resourceImagePath);
         Image resourceImage = new Image(is);
         return resourceImage;
     }
