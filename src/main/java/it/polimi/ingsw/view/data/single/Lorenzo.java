@@ -19,7 +19,7 @@ public class Lorenzo {
     }
 
     public void setLastToken(SoloActionTokens lastToken) {
-        System.out.println("Lorenzo.setLastToken");
+        /*System.out.println("Lorenzo.setLastToken");*/
         this.lastToken.set(lastToken);
         if(lorenzoObserver != null) lorenzoObserver.onLastTokenChange();
     }

@@ -8,6 +8,9 @@ import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.SystemMessage;
 
+/**
+ * CLIScene for the pre-game in room phase
+ */
 public class CLIRoom extends CLIScene {
 
     public CLIRoom() {
@@ -53,6 +56,9 @@ public class CLIRoom extends CLIScene {
         }
     }
 
+    /**
+     * Start the game in the room
+     */
     private void startGame(){
         /*GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);*/
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
@@ -60,6 +66,9 @@ public class CLIRoom extends CLIScene {
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
+    /**
+     * Leave the current room.
+     */
     private void leaveRoom(){
         GameApplication.getInstance().setApplicationState(GameApplicationState.WAITING);
         NetworkPacket np = NetworkPacket.buildSystemMessagePacket(SystemMessage.LEAVE_ROOM.getCode());

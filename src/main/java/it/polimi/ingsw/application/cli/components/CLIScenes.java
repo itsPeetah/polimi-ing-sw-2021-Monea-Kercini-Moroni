@@ -32,6 +32,10 @@ public enum CLIScenes {
         return title;
     }
 
+    /**
+     * Get the current CLIScene based on the GameApplication's current state
+     * @return
+     */
     public static CLIScene getCurrent(){
         switch (GameApplication.getInstance().getApplicationState()){
             case STARTUP:

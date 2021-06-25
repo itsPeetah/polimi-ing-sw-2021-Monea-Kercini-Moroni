@@ -4,8 +4,14 @@ import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
+/**
+ * ASCII Warehouse drawing class
+ */
 public class ASCIIWarehouse {
 
+    /**
+     * Draw a Warehouse to the screen
+     */
     public static void draw(Warehouse wh) {
 
         Resources[] content = wh.getContent();
@@ -44,7 +50,7 @@ public class ASCIIWarehouse {
             ASCIIResources.draw(leaders[1].getAbility().getExtraWarehouseSpace());
             System.out.print("\n");
             System.out.print("[");
-            if(extra[1] != null && extra[1].getTotalAmount() < 1) ASCIIResources.draw(extra[1]);
+            if(extra[1] != null && extra[1].getTotalAmount() > 0) ASCIIResources.draw(extra[1]);
             else System.out.print("2 spaces available");
             System.out.print("]\n");
         }

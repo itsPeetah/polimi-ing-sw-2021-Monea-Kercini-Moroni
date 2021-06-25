@@ -5,8 +5,21 @@ import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.general.Color;
 import it.polimi.ingsw.model.general.ResourceType;
 
+/**
+ * ASCII Dev Card drawing class
+ */
 public class ASCIIDevCard {
+
+    /**
+     * Draw a DevCard to the screen
+     */
     public static void draw(DevCard devCard) {
+
+        if(devCard == null){
+            System.out.println("=== NULL CARD ===");
+            System.out.println("|   O _____ O  |");
+            System.out.println("=================");
+        }
 
         String color = devCard.getColor() == Color.BLUE ? ANSIColor.BLUE :
                 devCard.getColor() == Color.GREEN ? ANSIColor.GREEN :

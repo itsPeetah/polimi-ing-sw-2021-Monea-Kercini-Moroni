@@ -344,7 +344,7 @@ public class ModelController {
             modelControllerIOHandler.setExpectedAction(Action.RESOURCE_MARKET, player.getNickname());
             modelControllerIOHandler.addExpectedAction(Action.DEV_CARD);
             modelControllerIOHandler.addExpectedAction(Action.PRODUCE);
-            modelControllerIOHandler.addExpectedAction(Action.PlAY_LEADER);
+            modelControllerIOHandler.addExpectedAction(Action.PLAY_LEADER);
             modelControllerIOHandler.addExpectedAction(Action.DISCARD_LEADER);
             modelControllerIOHandler.addExpectedAction(Action.REARRANGE_WAREHOUSE);
             modelControllerIOHandler.addExpectedAction(Action.END_TURN);
@@ -374,7 +374,7 @@ public class ModelController {
 
                 //Player has chosen to play/discard leader
                 //these are not primary actions and can be used more than once during his turn, whenever player wants
-                case PlAY_LEADER:
+                case PLAY_LEADER:
                     playLeader(player);
                     break;
 

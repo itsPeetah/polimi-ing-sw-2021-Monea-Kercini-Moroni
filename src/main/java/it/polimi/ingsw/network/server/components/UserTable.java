@@ -29,6 +29,10 @@ public class UserTable {
         pinger.start();
     }
 
+    /**
+     * Get an array of all the IDs of users currently on the server.
+     * @return
+     */
     public String[] getUserIDs(){
         synchronized (lock) {
             String[] ids = new String[users.size()];
@@ -87,6 +91,9 @@ public class UserTable {
         return user;
     }
 
+    /**
+     * Remove a user from the Table.
+     */
     public void removeUser(String id){
         synchronized (lock){
             users.remove(id);
@@ -100,7 +107,6 @@ public class UserTable {
         String newId;
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
-        //int targetStringLength = 10;
         Random random = new Random();
         synchronized (lock) {
             do {
@@ -122,18 +128,26 @@ public class UserTable {
         return generateId(DEFAULT_ID_LENGTH);
     }
 
+    /**
+     * Ping all users.
+     */
     public void pingAll(){
         synchronized (lock) {
             for (String id : users.keySet()) users.get(id).ping();
         }
     }
 
+    /**
+     * Check every user's ping responses.
+     */
     public void checkPingResponses(){
         synchronized (lock) {
+            // Check responses per user
             ArrayList<String> ids2kick = new ArrayList<String>();
             for(String id : users.keySet()){
                 if(!users.get(id).checkPingResponse()) ids2kick.add(id);
             }
+            // Terminate connection with users that have not been responding to pings
             for(String id : ids2kick) {
                 users.get(id).terminateConnection();
                 System.out.println(ANSIColor.RED + "Kicked user " + id + " due to inactivity." + ANSIColor.RESET);

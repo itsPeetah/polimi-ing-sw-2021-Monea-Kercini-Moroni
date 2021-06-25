@@ -8,6 +8,9 @@ import it.polimi.ingsw.application.common.GameApplicationState;
 
 import java.io.PrintWriter;
 
+/**
+ * Runnable class for handling CLI output/scenes
+ */
 public class CLIOutputDisplay implements Runnable{
 
     private PrintWriter out;

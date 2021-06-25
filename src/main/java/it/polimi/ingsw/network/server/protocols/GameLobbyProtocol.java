@@ -6,16 +6,26 @@ import it.polimi.ingsw.network.server.GameServer;
 import it.polimi.ingsw.network.server.components.GameRoomException;
 import it.polimi.ingsw.network.server.components.RemoteUser;
 
+/**
+ * Class handling the Lobby phase of the user's connection.
+ */
 public class GameLobbyProtocol {
 
     private RemoteUser user;
     private String clientMessage;
     private String[] clientMessageFields;
 
+    /**
+     * Class constructor.
+     */
     public GameLobbyProtocol(RemoteUser user, boolean checkCanReconnect){
         this.user = user;
     }
 
+    /**
+     * Actual GLP procedure
+     * @return whether the user is in a room at the end of the procedure or not.
+     */
     public boolean joinOrCreateRoom() {
         System.out.println("User " + user.getId() + " is now in the lobby.");
 
@@ -138,14 +148,33 @@ public class GameLobbyProtocol {
         }
     }
 
+    /**
+     * Create a new room on the server
+     * @param roomName Name of the room
+     * @param nickname In-game nickname of the first player who is joining the room
+     * @param maxPlayers Max amount of players allowed in the room
+     * @throws GameRoomException if the room can not be created
+     */
     private void roomCreate(String roomName, String nickname, int maxPlayers) throws GameRoomException{
         GameServer.getInstance().getRoomTable().createRoom(roomName, nickname, user, maxPlayers);
     }
 
+    /**
+     * Make a player join a room
+     * @param roomName Name of the room
+     * @param nickname In-game nickname of the player who is joining
+     * @throws GameRoomException if the room can not be created
+     */
     private void roomJoin(String roomName, String nickname) throws GameRoomException{
         GameServer.getInstance().getRoomTable().joinRoom(roomName, nickname, user);
     }
 
+    /**
+     * Rejoin a room
+     * @param userId user ID of the player who is trying to re-join a room
+     * @return a tuple [RoomId, In-Game Nickname]
+     * @throws GameRoomException if no room can be rejoined by the player
+     */
     private String[] rejoinRoom(String userId) throws GameRoomException {
         // Check if there is a room with an ongoing game that can accept this id.
         String[] result = GameServer.getInstance().getRoomTable().findRoomToRejoin(userId);

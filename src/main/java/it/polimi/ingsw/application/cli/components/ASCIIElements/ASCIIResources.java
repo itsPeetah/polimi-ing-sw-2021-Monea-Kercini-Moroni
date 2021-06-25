@@ -7,8 +7,14 @@ import it.polimi.ingsw.network.common.SystemMessage;
 
 import java.sql.SQLOutput;
 
+/**
+ * ASCII Resources drawing class
+ */
 public class ASCIIResources {
 
+    /**
+     * Draw a Resources object to the screen
+     */
     public static void draw(Resources r){
 
         System.out.print(ANSIColor.PURPLE);

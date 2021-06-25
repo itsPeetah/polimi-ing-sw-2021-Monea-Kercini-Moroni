@@ -1,5 +1,8 @@
 package it.polimi.ingsw.application.cli.util;
 
+/**
+ * Collection of escape coded console text colors
+ */
 public class ANSIColor {
     public static final String RESET = "\u001B[0m";
 

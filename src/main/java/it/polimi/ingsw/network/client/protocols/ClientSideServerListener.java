@@ -7,30 +7,41 @@ import it.polimi.ingsw.network.common.ExSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Class that handles the reception of messages from the server.
+ */
 public class ClientSideServerListener {
 
     private final ExSocket socket;
     private boolean done;
 
+    /**
+     * Class constructor.
+     * @param socket Client (ex)socket.
+     */
     public ClientSideServerListener(ExSocket socket) {
         this.socket = socket;
         this.done = false;
     }
 
+    /**
+     * Start the reception of messages from the server.
+     */
     public void run() {
 
         this.done = false;
 
+        // Allocate thread pool for the execution of certain operations
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         while (!done) {
 
             NetworkPacket np = socket.receive();
 
-            if(np == null){
-                break;
-            }
+            // If the received message is NULL then the connection has been interrupted
+            if(np == null) break;
 
+            // Handle the NP according to its type
             switch (np.getPacketType()) {
                 case SYSTEM:
                     handleSystemMessage(np);
@@ -53,14 +64,21 @@ public class ClientSideServerListener {
         executorService.shutdown();
     }
 
+    /**
+     * Handle System Message NPs upon reception
+     * @param packet
+     */
     public void handleSystemMessage(NetworkPacket packet){
-
+        // Delegate the processing of NPs to the GAIOHandler
         int returnCode = GameApplicationIOHandler.getInstance().handleSystemMessage(packet);
-        if(returnCode < 0){
-            done = true;
-        }
+        // Quit message returns -1
+        if(returnCode < 0) done = true;
     }
 
+    /**
+     * Handle Debug NPs upon reception
+     * @param packet
+     */
     private void handleDebugMessage(NetworkPacket packet){
         GameApplicationIOHandler.getInstance().handleDebugMessage(packet);
     }
