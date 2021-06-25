@@ -1,10 +1,5 @@
 package it.polimi.ingsw.model.general;
-
-import it.polimi.ingsw.application.gui.GUIApplication;
-import it.polimi.ingsw.model.cards.CardManager;
 import javafx.scene.image.Image;
-
-import java.io.File;
 import java.io.InputStream;
 
 public enum ResourceType {

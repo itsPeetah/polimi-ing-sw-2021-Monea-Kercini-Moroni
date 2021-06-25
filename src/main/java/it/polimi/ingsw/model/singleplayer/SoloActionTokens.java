@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.singleplayer;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.io.InputStream;
 
 public enum SoloActionTokens {

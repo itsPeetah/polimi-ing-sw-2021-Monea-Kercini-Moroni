@@ -275,32 +275,32 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     public static void init() {
         // Retrieve images
-        String file = "images/resources/cross.png";
-        InputStream is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        String path = "images/resources/cross.png";
+        InputStream is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         cross = new Image(is);
 
-        file = "images/solotokens/croce.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/solotokens/croce.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         blackCross = new Image(is);
 
-        file = "images/cards/LeaderBack.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/cards/LeaderBack.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         leaderBack = new Image(is);
 
-        file = "images/vaticanreports/report2.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/vaticanreports/report2.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         report2Image = new Image(is);
 
-        file = "images/vaticanreports/report3.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/vaticanreports/report3.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         report3Image = new Image(is);
 
-        file = "images/vaticanreports/report4.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/vaticanreports/report4.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         report4Image = new Image(is);
 
-        file = "images/solotokens/retro cerchi.png";
-        is = GUIMainGame.class.getClassLoader().getResourceAsStream(file);
+        path = "images/solotokens/retro cerchi.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
         lorenzoImage = new Image(is);
     }
 
