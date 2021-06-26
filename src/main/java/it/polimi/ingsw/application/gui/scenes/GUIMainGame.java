@@ -38,6 +38,7 @@ import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -272,26 +273,33 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      */
     public static void init() {
         // Retrieve images
-        File file = new File("src/main/resources/images/resources/cross.png");
-        cross = new Image(file.toURI().toString());
+        String path = "images/resources/cross.png";
+        InputStream is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        cross = new Image(is);
 
-        file = new File("src/main/resources/images/solotokens/croce.png");
-        blackCross = new Image(file.toURI().toString());
+        path = "images/solotokens/croce.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        blackCross = new Image(is);
 
-        file = new File("src/main/resources/images/cards/LeaderBack.png");
-        leaderBack = new Image(file.toURI().toString());
+        path = "images/cards/LeaderBack.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        leaderBack = new Image(is);
 
-        file = new File("src/main/resources/images/vaticanreports/report2.png");
-        report2Image = new Image(file.toURI().toString());
+        path = "images/vaticanreports/report2.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        report2Image = new Image(is);
 
-        file = new File("src/main/resources/images/vaticanreports/report3.png");
-        report3Image = new Image(file.toURI().toString());
+        path = "images/vaticanreports/report3.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        report3Image = new Image(is);
 
-        file = new File("src/main/resources/images/vaticanreports/report4.png");
-        report4Image = new Image(file.toURI().toString());
+        path = "images/vaticanreports/report4.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        report4Image = new Image(is);
 
-        file = new File("src/main/resources/images/solotokens/retro cerchi.png");
-        lorenzoImage = new Image(file.toURI().toString());
+        path = "images/solotokens/retro cerchi.png";
+        is = GUIMainGame.class.getClassLoader().getResourceAsStream(path);
+        lorenzoImage = new Image(is);
     }
 
     @Override

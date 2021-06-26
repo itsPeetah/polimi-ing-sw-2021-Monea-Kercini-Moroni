@@ -1,14 +1,8 @@
 package it.polimi.ingsw.application.gui;
-
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationMode;
-import it.polimi.ingsw.application.common.GameApplicationState;
-import it.polimi.ingsw.application.gui.scenes.GUIGameSettings;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
@@ -18,7 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -100,8 +94,8 @@ public class GUIUtility {
      */
     private static Stage prepareStage(boolean canBeClosed, Window owner) {
         Stage stage = new Stage();
-        File file = new File(ICON_PATH);
-        Image iconImage = new Image(file.toURI().toString());
+        InputStream is = GUIUtility.class.getClassLoader().getResourceAsStream(ICON_PATH);
+        Image iconImage = new Image(is);
         stage.getIcons().add(iconImage);
         stage.setResizable(false);
         if(!canBeClosed) {
@@ -177,8 +171,9 @@ public class GUIUtility {
             alert.setTitle(null);
             alert.setHeaderText(null);
             alert.setContentText(message);
-            File file = new File(ICON_PATH);
-            Image iconImage = new Image(file.toURI().toString());
+            InputStream is = GUIApplication.class.getClassLoader().getResourceAsStream(ICON_PATH);
+            assert is != null;
+            Image iconImage = new Image(is);
             ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(iconImage);
             alert.show();
             oldDialog = alert;
