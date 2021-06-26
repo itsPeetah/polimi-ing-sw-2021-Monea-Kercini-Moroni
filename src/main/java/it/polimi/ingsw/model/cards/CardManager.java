@@ -5,24 +5,22 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import javafx.scene.image.Image;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CardManager {
     /* PATH CONSTANTS */
-    public static final String DEV_CARDS_PATH = "src/main/resources/devcards.json";
+    public static final String DEV_CARDS_PATH = "devcards.json";
     public static final int DEV_CARDS_SIZE = 48;
-    public static final String LEAD_CARDS_PATH = "src/main/resources/leadcards.json";
+    public static final String LEAD_CARDS_PATH = "leadcards.json";
     public static final int LEAD_CARDS_SIZE = 16;
 
     /* JAVA FX CONSTANTS */
     public static final String MAP_DEV_CARDS_IMAGES_PATH = "src/main/resources/cardsimages.json";
-    public static final String DEV_CARDS_IMAGES_PATH = "src/main/resources/images/cards/devcards/";
-    public static final String LEAD_CARDS_IMAGES_PATH = "src/main/resources/images/cards/leadcards/";
+    public static final String DEV_CARDS_IMAGES_PATH = "images/cards/devcards/";
+    public static final String LEAD_CARDS_IMAGES_PATH = "images/cards/leadcards/";
     private static final HashMap<String, Image> devCardsImages = new HashMap<>();
     private static final HashMap<String, Image> leadCardsImages = new HashMap<>();
 
@@ -35,12 +33,8 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-        try {
-            jsonFile = new JsonReader(new FileReader(DEV_CARDS_PATH));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        InputStreamReader is = new InputStreamReader(Objects.requireNonNull(CardManager.class.getClassLoader().getResourceAsStream(DEV_CARDS_PATH)));
+        jsonFile = new JsonReader(is);
 
         // Read and return the cards
         ArrayList<DevCard> devCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
@@ -63,12 +57,8 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-        try {
-            jsonFile = new JsonReader(new FileReader(LEAD_CARDS_PATH));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        InputStreamReader is = new InputStreamReader(Objects.requireNonNull(CardManager.class.getClassLoader().getResourceAsStream(LEAD_CARDS_PATH)));
+        jsonFile = new JsonReader(is);
 
         // Read and return the cards
         ArrayList<LeadCard> leadCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<LeadCard>>(){}.getType());
@@ -91,8 +81,9 @@ public class CardManager {
 
         for(DevCard devCard: devCardList) {
             String devCardImagePath = CardManager.DEV_CARDS_IMAGES_PATH + devCard.getColor().toString().toLowerCase() + "/" + devCard.getCardId() + ".png";
-            File file = new File(devCardImagePath);
-            Image devCardImage = new Image(file.toURI().toString());
+            //File file = new File(devCardImagePath);
+            InputStream is = CardManager.class.getClassLoader().getResourceAsStream(devCardImagePath);
+            Image devCardImage = new Image(is);
 
             devCardsImages.put(devCard.getCardId(), devCardImage);
         }
@@ -108,9 +99,8 @@ public class CardManager {
 
         for(LeadCard leadCard: leadCardsList) {
             String devCardImagePath = CardManager.LEAD_CARDS_IMAGES_PATH + leadCard.getCardId() + ".png";
-            File file = new File(devCardImagePath);
-            Image leadCardImage = new Image(file.toURI().toString());
-
+            InputStream is = CardManager.class.getClassLoader().getResourceAsStream(devCardImagePath);
+            Image leadCardImage = new Image(is);
             leadCardsImages.put(leadCard.getCardId(), leadCardImage);
         }
 
