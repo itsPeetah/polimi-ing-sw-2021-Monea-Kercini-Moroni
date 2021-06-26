@@ -4,9 +4,6 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.cards.LeadCard;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
