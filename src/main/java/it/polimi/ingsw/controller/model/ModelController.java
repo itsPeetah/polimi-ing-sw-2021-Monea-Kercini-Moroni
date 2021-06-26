@@ -271,7 +271,7 @@ public class ModelController {
 
     private void startGame(){
 
-        System.out.println("Game has started!");
+        //System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
 
@@ -581,7 +581,8 @@ public class ModelController {
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
             }catch (Exception e){
-                System.out.println("ModelController.devCardMarketUpdate: buy card not possible");
+                //removed this line as it will print out during tests
+                //System.out.println("ModelController.devCardMarketUpdate: buy card not possible");
             }
 
             //Update

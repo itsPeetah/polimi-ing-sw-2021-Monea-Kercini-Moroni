@@ -120,8 +120,6 @@ class ModelControllerTest {
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-        System.out.println("YAY");
-
     }
 
     @Test
@@ -593,7 +591,7 @@ class ModelControllerTest {
         }
 
         //Controlling if the token changes over time
-        System.out.println(gm.getLorenzo().getLastPlayedToken());
+        //System.out.println(gm.getLorenzo().getLastPlayedToken());
 
     }
 
