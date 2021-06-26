@@ -50,7 +50,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
             if(!isSinglePlayer) {
                 // MP DATA
                 Map<String, Integer> unsortedPlayersVP = new HashMap<>();
-                List<String> players = GameApplication.getInstance().getRoomPlayers();
+                List<String> players = gameData.getPlayersList();
 
                 // Load the players scores
                 for(String player: players) {

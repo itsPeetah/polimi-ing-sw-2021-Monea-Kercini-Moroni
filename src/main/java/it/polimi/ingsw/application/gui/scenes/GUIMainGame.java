@@ -333,6 +333,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 LCHbox.getChildren().remove(chatHBox);
                 LCHbox.getChildren().set(1, lorenzoHBox);
             } else {
+                blackTrack.forEach(imageView -> imageView.setImage(null));
                 LCHbox.getChildren().remove(lorenzoHBox);
                 LCHbox.getChildren().set(1, chatHBox);
             }
