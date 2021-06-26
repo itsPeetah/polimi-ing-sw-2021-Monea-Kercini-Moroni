@@ -86,9 +86,6 @@ public class GameServer {
         }
         System.out.println("--- Server ready ---");
 
-        // Allocate threads
-        /*ExecutorService connectionHandlerExecutor = Executors.newCachedThreadPool();*/
-
         // Acceptance loop
         while(true){
 
@@ -96,16 +93,12 @@ public class GameServer {
                 // Pause until new connection
                 // Handle new connections in a new thread
                 ExSocket socket = new ExSocket(serverSocket.accept());
-                /*connectionHandlerExecutor.submit(new RemoteConnectionHandler(socket));*/
                 new Thread(new RemoteConnectionHandler(socket)).start();
             }catch (IOException ex){
                 System.out.println(ex.getMessage());
                 break;
             }
         }
-
-        // Stop and deallocate threads
-        /*connectionHandlerExecutor.shutdown();*/
 
         // Close the server socket
         try {

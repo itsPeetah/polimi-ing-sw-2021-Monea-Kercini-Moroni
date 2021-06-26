@@ -1,14 +1,16 @@
 package it.polimi.ingsw.application.cli;
 
 import it.polimi.ingsw.application.cli.components.CLIScenes;
-import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.*;
 import it.polimi.ingsw.application.cli.threads.CLIInputReader;
 import it.polimi.ingsw.application.cli.threads.CLIOutputDisplay;
-import it.polimi.ingsw.application.common.*;
-import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.network.MaestriRinascimentoServer;
+import it.polimi.ingsw.application.common.GameApplication;
+import it.polimi.ingsw.application.common.GameApplicationIOHandler;
+import it.polimi.ingsw.application.common.GameApplicationState;
 
+/**
+ * Main class for the CLI client
+ */
 public class MaestriRinascimentoCLI {
 
     public static final GameApplication gameApplication = new GameApplication();
@@ -28,6 +30,7 @@ public class MaestriRinascimentoCLI {
 
     public static void main(String[] args){
 
+        // TODO MOVE somewhere else
         if(args.length < 2) {
             System.out.println("Please provide server address and port");
             return;

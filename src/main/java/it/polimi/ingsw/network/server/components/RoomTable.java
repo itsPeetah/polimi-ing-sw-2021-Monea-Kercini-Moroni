@@ -27,6 +27,10 @@ public class RoomTable {
         this.rooms = new Hashtable<String, GameRoom>();
     }
 
+    /**
+     * Get an array with all of the server's room IDs.
+     * @return
+     */
     public String[] getRoomIDs(){
         String[] ids = new String[rooms.size()];
         int i = 0;
@@ -127,6 +131,9 @@ public class RoomTable {
         }
     }
 
+    /**
+     * Join a player to a random room
+     */
     public void joinRandomRoom(String nickname, RemoteUser user) throws GameRoomException{
         synchronized (lock){
 
@@ -146,6 +153,9 @@ public class RoomTable {
         }
     }
 
+    /**
+     * Remove a room from the server.
+     */
     public void removeRoom(String roomId){
         synchronized (lock){
             GameRoom room = rooms.get(roomId);
@@ -156,6 +166,12 @@ public class RoomTable {
         }
     }
 
+    /**
+     * Try finding a room for the user to rejoin
+     * @param userId userID for the user trying to rejoin.
+     * @return A String[] shaped like [roomID, in_gameUserNickname].
+     * @throws GameRoomException if no rooms are waiting for this particular user.
+     */
     public String[] findRoomToRejoin(String userId) throws GameRoomException{
         synchronized (lock){
             String nickname;

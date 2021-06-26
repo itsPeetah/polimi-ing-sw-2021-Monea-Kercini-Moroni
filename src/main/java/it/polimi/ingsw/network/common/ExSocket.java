@@ -35,17 +35,18 @@ public class ExSocket {
         this.binr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
+    /**
+     * Send a NP over the network.
+     */
     public void send(NetworkPacket packet){
         out.println(packet.toJson());
         out.flush();
     }
 
-    /*public boolean hasReceivedPacket(){
-        System.out.println("Checking");
-        *//*return in.hasNextLine();*//*
-        *//*binr.ready();*//*
-    }*/
-
+    /**
+     * Receive a NP from the server.
+     * @return
+     */
     public NetworkPacket receive(){
         /*String json = in.nextLine();*/
         try {
@@ -57,7 +58,7 @@ public class ExSocket {
     }
 
     /**
-     * Send a message to the socket's output stream.
+     * Send a (system) message to the socket's output stream.
      */
     public void sendSystemMessage(String message){
         send(NetworkPacket.buildSystemMessagePacket(message));
@@ -66,7 +67,7 @@ public class ExSocket {
     }
 
     /**
-     * Receive a message from the socket's input stream.
+     * Receive a (system) message from the socket's input stream.
      */
     public String receiveSystemMessage(){
         NetworkPacket np = receive();

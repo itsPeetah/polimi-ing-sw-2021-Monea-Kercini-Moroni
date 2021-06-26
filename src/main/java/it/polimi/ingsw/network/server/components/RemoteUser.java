@@ -52,10 +52,18 @@ public class RemoteUser {
      */
     public GameRoom getRoom(){ return GameServer.getInstance().getRoomTable().getRoom(roomId); }
 
+    /**
+     * Send a NP to the remote client.
+     * @param packet
+     */
     public void send(NetworkPacket packet){
         socket.send(packet);
     }
 
+    /**
+     * Receive a NP from the remote client.
+     * @return
+     */
     public NetworkPacket receive(){
         return socket.receive();
     }
@@ -94,6 +102,9 @@ public class RemoteUser {
         this.nickname = nickname;
     }
 
+    /**
+     * Make the user leave the room they are currently logged into.
+     */
     public void leaveCurrentRoom(){
         if(isInRoom()){
             GameServer.getInstance().getRoomTable().getRoom(roomId).removeUser(nickname);
@@ -102,19 +113,32 @@ public class RemoteUser {
         sendSystemMessage(SystemMessage.IN_LOBBY.getCode());
     }
 
+    /**
+     * Missed pings getter.
+     * @return
+     */
     public int getMissedPings() {
         return missedPings;
     }
 
+    /**
+     * Ping the user.
+     */
     public void ping(){
         sendSystemMessage(SystemMessage.PING.getCode());
         this.wasPinged = true;
     }
 
+    /**
+     * Register the user's ping response.
+     */
     public void respondedToPing(){
         pingResponse = true;
     }
 
+    /**
+     * Check whether the user is active or not based on their ping responses
+     */
     public boolean checkPingResponse() {
         missedPings = pingResponse && wasPinged ? 0 : missedPings + 1;
         if(missedPings > maxMissedPings){

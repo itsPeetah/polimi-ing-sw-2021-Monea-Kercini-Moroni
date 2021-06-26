@@ -18,7 +18,6 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
-import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.observer.GameDataObserver;
@@ -730,7 +729,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param actionEvent
      */
     public void playLeader(ActionEvent actionEvent) {
-        setChoice(Action.PlAY_LEADER);
+        setChoice(Action.PLAY_LEADER);
     }
 
     /**
@@ -817,7 +816,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         if(choice == Action.DISCARD_LEADER){
             discardLeader(i);
         }
-        if(choice == Action.PlAY_LEADER){
+        if(choice == Action.PLAY_LEADER){
             playLeader(i);
         }
         if(choice == Action.PRODUCE){
@@ -877,7 +876,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname.get()).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(nickname.get());
 
-        ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
+        ActionPacket actionPacket = new ActionPacket(Action.PLAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
         System.out.println("GUIMainGame.playLeader");

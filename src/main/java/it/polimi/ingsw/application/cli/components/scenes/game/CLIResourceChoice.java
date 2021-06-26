@@ -1,18 +1,20 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
-import it.polimi.ingsw.application.common.GameApplicationIOHandler;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.ChooseResourceActionData;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 
-public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
+/**
+ * CLIScene for the choice of resources
+ */
+public class CLIResourceChoice extends CLIScene {
 
     Resources chosenResources;
 
@@ -22,7 +24,7 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
     }
 
     @Override
-    public void update(GameData data) {
+    public void update() {
         chosenResources = new Resources();
     }
 
@@ -68,6 +70,9 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
         }
     }
 
+    /**
+     * Procedure for choosing a resource
+     */
     private void pickResource(ResourceType t){
         Resources r = new Resources().add(t, 1);
         ChooseResourceActionData actionData = new ChooseResourceActionData();
@@ -75,6 +80,8 @@ public class CLIResourceChoice extends CLIScene implements CLIGameSubScene {
         actionData.setRes(r);
 
         ActionPacket ap = new ActionPacket(Action.CHOOSE_RESOURCE, JSONUtility.toJson(actionData, ChooseResourceActionData.class));
-        GameApplicationIOHandler.getInstance().pushAction(ap);
+        /*GameApplicationIOHandler.getInstance().pushAction(ap);*/
+
+        CLIGame.pushAction(ap);
     }
 }

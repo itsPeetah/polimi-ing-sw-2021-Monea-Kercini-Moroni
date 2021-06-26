@@ -5,15 +5,26 @@ import it.polimi.ingsw.network.common.SystemMessage;
 import it.polimi.ingsw.network.common.ExSocket;
 import it.polimi.ingsw.network.server.GameServer;
 
+/**
+ * Class handling the server side of the Connection Setup Protocol.
+ */
 public class ConnectionSetupProtocol {
 
     private ExSocket socket;
     private String[] clientMessageFields;
 
+    /**
+     * Class constructor
+     * @param socket the remote user's (ex)socket.
+     */
     public ConnectionSetupProtocol(ExSocket socket) {
         this.socket = socket;
     }
 
+    /**
+     * Actual CSP procedure.
+     * @return A connection setup result if validated, NULL if not.
+     */
     public ConnectionSetupResult getUserId() {
 
         // New client has connected

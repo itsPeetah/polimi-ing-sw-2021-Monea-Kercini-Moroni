@@ -1,39 +1,35 @@
 package it.polimi.ingsw.application.cli.components.scenes.game;
 
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResources;
-import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIResourcesToPut;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIWarehouse;
 import it.polimi.ingsw.application.cli.components.CLIScene;
+import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
-import it.polimi.ingsw.controller.model.actions.ActionData;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
-import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.util.JSONUtility;
-import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 import it.polimi.ingsw.view.data.player.Warehouse;
 
-import java.util.Optional;
-
-public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene {
+/**
+ * CLIScene for organizing the warehouse
+ */
+public class CLIWarehouseOrganizing extends CLIScene  {
 
     private Warehouse tempWarehouse;
     private Resources queuedResources;
-    private Resources leaderResources;
 
-    public CLIWarehouseOrganizing(){
+    public CLIWarehouseOrganizing() {
         super();
     }
 
     @Override
-    public void update(GameData data) {
+    public void update() {
 
         Warehouse gameWarehouse = getWarehouse();
 
@@ -50,7 +46,9 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     public void show() {
         println("Organize your warehouse:");
         ASCIIWarehouse.draw(tempWarehouse);
-        ASCIIResources.draw(queuedResources);
+        if (queuedResources.getTotalAmount() > 0)
+            ASCIIResources.draw(queuedResources);
+        else println("No resources remaining");
         print("\n");
         println("+-------------------------------------------------+");
         println("| Choose resource type:                           |");
@@ -69,86 +67,90 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
     @Override
     public void help() {
         println("Use command \"put <res> <cell>\" to put a resource in a warehouse cell.");
-        println("Use command \"take <cell>\" to remove a resource from the specified cell.");
+        /*println("Use command \"take <cell>\" to remove a resource from the specified cell.");*/
+        println("User command \"reset\" to reset the warehouse and start over.");
         println("Use command \"confirm\" or \"ok\" to confirm and submit.");
     }
 
     @Override
     public void execute(String command, String[] arguments) {
-                int res, cell;
-        switch (command){
-            case "help": help(); break;
+        int res, cell;
+        switch (command) {
+            case "help":
+                help();
+                break;
             case "put":
-                if(arguments == null || arguments.length < 2) {
+                if (arguments == null || arguments.length < 2) {
                     error("Missing arguments. Type \"help\" for further information.");
                     break;
                 }
-                try{
+                try {
                     res = Integer.parseInt(arguments[0]);
                     cell = Integer.parseInt(arguments[1]);
-                } catch(NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     error(ex.getMessage());
                     break;
                 }
-                if(res < 1 || res > 4 || cell < 1 || cell > 10){
+                if (res < 1 || res > 4 || cell < 1 || cell > 10) {
                     error("Resource must be within 1 and 4, cell must be withing 1 and 10");
                     break;
                 }
                 tryPut(res, cell);
                 break;
-            case "take":
-                if(arguments.length < 1) {
-                    error("Missing argument. Type \"help\" for further information.");
-                    break;
-                }
-                try{
-                    cell = Integer.parseInt(arguments[1]);
-                } catch(NumberFormatException ex){
-                    error("NumberFormatException: " + ex.getMessage());
-                    break;
-                }
-                if(cell < 1 || cell > 6){
-                    error("Cell must be withing 1 and 6");
-                    break;
-                }
-                tryTake(cell);
+            case "reset":
+                resetWH();
+                show();
                 break;
             case "confirm":
             case "ok":
                 confirm();
                 break;
+            default:
+                error("invalid command");
+                break;
         }
     }
 
-    private Warehouse getWarehouse(){
+    /**
+     * Retrieve the player's WH from the current GameData
+     */
+    private Warehouse getWarehouse() {
         return GameApplication.getInstance().getGameController().getGameData().getPlayerData(GameApplication.getInstance().getUserNickname()).getWarehouse();
     }
 
-    private ResourcesToPut getResourcesToPut(){
+    /**
+     * Retrieve the ResourcesToPut from the temporary data
+     */
+    private ResourcesToPut getResourcesToPut() {
         return GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut();
     }
 
-    private void tryPut(int res, int cell){
+    /**
+     * Try putting resources in the warehouse
+     * @param res resources to put in the warehouse
+     * @param cell cell of the warehouse to put the resources in
+     */
+    private void tryPut(int res, int cell) {
         int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
         boolean extra = cell > 6;
         int leader = cell > 8 ? 1 : 0;
         ResourceType rt = res == 1 ? ResourceType.SERVANTS : res == 2 ? ResourceType.COINS : res == 3 ? ResourceType.SHIELDS : ResourceType.STONES;
-        if(!extra){
-            if(tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
+        if (!extra) {
+            if (tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
 
-            if(rowEmpty(tempWarehouse.getContent()[row]) || rowContainsType(tempWarehouse.getContent()[row], rt)){
+            if (rowEmpty(tempWarehouse.getContent()[row]) || rowContainsType(tempWarehouse.getContent()[row], rt)) {
                 int rowAmount = tempWarehouse.getContent()[row].getTotalAmount();
                 boolean rowFull = (row == 2 && rowAmount > 0) || (row == 1 && rowAmount > 1) || (row == 2 && rowAmount > 2);
-                if(rowFull){
+                if (rowFull) {
                     error("That row is full. Remove the resources and try again.");
                     return;
                 }
-                try{
+                try {
                     queuedResources.remove(rt, 1);
                     tempWarehouse.getContent()[row].add(rt, 1);
                     println("Successfully deposited resources");
                     show();
-                } catch (ResourcesException ex){
+                } catch (ResourcesException ex) {
                     error(ex.getMessage());
                     return;
                 }
@@ -157,121 +159,78 @@ public class CLIWarehouseOrganizing extends CLIScene implements CLIGameSubScene 
                 return;
             }
         } else {
-            if(tempWarehouse.getActivatedLeaders()[leader] == null){
+            if (tempWarehouse.getActivatedLeaders()[leader] == null) {
                 error("This space is not available.");
                 return;
-            } else if(tempWarehouse.getActivatedLeaders()[leader].getAbility().getExtraWarehouseSpace().getAmountOf(rt) < 1){
+            } else if (tempWarehouse.getActivatedLeaders()[leader].getAbility().getExtraWarehouseSpace().getAmountOf(rt) < 1) {
                 error("This space is not reserved for that kind of resource.");
                 return;
-            } else if(tempWarehouse.getExtra()[leader].getTotalAmount() > 1){
+            } else if (tempWarehouse.getExtra()[leader].getTotalAmount() > 1) {
                 error("The extra space granted from this leader card is full.");
                 return;
-            } try{
+            }
+            try {
                 if (tempWarehouse.getExtra()[leader] == null) tempWarehouse.getExtra()[leader] = new Resources();
 
                 queuedResources.remove(rt, 1);
                 tempWarehouse.getExtra()[leader].add(rt, 1);
                 println("Successfully deposited resources");
                 show();
-            } catch(ResourcesException ex){
+            } catch (ResourcesException ex) {
                 error(ex.getMessage());
                 return;
             }
         }
     }
 
-    private void tryTake(int cell){
-        int row = cell > 5 ? 2 : cell > 3 ? 1 : 0;
-        boolean extra = cell > 6;
-        int leader = cell > 8 ? 1 : 0;
-        if(!extra){
-            if(tempWarehouse.getContent()[row] == null) tempWarehouse.getContent()[row] = new Resources();
-
-            if(!rowEmpty(tempWarehouse.getContent()[row])){
-                int rowAmount = tempWarehouse.getContent()[row].getTotalAmount();
-                boolean rowFull = (row == 2 && rowAmount > 0) || (row == 1 && rowAmount > 1) || (row == 2 && rowAmount > 2);
-                if(rowFull){
-                    error("That row is full. Remove the resources and try again.");
-                    return;
-                }
-               /* try{
-                    queuedResources.remove(rt, 1);
-                    tempWarehouse.getContent()[row].add(rt, 1);
-                    println("Successfully deposited resources");
-                    show();
-                } catch (ResourcesException ex){
-                    error(ex.getMessage());
-                    return;
-                }*/
-            } else {
-                error("That space is already empty.");
-                return;
-            }
-        } else {
-            if(tempWarehouse.getActivatedLeaders()[leader] == null) {
-                error("This space is not available.");
-                return;
-            } else if(tempWarehouse.getExtra()[leader].getTotalAmount() < 1){
-                error("The extra space granted from this leader card is empty.");
-                return;
-            } /*try{
-                if (tempWarehouse.getExtra()[leader] == null) tempWarehouse.getExtra()[leader] = new Resources();
-                // TODO Fix
-                queuedResources.remove(rt, 1);
-                tempWarehouse.getExtra()[leader].add(rt, 1);
-                println("Successfully deposited resources");
-                show();
-            } catch(ResourcesException ex){
-                error(ex.getMessage());
-                return;
-            }*/
+    /**
+     * Empty the warehouse
+     */
+    private void resetWH() {
+        for (Resources r : tempWarehouse.getContent()) {
+            if (r != null)
+                queuedResources.add(r);
         }
+        for (Resources r : tempWarehouse.getExtra()) {
+            if (r != null)
+                queuedResources.add(r);
+        }
+        tempWarehouse = new Warehouse();
     }
 
+    /**
+     * Check if a row is empty
+     */
     private boolean rowEmpty(Resources row) {
         return row.getTotalAmount() < 1;
     }
-    private boolean rowContainsType(Resources row, ResourceType type){
+
+    /**
+     * Check if a row contains a certain type of resources
+     */
+    private boolean rowContainsType(Resources row, ResourceType type) {
         return row.getAmountOf(type) > 0;
     }
 
+    /**
+     * Confirm the warehouse selection
+     */
+    private void confirm() {
 
-    private void confirm(){
-        /*it.polimi.ingsw.model.playerboard.Warehouse sentWarehouse = new it.polimi.ingsw.model.playerboard.Warehouse();
-        // Create warehouse to send
-        for(int i=0; i<3; i++) {
-            Resources floorResources = new Resources();
-            int resCount = (int)rows.get(2-i).stream().filter(imageView -> imageView.getImage() != null).count();
-            ResourceType resType = rowsResourceTypes.get(2-i);
-            if(resCount > 0) {
-                floorResources.add(resType, resCount);
-            }
-            sentWarehouse.deposit(floorResources,i);
-        }
-        // Create leader extra to send
-        for(int i=0; i<2; i++) {
-            LeadCard activatedLeader = leadCards[i];
-            if(activatedLeader != null) {
-                Optional<LeadCard> searchedCard = playerLeaders.stream().filter(leadCard -> leadCard != null && leadCard.getCardId().equals(activatedLeader.getCardId())).findFirst();
-                assert searchedCard.isPresent();
-                int leadIndex = playerLeaders.indexOf(searchedCard.get());
-                int resCount = (int)leadersResources.get(leadIndex).stream().filter(imageView -> imageView.getImage() != null).count();
-                ResourceType resType = leadersResourceTypes.get(leadIndex);
-                System.out.println("GUIWarehouse.onConfirmClick: " + resCount + " of " + resType);
-                Resources extraResources = new Resources();
-                extraResources.add(resType, resCount);
-                sentWarehouse.deposit(extraResources,i+3);
-                sentWarehouse.expandWithLeader(activatedLeader);
-            }
-        }*/
+        it.polimi.ingsw.model.playerboard.Warehouse wh = new it.polimi.ingsw.model.playerboard.Warehouse();
+        wh.deposit(tempWarehouse.getContent()[0], 0);
+        wh.deposit(tempWarehouse.getContent()[1], 1);
+        wh.deposit(tempWarehouse.getContent()[2], 2);
+        wh.deposit(tempWarehouse.getExtra()[0], 3);
+        wh.deposit(tempWarehouse.getExtra()[1], 4);
 
-        Action a = Action.PUT_RESOURCES;
-        PutResourcesActionData ad = new PutResourcesActionData();
-        ad.setPlayer(GameApplication.getInstance().getUserNickname());
-        ad.setWh(new it.polimi.ingsw.model.playerboard.Warehouse());
-        GameApplication.getInstance().sendNetworkPacket(NetworkPacket.buildActionPacket(new ActionPacket(a, JSONUtility.toJson(ad, PutResourcesActionData.class))));
+        PutResourcesActionData prad = new PutResourcesActionData();
+        prad.setWh(wh);
+        prad.setPlayer(GameApplication.getInstance().getUserNickname());
+        ActionPacket ap = new ActionPacket(Action.PUT_RESOURCES, JSONUtility.toJson(prad, PutResourcesActionData.class));
+
+        CLIGame.pushAction(ap);
     }
-
 
 
 }

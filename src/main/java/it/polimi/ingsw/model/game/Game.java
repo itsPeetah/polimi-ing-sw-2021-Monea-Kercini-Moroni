@@ -151,7 +151,7 @@ public class Game {
 
         int currentReport = lastVaticanReport + 1;
 
-        // TODO Add customization?
+        // Add customization?
         // Vatican report range?
         // for now hardcoded
         for (Player p : players) {

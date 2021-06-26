@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * Class that handles the network client.
+ */
 public class GameClient {
 
     private String hostName;
@@ -17,6 +20,11 @@ public class GameClient {
     private Object lock;
     private boolean running;
 
+    /**
+     * Class constructor.
+     * @param hostName Server address or host name.
+     * @param hostPortNumber Server port number.
+     */
     public GameClient(String hostName, int hostPortNumber){
         this.hostName = hostName;
         this.hostPortNumber = hostPortNumber;
@@ -34,10 +42,17 @@ public class GameClient {
         }
     }
 
+    public boolean isConnected(){
+        return !socket.getSocket().isClosed() && socket.getSocket().isConnected();
+    }
+
+    /**
+     * Start the connection with the server.
+     * @return True if the client is already connected/has succeeded, false otherwise.
+     */
     public boolean start(){
 
         if(isRunning()) return true;
-        setActive(true);
 
         boolean couldStart;
         try {
@@ -51,33 +66,40 @@ public class GameClient {
             System.out.println(ex.getMessage());
             couldStart = false;
         }
+        if(couldStart) setActive(true);
         return couldStart;
     }
 
+    /**
+     * Terminate the connection with the server.
+     */
+    public void terminateConnection() {
+        socket.close();
+        setActive(false);
+    }
+
+    /**
+     * Mark the server as running or not running.
+     */
     private void setActive(boolean state){
         synchronized (lock) {
             running = state;
         }
     }
 
-    public void stop(){
-        setActive(false);
-        socket.close();
-    }
-
+    /**
+     * Send a NP over the network.
+     */
     public void send(NetworkPacket np){
         socket.send(np);
     }
 
+    /**
+     * Receive a NP from the server.
+     */
     public NetworkPacket recv (){
         return socket.receive();
     }
 
-    public boolean isConnected(){
-        return !socket.getSocket().isClosed() && socket.getSocket().isConnected();
-    }
 
-    public void terminateConnection() {
-        socket.close();
-    }
 }
