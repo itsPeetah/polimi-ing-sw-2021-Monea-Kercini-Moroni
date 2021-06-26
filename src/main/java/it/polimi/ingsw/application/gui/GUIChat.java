@@ -15,15 +15,23 @@ public class GUIChat {
     public static ObservableList<String> observableChatList = FXCollections.observableArrayList();
     private static final AtomicReference<Stage> openedChat = new AtomicReference<>(null);
 
+    /**
+     * Bind the chat messages to the GUI list view provided.
+     * @param chatListView list view to fill with the chat messages.
+     */
     public static void bindChat(ListView<String> chatListView) {
         Platform.runLater(() -> {
-            System.out.println("GUIChat.bindChat");
             observableChatList.clear();
             chatListView.setItems(observableChatList);
             observableChatList.addAll(Arrays.asList("Welcome to the chat, " + GameApplication.getInstance().getUserNickname() + "!", "Insert your messages in the field below and press enter to send them.", "You can write /whisper <nickname> <message> to send a private message to another player."));
         });
     }
 
+    /**
+     * Send a new message to the server.
+     * The message is sent only if the input is not empty and it will be checked whether the message is a normal one or a whisper.
+     * @param message message entered by the user.
+     */
     public static void sendMessage(String message) {
         if(message != null && message.length() > 0) {
             String[] splitMessage = message.split(" ");
@@ -53,18 +61,36 @@ public class GUIChat {
         }
     }
 
+    /**
+     * Notify a new message to the chat.
+     * @param from
+     * @param body
+     */
     public static void notifyMessage(String from, String body) {
         Platform.runLater(() -> observableChatList.add(from + ": " + body));
     }
 
+    /**
+     * Notify a new whisper to the chat.
+     * @param from
+     * @param body
+     */
     public static void notifyWhisper(String from, String body) {
         Platform.runLater(() -> observableChatList.add(from + " whispered: " + body));
     }
 
+    /**
+     * Get the current stage with the chat.
+     * @return stage that contains the chat.
+     */
     public static Stage getChatStage() {
         return openedChat.get();
     }
 
+    /**
+     * Set the current stage of the chat.
+     * @param newStage stage containing the chat.
+     */
     public static void setChatStage(Stage newStage) {
         Stage oldStage = openedChat.get();
         if(!openedChat.compareAndSet(oldStage, newStage)) {

@@ -12,6 +12,10 @@ public class GUIGameChat implements GUIObserverScene {
     public ListView<String> chatListView;
     public TextField textField;
 
+    /**
+     * Send the message after enter is pressed.
+     * @param keyEvent
+     */
     public void sendMessage(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = textField.getText();

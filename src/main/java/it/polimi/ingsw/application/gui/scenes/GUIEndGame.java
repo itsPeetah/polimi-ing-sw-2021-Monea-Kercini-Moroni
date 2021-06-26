@@ -27,6 +27,10 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
 
     private static final AtomicBoolean win = new AtomicBoolean();
 
+    /**
+     * Set the text with Victory or Defeat message
+     * @param win true if the user is the winner, false otherwise.
+     */
     public void setWin(boolean win) {
         GUIEndGame.win.set(win);
         if(win) {
@@ -39,7 +43,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
 
     @Override
     public void onVPChange() {
-        GUIUtility.executorService.submit(() -> {
+        new Thread(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
             boolean isSinglePlayer = GameApplication.getInstance().getGameController().isSinglePlayer();
 
@@ -58,7 +62,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                 // Fill sorted map
                 unsortedPlayersVP.entrySet().stream()
                         .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
-                        .forEach(k -> playersVP.entrySet().add(k));
+                        .forEach(k -> playersVP.put(k.getKey(), k.getValue()));
 
                 Platform.runLater(() -> {
                     for (Map.Entry<String, Integer> entry: playersVP.entrySet()) {
@@ -76,7 +80,7 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                     scoreList.getItems().add(singlePlayerVP);
                 });
             }
-        });
+        }).start();
     }
 
 
@@ -90,6 +94,10 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
         gameData.getPlayerData(GameApplication.getInstance().getUserNickname()).setObserver(this);
     }
 
+    /**
+     * On exit button click.
+     * @param actionEvent
+     */
     public void onExitClick(ActionEvent actionEvent) {
         GUIUtility.handleLeaveGame();
     }

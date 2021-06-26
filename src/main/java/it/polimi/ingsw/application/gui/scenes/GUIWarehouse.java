@@ -100,6 +100,10 @@ public class GUIWarehouse implements Initializable {
 
     // CONFIRM
 
+    /**
+     * On confirm button click.
+     * @param actionEvent
+     */
     public void onConfirmClick(ActionEvent actionEvent) {
         GUIUtility.executorService.submit(() -> {
             String nickname = GameApplication.getInstance().getUserNickname();
@@ -150,6 +154,10 @@ public class GUIWarehouse implements Initializable {
 
     // RESOURCES
 
+    /**
+     * On coin icon button click.
+     * @param mouseEvent
+     */
     public void coinClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.COINS;
         if(!GUIUtility.getGlow().equals(coin.getEffect())) {
@@ -158,6 +166,10 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * On servant icon button click.
+     * @param mouseEvent
+     */
     public void servantClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.SERVANTS;
         if(!GUIUtility.getGlow().equals(servant.getEffect())) {
@@ -166,6 +178,10 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * On shield icon click.
+     * @param mouseEvent
+     */
     public void shieldClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.SHIELDS;
         if(!GUIUtility.getGlow().equals(shield.getEffect())) {
@@ -174,6 +190,10 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * On stone icon click.
+     * @param mouseEvent
+     */
     public void stoneClick(MouseEvent mouseEvent) {
         selectedResource = ResourceType.STONES;
         if(!GUIUtility.getGlow().equals(stone.getEffect())) {
@@ -184,48 +204,93 @@ public class GUIWarehouse implements Initializable {
 
     // SLOTS
 
+    /**
+     * On slot (0, 0) click.
+     * @param mouseEvent
+     */
     public void onIm00Click(MouseEvent mouseEvent) {
         handleWarehouseClick(0, 0);
     }
 
+    /**
+     * On slot (1, 0) click.
+     * @param mouseEvent
+     */
     public void onIm10Click(MouseEvent mouseEvent) {
         handleWarehouseClick(1, 0);
     }
 
+    /**
+     * On slot (1, 1) click.
+     * @param mouseEvent
+     */
     public void onIm11Click(MouseEvent mouseEvent) {
         handleWarehouseClick(1, 1);
     }
 
+    /**
+     * On slot (2, 0) click.
+     * @param mouseEvent
+     */
     public void onIm20Click(MouseEvent mouseEvent) {
         handleWarehouseClick(2, 0);
     }
 
+    /**
+     * On slot (2, 1) click.
+     * @param mouseEvent
+     */
     public void onIm21Click(MouseEvent mouseEvent) {
         handleWarehouseClick(2, 1);
     }
 
+    /**
+     * On slot (2, 2) click.
+     * @param mouseEvent
+     */
     public void onIm22Click(MouseEvent mouseEvent) {
         handleWarehouseClick(2, 2);
     }
 
+    /**
+     * On leader 1 slot 1 click.
+     * @param mouseEvent
+     */
     public void onLead1Res1Click(MouseEvent mouseEvent) {
         handleLeaderClick(0, 0);
     }
 
+    /**
+     * On leader 1 slot 2 click.
+     * @param mouseEvent
+     */
     public void onLead1Res2Click(MouseEvent mouseEvent) {
         handleLeaderClick(0, 1);
     }
 
+    /**
+     * On leader 2 slot 1 click.
+     * @param mouseEvent
+     */
     public void onLead2Res1Click(MouseEvent mouseEvent) {
         handleLeaderClick(1, 0);
     }
 
+    /**
+     * On leader 2 slot 2 click.
+     * @param mouseEvent
+     */
     public void onLead2Res2Click(MouseEvent mouseEvent) {
         handleLeaderClick(1, 1);
     }
 
     /* UTILITY METHODS */
 
+    /**
+     * Handle a warehouse slot click.
+     * @param row row of the slot.
+     * @param column column of the slot.
+     */
     private void handleWarehouseClick(int row, int column) {
         ImageView clickedImage = rows.get(row).get(column);
         // If the image view is already filled with an image, remove the resource
@@ -255,6 +320,11 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * Handle a leader slot click.
+     * @param leaderIndex index of the leader.
+     * @param slotIndex index of the slot.
+     */
     private void handleLeaderClick(int leaderIndex, int slotIndex) {
         ImageView clickedImage = leadersResources.get(leaderIndex).get(slotIndex);
 
@@ -275,13 +345,21 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * Update a resource label.
+     * @param remainingLabel label to be updated.
+     * @param increment increment to be applied.
+     */
     private void updateLabel(Label remainingLabel, int increment) {
         remainingLabel.setText(Integer.toString(Integer.parseInt(remainingLabel.getText()) + increment));
     }
 
+    /**
+     * Fill the warehouse with the resources in view data.
+     */
     private void fillWarehouse() {
         String nickname = GameApplication.getInstance().getUserNickname();
-        new Thread(() -> {
+        GUIUtility.executorService.submit(() -> {
             Resources[] warehouse = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getWarehouse().getContent();
             Platform.runLater(() -> {
                 for(int i = 0; i < 3; i++) {
@@ -289,9 +367,14 @@ public class GUIWarehouse implements Initializable {
                     if(rowResources != null) fillRow(rowResources, rows.get(2-i));
                 }
             });
-        }).start();
+        });
     }
 
+    /**
+     * Fill a warehouse row.
+     * @param resources resources to put in the row.
+     * @param row row to fill.
+     */
     private void fillRow(Resources resources, List<ImageView> row) {
         ResourceType resourceType = getResourceType(resources);
         if(resourceType != null) {
@@ -301,6 +384,11 @@ public class GUIWarehouse implements Initializable {
         }
     }
 
+    /**
+     * Get the type of resource of a <code>Resources</code> object.
+     * @param resources object containing a single type of resource.
+     * @return the resource type contained in the object.
+     */
     private ResourceType getResourceType(Resources resources) {
         for(ResourceType resourceType: ResourceType.values()) {
             int resCount = resources.getAmountOf(resourceType);
@@ -309,6 +397,9 @@ public class GUIWarehouse implements Initializable {
         return null;
     }
 
+    /**
+     * Fill the labels with the resources to put.
+     */
     private void fillRemainingResources() {
         GUIUtility.executorService.submit(() -> {
             Resources resourcesToPut = GameApplication.getInstance().getGameController().getGameData().getMomentary().getResourcesToPut().getRes();
@@ -324,6 +415,9 @@ public class GUIWarehouse implements Initializable {
         });
     }
 
+    /**
+     * Fill the leaders.with the resources in view data.
+     */
     private void fillLeaders() {
         String nickname = GameApplication.getInstance().getUserNickname();
 

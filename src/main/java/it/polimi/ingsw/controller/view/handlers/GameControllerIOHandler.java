@@ -1,12 +1,10 @@
-package it.polimi.ingsw.controller.view.game.handlers;
+package it.polimi.ingsw.controller.view.handlers;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
-import it.polimi.ingsw.controller.view.game.GameController;
-import it.polimi.ingsw.network.common.NetworkPacket;
+import it.polimi.ingsw.controller.view.GameController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

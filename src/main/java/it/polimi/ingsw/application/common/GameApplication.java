@@ -3,9 +3,10 @@ package it.polimi.ingsw.application.common;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIChat;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.application.gui.scenes.GUIMPRoom;
-import it.polimi.ingsw.controller.view.game.GameController;
-import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.GameController;
+import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
 import it.polimi.ingsw.network.client.GameClient;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
@@ -55,7 +56,7 @@ public class GameApplication {
         this.gameController = new AtomicReference<>(null);
 
         this.userId = null;
-        this.userNickname = new AtomicReference<>();
+        this.userNickname = new AtomicReference<>(DEFAULT_SP_NICKNAME);
         this.roomName = new AtomicReference<>();
 
         this.roomPlayers = Collections.synchronizedList(new ArrayList<>());
@@ -189,8 +190,14 @@ public class GameApplication {
             return;
 
         networkClient = new GameClient(hostName, portNumber);
-        if(!networkClient.start())
+        if(!networkClient.start()) {
             networkClient = null;
+
+            // Notify the GUI active scene, if there is one
+            if(GUIScene.getActiveScene() != null) {
+                GUIUtility.executorService.submit(() -> GUIScene.getActiveScene().onSystemMessage(SystemMessage.ERR, "It is not possible to establish a connection to the server."));
+            }
+        }
         else {
             isRunning.set(true);
         }
@@ -215,7 +222,6 @@ public class GameApplication {
      * Start a MP game.
      */
     public void startServerGame(boolean singlePlayer) {
-        /*System.out.println("GameApplication.startServerGame");*/
         gameController.set(new GameController(new GameData()));
         gameController.get().setSinglePlayer(singlePlayer);
 

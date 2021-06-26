@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.view.game;
+package it.polimi.ingsw.controller.view;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationMode;
@@ -9,9 +9,9 @@ import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.data.*;
-import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
-import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
-import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.MPGameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.SPGameControllerIOHandler;
 import it.polimi.ingsw.view.data.GameData;
 
 public class GameController {
@@ -83,7 +83,6 @@ public class GameController {
      * @param update
      * @param updateDataString
      */
-
     public void reactToUpdate(Update update, String updateDataString) {
 
         switch (update){
@@ -113,7 +112,6 @@ public class GameController {
                 break;
 
             case LEADERS:
-                //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
                 if(!gameData.getPlayersList().contains(pl.getP())) gameData.addPlayer(pl.getP());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());

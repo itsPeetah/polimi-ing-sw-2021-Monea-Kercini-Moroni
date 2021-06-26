@@ -2,10 +2,8 @@ package it.polimi.ingsw.application.gui.scenes;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.listeners.PacketListener;
-import it.polimi.ingsw.application.gui.GUIApplication;
 import it.polimi.ingsw.application.gui.GUIScene;
 import it.polimi.ingsw.application.gui.GUIUtility;
-import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.SystemMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,10 +27,18 @@ public class GUIConnSettings implements Initializable, PacketListener {
     public TextField addressTextField;
     public TextField portTextField;
 
+    /**
+     * On back button click
+     * @param actionEvent
+     */
     public void onBackButton(ActionEvent actionEvent) {
-        GUIScene.SETTINGS.load();
+        GUIScene.MAIN_MENU.load();
     }
 
+    /**
+     * On connect button click
+     * @param actionEvent
+     */
     public void onConnectClick(ActionEvent actionEvent) {
         disableButtons(true);
         address = addressTextField.getText();
@@ -70,15 +76,27 @@ public class GUIConnSettings implements Initializable, PacketListener {
                     GUIUtility.runSceneWithDelay(GUIScene.MAIN_MENU);
                     break;
                 case ERR:
-                case CANT_JOIN:
-                    disableButtons(false);
-                    GUIScene.CONN_SETTINGS.load();
-                    GUIApplication.showDialog(additionalContent);
+                    TimerTask timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            Platform.runLater(() -> {
+                                disableButtons(false);
+                                GUIScene.CONN_SETTINGS.load();
+                                GUIUtility.showDialog(additionalContent);
+                            });
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(timerTask, 500);
                     break;
             }
         });
     }
 
+    /**
+     * Set the disable effect of the buttons.
+     * @param disabled if true the buttons will be disabled, otherwise they would be clickable.
+     */
     private void disableButtons(boolean disabled) {
         connButton.setDisable(disabled);
         backButton.setDisable(disabled);

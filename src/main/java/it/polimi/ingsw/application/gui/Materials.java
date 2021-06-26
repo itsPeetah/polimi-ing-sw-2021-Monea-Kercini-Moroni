@@ -33,6 +33,11 @@ public class Materials {
         red.setSpecularColor(Color.WHITE);
     }
 
+    /**
+     * Get a material.
+     * @param m color of the material.
+     * @return material corresponding to the input color.
+     */
     public static PhongMaterial getMaterial(MaterialsEnum m){
 
         switch (m){
