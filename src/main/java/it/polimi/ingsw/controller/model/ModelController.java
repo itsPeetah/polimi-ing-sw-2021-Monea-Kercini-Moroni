@@ -167,7 +167,7 @@ public class ModelController {
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
-            System.out.println("PLAYER HAS HACKED THE GAME");
+            /*System.out.println("PLAYER HAS HACKED THE GAME");*/
             return wh;
         }
     }
@@ -581,7 +581,7 @@ public class ModelController {
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
             }catch (Exception e){
-                System.out.println("ModelController.devCardMarketUpdate: buy card not possible");
+                /*System.out.println("ModelController.devCardMarketUpdate: buy card not possible");*/
             }
 
             //Update
@@ -676,10 +676,10 @@ public class ModelController {
      * @param chosenLeader
      */
     private void playLeaderUpdate(Player player, LeadCard chosenLeader){
-        System.out.println("ModelController.playLeaderUpdate");
+        /*System.out.println("ModelController.playLeaderUpdate");*/
 
         if(chosenLeader.affordable(player)){
-            System.out.println("ModelController.playLeaderUpdate: affordable");
+            /*System.out.println("ModelController.playLeaderUpdate: affordable");*/
             chosenLeader.play(player);
 
             //update
@@ -687,7 +687,7 @@ public class ModelController {
             updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
-            System.out.println("ModelController.playLeaderUpdate: not affordable");
+            /*System.out.println("ModelController.playLeaderUpdate: not affordable");*/
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
     }
@@ -913,7 +913,7 @@ public class ModelController {
     }
 
     private void playLeader(Player player){
-        System.out.println("ModelController.playLeader");
+        /*System.out.println("ModelController.playLeader");*/
 
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 
