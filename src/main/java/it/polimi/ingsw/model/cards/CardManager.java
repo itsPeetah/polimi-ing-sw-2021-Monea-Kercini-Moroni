@@ -5,10 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import javafx.scene.image.Image;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,8 +33,10 @@ public class CardManager {
         // Initialize reader
         JsonReader jsonFile;
         try {
-            jsonFile = new JsonReader(new FileReader(DEV_CARDS_PATH));
-        } catch(FileNotFoundException e) {
+            InputStream inputStream = CardManager.class.getClassLoader().getResourceAsStream(DEV_CARDS_PATH);
+            assert inputStream != null;
+            jsonFile = new JsonReader(new InputStreamReader(inputStream));
+        } catch(NullPointerException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
@@ -64,8 +63,10 @@ public class CardManager {
         // Initialize reader
         JsonReader jsonFile;
         try {
-            jsonFile = new JsonReader(new FileReader(LEAD_CARDS_PATH));
-        } catch(FileNotFoundException e) {
+            InputStream inputStream = CardManager.class.getClassLoader().getResourceAsStream(LEAD_CARDS_PATH);
+            assert inputStream != null;
+            jsonFile = new JsonReader(new InputStreamReader(inputStream));
+        } catch(NullPointerException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
