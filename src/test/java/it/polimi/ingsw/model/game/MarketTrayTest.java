@@ -2,12 +2,9 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.game.util.MarketTrayFactory;
-import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
+
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MarketTrayTest {
@@ -25,6 +22,7 @@ public class MarketTrayTest {
             }
         }
     }
+
 
     @Test
     public void testPickRow0(){

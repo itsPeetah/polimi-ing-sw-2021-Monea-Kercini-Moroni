@@ -3,15 +3,9 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.util.DevCardMarketFactory;
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
-import it.polimi.ingsw.model.game.util.MarketTrayFactory;
 import it.polimi.ingsw.model.general.Color;
-import it.polimi.ingsw.model.general.Level;
-import it.polimi.ingsw.model.general.ResourceType;
-import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

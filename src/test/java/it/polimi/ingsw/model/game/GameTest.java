@@ -2,9 +2,8 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
 import it.polimi.ingsw.model.game.util.GameFactory;
-import it.polimi.ingsw.model.game.util.GameSettingsLevel;
-import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
