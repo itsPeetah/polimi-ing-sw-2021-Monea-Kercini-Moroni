@@ -111,7 +111,6 @@ public class GameController {
                 break;
 
             case LEADERS:
-                //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
                 if(!gameData.getPlayersList().contains(pl.getP())) gameData.addPlayer(pl.getP());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());

@@ -41,6 +41,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static it.polimi.ingsw.application.gui.Materials.getMaterial;
 import static it.polimi.ingsw.model.cards.CardManager.getImage;
@@ -217,7 +218,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     private Action choice; // This attribute is accessed only in the UI thread, so there are no concurrency problems
     private DevCard chosenDev;
     private final HashSet<Production> productionsSelected = new HashSet<>();
-    private String nickname;
+    private AtomicReference<String> nickname = new AtomicReference<>(null);
 
     // Images
     private static Image cross;
@@ -296,7 +297,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @Override
     public void startObserver() {
-        nickname = GameApplication.getInstance().getUserNickname();
+        nickname.set(GameApplication.getInstance().getUserNickname());
 
         // Clear choice box
         boardChoiceBox.getItems().clear();
@@ -317,7 +318,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
         Platform.runLater(() -> {
             // Set correctly the initial username value in the choice box
-            boardChoiceBox.setValue(nickname);
+            boardChoiceBox.setValue(nickname.get());
             System.out.println("GUIMainGame.startObserver: current choice box value = " + boardChoiceBox.getValue());
 
             // Handle chat/lorenzo box
@@ -712,10 +713,9 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
     @Override
     public void onCurrentPlayerChange() {
-        System.out.println("GUIMainGame.onCurrentPlayerChance");
         String currentPlayer = GameApplication.getInstance().getGameController().getGameData().getCommon().getCurrentPlayer();
         Platform.runLater(() -> {
-            if(currentPlayer != null && !currentPlayer.equals(nickname)) {
+            if(currentPlayer != null && !currentPlayer.equals(nickname.get())) {
                 gameStateLabel.setText("It's " + currentPlayer + "'s turn, please wait");
             }
         });
@@ -756,7 +756,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         Platform.runLater(() -> {
             setChoice(Action.REARRANGE_WAREHOUSE);
             NoneActionData noneActionData = new NoneActionData();
-            noneActionData.setPlayer(nickname);
+            noneActionData.setPlayer(nickname.get());
             ActionPacket actionPacket = new ActionPacket(Action.REARRANGE_WAREHOUSE, JSONUtility.toJson(noneActionData, NoneActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
         });
@@ -768,7 +768,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      */
     public void endTurn(ActionEvent actionEvent) {
         NoneActionData noneActionData = new NoneActionData();
-        noneActionData.setPlayer(nickname);
+        noneActionData.setPlayer(nickname.get());
         ActionPacket actionPacket = new ActionPacket(Action.END_TURN, JSONUtility.toJson(noneActionData, NoneActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
     }
@@ -858,8 +858,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      */
     private void discardLeader(int i){
 
-        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
-        chooseLeaderActionData.setPlayer(nickname);
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname.get()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(nickname.get());
 
         ActionPacket actionPacket = new ActionPacket(Action.DISCARD_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -871,11 +871,11 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      */
     public void playLeader(int i){
         System.out.println("GUIMainGame.playLeader");
-        System.out.println("GUIMainGame.playLeader. nickname = " + nickname);
+        System.out.println("GUIMainGame.playLeader. nickname = " + nickname.get());
         System.out.println("GUIMainGame.playLeader. i = " + i);
 
-        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getPlayerLeaders().getLeaders()[i]);
-        chooseLeaderActionData.setPlayer(nickname);
+        ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname.get()).getPlayerLeaders().getLeaders()[i]);
+        chooseLeaderActionData.setPlayer(nickname.get());
 
         ActionPacket actionPacket = new ActionPacket(Action.PlAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -949,7 +949,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void acquireResPos(boolean row, int index){
         if(choice == Action.RESOURCE_MARKET){
             ResourceMarketActionData resourceMarketActionData = new ResourceMarketActionData(row, index);
-            resourceMarketActionData.setPlayer(nickname);
+            resourceMarketActionData.setPlayer(nickname.get());
 
             ActionPacket actionPacket = new ActionPacket(Action.RESOURCE_MARKET, JSONUtility.toJson(resourceMarketActionData, ResourceMarketActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -1196,7 +1196,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      */
     private void devCardSend(DevCard devCard, int space) {
         DevCardActionData devCardActionData  = new DevCardActionData(devCard, space);
-        devCardActionData.setPlayer(nickname);
+        devCardActionData.setPlayer(nickname.get());
 
         ActionPacket actionPacket = new ActionPacket(Action.DEV_CARD, JSONUtility.toJson(devCardActionData, DevCardActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -1238,7 +1238,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             if(!productionsSelected.isEmpty()) {
                 ArrayList<Production> arrayList = new ArrayList<>(productionsSelected);
                 ProduceActionData produceActionData = new ProduceActionData(arrayList);
-                produceActionData.setPlayer(nickname);
+                produceActionData.setPlayer(nickname.get());
 
                 ActionPacket actionPacket = new ActionPacket(Action.PRODUCE, JSONUtility.toJson(produceActionData, ProduceActionData.class));
                 GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
@@ -1327,7 +1327,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @return true if the player selected in the choice box of the player board view is the current player
      */
     private boolean isItMe(){
-        return getCurrentUser().equals(nickname);
+        return getCurrentUser().equals(nickname.get());
     }
 
     /**
