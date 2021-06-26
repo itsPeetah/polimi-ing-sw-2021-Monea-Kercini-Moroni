@@ -3,13 +3,31 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.util.DevCardMarketFactory;
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
+import it.polimi.ingsw.model.game.util.MarketTrayFactory;
 import it.polimi.ingsw.model.general.Color;
+import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DevCardMarketTest {
+
+    @Test
+    public void testPickColumn0(){
+        MarketTray mt = MarketTrayFactory.BuildMarketTray(GameSettingsLevel.LOW);
+        Resources r;
+        for(int i = 0; i <= mt.getRows(); i++) {
+            try {
+                r = mt.pickColumn(0);
+                assertTrue(r.getTotalAmount() == mt.getRows());
+            } catch (MarketTrayException e){
+                fail();
+            }
+        }
+    }
+
+
 
     @Test
     void testBuyCard() {

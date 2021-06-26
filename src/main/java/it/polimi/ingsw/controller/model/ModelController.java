@@ -282,8 +282,13 @@ public class ModelController {
 
         boolean lastRound = false;
 
+        //Player lastPlayer = game.getPlayers()[game.getPlayers().length-1];
+        Player firstPlayer = game.getPlayers()[0];
+
+        //System.out.println("ModelController.startGame last player " + lastPlayer.getNickname());
+
         //Turns will keep being played until it's the last round and it's the last players turn
-        while (!lastRound || !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
+        while (!lastRound || !(game.getCurrentPlayer() == firstPlayer)){
 
             playTurn(game.getCurrentPlayer());
 
