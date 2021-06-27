@@ -19,6 +19,7 @@ public class CLIGame extends CLIScene {
     private CLIScene leadChoice = new CLILeadChoice();
     private CLIScene resourceChoice = new CLIResourceChoice();
     private CLIScene warehouseOrganizing = new CLIWarehouseOrganizing();
+    private CLIScene gameOverScene = new CLIGameOver();
 
     private GameController gameController;
     private GameControllerIOHandler gameControllerIO;
@@ -97,6 +98,9 @@ public class CLIGame extends CLIScene {
                 return resourceChoice;
             case ORGANIZE_WAREHOUSE:
                 return warehouseOrganizing;
+            case GAME_LOST:
+            case GAME_WON:
+                return gameOverScene;
             default:
                 return board;
         }
