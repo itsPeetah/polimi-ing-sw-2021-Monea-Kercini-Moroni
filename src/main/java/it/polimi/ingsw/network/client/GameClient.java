@@ -63,7 +63,13 @@ public class GameClient {
             System.out.println("UnknownHostException while connecting.");
             couldStart = false;
         } catch (IOException ex){
-            System.out.println(ex.getMessage());
+            System.out.println("IOException while connecting.");
+            couldStart = false;
+        } catch (SecurityException ex){
+            System.out.println("SecurityException while connecting.");
+            couldStart = false;
+        } catch (IllegalArgumentException ex){
+            System.out.println("IllegalArgumentException while connecting.");
             couldStart = false;
         }
         if(couldStart) setActive(true);

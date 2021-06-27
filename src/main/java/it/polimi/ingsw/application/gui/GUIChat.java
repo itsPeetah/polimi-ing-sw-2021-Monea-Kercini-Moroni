@@ -21,8 +21,16 @@ public class GUIChat {
      */
     public static void bindChat(ListView<String> chatListView) {
         Platform.runLater(() -> {
-            observableChatList.clear();
             chatListView.setItems(observableChatList);
+        });
+    }
+
+    /**
+     * Clean the chat and show a welcome message.
+     */
+    public static void resetChat() {
+        Platform.runLater(() -> {
+            observableChatList.clear();
             observableChatList.addAll(Arrays.asList("Welcome to the chat, " + GameApplication.getInstance().getUserNickname() + "!", "Insert your messages in the field below and press enter to send them.", "You can write /whisper <nickname> <message> to send a private message to another player."));
         });
     }

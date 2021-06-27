@@ -14,13 +14,15 @@ import it.polimi.ingsw.controller.view.handlers.MPGameControllerIOHandler;
 import it.polimi.ingsw.controller.view.handlers.SPGameControllerIOHandler;
 import it.polimi.ingsw.view.data.GameData;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class GameController {
 
     private final GameData gameData;
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
     private boolean gameStarted = false;
-    private boolean singlePlayer = false;
+    private final AtomicBoolean singlePlayer = new AtomicBoolean(false);
 
 
     /**
@@ -40,7 +42,7 @@ public class GameController {
      */
     public GameController(GameData gameData, String playerNickname) {
 
-        this.singlePlayer = true;
+        this.singlePlayer.set(true);
 
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
@@ -71,11 +73,11 @@ public class GameController {
     }
 
     public boolean isSinglePlayer() {
-        return singlePlayer;
+        return singlePlayer.get();
     }
 
     public void setSinglePlayer(boolean singlePlayer) {
-        this.singlePlayer = singlePlayer;
+        this.singlePlayer.set(singlePlayer);
     }
 
     /**

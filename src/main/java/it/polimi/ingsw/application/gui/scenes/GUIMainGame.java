@@ -306,8 +306,7 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void startObserver() {
         nickname.set(GameApplication.getInstance().getUserNickname());
 
-        // Clear choice box
-        boardChoiceBox.getItems().clear();
+
 
         GUIUtility.executorService.submit(() -> {
             GameData gameData = GameApplication.getInstance().getGameController().getGameData();
@@ -324,17 +323,23 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
 
 
         Platform.runLater(() -> {
+            // Clear choice box
+            boardChoiceBox.getItems().clear();
+
             // Set correctly the initial username value in the choice box
             boardChoiceBox.setValue(nickname.get());
-            System.out.println("GUIMainGame.startObserver: current choice box value = " + boardChoiceBox.getValue());
 
             // Handle chat/lorenzo box
             if(GameApplication.getInstance().getGameController().isSinglePlayer()) {
                 LCHbox.getChildren().remove(chatHBox);
-                LCHbox.getChildren().set(1, lorenzoHBox);
-            } else {
                 LCHbox.getChildren().remove(lorenzoHBox);
-                LCHbox.getChildren().set(1, chatHBox);
+                LCHbox.getChildren().add(lorenzoHBox);
+            } else {
+                GUIChat.resetChat();
+                blackTrack.forEach(imageView -> imageView.setImage(null));
+                LCHbox.getChildren().remove(lorenzoHBox);
+                LCHbox.getChildren().remove(chatHBox);
+                LCHbox.getChildren().add(chatHBox);
             }
         });
     }
