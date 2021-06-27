@@ -106,7 +106,6 @@ public class GameController {
             case PRODUCTION_POWERS:
                 //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
-                System.out.println(pp.getProductionPowers().getOwnedDevCards().get(0).getCardId());
                 if(!gameData.getPlayersList().contains(pp.getPlayer())) gameData.addPlayer(pp.getPlayer());
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;

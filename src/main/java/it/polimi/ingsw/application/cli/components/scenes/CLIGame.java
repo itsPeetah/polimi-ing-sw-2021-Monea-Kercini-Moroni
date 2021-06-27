@@ -53,10 +53,6 @@ public class CLIGame extends CLIScene {
 
     @Override
     public void show() {
-        clearConsole();
-        println("|         Masters of Renaissance - In Game         |");
-        println("+--------------------------------------------------+");
-        println("Current state: " + currentGameState.toString());
 
         if (currentView == null) {
             println("");
