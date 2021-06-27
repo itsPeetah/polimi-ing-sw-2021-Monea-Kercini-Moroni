@@ -103,6 +103,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         setButtonsDisabled(false);
         System.out.println("GUIMPRoom.startObserver");
         playersListView.setItems(observablePlayersList);
+        GUIChat.resetChat();
         GUIChat.bindChat(chatListView);
         room_name.setText(GameApplication.getInstance().getRoomName());
     }

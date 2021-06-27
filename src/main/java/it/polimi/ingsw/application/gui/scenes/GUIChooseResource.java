@@ -42,7 +42,6 @@ public class GUIChooseResource implements Initializable {
      * @param message message to be shown.
      */
     public void setMessage(Message message) {
-        System.out.println("GUIChooseResource.setMessage: " + message.toString());
         Platform.runLater(() -> messageLabel.setText(message.toString()));
     }
 
