@@ -243,8 +243,10 @@ public class GameController {
 
             case WINNER:
                 //This player is the winner
+                moveToState(GameState.GAME_WON);
             case LOSER:
                 //This player is a loser
+                moveToState(GameState.GAME_LOST);
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
