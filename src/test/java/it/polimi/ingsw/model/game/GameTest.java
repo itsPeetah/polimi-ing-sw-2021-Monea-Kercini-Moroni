@@ -3,9 +3,6 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
 import it.polimi.ingsw.model.game.util.GameFactory;
 
-import it.polimi.ingsw.model.game.util.GameSettingsLevel;
-import it.polimi.ingsw.model.game.util.MarketTrayFactory;
-import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

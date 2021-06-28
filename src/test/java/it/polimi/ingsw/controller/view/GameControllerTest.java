@@ -29,7 +29,7 @@ public class GameControllerTest {
 
     // Test correct SP game controller creation
     @Test
-    public void SPGameControllerTest() {
+    public void testSPGameControllerTest() {
         String nickname = GameApplication.getInstance().getUserNickname();
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData, nickname);
@@ -42,7 +42,7 @@ public class GameControllerTest {
 
     // Test correct MP game controller creation
     @Test
-    public void MPGameControllerTest() {
+    public void testMPGameControllerTest() {
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData);
 
@@ -52,7 +52,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void moveToStateTest() {
+    public void testmoveToStateTest() {
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData);
         gameController.moveToState(GameState.ENDGAME);
@@ -61,7 +61,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void reactToMessageTest() {
+    public void testReactToMessageTest() {
         GameApplication.setOutputMode(GameApplicationMode.GUI);
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData);
@@ -71,7 +71,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void reactToUpdateTest() {
+    public void testReactToUpdateTest() {
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData);
         String[] players = new String[3];

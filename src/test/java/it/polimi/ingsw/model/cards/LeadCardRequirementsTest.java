@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LeadCardRequirementsTest {
 
     @Test
-    public void checkTest() {
+    public void testCheck() {
         // Create req
         Resources cost = new Resources();
         cost.add(ResourceType.SHIELDS, 1);
