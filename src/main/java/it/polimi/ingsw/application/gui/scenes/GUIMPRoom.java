@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.network.common.NetworkPacket;
 import it.polimi.ingsw.network.common.NetworkPacketType;
 import it.polimi.ingsw.network.common.SystemMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,6 +40,9 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     @FXML
     private ListView<String> chatListView;
 
+    /**
+     * On start button click.
+     */
     public void onStartClick() {
         setButtonsDisabled(true);
         String messageContent = SystemMessage.START_ROOM.addBody(GameApplication.getInstance().getRoomName() + " " + GameApplication.getInstance().getUserNickname());
@@ -46,10 +50,18 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         GameApplication.getInstance().sendNetworkPacket(np);
     }
 
+    /**
+     * On leave button click.
+     * @param actionEvent
+     */
     public void onLeaveClick(ActionEvent actionEvent) {
         GUIUtility.handleLeaveGame();
     }
 
+    /**
+     * Send the message after enter is pressed.
+     * @param keyEvent
+     */
     public void sendMessage(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = textField.getText();
@@ -59,27 +71,28 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
     }
 
     @Override
-    public void onMessage(Message message) {
-
-    }
-
-    @Override
     public void onSystemMessage(SystemMessage type, String additionalContent) {
-        switch(type) {
-            case QUIT:
-                GUIUtility.handleServerQuit();
-                break;
-            case START_ROOM:
-                GUIScene.showLoadingScene();
-                GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
-                break;
-            case IN_GAME:
-                GUIScene.showLoadingScene();
-                GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
-                break;
-        }
+        Platform.runLater(() -> {
+            switch(type) {
+                case QUIT:
+                    GUIUtility.handleServerQuit();
+                    break;
+                case START_ROOM:
+                    GUIScene.showLoadingScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.PRE_GAME);
+                    break;
+                case IN_GAME:
+                    GUIScene.showLoadingScene();
+                    GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);
+                    break;
+            }
+        });
     }
 
+    /**
+     * Set the disable effect of the buttons.
+     * @param disabled if true the buttons will be disabled, otherwise they would be clickable.
+     */
     private void setButtonsDisabled(boolean disabled) {
         startButt.setDisable(disabled);
         leaveButton.setDisable(disabled);
@@ -90,6 +103,7 @@ public class GUIMPRoom implements PacketListener, GUIObserverScene {
         setButtonsDisabled(false);
         System.out.println("GUIMPRoom.startObserver");
         playersListView.setItems(observablePlayersList);
+        GUIChat.resetChat();
         GUIChat.bindChat(chatListView);
         room_name.setText(GameApplication.getInstance().getRoomName());
     }

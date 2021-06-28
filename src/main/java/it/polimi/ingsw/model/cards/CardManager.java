@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CardManager {
     /* PATH CONSTANTS */
@@ -32,11 +33,8 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-
-        //adding input stream
-        InputStreamReader is = new InputStreamReader(CardManager.class.getClassLoader().getResourceAsStream(DEV_CARDS_PATH));
+        InputStreamReader is = new InputStreamReader(Objects.requireNonNull(CardManager.class.getClassLoader().getResourceAsStream(DEV_CARDS_PATH)));
         jsonFile = new JsonReader(is);
-
 
         // Read and return the cards
         ArrayList<DevCard> devCardList = gson.fromJson(jsonFile, new TypeToken<ArrayList<DevCard>>(){}.getType());
@@ -59,9 +57,7 @@ public class CardManager {
 
         // Initialize reader
         JsonReader jsonFile;
-
-        //adding input stream
-        InputStreamReader is = new InputStreamReader(CardManager.class.getClassLoader().getResourceAsStream(LEAD_CARDS_PATH));
+        InputStreamReader is = new InputStreamReader(Objects.requireNonNull(CardManager.class.getClassLoader().getResourceAsStream(LEAD_CARDS_PATH)));
         jsonFile = new JsonReader(is);
 
         // Read and return the cards

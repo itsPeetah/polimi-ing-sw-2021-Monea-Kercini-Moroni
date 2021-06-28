@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.view.game;
+package it.polimi.ingsw.controller.view;
 
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.application.common.GameApplicationMode;
@@ -9,10 +9,12 @@ import it.polimi.ingsw.controller.model.handlers.SPModelControllerIOHandler;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
 import it.polimi.ingsw.controller.model.updates.data.*;
-import it.polimi.ingsw.controller.view.game.handlers.GameControllerIOHandler;
-import it.polimi.ingsw.controller.view.game.handlers.MPGameControllerIOHandler;
-import it.polimi.ingsw.controller.view.game.handlers.SPGameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.GameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.MPGameControllerIOHandler;
+import it.polimi.ingsw.controller.view.handlers.SPGameControllerIOHandler;
 import it.polimi.ingsw.view.data.GameData;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameController {
 
@@ -20,7 +22,7 @@ public class GameController {
     private final GameControllerIOHandler gameControllerIOHandler;
     private GameState currentState;
     private boolean gameStarted = false;
-    private boolean singlePlayer = false;
+    private final AtomicBoolean singlePlayer = new AtomicBoolean(false);
 
 
     /**
@@ -40,7 +42,7 @@ public class GameController {
      */
     public GameController(GameData gameData, String playerNickname) {
 
-        this.singlePlayer = true;
+        this.singlePlayer.set(true);
 
         this.gameData = gameData;
         gameData.addPlayer(playerNickname);
@@ -71,11 +73,11 @@ public class GameController {
     }
 
     public boolean isSinglePlayer() {
-        return singlePlayer;
+        return singlePlayer.get();
     }
 
     public void setSinglePlayer(boolean singlePlayer) {
-        this.singlePlayer = singlePlayer;
+        this.singlePlayer.set(singlePlayer);
     }
 
     /**
@@ -83,7 +85,6 @@ public class GameController {
      * @param update
      * @param updateDataString
      */
-
     public void reactToUpdate(Update update, String updateDataString) {
 
         switch (update){
@@ -113,7 +114,6 @@ public class GameController {
                 break;
 
             case LEADERS:
-                //System.out.println("LEADERS UPDATE CAME IN GAME CONTROLLER");
                 PlayerLeadersUpdateData pl = update.getUpdateData(updateDataString);
                 if(!gameData.getPlayersList().contains(pl.getP())) gameData.addPlayer(pl.getP());
                 gameData.getPlayerData(pl.getP()).getPlayerLeaders().setLeaders(pl.getPlayerLeaders().getCards());

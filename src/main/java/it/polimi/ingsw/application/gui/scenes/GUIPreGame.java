@@ -9,7 +9,7 @@ import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.Choose2LeadersActionData;
 import it.polimi.ingsw.controller.model.messages.Message;
-import it.polimi.ingsw.controller.view.game.GameState;
+import it.polimi.ingsw.controller.view.GameState;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.ResourceMarble;
 import it.polimi.ingsw.util.JSONUtility;
@@ -179,8 +179,13 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         });
     }
 
+    /**
+     * Check if the ready button is clickable.
+     * If so, activate the button.
+     * Otherwise, disable it.
+     * @return
+     */
     private boolean isReadyClickable(){
-        System.out.println(GameApplication.getInstance().getGameController().getCurrentState());
         if(GameApplication.getInstance().getGameController().getCurrentState() == GameState.IDLE) return false;
         int selected = 0;
         for (int i = 0; i < 4; i++) {
@@ -198,26 +203,42 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
     }
 
 
+    /**
+     * On first leader click.
+     */
     @FXML
     public void lead1Click(){
         handleLeadClick(0);
     }
 
+    /**
+     * On second leader click.
+     */
     @FXML
     public void lead2Click(){
         handleLeadClick(1);
     }
 
+    /**
+     * On third leader click.
+     */
     @FXML
     public void lead3Click(){
         handleLeadClick(2);
     }
 
+    /**
+     * On fourth leader click.
+     */
     @FXML
     public void lead4Click(){
         handleLeadClick(3);
     }
 
+    /**
+     * Handle the leader click action.
+     * @param index
+     */
     private void handleLeadClick(int index) {
         if(leadersSelected[index]){
             leadersSelected[index] = false;
@@ -230,10 +251,13 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         isReadyClickable();
     }
 
+    /**
+     * On ready button click.
+     */
     @FXML
     public void ready(){
         button.setDisable(true);
-        new Thread(() -> {
+        GUIUtility.executorService.submit(() -> {
             int cont = 0;
             LeadCard[] actionLeaders = new LeadCard[2];
             for(int i = 0; i < 4; i++) {
@@ -249,7 +273,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
 
             ActionPacket actionPacket = new ActionPacket(Action.CHOOSE_2_LEADERS, JSONUtility.toJson(choose2LeadersActionData, Choose2LeadersActionData.class));
             GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
-        }).start();
+        });
     }
 
     @Override
@@ -257,7 +281,7 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         Platform.runLater(() -> {
             switch (message) {
                 case CHOOSE_LEADERS:
-                    setChooseLeadersUI();
+                    isReadyClickable();
                     break;
                 case CHOOSE_RESOURCE:
                     setChooseResourceUI();
@@ -272,18 +296,23 @@ public class GUIPreGame implements Initializable, CommonDataObserver, LeadersToC
         });
     }
 
+    /**
+     * Show the set organize warehouse window.
+     */
     private void setOrganizeWarehouseUI() {
         GUIUtility.launchOrganizeWarehouseWindow(button.getScene().getWindow());
     }
 
+    /**
+     * Show the choose resource window.
+     */
     private void setChooseResourceUI() {
         GUIUtility.launchPickResourceWindow(button.getScene().getWindow());
     }
 
-    private void setChooseLeadersUI() {
-        isReadyClickable();
-    }
-
+    /**
+     * Set the main game scene.
+     */
     private void setGameScene() {
         GUIScene.showLoadingScene();
         GUIUtility.runSceneWithDelay(GUIScene.MAIN_GAME);

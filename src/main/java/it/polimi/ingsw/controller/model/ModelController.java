@@ -167,7 +167,7 @@ public class ModelController {
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
             //TODO punish player for trying to cheat
-            System.out.println("PLAYER HAS HACKED THE GAME");
+            /*System.out.println("PLAYER HAS HACKED THE GAME");*/
             return wh;
         }
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.application.common;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.gui.GUIScene;
+import it.polimi.ingsw.application.gui.GUIUtility;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.MessagePacket;
 import it.polimi.ingsw.controller.model.updates.UpdatePacket;
@@ -38,8 +39,9 @@ public class GameApplicationIOHandler {
     }
 
     public void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
-        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null)
-            GUIScene.getActiveScene().onSystemMessage(sysMsgType , body);
+        if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) {
+            GUIUtility.executorService.submit(() -> GUIScene.getActiveScene().onSystemMessage(sysMsgType , body));
+        }
     }
 
     public void pushAction(ActionPacket actionPacket) {

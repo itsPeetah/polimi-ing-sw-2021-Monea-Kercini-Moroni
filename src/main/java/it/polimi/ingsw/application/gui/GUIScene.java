@@ -21,7 +21,6 @@ public enum GUIScene {
     PRE_GAME("GUIPreGame.fxml", true),
     MAIN_GAME("GUIMainGame.fxml", true),
     END_GAME("GUIEndGame.fxml", true),
-    SETTINGS("GUISettings.fxml", true),
     CONN_SETTINGS("GUIConnSettings.fxml", true),
     CHOOSE_RESOURCE("GUIChooseResource.fxml", true),
     WAREHOUSE("GUIWarehouse.fxml", false),
@@ -39,7 +38,7 @@ public enum GUIScene {
     private final boolean loadOnStarting;
 
     /* ACTIVE SCENE */
-    private static AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
+    private static final AtomicReference<PacketListener> activeScene = new AtomicReference<>(null);
     private static Parent nextLoadingRoot;
 
     /* STATIC SCENES */
@@ -60,6 +59,9 @@ public enum GUIScene {
         this.loadOnStarting = loadOnStarting;
     }
 
+    /**
+     * Load this scene from the FXML file.
+     */
     public void load() {
         if(fxmlLoader == null) {
             try {
@@ -73,26 +75,50 @@ public enum GUIScene {
         scene.setRoot(root);
     }
 
+    /**
+     * Get this scene.
+     * @return scene of this enum element.
+     */
     public static Scene getScene() {
         return scene;
     }
 
+    /**
+     * Get the choose resources scene.
+     * @return choose resources scene.
+     */
     public static Scene getChooseResourcesScene() {
         return chooseResourcesScene;
     }
 
+    /**
+     * Get the choose resources scene controller.
+     * @return GUI controller of the choose resources scene.
+     */
     public static GUIChooseResource getChooseResourcesController() {
         return guiChooseResourceController;
     }
 
+    /**
+     * Get the end game scene controller.
+     * @return GUI controller of the end game scene.
+     */
     public static GUIEndGame getGuiEndGameController() {
         return guiEndGameController;
     }
 
+    /**
+     * Get the root of the scene.
+     * @return root of the scene.
+     */
     public Parent getRoot() {
         return root;
     }
 
+    /**
+     * Set the scene as active scene and start the observers.
+     * If necessary, this method will also refresh some views of the scene in order to clean the environment.
+     */
     public void startCallbacks() {
         if(fxmlLoader.getController() instanceof PacketListener) {
             activeScene.set(fxmlLoader.getController());
@@ -103,6 +129,10 @@ public enum GUIScene {
         }
     }
 
+    /**
+     * Produce a new scene.
+     * @return new scene of the enum element.
+     */
     public Scene produceScene() {
         Scene loadedScene = null;
         try {
@@ -115,14 +145,24 @@ public enum GUIScene {
         return loadedScene;
     }
 
-    public synchronized static void removeActiveScene() {
+    /**
+     * Remove the current active scene, so that new messages will be not listened by anyone.
+     */
+    public static void removeActiveScene() {
         activeScene.set(null);
     }
 
-    public synchronized static PacketListener getActiveScene() {
+    /**
+     * Get the current active scene.
+     * @return packet listener corresponding to the current active scene.
+     */
+    public static PacketListener getActiveScene() {
         return activeScene.get();
     }
 
+    /**
+     * Load the scenes from the fxml files.
+     */
     public static void init() {
         scene = new Scene(new Pane());
         for(GUIScene guiScene: GUIScene.values()) {
@@ -151,6 +191,9 @@ public enum GUIScene {
         guiEndGameController = END_GAME.fxmlLoader.getController();
     }
 
+    /**
+     * Show the loading scene.
+     */
     public static void showLoadingScene() {
         scene.setRoot(nextLoadingRoot);
         try {

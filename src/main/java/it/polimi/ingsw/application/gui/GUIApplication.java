@@ -15,7 +15,6 @@ import java.io.InputStream;
 
 
 public class GUIApplication extends Application {
-    private static Alert oldDialog;
     public static final String ICON_PATH = "images/other/calamaio.png";
     private static final String BLACK_LADDER_FONT_PATH = "fonts/BITCBLKAD.ttf";
     private static final String HIGH_TOWER_FONT_PATH = "fonts/HTOWERT.TTF";
@@ -34,10 +33,8 @@ public class GUIApplication extends Application {
         stage.setScene(GUIScene.getScene());
         GUIScene.MAIN_MENU.load();
         stage.setResizable(false);
-
-        //trying with input stream
         InputStream is = GUIApplication.class.getClassLoader().getResourceAsStream(ICON_PATH);
-
+        assert is != null;
         Image iconImage = new Image(is);
         stage.getIcons().add(iconImage);
         stage.setOnCloseRequest(windowEvent -> {
@@ -51,18 +48,4 @@ public class GUIApplication extends Application {
         launch();
     }
 
-    public static void showDialog(String message) {
-        Platform.runLater(() -> {
-            if(oldDialog != null) {
-                oldDialog.close();
-            }
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            alert.setTitle(null);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.show();
-            oldDialog = alert;
-        });
-    }
 }
