@@ -57,6 +57,7 @@ public class CLIBoard extends CLIScene {
             case "players":
                 printPlayerList();
                 break;
+            case "v":
             case "view":
                 onView(arguments);
                 break;
