@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.game.util.GameFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameTest {
+public class GameTest {
 
 
 

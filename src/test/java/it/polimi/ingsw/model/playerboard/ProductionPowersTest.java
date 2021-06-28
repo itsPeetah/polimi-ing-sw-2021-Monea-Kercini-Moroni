@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductionPowersTest {
+public class ProductionPowersTest {
 
     @Test
-    void getAvailableProductions() {
+    public void testgetAvailableProductions() {
         //Included in the test below
 
     }
 
     @Test
-    void DevCards_Productions() {
+    public void testDevCards_Productions() {
         Resources cost = new Resources();
         Resources in = new Resources();
         Resources out = new Resources();
@@ -69,12 +69,12 @@ class ProductionPowersTest {
     }
 
     @Test
-    void addLeadCardProduction() {
+    public void testaddLeadCardProduction() {
         //The method is really easy and takes too much to initialize the test
     }
 
     @Test
-    void getOwnedCardsVictoryPoints() {
+    public void testgetOwnedCardsVictoryPoints() {
         Resources cost = new Resources();
         Resources in = new Resources();
         Resources out = new Resources();
@@ -100,7 +100,7 @@ class ProductionPowersTest {
     }
 
     @Test
-    void addDevCard() {
+    public void testaddDevCard() {
 
         DevCard dev1 = CardManager.loadDevCardsFromJson().get(0);
         DevCard dev2 = CardManager.loadDevCardsFromJson().get(4);

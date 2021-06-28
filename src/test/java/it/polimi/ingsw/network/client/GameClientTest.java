@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.common.SystemMessage;
 
 import java.util.Scanner;
 
-class GameClientTest {
+public class GameClientTest {
 
     public static void main(String[] args) {
 

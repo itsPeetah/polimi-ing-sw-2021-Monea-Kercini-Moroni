@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DevCardMarketTest {
+public class DevCardMarketTest {
 
     @Test
     public void testPickColumn0(){
@@ -30,7 +30,7 @@ class DevCardMarketTest {
 
 
     @Test
-    void testBuyCard() {
+    public void testBuyCard() {
 
         // initialize DevCardMarket
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
@@ -88,7 +88,7 @@ class DevCardMarketTest {
     }
 
     @Test
-    void discard2test(){
+    public void testDiscard2test(){
 
         // initialize DevCardMarket
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
