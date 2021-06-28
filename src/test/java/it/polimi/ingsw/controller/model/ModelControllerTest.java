@@ -46,7 +46,7 @@ class ModelControllerTest {
      * This is important also for testing the order of the players that have entered the game is correct
      */
     @Test
-    void setup(){
+    void testSetup(){
 
         ModelController gm = new ModelController(modelControllerIOHandler);
 
@@ -123,7 +123,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void checkWhite(){
+    void testCheckWhite(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -229,7 +229,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void endGame(){
+    void testEndGame(){
 
         ModelController gm = new ModelController(modelControllerIOHandler);
 
@@ -251,7 +251,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void resourceMarketUpdate(){
+    void testResourceMarketUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -342,7 +342,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void devCardMarketUpdate(){
+    void testDevCardMarketUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -406,7 +406,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void produceUpdate(){
+    void testProduceUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -535,7 +535,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void SinglePlayer(){
+    void testSinglePlayer(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
