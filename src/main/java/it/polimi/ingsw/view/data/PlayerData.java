@@ -64,9 +64,6 @@ public class PlayerData {
     }
 
     public void setVP(int VP) {
-
-        System.out.println("PlayerData.setVP");
-
         int oldVP = this.VP.get();
         while(!this.VP.compareAndSet(oldVP, VP)) setVP(VP);
         if(vpObserver != null) vpObserver.onVPChange();
