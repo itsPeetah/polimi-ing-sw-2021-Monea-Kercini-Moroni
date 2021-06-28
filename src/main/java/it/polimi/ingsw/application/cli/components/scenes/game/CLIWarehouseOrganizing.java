@@ -198,8 +198,10 @@ public class CLIWarehouseOrganizing extends CLIScene  {
         }
 
         LeadCard[] pls = tempWarehouse.getActivatedLeaders();
+        Resources[] ext = tempWarehouse.getExtra();
         tempWarehouse = new Warehouse();
         tempWarehouse.setActivatedLeaders(pls);
+        tempWarehouse.setExtra(ext);
     }
 
     /**
