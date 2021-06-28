@@ -29,6 +29,7 @@ public class CLIBoard extends CLIScene {
     @Override
     public void help() {
         println("Visualization:");
+        println("User \"players\" to visualize the player list.");
         println("Use \"view <'mt'|'dcm'|'ft'>\" to visualize the Market Tray, the Development Card Market or the Fait Track.");
         println("Use \"view dev [<player>]\" to visualize someone's development cards (omitting the player will show yours).");
         println("Use \"view res [<player>]\" to visualize someone's warehouse and strongbox resources (omitting the player will show yours).");
@@ -44,16 +45,20 @@ public class CLIBoard extends CLIScene {
         println("Use \"activate <1|2>\" to activate a leader.");
         println("Use \"discard <1|2>\" to discard a leader.");
         println("User \"end\" to end your turn.");
+        println("User \"clear\" to clear the screen.");
     }
 
     @Override
     public void execute(String command, String[] arguments) {
-        if ((arguments == null || arguments.length < 1) && ( !"end endturn help players".contains(command))) {
+        if ((arguments == null || arguments.length < 1) && ( !"end endturn help players clear".contains(command))) {
             error("Missing arguments.");
             return;
         }
 
         switch (command) {
+            case "clear":
+                clearConsole();
+                break;
             case "players":
                 printPlayerList();
                 break;
