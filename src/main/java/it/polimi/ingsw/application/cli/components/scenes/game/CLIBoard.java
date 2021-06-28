@@ -165,6 +165,7 @@ public class CLIBoard extends CLIScene {
                         GameApplication.getInstance().getGameController().isSinglePlayer());
                 break;
             case "leaders":
+            case "lead":
                 printLeaders(args.length < 2 ? null : args[1]);
                 break;
             case "dev":
