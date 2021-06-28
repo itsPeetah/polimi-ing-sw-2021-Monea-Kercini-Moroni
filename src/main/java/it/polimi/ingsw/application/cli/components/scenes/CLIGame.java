@@ -19,6 +19,7 @@ public class CLIGame extends CLIScene {
     private CLIScene leadChoice = new CLILeadChoice();
     private CLIScene resourceChoice = new CLIResourceChoice();
     private CLIScene warehouseOrganizing = new CLIWarehouseOrganizing();
+    private CLIScene gameOverScene = new CLIGameOver();
 
     private GameController gameController;
     private GameControllerIOHandler gameControllerIO;
@@ -32,18 +33,28 @@ public class CLIGame extends CLIScene {
     }
 
     public void init() {
-        this.gameController = GameApplication.getInstance().getGameController();
+        /*this.gameController = GameApplication.getInstance().getGameController();
         this.gameControllerIO = GameApplication.getInstance().getGameControllerIO();
-        currentGameState = gameController.getCurrentState();
+        currentGameState = gameController.getCurrentState();*/
         previousGameState = GameState.UNKNOWN;
+    }
+
+    private static GameController getGameController(){
+        return GameApplication.getInstance().getGameController();
+    }
+    private GameControllerIOHandler getGameControllerIO(){
+        return GameApplication.getInstance().getGameControllerIO();
+    }
+    private GameState getCurrentGameState(){
+        return getGameController().getCurrentState();
     }
 
     @Override
     public void update() {
 
-        currentGameState = gameController.getCurrentState();
+        currentGameState = getCurrentGameState();
 
-        if (currentGameState != previousGameState) {
+        if (getCurrentGameState() != previousGameState) {
             currentView = selectCurrentView(currentGameState);
             show();
         }
@@ -53,10 +64,6 @@ public class CLIGame extends CLIScene {
 
     @Override
     public void show() {
-        clearConsole();
-        println("|         Masters of Renaissance - In Game         |");
-        println("+--------------------------------------------------+");
-        println("Current state: " + currentGameState.toString());
 
         if (currentView == null) {
             println("");
@@ -101,6 +108,10 @@ public class CLIGame extends CLIScene {
                 return resourceChoice;
             case ORGANIZE_WAREHOUSE:
                 return warehouseOrganizing;
+            case GAME_LOST:
+            case GAME_WON:
+            case ENDGAME:
+                return gameOverScene;
             default:
                 return board;
         }
@@ -111,9 +122,9 @@ public class CLIGame extends CLIScene {
      */
     public static void pushAction(ActionPacket ap) {
 
-        GameApplication.getInstance().getGameController().moveToState(GameState.IDLE);
+        getGameController().moveToState(GameState.IDLE);
 
-        if (GameApplication.getInstance().getGameController().isSinglePlayer() && !GameApplication.getInstance().isOnNetwork()) {
+        if (getGameController().isSinglePlayer() && !GameApplication.getInstance().isOnNetwork()) {
             GameApplication.getInstance().getGameControllerIO().notifyAction(ap);
         } else {
             GameApplicationIOHandler.getInstance().pushAction(ap);

@@ -41,7 +41,7 @@ public class ASCIIWarehouse {
             ASCIIResources.draw(leaders[0].getAbility().getExtraWarehouseSpace());
             System.out.print("\n");
             System.out.print("[");
-            if(extra[0] != null && extra[0].getTotalAmount() < 1) ASCIIResources.draw(extra[0]);
+            if(extra[0] != null && extra[0].getTotalAmount() > 0) ASCIIResources.draw(extra[0]);
             else System.out.print("2 spaces available");
             System.out.print("]\n");
         }

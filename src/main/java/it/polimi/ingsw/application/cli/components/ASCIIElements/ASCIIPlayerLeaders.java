@@ -15,7 +15,7 @@ public class ASCIIPlayerLeaders {
     public static void draw(String player){
         PlayerLeaders pls = GameApplication.getInstance().getGameController().getGameData().getPlayerData(player).getPlayerLeaders();
 
-        System.out.println(player + "'s productions:");
+        System.out.println(player + "'s leaders:");
         for(int i = 0; i < 2; i++){
             if(pls.getStates()[i] != null){
 

@@ -48,7 +48,7 @@ public class CLIBoard extends CLIScene {
 
     @Override
     public void execute(String command, String[] arguments) {
-        if ((arguments == null || arguments.length < 1) && ( !"end endturn help".contains(command))) {
+        if ((arguments == null || arguments.length < 1) && ( !"end endturn help players".contains(command))) {
             error("Missing arguments.");
             return;
         }
@@ -166,6 +166,9 @@ public class CLIBoard extends CLIScene {
                 break;
             case "res":
                 printResources(args.length < 2 ? null : args[1]);
+                break;
+            case "players":
+                printPlayerList();
                 break;
             default:
                 error("Invalid argument.");
