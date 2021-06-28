@@ -42,7 +42,7 @@ public class ASCIIDevelopment {
             else System.out.print(": empty\n");
         }
         for(int i = 0; i < 2; i++){
-            if(pls.getStates()[i] == CardState.PLAYED && pls.getLeaders()[i].getAbility().getProduction() != null) {
+            if(pls.getStates()[i] == CardState.PLAYED && pls.getLeaders()[i].getAbility().getProduction() != null && pls.getLeaders()[i].getAbility().getProduction().getInput().getTotalAmount() < 1) {
                 System.out.print("("+(i+4)+") "+"Leader extra #" + (i + 1) + ": ");
                 ASCIIProduction.draw(pls.getLeaders()[i].getAbility().getProduction());
             }

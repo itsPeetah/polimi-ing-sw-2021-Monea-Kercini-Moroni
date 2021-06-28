@@ -318,7 +318,7 @@ public class CLIBoard extends CLIScene {
                 return;
             } else if (p > 3) {
                 int leader = p - 4;
-                if(pls.getStates()[leader] != CardState.PLAYED || pls.getLeaders()[leader].getAbility().getProduction() == null){
+                if(pls.getStates()[leader] != CardState.PLAYED || pls.getLeaders()[leader].getAbility().getProduction() == null || pls.getLeaders()[leader].getAbility().getProduction().getInput().getTotalAmount() < 1){
                     error("You can't play this leader now.");
                     return;
                 }
