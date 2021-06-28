@@ -19,6 +19,7 @@ public class CLIRoom extends CLIScene {
 
     @Override
     public void show() {
+        clearConsole();
         println("========= Game Room =========");
         println("You're into room: " + ANSIColor.GREEN + GameApplication.getInstance().getRoomName() + ANSIColor.RESET);
         println("Your nickname is: " + ANSIColor.GREEN + GameApplication.getInstance().getUserNickname() +ANSIColor.RESET);
