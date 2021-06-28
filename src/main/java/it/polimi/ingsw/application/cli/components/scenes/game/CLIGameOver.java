@@ -12,12 +12,7 @@ public class CLIGameOver extends CLIScene {
     public void show() {
             System.out.println("<=====> GAME OVER <======>\n");
         if (GameApplication.getInstance().getGameController().isSinglePlayer()) {
-            if (GameApplication.getInstance().getGameController().getCurrentState() == GameState.GAME_WON) {
-                System.out.println("You won!\n");
-            } else {
-                System.out.println("You lost! You were no match for Lorenzo's magnificence!\n");
-            }
-            System.out.println("<========================>");
+           // Nothing, we already have a message printed
         } else {
             for (String player : GameApplication.getInstance().getGameController().getGameData().getPlayersList()) {
                 System.out.println(player + " scored " + GameApplication.getInstance().getGameController().getGameData().getPlayerData(player).getVP() + " points!");

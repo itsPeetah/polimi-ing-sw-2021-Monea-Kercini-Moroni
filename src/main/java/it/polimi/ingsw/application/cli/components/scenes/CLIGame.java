@@ -100,6 +100,7 @@ public class CLIGame extends CLIScene {
                 return warehouseOrganizing;
             case GAME_LOST:
             case GAME_WON:
+            case ENDGAME:
                 return gameOverScene;
             default:
                 return board;
