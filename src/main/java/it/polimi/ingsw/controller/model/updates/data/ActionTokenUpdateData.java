@@ -8,9 +8,12 @@ import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
  */
 
 public class ActionTokenUpdateData implements UpdateData {
-    SoloActionTokens ActionToken;
-    int blackCross;
+    private final SoloActionTokens ActionToken;
+    private final int blackCross;
 
+    /**
+     * Get the action token of the update.
+     */
     public SoloActionTokens getActionToken() {
         return ActionToken;
     }
@@ -20,6 +23,9 @@ public class ActionTokenUpdateData implements UpdateData {
         this.blackCross = blackCross;
     }
 
+    /**
+     * Get the black cross position.
+     */
     public int getBlackCross() {
         return blackCross;
     }

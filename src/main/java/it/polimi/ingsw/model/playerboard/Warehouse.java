@@ -224,7 +224,6 @@ public class Warehouse{
      * @param r2
      * @return
      */
-
     private boolean areDifferentTypes(Resources r1, Resources r2){
 
         //If one of the resources is empty they are considered different types
@@ -235,11 +234,7 @@ public class Warehouse{
         //If adding the two resources together only one type of resource than they were the same type of resource
         Resources r3 = new Resources();
         r3.add(r1).add(r2);
-        if (isSingleType(r3)){
-            return false;
-        }else{
-            return true;
-        }
+        return !isSingleType(r3);
     }
 
     /**

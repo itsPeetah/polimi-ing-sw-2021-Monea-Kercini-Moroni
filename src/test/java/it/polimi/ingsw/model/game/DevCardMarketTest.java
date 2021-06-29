@@ -146,4 +146,21 @@ class DevCardMarketTest {
         assertEquals(true, dcm.isAnyColumnFree());
 
     }
+
+    @Test
+    public void testGetVisibleCards() {
+        // Initialize DevCardMarket
+        DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
+
+        // Get available cards
+        ArrayList<DevCard> availableCards = dcm.getAvailableCards();
+
+        // Get visible cards
+        DevCard[][] visibleCards = dcm.getVisibleCards();
+        for (DevCard[] visibleCard : visibleCards) {
+            for (DevCard devCard : visibleCard) {
+                assertTrue(availableCards.contains(devCard));
+            }
+        }
+    }
 }

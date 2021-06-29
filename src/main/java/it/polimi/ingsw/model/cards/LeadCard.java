@@ -7,7 +7,6 @@ public class LeadCard extends Card {
 
     private LeadCardRequirements requirements;
     private LeadCardAbility ability;
-    private String image;
 
     public LeadCard() {
     }

@@ -9,6 +9,11 @@ public class ActionPacket {
      */
     public ActionPacket() {}
 
+    /**
+     * Create a new action packet.
+     * @param action type of action.
+     * @param data JSON string representing the corresponding action data.
+     */
     public ActionPacket(Action action, String data) {
         this.action = action;
         this.data = data;

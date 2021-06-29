@@ -167,7 +167,7 @@ public class Game {
 
             //if player has already had his report discarded he can't be eligible
             if(p.getBoard().getReportsAttended()[currentReport-1] != null){
-                if(p.getBoard().getReportsAttended()[currentReport-1] == false) {
+                if(!p.getBoard().getReportsAttended()[currentReport - 1]) {
                     eligible = false;
                 }
             }

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.general;
 
 public class Production {
-    private Resources input, output;
+    private final Resources input;
+    private final Resources output;
 
     public Resources getInput() {
         return input;

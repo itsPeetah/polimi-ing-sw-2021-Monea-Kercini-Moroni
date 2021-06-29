@@ -6,10 +6,18 @@ package it.polimi.ingsw.controller.model.actions;
 public abstract class ActionData {
     protected String player;
 
+    /**
+     * Get the player that has performed the action.
+     * @return nickname of the player.
+     */
     public String getPlayer() {
         return player;
     }
 
+    /**
+     * Set the player that has performed the action.
+     * @param player nickname of the player.
+     */
     public void setPlayer(String player) {
         this.player = player;
     }

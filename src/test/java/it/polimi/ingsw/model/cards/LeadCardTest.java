@@ -71,6 +71,11 @@ public class LeadCardTest {
         LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost);
 
         LeadCard lc = new LeadCard(0, "0", req, ability);
+
+        // Check that the requirements and the ability are correct
+        assertEquals(ability, lc.getAbility());
+        assertEquals(req, lc.getRequirements());
+
         // Create player
         Player player = new Player("name");
         LeadCard[] hand = new LeadCard[2];

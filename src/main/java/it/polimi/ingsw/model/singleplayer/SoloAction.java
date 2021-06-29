@@ -8,13 +8,14 @@ import java.util.Collections;
 
 public class SoloAction {
 
-    private ArrayList<SoloActionTokens> soloActionTokens = new ArrayList<SoloActionTokens>();
+    private ArrayList<SoloActionTokens> soloActionTokens;
     private int difficulty;
     private BlackCross cross = new BlackCross();
     private SoloActionTokens lastPlayedToken;
 
     public SoloAction(int difficulty) {
         this.difficulty = difficulty;
+        soloActionTokens = new ArrayList<>();
         soloActionTokens = createSoloActionDeck();
     }
 
