@@ -5,6 +5,7 @@ import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIILeadCard;
 import it.polimi.ingsw.application.cli.components.ASCIIElements.ASCIIMarketTray;
 import it.polimi.ingsw.application.cli.components.CLIScene;
 import it.polimi.ingsw.application.cli.components.scenes.CLIGame;
+import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
@@ -27,26 +28,65 @@ public class CLILeadChoice extends CLIScene {
 
     @Override
     public void show() {
-        ASCIIMarketTray.draw(getMarketTray());
-        ASCIIDevCardMarket.draw(getDevCardMarket());
+        clearConsole();
         println("CHOOSE YOUR LEADER CARDS:"); println("");
-        for(LeadCard lc : getLeadersToChooseFrom().getLeaders()){
-            ASCIILeadCard.draw(lc);
+        try {
+            for (LeadCard lc : getLeadersToChooseFrom().getLeaders()) {
+                ASCIILeadCard.draw(lc);
+            }
+        } catch (NullPointerException ex){
+            println(ANSIColor.YELLOW + "Sorry, something went wrong while displaying the leaders automatically.");
+            println("Please, type \"leaders\" to visualize the cards you can choose from." + ANSIColor.RESET);
         }
+    }
+
+    @Override
+    public void help() {
+        println("Use \"pick <1|2|3|4> <1|2|3|4>\" to choose two leaders");
+        println("Use \"view <mt|dcm>\" to visualize Market Tray and Dev Card Market");
     }
 
     @Override
     public void execute(String command, String[] arguments) {
 
-        if (command == null) error("Could not parse the command.");
-        else if (!command.equals("pick")) error("Invalid command.");
-        else if(command.length() < 3) error("Error: missing arguments.");
-        else if(arguments == null || arguments.length < 2) error("Error: missing arguments.");
-        else{
-            int arg1 = Integer.parseInt(arguments[0]); int arg2 = Integer.parseInt(arguments[1]);
-            if(arg1 == arg2) error("Please insert two different numbers.");
-            if(arg1 < 1 || arg1 > 4 || arg2 < 1 || arg2 > 4) error("Please insert two integers between 1 and 4.");
-            else chooseLeaders(arg1 - 1, arg2 - 1);
+        if (command == null) {
+            error("Could not parse the command.");
+            return;
+        }
+
+        switch (command) {
+            case "pick":
+                if (arguments == null || arguments.length < 2) error("Error: missing arguments.");
+                else {
+                    int arg1, arg2;
+                    try {
+                        arg1 = Integer.parseInt(arguments[0]);
+                        arg2 = Integer.parseInt(arguments[1]);
+                    } catch (NumberFormatException ex){
+                        error("Please insert two numbers between 1 and 4.");
+                        return;
+                    }
+                    if (arg1 == arg2) error("Please insert two different numbers.");
+                    else if(arg1 < 1 || arg1 > 4 || arg2 <1 || arg2 > 4) error("Please insert two numbers between 1 and 4.");
+                    else chooseLeaders(arg1 - 1, arg2 - 1);
+                }
+                break;
+            case "view":
+                if (arguments.length < 1) error("Missing argument (mt|dcm)");
+                else if (arguments[0].equals("mt")) ASCIIMarketTray.draw(getMarketTray());
+                else if (arguments[0].equals("dcm")) ASCIIDevCardMarket.draw(getDevCardMarket());
+                else error("Invalid argument. Usage: \"view\" followed by either \"mt\" or \"dcm\"");
+                break;
+            case "help":
+                help();
+                break;
+            case "lead":
+            case "leaders":
+                show();
+                break;
+            default:
+                error("Invalid command.");
+                break;
         }
     }
 
