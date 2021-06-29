@@ -29,15 +29,19 @@ public class CLILeadChoice extends CLIScene {
     @Override
     public void show() {
         clearConsole();
-        println("CHOOSE YOUR LEADER CARDS:"); println("");
-        try {
-            for (LeadCard lc : getLeadersToChooseFrom().getLeaders()) {
-                ASCIILeadCard.draw(lc);
+        println("");
+        new Thread(() -> {
+            try {
+                Thread.sleep(500);
+                println("CHOOSE YOUR LEADER CARDS:");
+                for (LeadCard lc : getLeadersToChooseFrom().getLeaders()) {
+                    ASCIILeadCard.draw(lc);
+                }
+            } catch (Exception ex) {
+                println(ANSIColor.YELLOW + "Sorry, something went wrong while displaying the leaders automatically.");
+                println("Please, type \"leaders\" to visualize the cards you can choose from." + ANSIColor.RESET);
             }
-        } catch (NullPointerException ex){
-            println(ANSIColor.YELLOW + "Sorry, something went wrong while displaying the leaders automatically.");
-            println("Please, type \"leaders\" to visualize the cards you can choose from." + ANSIColor.RESET);
-        }
+        }).start();
     }
 
     @Override
