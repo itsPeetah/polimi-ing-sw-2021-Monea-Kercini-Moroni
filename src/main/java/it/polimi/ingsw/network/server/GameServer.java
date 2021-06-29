@@ -5,12 +5,9 @@ import it.polimi.ingsw.network.server.components.RemoteConnectionHandler;
 import it.polimi.ingsw.network.server.components.RoomTable;
 import it.polimi.ingsw.network.server.components.UserTable;
 
-
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Socket base server class.
@@ -75,7 +72,7 @@ public class GameServer {
      * Start the server - main loop
      */
     public void execute(){
-
+        System.out.print("\033[H\033[2J");
         System.out.println("Starting server @ " + hostName + ":" + port);
         // try initializing the server socket
         try {

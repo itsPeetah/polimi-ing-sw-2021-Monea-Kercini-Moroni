@@ -14,6 +14,7 @@ public class CLIStop extends CLIScene {
 
     @Override
     public void show() {
+        clearConsole();
         println("========= GAME OVER =========");
         println(ANSIColor.YELLOW + "Thank you for playing" + ANSIColor.RESET);
         println("Game by Cranio Creations");
