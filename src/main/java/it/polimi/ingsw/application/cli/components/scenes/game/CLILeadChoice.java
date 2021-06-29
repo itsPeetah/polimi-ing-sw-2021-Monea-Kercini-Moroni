@@ -48,6 +48,7 @@ public class CLILeadChoice extends CLIScene {
     public void help() {
         println("Use \"pick <1|2|3|4> <1|2|3|4>\" to choose two leaders");
         println("Use \"view <mt|dcm>\" to visualize Market Tray and Dev Card Market");
+        println("Use \"leaders\" to view you leaders to choose from again");
     }
 
     @Override
