@@ -38,3 +38,10 @@ VBox{
     -fx-background-position: left;
     -fx-cursor: default;
 }
+
+.bottomLabel {
+    -fx-font-family: 'Blackadder ITC';
+    -fx-text-fill: white;
+    -fx-font-size: 40;
+    -fx-effect: dropshadow(gaussian, black, 5, 0, 0, 0);
+}

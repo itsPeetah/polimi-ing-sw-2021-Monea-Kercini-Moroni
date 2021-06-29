@@ -60,7 +60,6 @@ public class LeadCardTest {
     @Test
     public void playTest() {
         // Create lead card
-        Resources emptyRes = new Resources();
         Resources cost = (new Resources()).add(ResourceType.SHIELDS, 2);;
         Resources discount = (new Resources()).add(ResourceType.STONES, 2);
         Resources extraWarehouseSpace = (new Resources()).add(ResourceType.SERVANTS, 2);
@@ -72,10 +71,9 @@ public class LeadCardTest {
         LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost);
 
         LeadCard lc = new LeadCard(0, "0", req, ability);
-
         // Create player
         Player player = new Player("name");
-        LeadCard[] hand = new LeadCard[1];
+        LeadCard[] hand = new LeadCard[2];
         hand[0] = lc;
         player.getLeaders().setCards(hand);
         Resources playerRes = new Resources();
@@ -95,6 +93,37 @@ public class LeadCardTest {
         // Check card played
         assertFalse(player.getLeaders().getPlayableCards().contains(lc));
         assertTrue(player.getLeaders().getPlayedCards().contains(lc));
+    }
 
+    @Test
+    public void testDiscard() {
+        // Create lead card
+        Resources cost = (new Resources()).add(ResourceType.SHIELDS, 2);;
+        Resources discount = (new Resources()).add(ResourceType.STONES, 2);
+        Resources extraWarehouseSpace = (new Resources()).add(ResourceType.SERVANTS, 2);
+        Resources input = (new Resources()).add(ResourceType.SHIELDS, 1);
+        Resources output = (new Resources()).add(ResourceType.STONES, 1);
+
+
+        LeadCardAbility ability = new LeadCardAbility(discount, extraWarehouseSpace, ResourceType.COINS, new Production(input, output));
+        LeadCardRequirements req = new LeadCardRequirements(new HashMap<Color, Integer>(), new HashMap<Color, Level>(), cost);
+
+        LeadCard lc = new LeadCard(0, "0", req, ability);
+
+        // Create player
+        Player player = new Player("name");
+        LeadCard[] hand = new LeadCard[1];
+        hand[0] = lc;
+        player.getLeaders().setCards(hand);
+
+        // Check leader is present
+        assertTrue(player.getLeaders().getPlayableCards().contains(lc));
+
+        // Discard leader
+        lc.discard(player);
+
+        // Check leader not present anymore
+        assertFalse(player.getLeaders().getPlayableCards().contains(lc));
+        assertFalse(player.getLeaders().getPlayedCards().contains(lc));
     }
 }

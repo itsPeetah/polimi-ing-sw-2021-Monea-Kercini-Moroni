@@ -25,4 +25,10 @@ public class CardManagerTest {
         // Check the amount of LeadCards
         assertSame(CardManager.LEAD_CARDS_SIZE, cards.size());
     }
+
+    @Test
+    public void testLoadImages() {
+        CardManager.loadImages();
+        assertNotNull(CardManager.getImage(CardManager.loadDevCardsFromJson().get(0).getCardId()));
+    }
 }

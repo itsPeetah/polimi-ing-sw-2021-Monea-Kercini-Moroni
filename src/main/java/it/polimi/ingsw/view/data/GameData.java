@@ -19,8 +19,6 @@ public class GameData {
 
     GameDataObserver gameDataObserver;
 
-    int turn;
-
 
     /**
      * Constructor
@@ -31,7 +29,6 @@ public class GameData {
         common = new CommonData();
         playerTable = new HashMap<>();
         momentary = new MomentaryData();
-        turn = 0;
     }
 
     public synchronized CommonData getCommon() {
@@ -53,10 +50,6 @@ public class GameData {
 
     public MomentaryData getMomentary() {
         return momentary;
-    }
-
-    public synchronized void turnIncrement(){
-        turn++;
     }
 
     public void setObserver(GameDataObserver gameDataObserver) {

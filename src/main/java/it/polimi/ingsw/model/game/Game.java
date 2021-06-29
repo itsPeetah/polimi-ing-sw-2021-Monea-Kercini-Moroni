@@ -99,7 +99,6 @@ public class Game {
     /**
      * Shuffles the player order
      */
-
     public void shufflePlayers(){
         Collections.shuffle(players);
     }
@@ -192,7 +191,6 @@ public class Game {
      *
      * Black faith symbolizes lorenzo faith in single player game
      */
-
     public void checkVaticanReport(int blackFaith){
 
         //find the player who has reached furthest in the game track
@@ -205,14 +203,12 @@ public class Game {
 
         //Check if a new vatican report is to be activated
 
-        if((lastVaticanReport==0 && maxFaith>=8)
-            || (lastVaticanReport==1 && maxFaith>=16)
-            || (lastVaticanReport==2 && maxFaith>=24)){
-                try {
-                    doVaticanReport();
-                } catch (GameException e) {
-                    e.printStackTrace();
-                }
+        if((lastVaticanReport==0 && maxFaith>=8) || (lastVaticanReport==1 && maxFaith>=16) || (lastVaticanReport==2 && maxFaith>=24)){
+            try {
+                doVaticanReport();
+            } catch (GameException e) {
+                e.printStackTrace();
+            }
         }
     }
 

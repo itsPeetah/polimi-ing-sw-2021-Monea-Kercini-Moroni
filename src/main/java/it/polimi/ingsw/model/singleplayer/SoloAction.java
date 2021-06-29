@@ -50,7 +50,6 @@ public class SoloAction {
      * if such an option might be included as an extra in the future
      * @param difficulty
      */
-
     public void setSoloGameDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }

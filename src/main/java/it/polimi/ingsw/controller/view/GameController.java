@@ -272,21 +272,12 @@ public class GameController {
                 break;
 
             case SELECT_INPUT:
-                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
-                    moveToState(GameState.PICK_RESOURCES);
-                }
             case SELECT_OUTPUT:
-                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
-                    moveToState(GameState.PICK_RESOURCES);
-                }
+                moveToState(GameState.PICK_RESOURCES);
                 //No need for changing game state here
                 //These messages are just for helping player understand what is he choosing for when he is producing
                 GameApplication.getInstance().out(messageContent);
                 break;
-
-            case TURN_PASSED:
-                gameData.turnIncrement();
-
         }
     }
 
@@ -297,7 +288,7 @@ public class GameController {
     public void reactToAction(ActionPacket actionPacket) {
 
         //If the action is end turn the state should be changed
-        if(actionPacket.getAction()== Action.END_TURN){
+        if(actionPacket.getAction() == Action.END_TURN){
             moveToState(GameState.IDLE);
         }
     }

@@ -71,7 +71,6 @@ public class LeadCard extends Card {
      */
 
     public void discard(Player player) {
-
         // Discard the leader
         try {
             player.getLeaders().discardCard(this);
