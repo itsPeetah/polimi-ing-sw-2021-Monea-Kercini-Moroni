@@ -15,8 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class GameApplicationIOHandler {
 
-    // TODO Add Thread Pool for elaborating commands
-
     private static GameApplicationIOHandler instance;
     public static GameApplicationIOHandler getInstance(){
         if(instance == null) instance = new GameApplicationIOHandler();
