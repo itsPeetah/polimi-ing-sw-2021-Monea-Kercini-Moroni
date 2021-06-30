@@ -16,14 +16,6 @@ public class MomentaryData {
     }
 
     /**
-     * Get the leaders to choose from.
-     * @return leaders the user must choose from.
-     */
-    public LeadersToChooseFrom getLeaders() {
-        return leaders;
-    }
-
-    /**
      * Get the resources to put in the warehouse (or to discard).
      */
     public ResourcesToPut getResourcesToPut() {
