@@ -6,34 +6,50 @@ import it.polimi.ingsw.model.game.ResourceMarble;
 
 public class MarketTray {
     /* OBSERVER */
-    MarketTrayObserver marketTrayObserver;
+    private MarketTrayObserver marketTrayObserver;
 
     private ResourceMarble[][] available;
     private ResourceMarble[] waiting;
-
-    public synchronized ResourceMarble[][] getAvailable() {
-        return available;
-    }
-
-    public synchronized ResourceMarble[] getWaiting() {
-        return waiting;
-    }
-
-    public synchronized void setAvailable(ResourceMarble[][] available) {
-        this.available = available;
-        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
-    }
-
-    public synchronized void setWaiting(ResourceMarble[] waiting) {
-        this.waiting = waiting;
-        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
-    }
 
     public MarketTray(){
         available = new ResourceMarble[3][4];
         waiting = new ResourceMarble[1];
     }
 
+    /**
+     * Get the available marbles.
+     */
+    public synchronized ResourceMarble[][] getAvailable() {
+        return available;
+    }
+
+    /**
+     * Get the waiting marble.
+     */
+    public synchronized ResourceMarble[] getWaiting() {
+        return waiting;
+    }
+
+    /**
+     * Set the available marbles.
+     */
+    public synchronized void setAvailable(ResourceMarble[][] available) {
+        this.available = available;
+        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
+    }
+
+    /**
+     * Set the waiting marble.
+     */
+    public synchronized void setWaiting(ResourceMarble[] waiting) {
+        this.waiting = waiting;
+        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
+    }
+
+    /**
+     * Set the observer of the market tray.
+     * @param marketTrayObserver observer that will be notified whenever a change occurs.
+     */
     public void setObserver(MarketTrayObserver marketTrayObserver) {
         this.marketTrayObserver = marketTrayObserver;
         marketTrayObserver.onMarketTrayChange();

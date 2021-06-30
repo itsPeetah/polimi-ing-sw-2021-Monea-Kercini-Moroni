@@ -14,7 +14,7 @@ import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.util.JSONUtility;
 import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
-import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
+import it.polimi.ingsw.view.data.player.LeadersToChooseFrom;
 
 /**
  * CLIScene for choosing

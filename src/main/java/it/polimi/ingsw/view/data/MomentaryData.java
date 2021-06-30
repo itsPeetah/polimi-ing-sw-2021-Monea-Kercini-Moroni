@@ -1,13 +1,13 @@
 package it.polimi.ingsw.view.data;
 
-import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
+import it.polimi.ingsw.view.data.player.LeadersToChooseFrom;
 import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 
 
 public class MomentaryData {
 
-    private LeadersToChooseFrom leaders;
-    private ResourcesToPut res;
+    private final LeadersToChooseFrom leaders;
+    private final ResourcesToPut res;
 
     public MomentaryData() {
         leaders = new LeadersToChooseFrom();
@@ -15,10 +15,17 @@ public class MomentaryData {
 
     }
 
+    /**
+     * Get the leaders to choose from.
+     * @return leaders the user must choose from.
+     */
     public LeadersToChooseFrom getLeaders() {
         return leaders;
     }
 
+    /**
+     * Get the resources to put in the warehouse (or to discard).
+     */
     public ResourcesToPut getResourcesToPut() {
         return res;
     }

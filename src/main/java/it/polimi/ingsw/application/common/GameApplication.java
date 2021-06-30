@@ -105,35 +105,67 @@ public class GameApplication {
         return gameController.get().getGameControllerIOHandler();
     }
 
+    /**
+     * Get game controller.
+     * @return game controller.
+     */
     public GameController getGameController() {
         return gameController.get();
     }
 
+    /**
+     * Get the user's ID.
+     * @return ID of the user.
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Set the user's ID.
+     * @param userId ID of the user.
+     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
+    /**
+     * Get the user's nickname.
+     * @return nickname of the user.
+     */
     public String getUserNickname() {
         return userNickname.get();
     }
 
+    /**
+     * Set the user's nickname.
+     * @param userNickname nickname of the user.
+     */
     public void setUserNickname(String userNickname) {
         this.userNickname.set(userNickname);
     }
 
+    /**
+     * Get the current room name.
+     * @return name of the current room of the user.
+     */
     public String getRoomName() {
         return roomName.get();
     }
 
+    /**
+     * Set the current room name.
+     * @param roomName name of the current room of the user.
+     */
     public void setRoomName(String roomName) {
         String currentRoom = this.roomName.get();
         if(!this.roomName.compareAndSet(currentRoom, roomName)) setRoomName(roomName);
     }
 
+    /**
+     * Set the players of the room.
+     * @param stringOfPlayers <code>String</code> containing the players of the room.
+     */
     public synchronized void setRoomPlayers(String stringOfPlayers) {
         List<String> newList = Arrays.asList(stringOfPlayers.split(" ").clone());
         if(outputMode == GameApplicationMode.GUI) {
@@ -149,17 +181,29 @@ public class GameApplication {
 
     }
 
+    /**
+     * Get the players of the room.
+     * @return list containing the players of the room.
+     */
     public synchronized List<String> getRoomPlayers() {
         return roomPlayers;
     }
 
-    // Output
+    /**
+     * Show the message to the user.
+     * @param output message to be shown.
+     */
     public void out(String output){
         if(outputMode == GameApplicationMode.CLI){
             System.out.println(output);
         }
     }
 
+    /**
+     * Show a new message in the chat.
+     * @param from user who sent the message.
+     * @param body content of the message.
+     */
     public void outChat(String from, String body) {
         if(outputMode == GameApplicationMode.CLI){
             System.out.println(ANSIColor.CYAN + from + ANSIColor.RESET + " said: " + body);
@@ -168,6 +212,11 @@ public class GameApplication {
         }
     }
 
+    /**
+     * Show a new whisper in the chat.
+     * @param from user who sent the whisper.
+     * @param body content of the whisper.
+     */
     public void outWhisper(String from, String body) {
         if(outputMode == GameApplicationMode.CLI){
             System.out.println(ANSIColor.PURPLE + from + ANSIColor.RESET + " whispered: " + body);
@@ -203,6 +252,10 @@ public class GameApplication {
         }
     }
 
+    /**
+     * Send a network packet.
+     * @param packet packet to be sent.
+     */
     public void sendNetworkPacket(NetworkPacket packet) {
         if(!isOnNetwork()) return;
         networkClient.send(packet);
@@ -239,6 +292,9 @@ public class GameApplication {
         }
     }
 
+    /**
+     * Close the connection with the server.
+     */
     public void closeConnectionWithServer() {
         networkClient.terminateConnection();
         networkClient = null;

@@ -26,41 +26,71 @@ public class GameApplicationIOHandler {
     public GameApplicationIOHandler() {
     }
 
+    /**
+     * Notify a new game message.
+     * @param messageNetworkPacket network packet containing a game message.
+     */
     public void notifyMessage(NetworkPacket messageNetworkPacket) {
         MessagePacket messagePacket = JSONUtility.fromJson(messageNetworkPacket.getPayload(), MessagePacket.class);
         GameApplication.getInstance().getGameControllerIO().notifyMessage(messagePacket);
     }
 
+    /**
+     * Notify a new game update.
+     * @param updateNetworkPacket network packet containing a game update.
+     */
     public void notifyUpdate(NetworkPacket updateNetworkPacket) {
-        /*System.out.println("GameApplicationIOHandler.notifyUpdate");*/
         UpdatePacket updatePacket = JSONUtility.fromJson(updateNetworkPacket.getPayload(), UpdatePacket.class);
         /*System.out.println(ANSIColor.YELLOW + "RECEIVED UPDATE " + updatePacket.getData() + ANSIColor.RESET);*/
         GameApplication.getInstance().getGameControllerIO().notifyUpdate(updatePacket);
     }
 
+    /**
+     * Notify a new system message.
+     * @param sysMsgType type of the message.
+     * @param body content of the message.
+     */
     public void notifySystemMessage(SystemMessage sysMsgType, @Nullable String body){
         if(GameApplication.getOutputMode() == GameApplicationMode.GUI && GUIScene.getActiveScene() != null) {
             GUIUtility.executorService.submit(() -> GUIScene.getActiveScene().onSystemMessage(sysMsgType , body));
         }
     }
 
+    /**
+     * Send an action to the server.
+     * @param actionPacket packet of the action.
+     */
     public void pushAction(ActionPacket actionPacket) {
         NetworkPacket networkPacket = NetworkPacket.buildActionPacket(actionPacket);
         GameApplication.getInstance().sendNetworkPacket(networkPacket);
     }
 
+    /**
+     * Send a chat message to the server.
+     * @param content content of the message.
+     */
     public void pushChatMessage(String content) {
         GameApplication gameApplication = GameApplication.getInstance();
         NetworkPacket networkPacket = NetworkPacket.buildChatPacket(content, gameApplication.getUserNickname());
         gameApplication.sendNetworkPacket(networkPacket);
     }
 
+    /**
+     * Send a whisper message to the server.
+     * @param content ontent of the whisper.
+     * @param to addressee of the whisper.
+     */
     public void pushWhisperMessage(String content, String to) {
         GameApplication gameApplication = GameApplication.getInstance();
         NetworkPacket networkPacket = NetworkPacket.buildWhisperPacket(content, gameApplication.getUserNickname(), to);
         gameApplication.sendNetworkPacket(networkPacket);
     }
 
+    /**
+     * Handle a system message.
+     * @param systemMessageNetworkPacket network packet containing the system message.
+     * @return
+     */
     public int handleSystemMessage(NetworkPacket systemMessageNetworkPacket){
         /*System.out.println("GameApplicationIOHandler.handleSystemMessage");*/
         String serverMessage = systemMessageNetworkPacket.getPayload();
@@ -121,6 +151,10 @@ public class GameApplicationIOHandler {
         return exitCode;
     }
 
+    /**
+     * Handle a social (chat/whisper) message.
+     * @param networkPacket network packet containing a social message.
+     */
     public void handleSocialMessage(NetworkPacket networkPacket) {
         SocialPacket socialPacket = JSONUtility.fromJson(networkPacket.getPayload(), SocialPacket.class);
         GameApplication gameApplication = GameApplication.getInstance();
@@ -134,10 +168,17 @@ public class GameApplicationIOHandler {
         }
     }
 
+    /**
+     * Handle a debug message.
+     * @param debugMessageNetworkPacket network packet containing the debug message.
+     */
     public void handleDebugMessage(NetworkPacket debugMessageNetworkPacket){
         GameApplication.getInstance().out(debugMessageNetworkPacket.getPayload());
     }
 
+    /**
+     * Handle a quit message.
+     */
     private void handleQuitMessage() {
         System.out.println("Received quit instruction");
         GameApplication.getInstance().closeConnectionWithServer();

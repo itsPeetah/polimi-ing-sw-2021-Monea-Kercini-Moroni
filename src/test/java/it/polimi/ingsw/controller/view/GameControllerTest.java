@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.messages.Message;
 import it.polimi.ingsw.controller.model.updates.Update;
-import it.polimi.ingsw.controller.model.updates.UpdateData;
 import it.polimi.ingsw.controller.model.updates.data.*;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
@@ -23,7 +22,6 @@ import it.polimi.ingsw.model.playerboard.Warehouse;
 import it.polimi.ingsw.model.playerleaders.PlayerLeaders;
 import it.polimi.ingsw.model.singleplayer.SoloActionTokens;
 import it.polimi.ingsw.view.data.GameData;
-import it.polimi.ingsw.view.data.momentary.LeadersToChooseFrom;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

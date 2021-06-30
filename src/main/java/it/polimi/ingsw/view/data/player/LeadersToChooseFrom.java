@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.data.momentary;
+package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
@@ -8,21 +8,27 @@ import java.util.List;
 
 public class LeadersToChooseFrom {
     /* OBSERVER */
-    LeadersToChooseFromObserver leadersToChooseFromObserver;
+    private LeadersToChooseFromObserver leadersToChooseFromObserver;
 
     private List<LeadCard> leaders;
-
-    public synchronized void setLeaders(List<LeadCard> leaders){
-        this.leaders = leaders;
-        if(leadersToChooseFromObserver != null) leadersToChooseFromObserver.onLeadersToChooseFromChange();
-    }
 
     public LeadersToChooseFrom() {
         this.leaders = new ArrayList<>();
     }
 
+    /**
+     * Get the leaders to choose from.
+     */
     public List<LeadCard> getLeaders() {
         return leaders;
+    }
+
+    /**
+     * Set the leaders to choose from.
+     */
+    public synchronized void setLeaders(List<LeadCard> leaders){
+        this.leaders = leaders;
+        if(leadersToChooseFromObserver != null) leadersToChooseFromObserver.onLeadersToChooseFromChange();
     }
 
     @Override
@@ -42,6 +48,10 @@ public class LeadersToChooseFrom {
         return result;
     }
 
+    /**
+     * Set the observer of the leaders the player must choose from.
+     * @param leadersToChooseFromObserver observer that will be notified whenever a change occurs.
+     */
     public void setObserver(LeadersToChooseFromObserver leadersToChooseFromObserver) {
         this.leadersToChooseFromObserver = leadersToChooseFromObserver;
         leadersToChooseFromObserver.onLeadersToChooseFromChange();
