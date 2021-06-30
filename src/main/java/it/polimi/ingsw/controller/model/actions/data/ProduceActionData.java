@@ -6,16 +6,24 @@ import it.polimi.ingsw.model.general.Production;
 import java.util.ArrayList;
 
 public class ProduceActionData extends ActionData {
-    ArrayList<Production> chosenProductions;
+    private ArrayList<Production> chosenProductions;
 
     /**
      * Constructor for GSON
      */
+    public ProduceActionData() {}
 
+    /**
+     * Create a new produce action data with the chosen productions.
+     * @param chosenProductions chosen productions.
+     */
     public ProduceActionData(ArrayList<Production> chosenProductions) {
         this.chosenProductions = chosenProductions;
     }
 
+    /**
+     * Get the chosen productions of the action data.
+     */
     public ArrayList<Production> getChosenProd() {
         return chosenProductions;
     }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.general;
 import java.util.HashMap;
 
 public class Resources {
-    private HashMap<ResourceType, Integer> amounts;
+    private final HashMap<ResourceType, Integer> amounts;
     public static final String NOT_ENOUGH_RESOURCES = "Not enough resources";
 
     @Override
@@ -152,7 +152,6 @@ public class Resources {
      * Method that replaces white
      * @param type the resource type you want the white to be replaced with
      */
-
     public void replaceWhite(ResourceType type){
         int white = this.getAmountOf(ResourceType.BLANK);
         try {

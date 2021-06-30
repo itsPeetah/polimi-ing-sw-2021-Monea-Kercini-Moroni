@@ -10,5 +10,4 @@ public enum GameState {
     ENDGAME,
     GAME_LOST,
     GAME_WON
-    // TODO Implement different screens
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.application.cli.components.ASCIIElements;
 
 import it.polimi.ingsw.application.cli.util.ANSIColor;
-import it.polimi.ingsw.view.data.CommonData;
 import it.polimi.ingsw.view.data.GameData;
 import it.polimi.ingsw.view.data.player.FaithTrack;
 
@@ -32,7 +31,7 @@ public class ASCIIFaithPath {
             for(int i = 0; i < 3; i++){
                 if(ft.getReportsAttended()[i] != null && ft.getReportsAttended()[i].booleanValue()){
                     count++;
-                    reports += " " + i;
+                    reports += " " + (i+1);
                 }
             }
             if(count < 1) reports += " none";

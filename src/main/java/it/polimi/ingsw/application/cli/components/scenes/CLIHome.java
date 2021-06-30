@@ -16,6 +16,7 @@ public class CLIHome extends CLIScene {
 
     @Override
     public void show() {
+        clearConsole();
         println("========= Masters of Renaissance =========");
         println(" ");
         println("Game modes:");

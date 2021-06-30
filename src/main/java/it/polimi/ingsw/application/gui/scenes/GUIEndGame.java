@@ -65,6 +65,8 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                         .forEach(k -> playersVP.put(k.getKey(), k.getValue()));
 
                 Platform.runLater(() -> {
+                    playerList.getItems().clear();
+                    scoreList.getItems().clear();
                     for (Map.Entry<String, Integer> entry: playersVP.entrySet()) {
                         playerList.getItems().add(entry.getKey());
                         scoreList.getItems().add(entry.getValue());
@@ -76,6 +78,8 @@ public class GUIEndGame implements VPObserver, GUIObserverScene {
                 int singlePlayerVP = gameData.getPlayerData(singlePlayerNickname).getVP();
 
                 Platform.runLater(() -> {
+                    playerList.getItems().clear();
+                    scoreList.getItems().clear();
                     playerList.getItems().add(singlePlayerNickname);
                     scoreList.getItems().add(singlePlayerVP);
                 });

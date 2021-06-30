@@ -17,8 +17,8 @@ public class MarketTray {
     private final int rows;
     private final int columns;
 
-    private ResourceMarble[][] available;
-    private ResourceMarble[] waiting;
+    private final ResourceMarble[][] available;
+    private final ResourceMarble[] waiting;
 
     // Initialization ---------------------------------------------------
 

@@ -9,6 +9,7 @@ import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.controller.model.actions.Action;
 import it.polimi.ingsw.controller.model.actions.ActionPacket;
 import it.polimi.ingsw.controller.model.actions.data.PutResourcesActionData;
+import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.general.ResourcesException;
@@ -195,7 +196,12 @@ public class CLIWarehouseOrganizing extends CLIScene  {
             if (r != null)
                 queuedResources.add(r);
         }
+
+        LeadCard[] pls = tempWarehouse.getActivatedLeaders();
+        Resources[] ext = tempWarehouse.getExtra();
         tempWarehouse = new Warehouse();
+        tempWarehouse.setActivatedLeaders(pls);
+        tempWarehouse.setExtra(ext);
     }
 
     /**
@@ -221,8 +227,15 @@ public class CLIWarehouseOrganizing extends CLIScene  {
         wh.deposit(tempWarehouse.getContent()[0], 0);
         wh.deposit(tempWarehouse.getContent()[1], 1);
         wh.deposit(tempWarehouse.getContent()[2], 2);
-        wh.deposit(tempWarehouse.getExtra()[0], 3);
-        wh.deposit(tempWarehouse.getExtra()[1], 4);
+
+        if(tempWarehouse.getActivatedLeaders()[0] != null) {
+            wh.deposit(tempWarehouse.getExtra()[0], 3);
+            wh.expandWithLeader(tempWarehouse.getActivatedLeaders()[0]);
+        }
+        if(tempWarehouse.getActivatedLeaders()[1] != null) {
+            wh.deposit(tempWarehouse.getExtra()[1], 4);
+            wh.expandWithLeader(tempWarehouse.getActivatedLeaders()[1]);
+        }
 
         PutResourcesActionData prad = new PutResourcesActionData();
         prad.setWh(wh);

@@ -7,7 +7,6 @@ public class LeadCard extends Card {
 
     private LeadCardRequirements requirements;
     private LeadCardAbility ability;
-    private String image;
 
     public LeadCard() {
     }
@@ -71,7 +70,6 @@ public class LeadCard extends Card {
      */
 
     public void discard(Player player) {
-
         // Discard the leader
         try {
             player.getLeaders().discardCard(this);

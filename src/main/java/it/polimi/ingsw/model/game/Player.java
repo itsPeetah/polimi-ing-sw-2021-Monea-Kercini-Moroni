@@ -53,10 +53,6 @@ public class Player {
         return board;
     }
 
-    public void setBoard(PlayerBoard board) {
-        this.board = board;
-    }
-
     /**
      * Leaders getter.
      */

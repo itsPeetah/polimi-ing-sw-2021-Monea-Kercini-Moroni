@@ -15,12 +15,12 @@ public class ASCIIPlayerLeaders {
     public static void draw(String player){
         PlayerLeaders pls = GameApplication.getInstance().getGameController().getGameData().getPlayerData(player).getPlayerLeaders();
 
-        System.out.println(player + "'s productions:");
+        System.out.println(player + "'s leaders:");
         for(int i = 0; i < 2; i++){
             if(pls.getStates()[i] != null){
 
                 if(player.equals(GameApplication.getInstance().getUserNickname())){
-                    System.out.println("LEADER #" + i + ", STATE: " + pls.getStates()[i]);
+                    System.out.println("LEADER #" + (i+1) + ", STATE: " + pls.getStates()[i]);
                     ASCIILeadCard.draw(pls.getLeaders()[i]);
                 }
                 else if(pls.getStates()[i] == CardState.PLAYED){

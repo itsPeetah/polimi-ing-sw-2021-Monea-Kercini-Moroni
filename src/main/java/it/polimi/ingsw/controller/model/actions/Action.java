@@ -28,6 +28,9 @@ public enum Action {
         this.classOfData = classOfData;
     }
 
+    /**
+     * Get the class of the data corresponding to the action.
+     */
     public Class<?> getClassOfData() {
         return classOfData;
     }

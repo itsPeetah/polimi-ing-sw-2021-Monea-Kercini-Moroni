@@ -184,4 +184,16 @@ public class ResourcesTest {
         Resources secondRes = new Resources(resHashMap2);
         assertFalse(firstRes.equals(secondRes));
     }
+
+    @Test
+    public void replaceWhite() {
+        Resources resources = new Resources();
+        resources.add(ResourceType.SHIELDS, 2).add(ResourceType.BLANK, 3);
+
+        resources.replaceWhite(ResourceType.SHIELDS);
+
+        // Check correct number of shields and choice
+        assertSame(5, resources.getAmountOf(ResourceType.SHIELDS));
+        assertSame(0, resources.getAmountOf(ResourceType.BLANK));
+    }
 }

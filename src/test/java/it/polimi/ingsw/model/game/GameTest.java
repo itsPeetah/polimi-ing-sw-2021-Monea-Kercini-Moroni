@@ -2,8 +2,9 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.game.util.GameCustomizationSettings;
 import it.polimi.ingsw.model.game.util.GameFactory;
-
 import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -70,9 +71,64 @@ public class GameTest {
         for (int i = 0; i <= Game.MAX_VATICAN_REPORTS; i++) {
             try {
                 g.doVaticanReport();
+                // Players have no points, therefore no reports attended
+                assertTrue(Arrays.stream(g.getAllReportsAttended()).allMatch(booleans -> Arrays.stream(booleans).noneMatch(aBoolean -> aBoolean != null && aBoolean.equals(true))));
             } catch (GameException ge) {
                 assertEquals(i, Game.MAX_VATICAN_REPORTS);
             }
         }
+    }
+
+    @Test
+    public void testCheckVaticanReports() {
+        // init game
+        Game g = GameFactory.CreateGame(GameCustomizationSettings.getMinSettings());
+        try {
+            g.addPlayer("P1");
+            g.addPlayer("P2");
+            g.addPlayer("P3");
+        } catch (GameException ge) {
+            ge.printStackTrace();
+        }
+
+        for (int i = 0; i < g.getPlayers().length; i++) {
+            // Set faith points
+            g.getPlayers()[i].getBoard().incrementFaithPoints(10);
+        }
+
+        // Test method
+        g.checkVaticanReport(0);
+
+        // All players must have first vatican report
+        assertTrue(Arrays.stream(g.getAllReportsAttended()).allMatch(booleans -> booleans[0]));
+    }
+
+    @Test
+    public void testShufflePlayers() {
+        // init game
+        Game g = GameFactory.CreateGame(GameCustomizationSettings.getMinSettings());
+        try {
+            g.addPlayer("P1");
+            g.addPlayer("P2");
+            g.addPlayer("P3");
+        } catch (GameException ge) {
+            ge.printStackTrace();
+        }
+
+        // Get players
+        Player[] preShufflePlayers = g.getPlayers();
+        String[] preShuffleNicknames = g.getPlayerNames();
+
+        // Shuffle
+        g.shufflePlayers();
+
+        // Get players again
+        Player[] postShufflePlayers = g.getPlayers();
+        String[] postShuffleNicknames = g.getPlayerNames();
+
+        // Check that players are not disappeared
+        assertTrue(Arrays.stream(postShufflePlayers).allMatch(player -> Arrays.asList(preShufflePlayers).contains(player)));
+        assertTrue(Arrays.stream(postShuffleNicknames).allMatch(nickname -> Arrays.asList(preShuffleNicknames).contains(nickname)));
+
     }
 }

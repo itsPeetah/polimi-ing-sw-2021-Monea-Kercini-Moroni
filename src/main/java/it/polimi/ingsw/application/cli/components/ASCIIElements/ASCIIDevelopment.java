@@ -3,9 +3,7 @@ package it.polimi.ingsw.application.cli.components.ASCIIElements;
 import it.polimi.ingsw.application.cli.util.ANSIColor;
 import it.polimi.ingsw.application.common.GameApplication;
 import it.polimi.ingsw.model.cards.DevCard;
-import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Color;
-import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.playerboard.ProductionPowers;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.view.data.GameData;
@@ -42,7 +40,7 @@ public class ASCIIDevelopment {
             else System.out.print(": empty\n");
         }
         for(int i = 0; i < 2; i++){
-            if(pls.getStates()[i] == CardState.PLAYED && pls.getLeaders()[i].getAbility().getProduction() != null) {
+            if(pls.getStates()[i] == CardState.PLAYED && pls.getLeaders()[i].getAbility().getProduction() != null && pls.getLeaders()[i].getAbility().getProduction().getInput().getTotalAmount() < 1) {
                 System.out.print("("+(i+4)+") "+"Leader extra #" + (i + 1) + ": ");
                 ASCIIProduction.draw(pls.getLeaders()[i].getAbility().getProduction());
             }

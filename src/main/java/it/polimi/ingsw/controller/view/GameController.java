@@ -108,7 +108,6 @@ public class GameController {
             case PRODUCTION_POWERS:
                 //System.out.println("PRODUCTION POWERS UPDATE CAME IN GAME CONTROLLER");
                 ProductionPowersUpdateData pp = update.getUpdateData(updateDataString);
-                System.out.println(pp.getProductionPowers().getOwnedDevCards().get(0).getCardId());
                 if(!gameData.getPlayersList().contains(pp.getPlayer())) gameData.addPlayer(pp.getPlayer());
                 gameData.getPlayerData(pp.getPlayer()).getDevCards().setDevCards(pp.getProductionPowers().getVisibleDevCards());
                 break;
@@ -246,8 +245,10 @@ public class GameController {
 
             case WINNER:
                 //This player is the winner
+                moveToState(GameState.GAME_WON);
             case LOSER:
                 //This player is a loser
+                moveToState(GameState.GAME_LOST);
             case LOSER_MULTIPLAYER:
                 //This player gets a personalized message for losing in multiplayer
                 GameApplication.getInstance().out(messageContent);
@@ -271,21 +272,12 @@ public class GameController {
                 break;
 
             case SELECT_INPUT:
-                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
-                    moveToState(GameState.PICK_RESOURCES);
-                }
             case SELECT_OUTPUT:
-                if(GameApplication.getOutputMode() == GameApplicationMode.CLI){
-                    moveToState(GameState.PICK_RESOURCES);
-                }
+                moveToState(GameState.PICK_RESOURCES);
                 //No need for changing game state here
                 //These messages are just for helping player understand what is he choosing for when he is producing
                 GameApplication.getInstance().out(messageContent);
                 break;
-
-            case TURN_PASSED:
-                gameData.turnIncrement();
-
         }
     }
 
@@ -296,7 +288,7 @@ public class GameController {
     public void reactToAction(ActionPacket actionPacket) {
 
         //If the action is end turn the state should be changed
-        if(actionPacket.getAction()== Action.END_TURN){
+        if(actionPacket.getAction() == Action.END_TURN){
             moveToState(GameState.IDLE);
         }
     }

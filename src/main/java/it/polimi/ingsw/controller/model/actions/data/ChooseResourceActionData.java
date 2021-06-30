@@ -12,14 +12,18 @@ public class ChooseResourceActionData extends ActionData {
      */
     public ChooseResourceActionData() {}
 
-    public ChooseResourceActionData(Resources res) {
-        this.res = res;
-    }
-
+    /**
+     * Get resources of the action data.
+     * @return chosen resources.
+     */
     public Resources getResources(){
         return res;
     }
 
+    /**
+     * Set resources of the action data.
+     * @param res chosen resources.
+     */
     public void setRes(Resources res) {
         this.res = res;
     }

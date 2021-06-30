@@ -15,6 +15,7 @@ public class CLITitle extends CLIScene {
 
     @Override
     public void show() {
+        clearConsole();
         println("========= Masters of Renaissance =========");
         println("             - CLI Version -");
         println("==========================================");
