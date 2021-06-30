@@ -76,7 +76,6 @@ public class ModelController {
         }else{
             //player has disconnected
             //we will give him an empty resource
-            //todo maybe send nice message if a player has disconnected
         }
 
         return res;
@@ -166,7 +165,7 @@ public class ModelController {
 
         }else{
             //Player has hacked game !!!!!!!!!!!!!!!!!
-            //TODO punish player for trying to cheat
+            //punish player for trying to cheat
             /*System.out.println("PLAYER HAS HACKED THE GAME");*/
             return wh;
         }
