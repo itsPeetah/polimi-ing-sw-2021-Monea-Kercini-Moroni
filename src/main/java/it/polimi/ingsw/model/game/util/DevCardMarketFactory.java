@@ -1,13 +1,11 @@
 package it.polimi.ingsw.model.game.util;
 
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.game.DevCardMarket;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * DevCardMarket factory wrapper class.
@@ -41,7 +39,6 @@ public class DevCardMarketFactory {
                 default: finalCards.add(allCards.get(i)); break;
             }
         }
-
 
         // Instantiate and return
         DevCardMarket dcm;
