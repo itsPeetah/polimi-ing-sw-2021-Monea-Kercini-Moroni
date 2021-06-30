@@ -18,7 +18,7 @@ public class ResourcesToPut {
      */
     public synchronized void setRes(Resources res) {
         this.res = res;
-        if(resourceToPutObserver != null) resourceToPutObserver.onResourceToPutChange();
+        if(resourceToPutObserver != null) resourceToPutObserver.onResourcesToPutChange();
     }
 
     /**
@@ -34,6 +34,6 @@ public class ResourcesToPut {
      */
     public void setObserver(ResourceToPutObserver resourceToPutObserver) {
         this.resourceToPutObserver = resourceToPutObserver;
-        resourceToPutObserver.onResourceToPutChange();
+        resourceToPutObserver.onResourcesToPutChange();
     }
 }

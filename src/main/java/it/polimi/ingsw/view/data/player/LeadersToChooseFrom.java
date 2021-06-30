@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.data.player;
 
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
+import it.polimi.ingsw.view.observer.player.LeadersToChooseFromObserver;
 
 import java.util.ArrayList;
 import java.util.List;
