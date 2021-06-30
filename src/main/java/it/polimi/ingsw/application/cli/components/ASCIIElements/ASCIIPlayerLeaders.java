@@ -20,7 +20,7 @@ public class ASCIIPlayerLeaders {
             if(pls.getStates()[i] != null){
 
                 if(player.equals(GameApplication.getInstance().getUserNickname())){
-                    System.out.println("LEADER #" + i + ", STATE: " + pls.getStates()[i]);
+                    System.out.println("LEADER #" + (i+1) + ", STATE: " + pls.getStates()[i]);
                     ASCIILeadCard.draw(pls.getLeaders()[i]);
                 }
                 else if(pls.getStates()[i] == CardState.PLAYED){
