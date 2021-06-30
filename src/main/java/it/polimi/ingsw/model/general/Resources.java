@@ -6,25 +6,6 @@ public class Resources {
     private final HashMap<ResourceType, Integer> amounts;
     public static final String NOT_ENOUGH_RESOURCES = "Not enough resources";
 
-    @Override
-    public String toString(){
-        String rep = "St x" + getAmountOf(ResourceType.STONES) +", " +
-                "Co x" + getAmountOf(ResourceType.COINS)  +", " +
-                "Se x" + getAmountOf(ResourceType.SERVANTS) +", " +
-                "Sh x" + getAmountOf(ResourceType.SHIELDS)  +", " +
-                "Fa x" + getAmountOf(ResourceType.FAITH);
-        return rep;
-    }
-
-    public String toString(boolean showAll) {
-        String rep = toString();
-        if (showAll) {
-            rep += ", Bl x" + getAmountOf(ResourceType.BLANK)
-                    + ", Ch" + getAmountOf(ResourceType.CHOICE);
-        }
-        return rep;
-    }
-
     /**
      * Initialize an empty Resources.
      */
@@ -160,5 +141,24 @@ public class Resources {
             e.printStackTrace();
         }
         this.add(type, white);
+    }
+
+    @Override
+    public String toString(){
+        String rep = "St x" + getAmountOf(ResourceType.STONES) +", " +
+                "Co x" + getAmountOf(ResourceType.COINS)  +", " +
+                "Se x" + getAmountOf(ResourceType.SERVANTS) +", " +
+                "Sh x" + getAmountOf(ResourceType.SHIELDS)  +", " +
+                "Fa x" + getAmountOf(ResourceType.FAITH);
+        return rep;
+    }
+
+    public String toString(boolean showAll) {
+        String rep = toString();
+        if (showAll) {
+            rep += ", Bl x" + getAmountOf(ResourceType.BLANK)
+                    + ", Ch" + getAmountOf(ResourceType.CHOICE);
+        }
+        return rep;
     }
 }

@@ -31,13 +31,13 @@ public class LeadCard extends Card {
         return ability;
     }
 
+    /**
+     * @return requirements of the leader
+     */
     public LeadCardRequirements getRequirements(){
         return requirements;
     }
 
-    /**
-     * Check if a player can afford the leader card.
-     */
     @Override
     public Boolean affordable(Player player) {
         return requirements.check(player);
@@ -65,10 +65,8 @@ public class LeadCard extends Card {
     }
 
     /**
-     * Discards the leader and gains an extra faith point
-     * @param player
+     * Discard the leader and give the player an extra faith point
      */
-
     public void discard(Player player) {
         // Discard the leader
         try {

@@ -23,14 +23,23 @@ public class LeadCardRequirements {
         this.resourceAmounts = resourceAmounts;
     }
 
+    /**
+     * Get the dev cards colors requirement.
+     */
     public HashMap<Color, Integer> getDevCardColors() {
         return devCardColors;
     }
 
+    /**
+     * Get the dev cards levels requirement.
+     */
     public HashMap<Color, Level> getDevCardLevels() {
         return devCardLevels;
     }
 
+    /**
+     * Get the resources requirement.
+     */
     public Resources getResourceAmounts() {
         return resourceAmounts;
     }
@@ -50,6 +59,9 @@ public class LeadCardRequirements {
                 '}';
     }
 
+    /**
+     * Check if a player meets the requirements.
+     */
     public Boolean check(Player player) {
         ArrayList<DevCard> playerCards = player.getBoard().getOwnedDevCards();
 

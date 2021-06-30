@@ -107,7 +107,7 @@ public class CardManager {
     }
 
     /**
-     * Get image corresponding to a certain card.
+     * Get the image corresponding to a certain card.
      * @param cardID id of the card.
      * @return JavaFX <code>Image</code> of the card.
      */
