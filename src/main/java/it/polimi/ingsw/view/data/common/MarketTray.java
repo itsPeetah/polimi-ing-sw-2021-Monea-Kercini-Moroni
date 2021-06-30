@@ -3,10 +3,12 @@ package it.polimi.ingsw.view.data.common;
 import it.polimi.ingsw.view.observer.common.MarketTrayObserver;
 import it.polimi.ingsw.model.game.ResourceMarble;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 
 public class MarketTray {
     /* OBSERVER */
-    private MarketTrayObserver marketTrayObserver;
+    private AtomicReference<MarketTrayObserver> marketTrayObserver;
 
     private ResourceMarble[][] available;
     private ResourceMarble[] waiting;
@@ -14,6 +16,7 @@ public class MarketTray {
     public MarketTray(){
         available = new ResourceMarble[3][4];
         waiting = new ResourceMarble[1];
+        marketTrayObserver = new AtomicReference<>();
     }
 
     /**
@@ -35,7 +38,7 @@ public class MarketTray {
      */
     public synchronized void setAvailable(ResourceMarble[][] available) {
         this.available = available;
-        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
+        if(marketTrayObserver.get() != null) marketTrayObserver.get().onMarketTrayChange();
     }
 
     /**
@@ -43,7 +46,7 @@ public class MarketTray {
      */
     public synchronized void setWaiting(ResourceMarble[] waiting) {
         this.waiting = waiting;
-        if(marketTrayObserver != null) marketTrayObserver.onMarketTrayChange();
+        if(marketTrayObserver.get() != null) marketTrayObserver.get().onMarketTrayChange();
     }
 
     /**
@@ -51,7 +54,7 @@ public class MarketTray {
      * @param marketTrayObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(MarketTrayObserver marketTrayObserver) {
-        this.marketTrayObserver = marketTrayObserver;
+        this.marketTrayObserver.set(marketTrayObserver);
         marketTrayObserver.onMarketTrayChange();
     }
 }

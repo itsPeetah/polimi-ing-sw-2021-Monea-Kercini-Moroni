@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.data.player.*;
 import it.polimi.ingsw.view.observer.player.VPObserver;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerData {
 
@@ -18,7 +19,7 @@ public class PlayerData {
     private final Strongbox strongbox;
     private final LeadersToChooseFrom leadersToChooseFrom;
 
-    private VPObserver vpObserver;
+    private AtomicReference<VPObserver> vpObserver;
 
     public PlayerData() {
         devCards = new DevCards();
@@ -27,6 +28,7 @@ public class PlayerData {
         warehouse = new Warehouse();
         strongbox = new Strongbox();
         leadersToChooseFrom = new LeadersToChooseFrom();
+        vpObserver = new AtomicReference<>();
     }
 
     /**
@@ -100,7 +102,7 @@ public class PlayerData {
     public void setVP(int VP) {
         int oldVP = this.VP.get();
         while(!this.VP.compareAndSet(oldVP, VP)) setVP(VP);
-        if(vpObserver != null) vpObserver.onVPChange();
+        if(vpObserver.get() != null) vpObserver.get().onVPChange();
     }
 
     /**
@@ -116,7 +118,7 @@ public class PlayerData {
      * @param vpObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(VPObserver vpObserver) {
-        this.vpObserver = vpObserver;
+        this.vpObserver.set(vpObserver);
         vpObserver.onVPChange();
     }
 }

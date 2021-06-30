@@ -4,9 +4,11 @@ import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.playerleaders.CardState;
 import it.polimi.ingsw.view.observer.player.PlayerLeadersObserver;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class PlayerLeaders {
     /* OBSERVER */
-    private PlayerLeadersObserver playerLeadersObserver;
+    private final AtomicReference<PlayerLeadersObserver> playerLeadersObserver;
 
     private LeadCard[] leaders;
     private CardState[] states;
@@ -14,6 +16,7 @@ public class PlayerLeaders {
     public PlayerLeaders() {
         this.leaders = new LeadCard[2];
         this.states = new CardState[2];
+        this.playerLeadersObserver = new AtomicReference<>();
     }
 
     /**
@@ -35,7 +38,7 @@ public class PlayerLeaders {
      */
     public synchronized void setLeaders(LeadCard[] leaders) {
         this.leaders = leaders;
-        if(playerLeadersObserver != null) playerLeadersObserver.onLeadersChange();
+        if(playerLeadersObserver.get() != null) playerLeadersObserver.get().onLeadersChange();
     }
 
     /**
@@ -43,7 +46,7 @@ public class PlayerLeaders {
      */
     public synchronized void setStates(CardState[] states) {
         this.states = states;
-        if(playerLeadersObserver != null) playerLeadersObserver.onLeadersStatesChange();
+        if(playerLeadersObserver.get() != null) playerLeadersObserver.get().onLeadersStatesChange();
     }
 
     /**
@@ -51,7 +54,7 @@ public class PlayerLeaders {
      * @param playerLeadersObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(PlayerLeadersObserver playerLeadersObserver) {
-        this.playerLeadersObserver = playerLeadersObserver;
+        this.playerLeadersObserver.set(playerLeadersObserver);
         playerLeadersObserver.onLeadersChange();
         playerLeadersObserver.onLeadersStatesChange();
     }

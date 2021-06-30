@@ -3,9 +3,11 @@ package it.polimi.ingsw.view.data.player;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.view.observer.player.DevCardsObserver;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class DevCards {
     /* OBSERVER */
-    private DevCardsObserver devCardsObserver;
+    private final AtomicReference<DevCardsObserver> devCardsObserver;
 
     //keeping only the necessary 3 cards that are in view
 
@@ -13,6 +15,7 @@ public class DevCards {
 
     public DevCards() {
         this.devCards = new DevCard[3];
+        devCardsObserver = new AtomicReference<>();
     }
 
     /**
@@ -21,7 +24,7 @@ public class DevCards {
      */
     public synchronized void setDevCards(DevCard[] devCards) {
         this.devCards = devCards;
-        if(devCardsObserver != null) devCardsObserver.onDevCardsChange();
+        if(devCardsObserver.get() != null) devCardsObserver.get().onDevCardsChange();
     }
 
     /**
@@ -37,7 +40,7 @@ public class DevCards {
      * @param devCardsObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(DevCardsObserver devCardsObserver) {
-        this.devCardsObserver = devCardsObserver;
+        this.devCardsObserver.set(devCardsObserver);
         devCardsObserver.onDevCardsChange();
     }
 }

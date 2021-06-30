@@ -17,7 +17,7 @@ public class GameData {
     private final CommonData common;
     private final HashMap<String, PlayerData> playerTable;
     private final MomentaryData momentary;
-    private AtomicReference<GameDataObserver> gameDataObserver;
+    private final AtomicReference<GameDataObserver> gameDataObserver;
 
 
     /**
@@ -28,7 +28,7 @@ public class GameData {
         common = new CommonData();
         playerTable = new HashMap<>();
         momentary = new MomentaryData();
-        gameDataObserver = new AtomicReference<>(null);
+        gameDataObserver = new AtomicReference<>();
     }
 
     /**
@@ -45,7 +45,7 @@ public class GameData {
      */
     public synchronized void addPlayer(String name){
         playerTable.put(name, new PlayerData());
-        if(gameDataObserver != null) gameDataObserver.get().onPlayerTableChange();
+        if(gameDataObserver.get() != null) gameDataObserver.get().onPlayerTableChange();
     }
 
     /**

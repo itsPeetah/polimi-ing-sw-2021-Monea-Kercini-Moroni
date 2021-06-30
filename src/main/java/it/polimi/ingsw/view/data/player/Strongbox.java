@@ -3,14 +3,17 @@ package it.polimi.ingsw.view.data.player;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.view.observer.player.StrongboxObserver;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class Strongbox {
     /* OBSERVER */
-    private StrongboxObserver strongboxObserver;
+    private final AtomicReference<StrongboxObserver> strongboxObserver;
 
     private Resources content;
 
     public Strongbox() {
         this.content = new Resources();
+        this.strongboxObserver = new AtomicReference<>();
     }
 
     /**
@@ -19,7 +22,7 @@ public class Strongbox {
      */
     public synchronized void setContent(Resources content) {
         this.content = content;
-        if(strongboxObserver != null) strongboxObserver.onStrongboxChange();
+        if(strongboxObserver.get() != null) strongboxObserver.get().onStrongboxChange();
     }
 
     /**
@@ -35,7 +38,7 @@ public class Strongbox {
      * @param strongboxObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(StrongboxObserver strongboxObserver) {
-        this.strongboxObserver = strongboxObserver;
+        this.strongboxObserver.set(strongboxObserver);
         strongboxObserver.onStrongboxChange();
     }
 

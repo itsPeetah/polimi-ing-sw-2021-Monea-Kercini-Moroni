@@ -21,7 +21,7 @@ public class CommonData {
         mt = new MarketTray();
         lorenzo = new Lorenzo();
         currentPlayer = new AtomicReference<>();
-        gameDataObserver = new AtomicReference<>(null);
+        gameDataObserver = new AtomicReference<>();
     }
 
     /**

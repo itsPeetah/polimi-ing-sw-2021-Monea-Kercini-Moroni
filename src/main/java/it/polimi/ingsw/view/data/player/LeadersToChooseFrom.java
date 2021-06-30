@@ -5,15 +5,17 @@ import it.polimi.ingsw.view.observer.player.LeadersToChooseFromObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LeadersToChooseFrom {
     /* OBSERVER */
-    private LeadersToChooseFromObserver leadersToChooseFromObserver;
+    private final AtomicReference<LeadersToChooseFromObserver> leadersToChooseFromObserver;
 
     private List<LeadCard> leaders;
 
     public LeadersToChooseFrom() {
         this.leaders = new ArrayList<>();
+        this.leadersToChooseFromObserver = new AtomicReference<>();
     }
 
     /**
@@ -28,7 +30,7 @@ public class LeadersToChooseFrom {
      */
     public synchronized void setLeaders(List<LeadCard> leaders){
         this.leaders = leaders;
-        if(leadersToChooseFromObserver != null) leadersToChooseFromObserver.onLeadersToChooseFromChange();
+        if(leadersToChooseFromObserver.get() != null) leadersToChooseFromObserver.get().onLeadersToChooseFromChange();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class LeadersToChooseFrom {
      * @param leadersToChooseFromObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(LeadersToChooseFromObserver leadersToChooseFromObserver) {
-        this.leadersToChooseFromObserver = leadersToChooseFromObserver;
+        this.leadersToChooseFromObserver.set(leadersToChooseFromObserver);
         leadersToChooseFromObserver.onLeadersToChooseFromChange();
     }
 }

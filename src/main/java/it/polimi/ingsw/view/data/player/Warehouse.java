@@ -4,9 +4,11 @@ import it.polimi.ingsw.model.cards.LeadCard;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.view.observer.player.WarehouseObserver;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class Warehouse {
     /* OBSERVER */
-    private WarehouseObserver warehouseObserver;
+    private final AtomicReference<WarehouseObserver> warehouseObserver;
 
     private Resources[] content;
     private Resources[] extra;
@@ -16,6 +18,7 @@ public class Warehouse {
         this.content = new Resources[3];
         this.extra = new Resources[2];
         this.activatedLeaders = new LeadCard[2];
+        this.warehouseObserver = new AtomicReference<>();
     }
 
     /**
@@ -23,7 +26,7 @@ public class Warehouse {
      */
     public synchronized void setContent(Resources[] content) {
         this.content = content;
-        if(warehouseObserver != null) warehouseObserver.onWarehouseContentChange();
+        if(warehouseObserver.get() != null) warehouseObserver.get().onWarehouseContentChange();
     }
 
     /**
@@ -38,7 +41,7 @@ public class Warehouse {
      */
     public synchronized void setExtra(Resources[] extra) {
         this.extra = extra;
-        if(warehouseObserver != null) warehouseObserver.onWarehouseExtraChange();
+        if(warehouseObserver.get() != null) warehouseObserver.get().onWarehouseExtraChange();
     }
 
     /**
@@ -67,7 +70,7 @@ public class Warehouse {
      * @param warehouseObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(WarehouseObserver warehouseObserver) {
-        this.warehouseObserver = warehouseObserver;
+        this.warehouseObserver.set(warehouseObserver);
         warehouseObserver.onWarehouseContentChange();
         warehouseObserver.onWarehouseExtraChange();
     }

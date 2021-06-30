@@ -8,13 +8,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Lorenzo {
     /* OBSERVER */
-    private LorenzoObserver lorenzoObserver;
+    private AtomicReference<LorenzoObserver> lorenzoObserver;
     private final AtomicInteger blackCross;
     private final AtomicReference<SoloActionTokens> lastToken;
 
     public Lorenzo() {
         this.blackCross = new AtomicInteger(0);
         this.lastToken = new AtomicReference<>(null);
+        this.lorenzoObserver = new AtomicReference<>();
     }
 
     /**
@@ -23,7 +24,7 @@ public class Lorenzo {
      */
     public void setBlackCross(int blackCross) {
         this.blackCross.set(blackCross);
-        if(lorenzoObserver != null) lorenzoObserver.onBlackCrossChange();
+        if(lorenzoObserver.get() != null) lorenzoObserver.get().onBlackCrossChange();
     }
 
     /**
@@ -33,7 +34,7 @@ public class Lorenzo {
     public void setLastToken(SoloActionTokens lastToken) {
         /*System.out.println("Lorenzo.setLastToken");*/
         this.lastToken.set(lastToken);
-        if(lorenzoObserver != null) lorenzoObserver.onLastTokenChange();
+        if(lorenzoObserver.get() != null) lorenzoObserver.get().onLastTokenChange();
     }
 
     /**
@@ -57,7 +58,7 @@ public class Lorenzo {
      * @param lorenzoObserver observer that will be notified whenever a change occurs.
      */
     public void setObserver(LorenzoObserver lorenzoObserver) {
-        this.lorenzoObserver = lorenzoObserver;
+        this.lorenzoObserver.set(lorenzoObserver);
         lorenzoObserver.onLastTokenChange();
         lorenzoObserver.onBlackCrossChange();
     }
