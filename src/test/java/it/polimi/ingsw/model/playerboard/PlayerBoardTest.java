@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerBoardTest {
+public class PlayerBoardTest {
 
     @Test
-    void incrementFaithPoints() {
+    public void testincrementFaithPoints() {
 
         Warehouse wh = new Warehouse();
         ProductionPowers pp = new ProductionPowers(3);
@@ -26,12 +26,12 @@ class PlayerBoardTest {
     }
 
     @Test
-    void attendReport() {
+    public void testattendReport() {
         //To check this method we use getFaithVP
     }
 
     @Test
-    void getFaithVP() {
+    public void testgetFaithVP() {
         Warehouse wh = new Warehouse();
         ProductionPowers pp = new ProductionPowers(3);
         Strongbox sb = new Strongbox();
@@ -50,7 +50,7 @@ class PlayerBoardTest {
 
 
     @Test
-    void getBoardVictoryPoints() {
+    public void testgetBoardVictoryPoints() {
         Warehouse wh = new Warehouse();
         ProductionPowers pp = new ProductionPowers(3);
         Strongbox sb = new Strongbox();
@@ -81,7 +81,7 @@ class PlayerBoardTest {
     }
 
     @Test
-    void getResourcesAvailable() {
+    public void testgetResourcesAvailable() {
         Warehouse wh = new Warehouse();
         ProductionPowers pp = new ProductionPowers(3);
         Strongbox sb = new Strongbox();
@@ -108,7 +108,7 @@ class PlayerBoardTest {
     }
 
     @Test
-    void leadMarblesTest() {
+    public void testleadMarblesTest() {
         // Prepare the playerboard and the marble
         PlayerBoard pb = (new Player("test")).getBoard();
         ResourceType replacement = ResourceType.SERVANTS;
@@ -124,7 +124,7 @@ class PlayerBoardTest {
     }
 
     @Test
-    void leadDiscountTest() {
+    public void testleadDiscountTest() {
         // Prepare the playerboard and a discount
         ResourceType testType = ResourceType.STONES;
         Integer testAmount = 5;
@@ -145,7 +145,7 @@ class PlayerBoardTest {
     }
 
     @Test
-    void getOwnedDevCards() {
+    public void testgetOwnedDevCards() {
         //No need for testing, method just returns what productionPowers.getOwnedDevCards() returns.
         //Already tested
     }

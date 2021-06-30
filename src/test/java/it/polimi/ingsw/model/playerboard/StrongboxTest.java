@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class StrongboxTest {
 
     @Test
-    public void depositAndWithdraw() {
+    public void testdepositAndWithdraw() {
         Strongbox sb = new Strongbox();
         Resources res = new Resources();
         res.add(ResourceType.STONES, 3);
@@ -36,7 +36,7 @@ public class StrongboxTest {
     }
 
     @Test
-    public void getResAmount(){
+    public void testgetResAmount(){
         Strongbox sb = new Strongbox();
         Resources res = new Resources();
         res.add(ResourceType.STONES, 3);

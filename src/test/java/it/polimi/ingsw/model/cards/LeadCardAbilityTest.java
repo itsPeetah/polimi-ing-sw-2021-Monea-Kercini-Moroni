@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeadCardAbilityTest {
 
     @Test
-    public void leadCardAbilityTest() {
+    public void testLeadCardAbility() {
         Resources expRes = new Resources();
         ResourceType expType = ResourceType.STONES;
 

@@ -271,7 +271,7 @@ public class ModelController {
 
     private void startGame(){
 
-        System.out.println("Game has started!");
+        //System.out.println("Game has started!");
 
         gamePhase = GamePhase.TURN;
 
@@ -282,8 +282,13 @@ public class ModelController {
 
         boolean lastRound = false;
 
+        //Player lastPlayer = game.getPlayers()[game.getPlayers().length-1];
+        Player firstPlayer = game.getPlayers()[0];
+
+        //System.out.println("ModelController.startGame last player " + lastPlayer.getNickname());
+
         //Turns will keep being played until it's the last round and it's the last players turn
-        while (!lastRound || !(game.getCurrentPlayer() == game.getPlayers()[game.getPlayers().length-1])){
+        while (!lastRound || !(game.getCurrentPlayer() == firstPlayer)){
 
             playTurn(game.getCurrentPlayer());
 
@@ -581,7 +586,8 @@ public class ModelController {
             try {
                 game.getDevCardMarket().buyCard(chosenCard);
             }catch (Exception e){
-                /*System.out.println("ModelController.devCardMarketUpdate: buy card not possible");*/
+                //removed this line as it will print out during tests
+                //System.out.println("ModelController.devCardMarketUpdate: buy card not possible");
             }
 
             //Update
@@ -676,10 +682,9 @@ public class ModelController {
      * @param chosenLeader
      */
     private void playLeaderUpdate(Player player, LeadCard chosenLeader){
-        /*System.out.println("ModelController.playLeaderUpdate");*/
+
 
         if(chosenLeader.affordable(player)){
-            /*System.out.println("ModelController.playLeaderUpdate: affordable");*/
             chosenLeader.play(player);
 
             //update
@@ -687,7 +692,6 @@ public class ModelController {
             updateWarehouse(player);
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.OK);
         }else{
-            /*System.out.println("ModelController.playLeaderUpdate: not affordable");*/
             modelControllerIOHandler.sendMessage(player.getNickname(), Message.REQUIREMENTS_NOT_MET);
         }
     }
@@ -913,7 +917,7 @@ public class ModelController {
     }
 
     private void playLeader(Player player){
-        /*System.out.println("ModelController.playLeader");*/
+
 
         ChooseLeaderActionData playLeaderEventData = modelControllerIOHandler.getResponseData();
 

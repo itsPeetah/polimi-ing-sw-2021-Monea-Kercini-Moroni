@@ -3,11 +3,8 @@ package it.polimi.ingsw.model.playerboard;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PlayerBoard {
 

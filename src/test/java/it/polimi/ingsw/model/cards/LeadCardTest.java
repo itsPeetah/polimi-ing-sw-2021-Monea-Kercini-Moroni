@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class LeadCardTest {
 
     @Test
-    public void LeadCardTest() {
+    public void testLeadCard() {
         Resources emptyRes = new Resources();
 
 
@@ -27,7 +27,7 @@ public class LeadCardTest {
     }
 
     @Test
-    public void affordableTest() {
+    public void testAffordable() {
         // Create lead card
         Resources emptyRes = new Resources();
         Resources cost = new Resources();
@@ -58,7 +58,7 @@ public class LeadCardTest {
     }
 
     @Test
-    public void playTest() {
+    public void testPlay() {
         // Create lead card
         Resources cost = (new Resources()).add(ResourceType.SHIELDS, 2);;
         Resources discount = (new Resources()).add(ResourceType.STONES, 2);

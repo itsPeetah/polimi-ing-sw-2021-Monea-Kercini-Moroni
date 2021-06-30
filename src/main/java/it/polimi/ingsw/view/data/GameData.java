@@ -13,9 +13,9 @@ import java.util.List;
 
 public class GameData {
 
-    CommonData common;
-    HashMap<String, PlayerData> playerTable;
-    MomentaryData momentary;
+    private CommonData common;
+    private HashMap<String, PlayerData> playerTable;
+    private MomentaryData momentary;
 
     GameDataObserver gameDataObserver;
 

@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WarehouseTest {
+public class WarehouseTest {
 
     @Test
-    void deposit() {
+    public void testdeposit() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -26,7 +26,7 @@ class WarehouseTest {
     }
 
     @Test
-    void withdraw() {
+    public void testwithdraw() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -61,7 +61,7 @@ class WarehouseTest {
     }
 
     @Test
-    void areLeadersOrganized() {
+    public void testareLeadersOrganized() {
 
         Warehouse wh = new Warehouse();
         Resources res1 = new Resources();
@@ -112,7 +112,7 @@ class WarehouseTest {
     }
 
     @Test
-    void getResourceAmountWarehouse() {
+    public void testgetResourceAmountWarehouse() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -131,7 +131,7 @@ class WarehouseTest {
     }
 
     @Test
-    void getResourcesAvailable() {
+    public void testgetResourcesAvailable() {
         //This test is already included in the deposit and withdraw tests
     }
 

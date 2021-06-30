@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DevCardTest {
 
     @Test
-    public void devCardTest() {
+    public void testDevCard() {
         Resources expRes = new Resources();
         Level expLev = Level.values()[0];
         Color expCol = Color.values()[0];
@@ -24,7 +24,7 @@ public class DevCardTest {
     }
 
     @Test
-    public void affordableTest() {
+    public void testAffordable() {
         // Create devCard
         Resources expRes = new Resources();
         Level expLev = Level.values()[0];

@@ -5,20 +5,32 @@ import it.polimi.ingsw.model.game.util.DevCardMarketFactory;
 import it.polimi.ingsw.model.game.util.GameSettingsLevel;
 import it.polimi.ingsw.model.game.util.MarketTrayFactory;
 import it.polimi.ingsw.model.general.Color;
-import it.polimi.ingsw.model.general.Level;
-import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DevCardMarketTest {
+public class DevCardMarketTest {
 
     @Test
-    void testBuyCard() {
+    public void testPickColumn0(){
+        MarketTray mt = MarketTrayFactory.BuildMarketTray(GameSettingsLevel.LOW);
+        Resources r;
+        for(int i = 0; i <= mt.getRows(); i++) {
+            try {
+                r = mt.pickColumn(0);
+                assertTrue(r.getTotalAmount() == mt.getRows());
+            } catch (MarketTrayException e){
+                fail();
+            }
+        }
+    }
+
+
+
+    @Test
+    public void testBuyCard() {
 
         // initialize DevCardMarket
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);
@@ -76,7 +88,7 @@ class DevCardMarketTest {
     }
 
     @Test
-    void discard2test(){
+    public void testDiscard2test(){
 
         // initialize DevCardMarket
         DevCardMarket dcm = DevCardMarketFactory.BuildDevCardMarket(GameSettingsLevel.HIGH);

@@ -1,5 +1,8 @@
+
 package it.polimi.ingsw.model.singleplayer;
 
+import it.polimi.ingsw.model.cards.CardManager;
+import it.polimi.ingsw.model.game.DevCardMarket;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -16,8 +19,11 @@ public class TestSoloAction {
         // Check that initial last played token is null
         assertNull(soloAction.getLastPlayedToken());
 
+        //Create dcm
+        DevCardMarket dcm = new DevCardMarket(CardManager.loadDevCardsFromJson(), 3);
+
         // Play Lorenzo turn
-        soloAction.playLorenzoTurn(null);
+        soloAction.playLorenzoTurn(dcm);
 
         // Check that last played token is an existent token
         assertNotNull(soloAction.getLastPlayedToken());

@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class ProductionTest {
 
     @Test
-    public void productionTest() {
+    public void testproductionTest() {
         ResourceType resType = ResourceType.STONES;
         ResourceType resType2 = ResourceType.SHIELDS;
         int n = 3;

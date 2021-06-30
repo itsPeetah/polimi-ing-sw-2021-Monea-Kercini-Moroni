@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.model.handlers.MPModelControllerIOHandler;
 import it.polimi.ingsw.model.cards.CardManager;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.model.game.DevCardMarketException;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.general.Production;
 import it.polimi.ingsw.model.general.ResourceType;
@@ -28,14 +27,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-class ModelControllerTest {
+public class ModelControllerTest {
+
     ModelControllerIOHandler modelControllerIOHandler;
     final int WAIT_TIME = 50;
     final int LONG_WAIT_TIME = 500;
     GameRoom gr = new GameRoom("Room_1", 4);
 
     @BeforeEach
-    void generateHandler() {
+    public void generateHandler() {
         modelControllerIOHandler = new MPModelControllerIOHandler(gr);
     }
 
@@ -46,7 +46,7 @@ class ModelControllerTest {
      * This is important also for testing the order of the players that have entered the game is correct
      */
     @Test
-    void setup(){
+    public void testSetup(){
 
         ModelController gm = new ModelController(modelControllerIOHandler);
 
@@ -120,12 +120,10 @@ class ModelControllerTest {
         //Testing if we can find the resource in the players 2 warehouse
         assertTrue(res.equals(gm.getGame().getPlayers()[1].getBoard().getWarehouse().getResourcesAvailable()));
 
-        System.out.println("YAY");
-
     }
 
     @Test
-    void checkWhite(){
+    void testCheckWhite(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -231,7 +229,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void endGame(){
+    void testEndGame(){
 
         ModelController gm = new ModelController(modelControllerIOHandler);
 
@@ -253,7 +251,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void resourceMarketUpdate(){
+    void testResourceMarketUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -344,7 +342,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void devCardMarketUpdate(){
+    void testDevCardMarketUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -408,7 +406,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void produceUpdate(){
+    void testProduceUpdate(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -537,7 +535,7 @@ class ModelControllerTest {
     }
 
     @Test
-    void SinglePlayer(){
+    void testSinglePlayer(){
 
         //Adding one player to the game
         ModelController gm = new ModelController(modelControllerIOHandler);
@@ -593,7 +591,7 @@ class ModelControllerTest {
         }
 
         //Controlling if the token changes over time
-        System.out.println(gm.getLorenzo().getLastPlayedToken());
+        //System.out.println(gm.getLorenzo().getLastPlayedToken());
 
     }
 
