@@ -76,7 +76,6 @@ public class ProductionPowers {
 
     /**
      * Get visible cards
-     * //todo test this method
      */
 
     public DevCard[] getVisibleDevCards(){

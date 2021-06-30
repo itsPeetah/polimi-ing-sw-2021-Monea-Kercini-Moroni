@@ -96,7 +96,7 @@ public class GameApplicationIOHandler {
         String[] messageArgs = messageFields.length > 1 ? messageFields[1].split(" ") : null;
 
         int exitCode = 0;
-        // TODO Perhaps change with a switch(SystemMessage.valueOf(messageFields[0]) ?
+        // Perhaps change with a switch(SystemMessage.valueOf(messageFields[0]) ?
         if (SystemMessage.QUIT.check(messageFields[0])) {
             handleQuitMessage();
             exitCode = -1;
