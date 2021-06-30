@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Level {
-    // TODO modify levels
     LOW,
     MEDIUM,
     HIGH;
