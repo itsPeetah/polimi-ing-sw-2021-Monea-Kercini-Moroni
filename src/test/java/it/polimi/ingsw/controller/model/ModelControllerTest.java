@@ -46,7 +46,7 @@ public class ModelControllerTest {
      * This is important also for testing the order of the players that have entered the game is correct
      */
     @Test
-    void testSetup(){
+    public void testSetup(){
 
         ModelController gm = new ModelController(modelControllerIOHandler);
 
