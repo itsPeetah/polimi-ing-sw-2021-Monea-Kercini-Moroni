@@ -5,12 +5,9 @@ import it.polimi.ingsw.view.data.momentary.ResourcesToPut;
 
 
 public class MomentaryData {
-
-    private final LeadersToChooseFrom leaders;
     private final ResourcesToPut res;
 
     public MomentaryData() {
-        leaders = new LeadersToChooseFrom();
         res = new ResourcesToPut();
 
     }
@@ -25,8 +22,7 @@ public class MomentaryData {
     @Override
     public String toString() {
         return "Momentary Data{" +
-                "leaders=" + leaders.toString() +
-                ", resources=" + res.toString() +
+                "resources=" + res.toString() +
                 '}';
     }
 }

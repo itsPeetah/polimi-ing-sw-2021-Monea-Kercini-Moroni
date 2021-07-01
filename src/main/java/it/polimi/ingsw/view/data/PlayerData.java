@@ -19,7 +19,7 @@ public class PlayerData {
     private final Strongbox strongbox;
     private final LeadersToChooseFrom leadersToChooseFrom;
 
-    private AtomicReference<VPObserver> vpObserver;
+    private final AtomicReference<VPObserver> vpObserver;
 
     public PlayerData() {
         devCards = new DevCards();
