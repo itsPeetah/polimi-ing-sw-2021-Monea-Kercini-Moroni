@@ -143,6 +143,19 @@ public class Resources {
         this.add(type, white);
     }
 
+    /**
+     * Method that replaces one white
+     * @param type the resource type you want the white to be replaced with
+     */
+    public void replaceOneWhite(ResourceType type) {
+        try {
+            this.remove(ResourceType.BLANK, 1);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.add(type, 1);
+    }
+
     @Override
     public String toString(){
         String rep = "St x" + getAmountOf(ResourceType.STONES) +", " +

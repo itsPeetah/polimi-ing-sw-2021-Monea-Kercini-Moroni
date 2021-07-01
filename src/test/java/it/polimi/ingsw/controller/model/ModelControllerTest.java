@@ -22,9 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ModelControllerTest {
@@ -209,7 +207,6 @@ public class ModelControllerTest {
 
         //After the check res 4 should be equal to res 5
 
-
         //We choose the second leader as our resource type (coin)
         Resources choice = new Resources();
         choice.add(ResourceType.COINS, 1);
@@ -218,7 +215,8 @@ public class ModelControllerTest {
         pickedRes.setPlayer("Player 1");
         MockResponse MR1 = new MockResponse(modelControllerIOHandler, Action.CHOOSE_RESOURCE, pickedRes);
         MR1.sendResponseWithDelay(1);
-
+        MR1.sendResponseWithDelay(2);
+        MR1.sendResponseWithDelay(3);
         newRes = gm.checkWhite(p, res4);
 
         assertTrue(res5.equals(newRes));
