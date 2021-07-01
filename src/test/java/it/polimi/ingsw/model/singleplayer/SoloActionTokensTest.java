@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class TestSoloActionTokens {
+public class SoloActionTokensTest {
     @Test
     public void testInit() {
         SoloActionTokens.init();

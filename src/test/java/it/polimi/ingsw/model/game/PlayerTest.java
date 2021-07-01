@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public class TestPlayer {
+public class PlayerTest {
     @Test
     public void testGetVictoryPoints() {
         Player player = new Player("test");

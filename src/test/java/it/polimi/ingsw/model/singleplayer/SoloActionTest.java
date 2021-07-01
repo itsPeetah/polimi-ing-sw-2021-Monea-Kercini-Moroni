@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestSoloAction {
+public class SoloActionTest {
 
     @Test
     public void testPlayLorenzoTurn() {
