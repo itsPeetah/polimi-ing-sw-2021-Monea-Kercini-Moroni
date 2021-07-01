@@ -430,7 +430,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                     for (int j = 0; j < 3; j++) {
                         PhongMaterial material = getMaterial(available[j][i].getMarbleColor());
                         Sphere marble = marbles.get(j).get(i);
-                        System.out.println("GUIMainGame.onMarketTrayChange " + marble);
                         marble.setMaterial(material);
                     }
                 }
@@ -457,19 +456,14 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         String nickname = getCurrentUser();
 
         GUIUtility.executorService.submit(() -> {
-            System.out.println("GUIMainGame.onReportsAttendedChange");
             Boolean[] reportsAttended = GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname).getFaithTrack().getReportsAttended();
             Platform.runLater(() -> {
                 for(int i = 0; i < 3; i++) {
-                    System.out.println("GUIMainGame.onReportsAttendedChange: iteration " + i);
                     if(reportsAttended[i] != null && reportsAttended[i]) {
                         reportImageViews.get(i).setImage(reportImages.get(i));
-                        System.out.println("GUIMainGame.onReportsAttendedChange");
-                        System.out.println("GUIMainGame.onReportsAttendedChange: setting image");
                     }
                     else {
                         reportImageViews.get(i).setImage(null);
-                        System.out.println("GUIMainGame.onReportsAttendedChange: setting null");
                     }
                 }
             });
@@ -656,7 +650,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
     public void boardChanged(){
         String nickname = getCurrentUser();
 
-        System.out.println(nickname);
         Platform.runLater(() -> {
             if(!isItMe()){
                 setChoice(Action.NONE);
@@ -825,7 +818,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param leaderImage image view of the leader.
      */
     private void handleLeaderClick(int i, ImageView leaderImage) {
-        System.out.println("GUIMainGame.handleLeaderClick");
         if(choice == Action.DISCARD_LEADER){
             discardLeader(i);
         }
@@ -882,9 +874,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param i index of the leader.
      */
     public void playLeader(int i){
-        System.out.println("GUIMainGame.playLeader");
-        System.out.println("GUIMainGame.playLeader. nickname = " + nickname.get());
-        System.out.println("GUIMainGame.playLeader. i = " + i);
 
         ChooseLeaderActionData chooseLeaderActionData = new ChooseLeaderActionData(GameApplication.getInstance().getGameController().getGameData().getPlayerData(nickname.get()).getPlayerLeaders().getLeaders()[i]);
         chooseLeaderActionData.setPlayer(nickname.get());
@@ -892,7 +881,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
         ActionPacket actionPacket = new ActionPacket(Action.PLAY_LEADER, JSONUtility.toJson(chooseLeaderActionData, ChooseLeaderActionData.class));
         GameApplication.getInstance().getGameController().getGameControllerIOHandler().notifyAction(actionPacket);
 
-        System.out.println("GUIMainGame.playLeader");
     }
 
     // MARKET TRAY
@@ -1266,7 +1254,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
      * @param newStyle style class to be applied to the produce button.
      */
     private void changeProduceButtonImage(String newStyle) {
-        System.out.println("GUIMainGame.changeProduceButtonImage. New style = " + newStyle);
         produceButton.getStyleClass().clear();
         produceButton.getStyleClass().add(newStyle);
     }
@@ -1309,10 +1296,8 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
                 removeAllEffects();
             } else {
                 if(newChoice != Action.NONE) {
-                    System.out.println("GUIMainGame.setChoice: pre board changed");
                     boardChoiceBox.setValue(GameApplication.getInstance().getUserNickname());
                     boardChanged();
-                    System.out.println("GUIMainGame.setChoice: post board changed");
                 }
             }
 
@@ -1321,7 +1306,6 @@ public class GUIMainGame implements Initializable, GameDataObserver, PacketListe
             }
             choice = newChoice;
 
-            System.out.println("GUIMainGame.setChoice: after set choice");
         });
     }
 

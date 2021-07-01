@@ -17,8 +17,6 @@ public class CardManager {
     public static final String LEAD_CARDS_PATH = "leadcards.json";
     public static final int LEAD_CARDS_SIZE = 16;
 
-    /* JAVA FX CONSTANTS */
-    public static final String MAP_DEV_CARDS_IMAGES_PATH = "src/main/resources/cardsimages.json";
     public static final String DEV_CARDS_IMAGES_PATH = "images/cards/devcards/";
     public static final String LEAD_CARDS_IMAGES_PATH = "images/cards/leadcards/";
     private static final HashMap<String, Image> devCardsImages = new HashMap<>();
