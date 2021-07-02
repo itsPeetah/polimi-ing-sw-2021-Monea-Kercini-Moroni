@@ -23,3 +23,6 @@
 
 ### CLI version jar:
 - java -jar <path_to_jar> <server_address> <port_number>
+
+### GUI version jar
+- java -jar <path_to_jar>
