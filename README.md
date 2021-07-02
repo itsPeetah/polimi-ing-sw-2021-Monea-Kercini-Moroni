@@ -1,7 +1,7 @@
 # Group members
 
 - Marvin Kercini
-- Movanni Gionea (aka Johnny Cash/John Money)
+- Giovanni Monea
 - Pietro Guglielmo Moroni
 
 # Implemented functionalities
