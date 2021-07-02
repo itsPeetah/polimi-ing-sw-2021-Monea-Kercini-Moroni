@@ -1,18 +1,25 @@
-# Componenti del gruppo
+# Group members
 
 - Marvin Kercini
-- Giovanni Monea
+- Movanni Gionea (aka Johnny Cash/John Money)
 - Pietro Guglielmo Moroni
 
-# Funzionalità implementate
+# Implemented functionalities
 
-- Regole del gioco <b>complete</b>
+- <b>Complete</b> game rules
+- Socket networking
 - <b>CLI</b> + <b>GUI</b> 
 
-#### Funzionalità avanzate
+#### Advanced functionalities
 
-- Partite multiple
-- Partita locale
-- Resilienza alle disconnessioni
+- Multiple simultaneous matches (on the server) 
+- Local single player game
+- Disconnection resilience (reconnection to ongoing game)
 
-# Istruzioni per avviare il progetto
+# Running instructions
+
+### Server jar:
+- java -jar <path_to_jar> <server_address> <port_number>
+
+### CLI version jar:
+- java -jar <path_to_jar> <server_address> <port_number>
