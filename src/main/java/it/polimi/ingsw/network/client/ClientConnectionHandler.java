@@ -14,9 +14,7 @@ import it.polimi.ingsw.network.common.SystemMessage;
  */
 public class ClientConnectionHandler implements Runnable {
 
-    private GameClient client;
-    private String serverMessage;
-    private String[] serverMessageFields;
+    private final GameClient client;
 
     public ClientConnectionHandler(GameClient client) {
         this.client = client;

@@ -63,7 +63,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testmoveToStateTest() {
+    public void testMoveToStateTest() {
         GameData gameData = new GameData();
         GameController gameController = new GameController(gameData);
         gameController.moveToState(GameState.ENDGAME);

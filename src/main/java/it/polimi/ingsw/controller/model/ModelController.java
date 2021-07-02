@@ -805,6 +805,7 @@ public class ModelController {
 
                 //Keep asking player until he chooses a correct replace type
                 boolean done = false;
+                int whiteCount = res.getAmountOf(ResourceType.BLANK);
 
                 while(!done) {
 
@@ -827,8 +828,11 @@ public class ModelController {
                             if (choice.getAmountOf(type) > 0) {
                                 //He has the leader ability
                                 if (type.equals(replaceTypes.get(0)) || type.equals(replaceTypes.get(1))) {
-                                    res.replaceWhite(type);
-                                    done = true;
+                                    res.replaceOneWhite(type);
+                                    whiteCount--;
+                                    if(whiteCount == 0) {
+                                        done = true;
+                                    }
                                 } else {
                                     //He has chosen a resource no leader lets him replace
                                     modelControllerIOHandler.sendMessage(player.getNickname(), Message.INCORRECT_REPLACEMENT);

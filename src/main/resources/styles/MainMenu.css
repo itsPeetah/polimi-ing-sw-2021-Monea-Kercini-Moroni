@@ -14,7 +14,7 @@
     -fx-background-color: rgba(255, 255, 255, 0.6);
 }
 
-.label{
+.titleLabel{
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: black;
     -fx-font-size: 112;
@@ -37,11 +37,4 @@ VBox{
     -fx-background-size: cover;
     -fx-background-position: left;
     -fx-cursor: default;
-}
-
-.bottomLabel {
-    -fx-font-family: 'Blackadder ITC';
-    -fx-text-fill: white;
-    -fx-font-size: 40;
-    -fx-effect: dropshadow(gaussian, black, 5, 0, 0, 0);
 }

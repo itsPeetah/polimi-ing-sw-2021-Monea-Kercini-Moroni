@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MainMenu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainMenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../styles/MainMenu.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.application.gui.scenes.GUIMainMenu">
    <center>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
          <children>
@@ -17,13 +17,13 @@
       </VBox>
    </center>
    <top>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="Masters Of Renaissance" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets top="80.0" />
          </BorderPane.margin></Label>
    </top>
    <bottom>
-      <Label styleClass="bottomLabel" text="A Cranio Creations game implemented by Marvin Kercini, Giovanni Monea and Pietro Guglielmo Moroni" BorderPane.alignment="CENTER">
+      <Label style="-fx-font-family: 'Blackadder ITC'; -fx-text-fill: white; -fx-font-size: 40; -fx-stroke: black; -fx-stroke-width: 2px;" text="A Cranio Creations game implemented by Marvin Kercini, Giovanni Monea and Pietro Guglielmo Moroni" textFill="WHITE" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" />
          </BorderPane.margin>
