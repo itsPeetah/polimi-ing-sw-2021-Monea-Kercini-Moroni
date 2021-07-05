@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ResourcesTest {
 
     @Test
-    public void getAmountOfTest() {
+    public void testgetAmountOfTest() {
         ResourceType resType = ResourceType.STONES;
         int numStones = 5;
 
@@ -25,7 +25,7 @@ public class ResourcesTest {
     }
 
     @Test
-    public void getTotalAmountTest() {
+    public void testgetTotalAmountTest() {
         ResourceType resType1 = ResourceType.STONES;
         int numRes1 = 5;
         ResourceType resType2 = ResourceType.SHIELDS;
@@ -44,7 +44,7 @@ public class ResourcesTest {
     }
 
     @Test
-    public void isGreaterThanTest() {
+    public void testisGreaterThanTest() {
         int smallNum = 3;
         int bigNum = 5;
 
@@ -83,7 +83,7 @@ public class ResourcesTest {
     }
 
     @Test
-    public void addTest() {
+    public void testaddTest() {
         ResourceType resType = ResourceType.STONES;
         ResourceType resType2 = ResourceType.SHIELDS;
         int n = 3;
@@ -138,13 +138,13 @@ public class ResourcesTest {
     }
 
     @Test
-    public void removeWithExceptionTest() {
+    public void testremoveWithExceptionTest() {
         Resources res = new Resources();
         assertThrows(ResourcesException.class, () -> res.remove(ResourceType.STONES, 1));
     }
 
     @Test
-    public void removeWithoutExceptionTest() {
+    public void testremoveWithoutExceptionTest() {
         Resources res = new Resources();
         res.add(ResourceType.STONES, 1);
 
@@ -164,7 +164,7 @@ public class ResourcesTest {
     }
 
     @Test
-    public void equalsTest() {
+    public void testequalsTest() {
         int smallNum = 3;
         int bigNum = 5;
 
@@ -183,5 +183,17 @@ public class ResourcesTest {
         resHashMap2.put(ResourceType.STONES, smallNum);
         Resources secondRes = new Resources(resHashMap2);
         assertFalse(firstRes.equals(secondRes));
+    }
+
+    @Test
+    public void replaceWhite() {
+        Resources resources = new Resources();
+        resources.add(ResourceType.SHIELDS, 2).add(ResourceType.BLANK, 3);
+
+        resources.replaceWhite(ResourceType.SHIELDS);
+
+        // Check correct number of shields and choice
+        assertSame(5, resources.getAmountOf(ResourceType.SHIELDS));
+        assertSame(0, resources.getAmountOf(ResourceType.BLANK));
     }
 }

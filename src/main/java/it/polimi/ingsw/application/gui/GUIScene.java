@@ -124,7 +124,6 @@ public enum GUIScene {
             activeScene.set(fxmlLoader.getController());
         }
         if(fxmlLoader.getController() instanceof GUIObserverScene) {
-            System.out.println("GUIScene.startCallbacks: starting observer");
             GUIUtility.executorService.submit(((GUIObserverScene)fxmlLoader.getController())::startObserver);
         }
     }

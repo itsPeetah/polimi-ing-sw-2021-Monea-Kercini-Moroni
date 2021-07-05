@@ -1,2 +1,28 @@
-# ing-sw-2021-Monea-Kercini-Moroni
-LucidChart pre-uml: https://lucid.app/lucidchart/1cb770c1-0bb2-42ea-afdc-f0ab57fb80c0/edit?page=HWEp-vi-RSFO#
+# Group members
+
+- Marvin Kercini
+- Giovanni Monea
+- Pietro Guglielmo Moroni
+
+# Implemented functionalities
+
+- <b>Complete</b> game rules
+- Socket networking
+- <b>CLI</b> + <b>GUI</b> 
+
+#### Advanced functionalities
+
+- Multiple simultaneous matches (on the server) 
+- Local single player game
+- Disconnection resilience (reconnection to ongoing game)
+
+# Running instructions
+
+### Server jar:
+- java -jar <path_to_jar> <server_address> <port_number>
+
+### CLI version jar:
+- java -jar <path_to_jar> <server_address> <port_number>
+
+### GUI version jar
+- java -jar <path_to_jar>

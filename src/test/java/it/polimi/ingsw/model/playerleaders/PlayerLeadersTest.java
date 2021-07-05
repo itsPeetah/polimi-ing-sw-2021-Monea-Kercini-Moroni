@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerLeadersTest {
+public class PlayerLeadersTest {
 
     //Method for creating a basic LC for testing, taking only it's victory points as input
     private LeadCard basicLC(int vp){
@@ -37,18 +37,18 @@ class PlayerLeadersTest {
     }
 
     @Test
-    void getPlayableCards() {
+    public void testgetPlayableCards() {
         //This method is automatically tested below
     }
 
     @Test
-    void getPlayedCards() {
+    public void testgetPlayedCards() {
         //This method is automatically tested below
     }
 
     /* Test the method with the index as input */
     @Test
-    void playCardWithIndex() {
+    public void testplayCardWithIndex() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = basicLC(1);
         Hand[1] = basicLC(2);
@@ -94,7 +94,7 @@ class PlayerLeadersTest {
 
     /* Test the method with the LeadCard as input */
     @Test
-    void playCardWithLeadCard() {
+    public void testplayCardWithLeadCard() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = CardManager.loadLeadCardsFromJson().get(0);
         Hand[1] = CardManager.loadLeadCardsFromJson().get(1);
@@ -142,7 +142,7 @@ class PlayerLeadersTest {
     }
 
     @Test
-    void setCards() {
+    public void testsetCards() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = basicLC(1);
         Hand[1] = basicLC(2);
@@ -158,7 +158,7 @@ class PlayerLeadersTest {
     }
 
     @Test
-    void getPlayedCardVictoryPoints() {
+    public void testgetPlayedCardVictoryPoints() {
         LeadCard[] Hand = new LeadCard[3];
         Hand[0] = CardManager.loadLeadCardsFromJson().get(0);
         Hand[1] = CardManager.loadLeadCardsFromJson().get(1);

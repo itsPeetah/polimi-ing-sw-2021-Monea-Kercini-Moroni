@@ -15,13 +15,23 @@ public abstract class Card {
         this.cardId = cardId;
     }
 
+    /**
+     * Get the victory points of a card.
+     * @return VP of a card.
+     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
+    /**
+     * Get the ID of the card.
+     */
     public String getCardId() {
         return cardId;
     }
 
+    /**
+     * Check if a player can afford the card.
+     */
     public abstract Boolean affordable(Player player);
 }

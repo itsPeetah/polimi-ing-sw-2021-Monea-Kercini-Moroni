@@ -11,6 +11,7 @@ public enum ResourceType {
     BLANK,
     CHOICE;
 
+    private final static String RESOURCES_IMAGES_PATH = "images/resources/";
     private String imagePath = null;
 
     ResourceType() {}
@@ -19,8 +20,9 @@ public enum ResourceType {
         this.imagePath = imagePath;
     }
 
-    private final static String RESOURCES_IMAGES_PATH = "images/resources/";
-
+    /**
+     * Get the image of a resource type.
+     */
     public Image getImage() {
         String resourceImagePath = RESOURCES_IMAGES_PATH + imagePath;
         InputStream is = ResourceType.class.getClassLoader().getResourceAsStream(resourceImagePath);

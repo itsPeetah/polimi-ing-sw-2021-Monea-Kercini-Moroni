@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.general.Resources;
  */
 public class ResourceMarble{
 
-    private Resources value;
+    private final Resources value;
 
     /**
      * Initialize the Marble with a single resource type.

@@ -3,27 +3,8 @@ package it.polimi.ingsw.model.general;
 import java.util.HashMap;
 
 public class Resources {
-    private HashMap<ResourceType, Integer> amounts;
+    private final HashMap<ResourceType, Integer> amounts;
     public static final String NOT_ENOUGH_RESOURCES = "Not enough resources";
-
-    @Override
-    public String toString(){
-        String rep = "St x" + getAmountOf(ResourceType.STONES) +", " +
-                "Co x" + getAmountOf(ResourceType.COINS)  +", " +
-                "Se x" + getAmountOf(ResourceType.SERVANTS) +", " +
-                "Sh x" + getAmountOf(ResourceType.SHIELDS)  +", " +
-                "Fa x" + getAmountOf(ResourceType.FAITH);
-        return rep;
-    }
-
-    public String toString(boolean showAll) {
-        String rep = toString();
-        if (showAll) {
-            rep += ", Bl x" + getAmountOf(ResourceType.BLANK)
-                    + ", Ch" + getAmountOf(ResourceType.CHOICE);
-        }
-        return rep;
-    }
 
     /**
      * Initialize an empty Resources.
@@ -152,7 +133,6 @@ public class Resources {
      * Method that replaces white
      * @param type the resource type you want the white to be replaced with
      */
-
     public void replaceWhite(ResourceType type){
         int white = this.getAmountOf(ResourceType.BLANK);
         try {
@@ -161,5 +141,37 @@ public class Resources {
             e.printStackTrace();
         }
         this.add(type, white);
+    }
+
+    /**
+     * Method that replaces one white
+     * @param type the resource type you want the white to be replaced with
+     */
+    public void replaceOneWhite(ResourceType type) {
+        try {
+            this.remove(ResourceType.BLANK, 1);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.add(type, 1);
+    }
+
+    @Override
+    public String toString(){
+        String rep = "St x" + getAmountOf(ResourceType.STONES) +", " +
+                "Co x" + getAmountOf(ResourceType.COINS)  +", " +
+                "Se x" + getAmountOf(ResourceType.SERVANTS) +", " +
+                "Sh x" + getAmountOf(ResourceType.SHIELDS)  +", " +
+                "Fa x" + getAmountOf(ResourceType.FAITH);
+        return rep;
+    }
+
+    public String toString(boolean showAll) {
+        String rep = toString();
+        if (showAll) {
+            rep += ", Bl x" + getAmountOf(ResourceType.BLANK)
+                    + ", Ch" + getAmountOf(ResourceType.CHOICE);
+        }
+        return rep;
     }
 }

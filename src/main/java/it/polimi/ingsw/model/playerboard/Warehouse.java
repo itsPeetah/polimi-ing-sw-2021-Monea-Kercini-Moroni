@@ -4,9 +4,6 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import it.polimi.ingsw.model.cards.LeadCard;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class Warehouse{
 
     private Resources[] content; // 3 resources ( 1 single top, 2 same type, 3 same type bottom) with floor reference 2/1/0
@@ -224,7 +221,6 @@ public class Warehouse{
      * @param r2
      * @return
      */
-
     private boolean areDifferentTypes(Resources r1, Resources r2){
 
         //If one of the resources is empty they are considered different types
@@ -235,11 +231,7 @@ public class Warehouse{
         //If adding the two resources together only one type of resource than they were the same type of resource
         Resources r3 = new Resources();
         r3.add(r1).add(r2);
-        if (isSingleType(r3)){
-            return false;
-        }else{
-            return true;
-        }
+        return !isSingleType(r3);
     }
 
     /**

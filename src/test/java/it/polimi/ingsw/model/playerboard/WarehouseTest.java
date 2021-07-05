@@ -5,12 +5,14 @@ import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class WarehouseTest {
+public class WarehouseTest {
 
     @Test
-    void deposit() {
+    public void testdeposit() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -24,7 +26,7 @@ class WarehouseTest {
     }
 
     @Test
-    void withdraw() {
+    public void testwithdraw() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -59,7 +61,7 @@ class WarehouseTest {
     }
 
     @Test
-    void areLeadersOrganized() {
+    public void testareLeadersOrganized() {
 
         Warehouse wh = new Warehouse();
         Resources res1 = new Resources();
@@ -110,7 +112,7 @@ class WarehouseTest {
     }
 
     @Test
-    void getResourceAmountWarehouse() {
+    public void testgetResourceAmountWarehouse() {
         Warehouse wh = new Warehouse();
         Resources res = new Resources();
         Resources res2 = new Resources();
@@ -129,7 +131,28 @@ class WarehouseTest {
     }
 
     @Test
-    void getResourcesAvailable() {
+    public void testgetResourcesAvailable() {
         //This test is already included in the deposit and withdraw tests
+    }
+
+    @Test
+    public void testCopy() {
+        Warehouse wh = new Warehouse();
+        Resources res = new Resources().add(ResourceType.STONES, 3);
+        Resources res2 = new Resources().add(ResourceType.SHIELDS, 1);
+        Resources res3 = new Resources().add(ResourceType.SERVANTS, 2);
+        wh.deposit(res,0);
+        wh.deposit(res2, 1);
+        wh.deposit(res3, 2);
+
+        Warehouse newWarehouse = new Warehouse();
+        newWarehouse.copy(wh);
+
+        // Check that copy works
+        assertEquals(wh.getContent(), newWarehouse.getContent());
+        assertSame(wh.getResourceAmountWarehouse(), newWarehouse.getResourceAmountWarehouse());
+        assertTrue(Arrays.asList(wh.getLeadersExtra()).containsAll(Arrays.asList(newWarehouse.getLeadersExtra())));
+        assertTrue(Arrays.asList(wh.getLeaderExtraUsed()).containsAll(Arrays.asList(newWarehouse.getLeaderExtraUsed())));
+        assertTrue(wh.getResourcesAvailable().equals(newWarehouse.getResourcesAvailable()));
     }
 }

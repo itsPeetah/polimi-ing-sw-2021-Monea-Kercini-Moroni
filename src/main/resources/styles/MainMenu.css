@@ -14,7 +14,7 @@
     -fx-background-color: rgba(255, 255, 255, 0.6);
 }
 
-.label{
+.titleLabel{
     -fx-font-family: 'Blackadder ITC';
     -fx-text-fill: black;
     -fx-font-size: 112;

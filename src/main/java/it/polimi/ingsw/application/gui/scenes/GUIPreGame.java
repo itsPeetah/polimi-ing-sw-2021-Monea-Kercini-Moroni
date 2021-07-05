@@ -18,7 +18,7 @@ import it.polimi.ingsw.view.data.common.DevCardMarket;
 import it.polimi.ingsw.view.data.common.MarketTray;
 import it.polimi.ingsw.view.observer.CommonDataObserver;
 import it.polimi.ingsw.model.cards.LeadCard;
-import it.polimi.ingsw.view.observer.momentary.LeadersToChooseFromObserver;
+import it.polimi.ingsw.view.observer.player.LeadersToChooseFromObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

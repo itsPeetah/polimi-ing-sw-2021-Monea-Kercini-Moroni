@@ -14,12 +14,12 @@ public interface PacketListener extends GameMessageListener, SystemMessageListen
 
     @Override
     default void onMessage(Message message) {
-
+        // Empty default behaviour, so that PacketListeners that make no use of game messages do not need to define this method.
     }
 
     @Override
     default void onSystemMessage(SystemMessage type, @Nullable String additionalContent) {
-        System.out.println("PacketListener.onSystemMessage: " + type);
+        // Default behaviour, takes care of quit messages on GUI.
         if(type == SystemMessage.QUIT && GameApplication.getOutputMode() == GameApplicationMode.GUI) {
             Platform.runLater(GUIUtility::handleServerQuit);
         }

@@ -76,7 +76,6 @@ public class ProductionPowers {
 
     /**
      * Get visible cards
-     * //todo test this method
      */
 
     public DevCard[] getVisibleDevCards(){
@@ -110,7 +109,6 @@ public class ProductionPowers {
      * @param pos the pile (position) where you are trying to place the devcard
      * @return
      */
-
     public boolean canDevCardBePlaced(DevCard card, int pos){
 
         //if card level is 1 then we need the pile to be clear
@@ -133,7 +131,6 @@ public class ProductionPowers {
      * @param devCard to add
      * @param position of the pile
      */
-
     public void addDevCard(DevCard devCard, int position){
 
         cardPile[position][devCard.getLevel().toInteger()] = devCard;
@@ -152,7 +149,6 @@ public class ProductionPowers {
      *
      * @return sum of victory points all development cards you have give you
      */
-
     public int getOwnedCardsVictoryPoints(){
         int vp = 0;
         for (DevCard[] devCards : cardPile) {
@@ -165,6 +161,10 @@ public class ProductionPowers {
         return vp;
     }
 
+    /**
+     * Get the basic production.
+     * @return basic production that all the players have by default.
+     */
     public static Production getBasicProduction() {
         return basicProduction;
     }

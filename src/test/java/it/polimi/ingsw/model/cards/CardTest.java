@@ -14,7 +14,7 @@ public class CardTest {
      * Test card initialization and methods
      */
     @Test
-    public void cardTest() {
+    public void testCard() {
         final int expectedVP = 10;
         final String expectedCardID = "testCard";
         final Resources emptyRes = new Resources();

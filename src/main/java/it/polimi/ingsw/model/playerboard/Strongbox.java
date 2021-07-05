@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.playerboard;
 
 import it.polimi.ingsw.model.general.Resources;
-import it.polimi.ingsw.model.general.ResourcesException;
+
 
 public class Strongbox {
 

@@ -147,7 +147,7 @@ public class DevCardMarket {
     }
 
     /**
-     * Discrads 2 dev cards of that color, starting from the lower ones to the higher levels
+     * Discard 2 dev cards of that color, starting from the lower ones to the higher levels
      * @param color
      * @return true if all the cards of that color are finished (free column)
      *          in this case Lorenzo has won

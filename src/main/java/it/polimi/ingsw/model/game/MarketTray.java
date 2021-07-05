@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.model.general.ResourceType;
 import it.polimi.ingsw.model.general.Resources;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
 
 // add leader choice logic -> actually in controller
 
@@ -17,8 +16,8 @@ public class MarketTray {
     private final int rows;
     private final int columns;
 
-    private ResourceMarble[][] available;
-    private ResourceMarble[] waiting;
+    private final ResourceMarble[][] available;
+    private final ResourceMarble[] waiting;
 
     // Initialization ---------------------------------------------------
 

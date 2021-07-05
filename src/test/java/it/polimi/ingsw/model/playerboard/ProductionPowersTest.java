@@ -12,13 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductionPowersTest {
 
     @Test
-    void getAvailableProductions() {
-        //Included in the test below
-
+    void testGetBasicProduction() {
+        assertNotNull(ProductionPowers.getBasicProduction());
     }
 
     @Test
-    void DevCards_Productions() {
+    public void testDevCards_Productions() {
         Resources cost = new Resources();
         Resources in = new Resources();
         Resources out = new Resources();
@@ -69,12 +68,12 @@ class ProductionPowersTest {
     }
 
     @Test
-    void addLeadCardProduction() {
+    public void testaddLeadCardProduction() {
         //The method is really easy and takes too much to initialize the test
     }
 
     @Test
-    void getOwnedCardsVictoryPoints() {
+    public void testgetOwnedCardsVictoryPoints() {
         Resources cost = new Resources();
         Resources in = new Resources();
         Resources out = new Resources();
@@ -100,7 +99,7 @@ class ProductionPowersTest {
     }
 
     @Test
-    void addDevCard() {
+    public void testaddDevCard() {
 
         DevCard dev1 = CardManager.loadDevCardsFromJson().get(0);
         DevCard dev2 = CardManager.loadDevCardsFromJson().get(4);
@@ -119,5 +118,29 @@ class ProductionPowersTest {
         pp.addDevCard(dev3, 0);
 
         assertEquals(pp.getVisibleDevCards()[0], dev3);
+    }
+
+    @Test
+    public void testCanDevCardBePlaced() {
+        DevCard dev1 = CardManager.loadDevCardsFromJson().stream().filter(devCard -> devCard.getLevel() == Level.LOW).findFirst().orElse(null);
+        DevCard dev2 = CardManager.loadDevCardsFromJson().stream().filter(devCard -> devCard.getLevel() == Level.MEDIUM).findFirst().orElse(null);
+        DevCard dev3 = CardManager.loadDevCardsFromJson().stream().filter(devCard -> devCard.getLevel() == Level.HIGH).findFirst().orElse(null);
+
+        ProductionPowers pp = new ProductionPowers(3);
+
+        assert dev1 != null;
+        assertTrue(pp.canDevCardBePlaced(dev1, 0));
+        pp.addDevCard(dev1, 0);
+        assertFalse(pp.canDevCardBePlaced(dev1, 0));
+
+        assert dev2 != null;
+        assertTrue(pp.canDevCardBePlaced(dev2, 0));
+        pp.addDevCard(dev2, 0);
+        assertFalse(pp.canDevCardBePlaced(dev2, 0));
+
+        assert dev3 != null;
+        assertTrue(pp.canDevCardBePlaced(dev3, 0));
+        pp.addDevCard(dev3, 0);
+        assertFalse(pp.canDevCardBePlaced(dev3, 0));
     }
 }
